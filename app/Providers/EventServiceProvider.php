@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ActualizacionBitacora' => [
             'App\Listeners\RegistrarBitacora',
         ],
+
+        'App\Events\ActualizacionBitacoraBoleta' => [
+            'App\Listeners\RegistrarBitacoraBoleta',
+        ],
         
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
