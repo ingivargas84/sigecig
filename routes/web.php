@@ -80,6 +80,15 @@ function(){
     Route::post('/boleta/{boleta}/delete' , 'BoletaController@delete')->name('boleta.delete');
     Route::post('/boleta/{boleta}/activar' , 'BoletaController@activar');
 
+    Route::get( '/llamada', 'InformeLlamadasController@index')->name('llamada.index');
+    Route::get( '/llamada/getJson/', 'InformeLlamadasController@getJson')->name('llamada.getJson');
+    Route::get( '/llamada/new', 'InformeLlamadasController@create')->name('llamada.new');
+    Route::post( '/llamada/save/', 'InformeLlamadasController@store')->name('llamada.save');
+    Route::get( '/llamada/edit/{informe}' , 'InformeLlamadasController@edit')->name('llamada.edit');
+    Route::put( '/llamada/{informe}/update' , 'InformeLlamadasController@update')->name('llamada.update');
+    Route::post('/llamada/{informe}/delete' , 'InformeLlamadasController@delete')->name('llamada.delete');
+    Route::post('/llamada/{informe}/activar' , 'InformeLlamadasController@activar');
+
     // Módulo de Administracion
     Route::get('/colaborador', 'ColaboradorController@index')->name('colaborador.index');
     Route::get('/colaborador/getJson/', 'ColaboradorController@getJson')->name('colaborador.getJson');

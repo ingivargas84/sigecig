@@ -62,7 +62,7 @@ class ActaMaestroController extends Controller
         
         if($request->hasFile('pdf_acta')){
             $file = $request->file('pdf_acta');
-            $name = date("Y-m-d")." / ".$file->getClientOriginalName();      
+            $name = date("Y-m-d")." - ".$file->getClientOriginalName();      
             $file->move(public_path().'/documentos/actas/', $name);   
         };
         
