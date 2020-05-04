@@ -123,7 +123,7 @@
 
       <!-- Sidebar Menu -->
 
-      @include('admin.partials.nav')
+      @include('juntadirectiva.partials.nav')
 
       <!-- /.sidebar-menu -->
     </section>

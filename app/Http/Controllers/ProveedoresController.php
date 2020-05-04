@@ -94,7 +94,9 @@ class ProveedoresController extends Controller
       */
      public function edit(Proveedor $proveedor)
      {
-        return view('admin.proveedores.edit', compact('proveedor', 'puestos'));
+        //return view('admin.proveedores.edit', compact('proveedor', 'puestos'));
+        return view('admin.proveedores.edit', compact('proveedor'));
+        //return view::('admin.proveedores.edit')->with(compact('proveedor', 'puestos'));
      }
  
      /**

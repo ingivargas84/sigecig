@@ -14,12 +14,22 @@
 Route::group([
     'middleware'=>['auth','estado'] ],
 function(){ 
+
+    // Pantalla Principal y General
     Route::get('/admin','HomeController@index')->name('dashboard');
     Route::get('/gerencia','HomeController@gerencia')->name('dashboardgerencia');
     Route::get('/juntadirectiva','HomeController@juntadirectiva')->name('dashboardjuntadirectiva');
     Route::get('/administracion','HomeController@administracion')->name('dashboardadministracion');
     Route::get('/contabilidad','HomeController@contabilidad')->name('dashboardcontabilidad');
+    Route::get('/informatica','HomeController@informatica')->name('dashboardinformatica');
+    Route::get('/ceduca','HomeController@ceduca')->name('dashboardceduca');
+    Route::get('/nuevoscolegiados','HomeController@nuevoscolegiados')->name('dashboardnuevoscolegiados');
+    Route::get('/timbreingenieria','HomeController@timbreingenieria')->name('dashboardtimbreingenieria');
+    Route::get('/comisiones','HomeController@contabilidad')->name('dashboardcomisiones');
+    Route::get('/auditoria','HomeController@auditoria')->name('dashboardauditoria');
 
+
+    // Módulo Informática
     Route::get('user/getJson' , 'UsersController@getJson' )->name('users.getJson');
     Route::get('users' , 'UsersController@index' )->name('users.index');
     Route::post('users' , 'UsersController@store' )->name('users.store');
@@ -34,6 +44,8 @@ function(){
     Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
     Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
 
+
+    // Módulo Contabilidad
     Route::get( '/proveedores' , 'ProveedoresController@index')->name('proveedores.index');
     Route::get( '/proveedores/getJson/' , 'ProveedoresController@getJson')->name('proveedores.getJson');
     Route::get( '/proveedores/new' , 'ProveedoresController@create')->name('proveedores.new');
@@ -44,6 +56,56 @@ function(){
     Route::post('/proveedores/{proveedor}/activar' , 'ProveedoresController@activar');
     Route::get('/proveedores/nitDisponible/', 'ProveedoresController@nitDisponible')->name('proveedores.nitDisponible');
 
+    Route::get( '/corte' , 'HomeController@corte_diario')->name('corte');
+    
+
+    // Módulo de Gerencia
+    Route::get( '/solicitud' , 'SolicitudBoletaController@index')->name('solicitud.index');
+    Route::get( '/solicitud/getJson/' , 'SolicitudBoletaController@getJson')->name('solicitud.getJson');
+    Route::get( '/solicitud/new' , 'SolicitudBoletaController@create')->name('solicitud.new');
+    Route::post( '/solicitud/save/' , 'SolicitudBoletaController@store')->name('solicitud.save');
+    Route::get( '/solicitud/edit/{solBoleta}' , 'SolicitudBoletaController@edit')->name('solicitud.edit');
+    Route::put( '/solicitud/{solBoleta}/update' , 'SolicitudBoletaController@update')->name('solicitud.update');
+    Route::post('/solicitud/{solBoleta}/destroy' , 'SolicitudBoletaController@destroy')->name('solicitud.destroy');
+    Route::post('/solicitud/{solBoleta}/delete' , 'SolicitudBoletaController@delete')->name('solicitud.delete');
+    Route::post('/solicitud/{solBoleta}/activar' , 'SolicitudBoletaController@activar');
+
+    Route::get( '/boleta', 'BoletaController@index')->name('boleta.index');
+    Route::get( '/boleta/getJson/', 'BoletaController@getJson')->name('boleta.getJson');
+    Route::get( '/boleta/new', 'BoletaController@create')->name('boleta.new');
+    Route::post( '/boleta/save/', 'BoletaController@store')->name('boleta.save');
+    Route::get( '/boleta/edit/{boleta}' , 'BoletaController@edit')->name('boleta.edit');
+    Route::put( '/boleta/{boleta}/update' , 'BoletaController@update')->name('boleta.update');
+    Route::post('/boleta/{boleta}/destroy' , 'BoletaController@destroy')->name('boleta.destroy');
+    Route::post('/boleta/{boleta}/delete' , 'BoletaController@delete')->name('boleta.delete');
+    Route::post('/boleta/{boleta}/activar' , 'BoletaController@activar');
+
+    Route::get( '/llamada', 'InformeLlamadasController@index')->name('llamada.index');
+    Route::get( '/llamada/getJson/', 'InformeLlamadasController@getJson')->name('llamada.getJson');
+    Route::get( '/llamada/new', 'InformeLlamadasController@create')->name('llamada.new');
+    Route::post( '/llamada/save/', 'InformeLlamadasController@store')->name('llamada.save');
+    Route::get( '/llamada/edit/{informe}' , 'InformeLlamadasController@edit')->name('llamada.edit');
+    Route::put( '/llamada/{informe}/update' , 'InformeLlamadasController@update')->name('llamada.update');
+    Route::post('/llamada/{informe}/delete' , 'InformeLlamadasController@delete')->name('llamada.delete');
+    Route::post('/llamada/{informe}/activar' , 'InformeLlamadasController@activar');
+
+    // Módulo de Administracion
+    Route::get('/colaborador', 'ColaboradorController@index')->name('colaborador.index');
+    Route::get('/colaborador/getJson/', 'ColaboradorController@getJson')->name('colaborador.getJson');
+    Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
+    Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
+    Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
+    Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
+    Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
+
+    // Modulo de Junta Directiva
+    Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
+    Route::get('/acta/getJson/', 'ActaMaestroController@getJson')->name('acta.getJson');
+    Route::get('/acta/new', 'ActaMaestroController@create')->name('acta.new');
+    Route::post('/acta/save/', 'ActaMaestroController@store')->name('acta.save');
+    Route::get('/acta/edit/{acta}', 'ActaMaestroController@edit')->name('acta.edit');
+    Route::put('/acta/{acta}/update', 'ActaMaestroController@update')->name('acta.update');
+    Route::post('/acta/{acta}/destroy', 'ActaMaestroController@destroy')->name('acta.destroy');
 });
 
 
