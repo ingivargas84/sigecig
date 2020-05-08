@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Negocio extends Model
 {
-    protected $table = 'negocio';
+    protected $table = 'sigecig_negocio';
     protected $dates = ['fecha_inicio'];
 
     protected $fillable = [
