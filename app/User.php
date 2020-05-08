@@ -16,6 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'sigecig_users';
     protected $fillable = [
         'name', 'email', 'password', 'username', 'contador_intentos', 'estado'
     ];

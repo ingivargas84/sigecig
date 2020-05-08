@@ -13,7 +13,7 @@ class CreateNegocioTable extends Migration
      */
     public function up()
     {
-        Schema::create('negocio', function (Blueprint $table) {
+        Schema::create('sigecig_negocio', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nit', 20)->nullable()->default(null);
             $table->string('nombre_contable')->nullable()->default(null);
@@ -35,6 +35,6 @@ class CreateNegocioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('negocio');
+        Schema::dropIfExists('sigecig_negocio');
     }
 }

@@ -13,7 +13,7 @@ class CreateProveedoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('proveedores', function (Blueprint $table) {
+        Schema::create('sigecig_proveedores', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre_comercial');
             $table->string('nombre_legal')->nullable();
@@ -39,6 +39,6 @@ class CreateProveedoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proveedores');
+        Schema::dropIfExists('sigecig_proveedores');
     }
 }

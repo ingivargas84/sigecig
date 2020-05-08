@@ -12,8 +12,8 @@ class NegocioSeeder extends Seeder
      */
     public function run()
     {
-        $negocio = new Negocio();
-        $negocio->save();
+        $sigecig_negocio = new Negocio();
+        $sigecig_negocio->save();
 
     }
 }
