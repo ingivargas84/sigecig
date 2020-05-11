@@ -19,6 +19,29 @@ class UsersSeeder extends Seeder
 
         $superadminRole = Role::create(['name' => 'Super-Administrador']);
         $adminRole = Role::create(['name' => 'Administrador']);
+        $jdRole = Role::create(['name' => 'JuntaDirectiva']);
+        $asistentejdRole = Role::create(['name' => 'AsistenteJD']);
+        $gerenciaRole = Role::create(['name' => 'Gerencia']);
+        $jefecontabilidadRole = Role::create(['name' => 'JefeContabilidad']);
+        $contabilidadRole = Role::create(['name' => 'Contabilidad']);
+        $auditoriaRole = Role::create(['name' => 'Auditoria']);
+        $jefeinformaticaRole = Role::create(['name' => 'JefeInformatica']);
+        $soporteinformaticaRole = Role::create(['name' => 'SoporteInformatica']);
+        $asistenteRole = Role::create(['name' => 'Asistente']);
+        $subsedeRole = Role::create(['name' => 'Subsede']);
+        $coordinacionsubsedeRole = Role::create(['name' => 'CoordinacionSubSede']);
+        $jefecomisionesRole = Role::create(['name' => 'JefeComisiones']);
+        $comisionesRole = Role::create(['name' => 'Comisiones']);
+        $jeferrhhRole = Role::create(['name' => 'JefeRRHH']);
+        $rrhhRole = Role::create(['name' => 'RRHH']);
+        $cajaRole = Role::create(['name' => 'Caja']);
+        $tribunalhonorRole = Role::create(['name' => 'TribunalHonor']);
+        $tribunalelectoralRole = Role::create(['name' => 'TribunalElectoral']);
+        $comprasRole = Role::create(['name' => 'Compras']);
+        $jefeceducaRole = Role::create(['name' => 'JefeCeduca']);
+        $ceducaRole = Role::create(['name' => 'Ceduca']);
+        $jefetimbresRole = Role::create(['name' => 'JefeTimbres']);
+        $timbreRole = Role::create(['name' => 'Timbre']);
 
         $sigecig_users = new user;
         $sigecig_users->name = 'Super Administrador';
