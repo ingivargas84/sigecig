@@ -20,8 +20,8 @@ class CreateBitacoraBoletaTable extends Migration
             $table->unsignedinteger('user_id');
             $table->date('fecha');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            
+            $table->foreign('user_id')->references('id')->on('sigecig_users');
+
             $table->timestamps();
         });
     }
