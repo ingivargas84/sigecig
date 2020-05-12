@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proveedor extends Model
 {
-    protected $table = 'proveedores';
+    protected $table = 'sigecig_proveedores';
 
     protected $fillable = [
         'nombre_comercial',

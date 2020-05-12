@@ -41,59 +41,34 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = User::all();
-        return view('admin.dashboard', compact('users'));
-    }
+        $user = Auth::User();
 
-    public function gerencia()
-    {
+        if($user->hasRole('Gerencia')){
         return view('gerencia.dashboard');
-    }
-
-    public function juntadirectiva()
-    {
+        }
+        if($user->hasRole('JuntaDirectiva')){
         return view('juntadirectiva.dashboard');
-    }
-
-    public function administracion()
-    {
+        }
+        if($user->hasRole('Administrador') || $user->hasRole('Super-Administrador')){
         return view('administracion.dashboard');
-    }
-
-    public function contabilidad()
-    {
+        }
+        if($user->hasRole('JefeContabilidad')|| $user->hasRole('Contabilidad')){
         return view('contabilidad.dashboard');
-    }
-
-    public function informatica()
-    {
+        }
+        if($user->hasRole('JefeInformatica') || $user->hasRole('SoporteInformatica')){
         return view('informatica.dashboard');
-    }
-
-    public function ceduca()
-    {
+        }
+        if($user->hasRole('Ceduca')|| $user->hasRole('JefeCeduca')){
         return view('ceduca.dashboard');
-    }
-
-    public function nuevoscolegiados()
-    {
-        return view('nuevoscolegiados.dashboard');
-    }
-
-    public function timbreingenieria()
-    {
+        }
+        if($user->hasRole('JefeTimbres')|| $user->hasRole('Timbres')){
         return view('timbreingenieria.dashboard');
-    }
-
-    public function comisiones()
-    {
+        }
+        if($user->hasRole('JefeComisiones') || $user->hasRole('Comisiones')){
         return view('comisiones.dashboard');
-    }
-
-    public function auditoria()
-    {
+        }
+        if($user->hasRole('Auditoria')){
         return view('auditoria.dashboard');
-    }
-
-   
+        }
+    }   
 }
