@@ -59,9 +59,10 @@ class UsersController extends Controller
         $data = $request->all();
         $errors = Validator::make($data,[
             'name' => 'required|max:255',
-            'email' => 'required|max:255|unique:users',
-            'username' => 'required|max:255|unique:users',
-            'password' => ['regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^0-9a-zA-Z])([A-Za-z]|[^ ]){8,15}$/', 'confirmed', 'min:8', 'required'],
+            'email' => 'required|max:255|unique:sigecig_users',
+            'username' => 'required|max:255|unique:sigecig_users',
+            'password' => ['regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^0-9a-zA-Z])([A-Za-z]|[^ ]){8,15}$/', 
+            'confirmed', 'min:8', 'required'],
         ],$messages);
 
          if($errors->fails())
@@ -113,20 +114,13 @@ class UsersController extends Controller
       */
      public function update(Request $request, User $user)
      {
-         //$this->authorize('update',$user);
- 
-         /*$data = $request->validate([
-             'name' => 'required',
-             'email' => ['required', Rule::unique('users')->ignore($user->id)],
-             'username' => ['required',Rule::unique('users')->ignore($user->id)],
-         ]);*/
 
          $data = $request->all();
 
          $errors = Validator::make($data,[
             'name' => 'required',
-            'email' => ['required', Rule::unique('users')->ignore($user->id)],
-            'username' => ['required',Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', Rule::unique('sigecig_users')->ignore($user->id)],
+            'username' => ['required',Rule::unique('sigecig_users')->ignore($user->id)],
          ]);
 
          //dd($data);
@@ -136,16 +130,7 @@ class UsersController extends Controller
             return  Response::json($errors->errors(), 422);
          }
 
-         /*if(auth()->user()->hasRole('Admin'))
-         {
-             $this->validate($request, [
-                 'estado' => 'required'
-             ]);
- 
-             $user->estado = $request['estado'];
-             $user->save();
-         }*/
- 
+
          $user->update($data);
 
          $user->roles()->detach();
@@ -177,14 +162,14 @@ class UsersController extends Controller
        
         if(auth()->user()->hasRole('Administrador|Super-Administrador')){
             $query = "SELECT U.id, U.name, U.email, IF(U.estado = 1,'Activo', 'Inactivo') as estado, R.name as rol, U.username, U.estado as estado_numero 
-            from users U 
+            from sigecig_users U 
             LEFT JOIN model_has_roles M on M.model_id = U.id
             LEFT JOIN roles R on R.id = M.role_id WHERE R.name !='Super-Administrador' order by U.id desc ";            
         } 
         
         else{
             $query = "SELECT U.id, U.name, U.email, IF(U.estado = 1,'Activo', 'Inactivo') as estado, R.name as rol, U.username, U.estado as estado_numero 
-            from users U 
+            from sigecig_users U 
             LEFT JOIN model_has_roles M on M.model_id = U.id
             LEFT JOIN roles R on R.id = M.role_id WHERE R.name !='Super-Administrador' AND U.id =" .$user_id. " order by U.id desc ";
         }
@@ -264,7 +249,7 @@ class UsersController extends Controller
             $dato = 0;
         }
 
-        $result = DB::table('users')
+        $result = DB::table('sigecig_users')
         ->select('users.id','users.name')
         ->leftJoin('empleados','users.id','=','empleados.user_id')
         ->wherenull('empleados.user_id')
