@@ -63,7 +63,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>SIGECIG - Admon</b></span>
+      <span class="logo-lg"><b>SIGECIG - Gerencia</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -123,7 +123,7 @@
 
       <!-- Sidebar Menu -->
 
-      @include('timbreingenieria.partials.nav')
+      @include('gerencia.partials.nav')
 
       <!-- /.sidebar-menu -->
     </section>

@@ -119,6 +119,16 @@ function(){
     Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
     Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
 
+    // Modulo de Sub Sedes
+    Route::get( '/subsedes' , 'SubsedesController@index')->name('subsedes.index');
+    Route::get( '/subsedes/getJson/' , 'SubsedesController@getJson')->name('subsedes.getJson');
+    Route::get( '/subsedes/new' , 'SubsedesController@create')->name('subsedes.new');
+    Route::post( '/subsedes/save/' , 'SubsedesController@store')->name('subsedes.save');
+    Route::get( '/subsedes/edit/{su}' , 'SubsedesController@edit')->name('subsedes.edit');
+    Route::put( '/subsedes/{su}/update' , 'SubsedesController@update')->name('subsedes.update');
+    Route::post('/subsedes/{su}/destroy' , 'SubsedesController@destroy')->name('subsedes.destroy');
+    Route::post('/subsedes/{su}/delete' , 'SubsedesController@delete')->name('subsedes.delete');
+    Route::post('/subsedes/{su}/activar' , 'SubsedesController@activar');
 });
 
 
