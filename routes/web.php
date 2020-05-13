@@ -13,7 +13,7 @@
 
 Route::group([
     'middleware'=>['auth','estado'] ],
-function(){ 
+function(){
 
     // Pantalla Principal y General
     Route::get('/admin','HomeController@index')->name('dashboard');
@@ -57,7 +57,7 @@ function(){
     Route::get('/proveedores/nitDisponible/', 'ProveedoresController@nitDisponible')->name('proveedores.nitDisponible');
 
     Route::get( '/corte' , 'HomeController@corte_diario')->name('corte');
-    
+
 
     // Módulo de Gerencia
     Route::get( '/solicitud' , 'SolicitudBoletaController@index')->name('solicitud.index');
@@ -106,6 +106,19 @@ function(){
     Route::get('/acta/edit/{acta}', 'ActaMaestroController@edit')->name('acta.edit');
     Route::put('/acta/{acta}/update', 'ActaMaestroController@update')->name('acta.update');
     Route::post('/acta/{acta}/destroy', 'ActaMaestroController@destroy')->name('acta.destroy');
+
+    // Modulo de Tipos de pago
+    Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
+    Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
+    Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
+    Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
+    Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
+    Route::get( '/tipoDePago/edit/{tipo}' , 'TipoDePagoController@edit')->name('tipoDePago.edit');
+    Route::put( '/tipoDePago/{tipo}/update' , 'TipoDePagoController@update')->name('tipoDePago.update');
+    Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
+    Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
+    Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
+
 });
 
 

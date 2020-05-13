@@ -21,9 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoSolicitudSeeder::class);
         $this->call(PuestoSeeder::class);
         $this->call(EstadoSolicitudApSeeder::class);
+        $this->call(CategoriaTipoPagoSeeder::class);
 
         //$this->call(TiposLocalidadesSeeder::class);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');        
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
