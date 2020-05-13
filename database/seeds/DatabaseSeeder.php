@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoSolicitudSeeder::class);
         $this->call(PuestoSeeder::class);
         $this->call(EstadoSolicitudApSeeder::class);
+        $this->call(PlataformaBancoSeeder::class);
+        $this->call(PlataformaTipoCuentaSeeder::class);
 
         //$this->call(TiposLocalidadesSeeder::class);
 

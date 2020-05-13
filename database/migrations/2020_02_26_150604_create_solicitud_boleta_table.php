@@ -23,7 +23,7 @@ class CreateSolicitudBoletaTable extends Migration
             $table->integer('estado_solicitud');
             $table->string('quien_la_usara',100);
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('sigecig_users');
             //$table->foreign('estado_solicitud')->references('id')->on('estado_solicitud');
 
             $table->timestamps();

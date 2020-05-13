@@ -61,7 +61,7 @@ class HomeController extends Controller
         if($user->hasRole('Ceduca')|| $user->hasRole('JefeCeduca')){
         return view('ceduca.dashboard');
         }
-        if($user->hasRole('JefeTimbres')|| $user->hasRole('Timbres')){
+        if($user->hasRole('JefeTimbres')|| $user->hasRole('Timbre')){
         return view('timbreingenieria.dashboard');
         }
         if($user->hasRole('JefeComisiones') || $user->hasRole('Comisiones')){
