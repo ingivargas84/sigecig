@@ -5,18 +5,37 @@ var validator = $("#TipoPagoForm").validate({
 	rules: {
 		codigo:{
             required: true,
+            nombreunico : true
 		},
 		tipo_de_pago: {
 			required : true
-		}
+        },
+        precio_colegiado: {
+            required : true
+        },
+        precio_particular: {
+            required : true
+        },
+        categoria_id:{
+            required : true
+        },
 	},
 	messages: {
 		codigo: {
-			required: "Por favor, ingrese el codigo",
+			required: "Por favor, ingrese el código",
 		},
 		tipo_de_pago: {
 			required: "Por favor, ingrese el tipo de pago"
-		}
+        },
+        precio_colegiado: {
+            required: "Por favor, ingrese el precio de colegiado"
+        },
+        precio_particular: {
+            required: "Por favor, ingrese el precio para particular"
+        },
+        categoria_id:{
+            required: "Por favor, seleccione una categoría"
+        },
 	}
 });
 
@@ -46,7 +65,12 @@ function saveModal(button) {
 			alertify.set('notifier','position', 'top-center');
             alertify.success('Tipo de Pago Creado con Éxito!!');
 		},
-
+        error: function(errors) {
+			var errors = JSON.parse(errors.responseText);
+			if (errors.codigo != null) {
+				$("#TipoPagoForm input[name='codigo'] ").after("<label class='error' id='Errorcodigo'>"+errors.codigo+"</label>");
+            }
+        }
 	});
 }
 
@@ -62,3 +86,20 @@ $('#ingresoModal').on('hide.bs.modal', function () {
 $('#ingresoModal').on('shown.bs.modal', function () {
     window.location.hash = '#create';
 });
+
+
+$.validator.addMethod("nombreunico", function(value, element){
+    var valid = false;
+    var urlActual = $("input[name='urlActual']").val();
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/tipoDePago/nombreDisponible/",
+        data:"codigo=" + value,
+        dataType: "json",
+        success: function (msg) {
+            valid=!msg;
+        }
+    });
+    return valid;
+    }, "El código ya esta registrado en el sistema");

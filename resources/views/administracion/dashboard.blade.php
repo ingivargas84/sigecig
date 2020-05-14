@@ -17,7 +17,9 @@
         Mas info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
-    
+
+
   </div>
+
 
 @stop

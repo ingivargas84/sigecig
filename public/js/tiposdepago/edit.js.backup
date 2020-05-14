@@ -1,0 +1,115 @@
+$('#FormTipoPagoUpdate').on('shown.bs.modal', function (event) {
+    $('#editUpdateModal').modal('show');
+    //$('#editUpdateModal').on('shown.bs.modal', function(event){
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var codigo = button.data('codigo');
+    var tipo_de_pago = button.data('tipo_de_pago');
+    var precio_colegiado = button.data('precio_colegiado');
+    var precio_particular = button.data('precio_particular');
+    var categoria_id = button.data('categoria_id');
+    var modal = $(this);
+    modal.find(".modal-body input[name='id']").val(id);
+    modal.find(".modal-body input[name='codigo']").val(codigo);
+    modal.find(".modal-body input[name='tipo_de_pago']").val(tipo_de_pago);
+    modal.find(".modal-body input[name='precio_colegiado']").val(precio_colegiado);
+    modal.find(".modal-body input[name='precio_particular']").val(precio_particular);
+    modal.find(".modal-body #categoria_id").val(categoria_id);
+
+});
+
+var validator = $("#FormTipoPagoUpdate").validate({
+    ignore: [],
+    onkeyup: false,
+    onclick: false,
+    //onfocusout: false,
+    rules: {
+        codigo:{
+            required: true
+		},
+		tipo_de_pago: {
+			required : true
+        },
+        categoria_id:{
+            required : true
+        }
+	},
+	messages: {
+		codigo: {
+			required: "Por favor, ingrese el código",
+		},
+		tipo_de_pago: {
+			required: "Por favor, ingrese el tipo de pago"
+        },
+        categoria_id:{
+            required: "Por favor, seleccione una categoría"
+        }
+    }
+});
+
+//Eliminar data de form
+function BorrarFormularioUpdate() {
+    $("#FormTipoPagoUpdate :input").each(function () {
+        $(this).val('');
+    });
+};
+
+//Guardar
+$("#ButtonTipoModalUpdate").click(function (event) {
+    event.preventDefault();
+    if ($('#FormTipoPagoUpdate').valid()) {
+        updateModal();
+    } else {
+        validator.focusInvalid();
+    }
+});
+
+//Actualizar
+function updateModal(button) {
+    var formData = $("#FormTipoPagoUpdate").serialize();
+    var id = $("input[name='id']").val();
+    var urlActual = $("input[name='urlActual']").val();
+    $('.loader').fadeIn();
+    $.ajax({
+        type: "post",
+        headers: { 'X-CSRF-TOKEN': $('#tipopagoToken').val() },
+        url: urlActual+"/update/"+id,
+        data: formData,
+        dataType: "json",
+        success: function (data) {
+            //$('.loader').fadeOut(225);
+            BorrarFormularioUpdate();
+            $('#editUpdateModal').modal("hide");
+            tipodepago_table.ajax.reload();
+            alertify.set('notifier', 'position', 'top-center');
+            alertify.success('Tipo de Pago editado con Éxito!!');
+        },
+        // error: function (errors) {
+        //     $('.loader').fadeOut(225);
+        //     var errors = JSON.parse(errors.responseText);
+        //     if (errors.email != null) {
+        //         $("#FormTipoPagoUpdate input[name='email'] ").after("<label class='error' id='ErrorNombreedit'>" + errors.email + "</label>");
+        //     }
+        //     else {
+        //         $("#ErrorNombreedit").remove();
+        //     }
+        // }
+    });
+}
+
+
+//Cambio de url para editar
+if (window.location.hash === '#edit')
+    {
+        $('#editUpdateModal').modal('show');
+    }
+
+    $('#editUpdateModal').on('hide.bs.modal', function () {
+        $("#FormTipoPagoUpdate").validate().resetForm();
+        document.getElementById("FormTipoPagoUpdate").reset();
+        window.location.hash = '#';
+    });
+
+    $('#editUpdateModal').on('shown.bs.modal', function () {
+        window.location.hash = '#edit';
+    });

@@ -224,6 +224,7 @@ th {
   tr,
   img {
     page-break-inside: avoid;
+    color: #03306d !important;
   }
   img {
     max-width: 100% !important;

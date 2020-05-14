@@ -18,11 +18,13 @@
 @include('admin.users.confirmarAccionModal')
 @include('tipodepago.createModal')
 @include('tipodepago.editModal')
+
+
 <div class="loader loader-bar is-active"></div>
 <div class="box">
     <div class="box-header">
         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#ingresoModal">
-        <i class="fa fa-plus"></i> Ingresar Tipo de Pago</a>
+         Ingresar Tipo de Pago  <i class="fa fa-plus"></i></a>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
@@ -44,9 +46,9 @@
 @endpush
 
 @push('scripts')
-<script src="{{asset('js/tiposdepago/index.js')}}"></script>
-  <script src="{{asset('js/tiposdepago/create.js')}}"></script>
-  <script src="{{asset('js/tiposdepago/edit.js')}}"></script>
+    <script src="{{asset('js/tiposdepago/index.js')}}"></script>
+    <script src="{{asset('js/tiposdepago/create.js')}}"></script>
+    <script src="{{asset('js/tiposdepago/edit.js')}}"></script>
 
   <script>
     $(document).ready(function() {
