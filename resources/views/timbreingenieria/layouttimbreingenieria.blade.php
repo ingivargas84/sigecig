@@ -123,7 +123,7 @@
 
       <!-- Sidebar Menu -->
 
-      @include('gerencia.partials.nav')
+      @include('timbreingenieria.partials.nav')
 
       <!-- /.sidebar-menu -->
     </section>

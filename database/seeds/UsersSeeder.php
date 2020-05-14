@@ -61,7 +61,7 @@ class UsersSeeder extends Seeder
         $sigecig_users->save();
         $sigecig_users->assignRole($adminRole);
 
-        
+    
         
     }
 }

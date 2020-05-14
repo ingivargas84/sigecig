@@ -106,6 +106,11 @@ function(){
     Route::get('/acta/edit/{acta}', 'ActaMaestroController@edit')->name('acta.edit');
     Route::put('/acta/{acta}/update', 'ActaMaestroController@update')->name('acta.update');
     Route::post('/acta/{acta}/destroy', 'ActaMaestroController@destroy')->name('acta.destroy');
+
+    // Módulo de ResolucionPago
+    Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
+    Route::get('/resolucion/getJson/', 'ResolucionController@getJson')->name('resolucion.getJson');
+   
 });
 
 
