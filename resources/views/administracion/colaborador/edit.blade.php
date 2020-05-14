@@ -27,6 +27,20 @@
                             </div>
                         </div>
                         <br>
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                    <label for="puesto">Puesto:</label>
+                                    <select name="puesto" class="form-control">
+                                        <option value="">-- Escoja el puesto --</option>
+                                        @foreach ($puestos as $puesto)
+                                            <option value="{{ $puesto['id'] }}">{{ $puesto['puesto'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
                         <div class="row">
                             <div class="col-sm-4">
                                     <label for="puesto">Puesto:</label>
@@ -48,7 +62,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="telefono">Telefono:</label>
-                                    <input type="text" class="form-control" placeholder="Telefono:" name="telefono" value="{{$colaborador->telefono}}">
+                                    <input type="number" class="form-control" placeholder="Telefono:" name="telefono" value="{{$colaborador->telefono}}">
                                 </div>
                             </div>
                         <br>
@@ -56,9 +70,9 @@
                             <a class='btn btn-primary form-button' href="{{ route('colaborador.index') }}">Regresar</a>
                             <button class="btn btn-success form-button" id="ButtonColaboradorUpdate">Guardar</button>
                         </div>
-                                    
+
                     </div>
-                </div>                
+                </div>
             </div>
     </form>
     <div class="loader loader-bar"></div>
