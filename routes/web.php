@@ -114,11 +114,17 @@ function(){
     Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
     Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
     Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
-    Route::get( '/tipoDePago/edit/{tipo}' , 'TipoDePagoController@edit')->name('tipoDePago.edit');
-    Route::put( '/tipoDePago/{tipo}/update' , 'TipoDePagoController@update')->name('tipoDePago.update');
+    Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
+    //Route::get( '/tipoDePago/edit/{tipo}' , 'TipoDePagoController@edit')->name('tipoDePago.edit');
+    //Route::put( '/tipoDePago/{tipo}/update' , 'TipoDePagoController@update')->name('tipoDePago.update');
+    // Route::post('tipoDePago/update/{tipo}' , 'TipoDePagoController@update' );
+    Route::post('tipoDePago/{tipo}/update' , 'TipoDePagoController@update' );
+    Route::get('tipoDePago/{tipo}/edit', 'TipoDePagoController@edit' );
     Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
     Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
     Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
+    Route::get('/tipoDePago/nombreDisponible/', 'TipoDePagoController@nombreDisponible');
+    Route::get('/tipoDePago/nombreDisponibleEdit/', 'TipoDePagoController@nombreDisponibleEdit');
 
     // Modulo de Sub Sedes
     Route::get( '/subsedes' , 'SubsedesController@index')->name('subsedes.index');

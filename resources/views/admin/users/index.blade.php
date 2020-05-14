@@ -21,6 +21,7 @@
 @include('admin.users.resetPasswordTercero')
 
 
+
 <div class="box">
     <div class="box-header">
       @can('create', new App\User)
@@ -31,20 +32,20 @@
     <!-- /.box-header -->
     <div class="box-body">
       <input type="hidden" name="rol_user" value="{{$user->roles[0]->name}}">
-        <table id="users-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">            
+        <table id="users-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
         </table>
         <input type="hidden" name="urlActual" value="{{url()->current()}}">
     </div>
     <!-- /.box-body -->
   </div>
-  <!-- /.box --> 
+  <!-- /.box -->
 
 @endsection
 
 
 @push('styles')
- 
- 
+
+
 @endpush
 
 @push('scripts')
@@ -53,7 +54,7 @@
       users_table.ajax.url("{{route('users.getJson')}}").load();
     });
 
-      function resetModalT(button) {	
+      function resetModalT(button) {
         var formData = $("#ResetPasswordTerceroForm").serialize();
         //var id = $("#resetId").val();
       $.ajax({
@@ -68,7 +69,7 @@
           users_table.ajax.reload();
           alertify.set('notifier','position', 'top-center');
           alertify.success('La contraseña se cambio Correctamente!!');
-          
+
         },
         error: function(errors) {
                 var errors = JSON.parse(errors.responseText);
@@ -82,7 +83,7 @@
             $("#ErrorPassword").remove();
           }
         }
-        
+
       });
     }
   </script>

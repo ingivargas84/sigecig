@@ -2705,9 +2705,6 @@ table.text-center th {
 .table.align td {
   text-align: right;
 }
-thead > tr {
-    background-color: red;
-}
 /*
  * Component: Label
  * ----------------
