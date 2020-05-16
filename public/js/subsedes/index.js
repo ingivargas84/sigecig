@@ -1,5 +1,4 @@
 var subsedes_table = $('#subsedes-table').DataTable({
-    //"ajax": "/subsedes/getJson",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -12,9 +11,15 @@ var subsedes_table = $('#subsedes-table').DataTable({
     ],
 
     "buttons": [
-    'pageLength',
-    'excelHtml5',
-    'csvHtml5'
+        'pageLength',
+        {
+            extend: 'excelHtml5',
+            filename: 'Cig_Subsdes_fecha',
+        },
+        {
+            extend: 'csvHtml5',
+            filename: 'Cig_Subsdes_fecha',
+        }
     ],
 
     "paging": true,
@@ -23,6 +28,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
         "sthousands":      ",",
         "sProcessing":     "Procesando...",
         "sLengthMenu":     "Mostrar _MENU_ registros",
+        "lengthMenu":      "Mostrar _MENU_ registros",
         "sZeroRecords":    "No se encontraron resultados",
         "sEmptyTable":     "Ningún dato disponible en esta tabla",
         "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
@@ -56,7 +62,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
     },
 
     {
-        "title": "Direccion",
+        "title": "Dirección",
         "data": "direccion",
         "width" : "30%",
         "responsivePriority": 2,
@@ -65,7 +71,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
     },
 
     {
-        "title": "Telefono",
+        "title": "Teléfono",
         "data": "telefono",
         "width" : "10%",
         "responsivePriority": 2,
@@ -74,7 +80,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
     },
 
     {
-        "title": "Telefono Dos",
+        "title": "Teléfono 2",
         "data": "telefono_2",
         "width" : "10%",
         "responsivePriority": 2,
@@ -83,17 +89,13 @@ var subsedes_table = $('#subsedes-table').DataTable({
     },
 
     {
-        "title": "Correo Electronico",
+        "title": "Correo Electrónico",
         "data": "correo_electronico",
         "width" : "20%",
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
     },
-
-
-
-
 
     {
         "title": "Acciones",
@@ -111,7 +113,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-sede'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-thumbs-down' title='Rechazar Sede'></i>" +
+                "<i class='fa fa-thumbs-down' title='Desactivar Sede'></i>" +
                 "</a>" + "</div>";
 
             } else{
@@ -119,7 +121,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
                     "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-sede'"+ "data-method='post' data-id='"+full.id+"' >" +
-                    "<i class='fa fa-thumbs-up' title='Aprobar Sede'></i>" +
+                    "<i class='fa fa-thumbs-up' title='Activar Sede'></i>" +
                     "</a>" + "</div>";
                 }else{
                     return "<div id='" + full.id + "' class='text-center'>" + "</div>";
@@ -148,7 +150,7 @@ $(document).on('click', 'a.destroy-sede', function(e) {
     e.preventDefault(); // does not go through with the link.
 
     var $this = $(this);
-    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la boleta',
+    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la sede',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -156,7 +158,7 @@ $(document).on('click', 'a.destroy-sede', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
-                subsedes_table.reload();
+                subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Sede desactivada con Éxito!!');
             });
@@ -179,7 +181,7 @@ $(document).on('click', 'a.activar-sede', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
-                subsedes_table.reload();
+                subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success(' la sede ha sido activada con Éxito!!');
             });

@@ -20,7 +20,7 @@
 <div class="box">
     <div class="box-header">
       <a class="btn btn-primary pull-right" href="{{route('subsedes.new')}}">
-        <i class="fa fa-plus"></i> Ingresar Subsedes</a>
+         Agregar     <i class="blue-icon fa fa-plus-square"> </i> </a> 
     </div>
     <!-- /.box-header -->
     <div class="box-body">

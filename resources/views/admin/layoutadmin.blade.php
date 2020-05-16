@@ -102,7 +102,7 @@
               <li class="user-footer">
                 <form  method="POST" action=" {{ route('logout') }} ">
                   {{ csrf_field() }}
-                  <button class="btn btn-default btn-flat btn-block">Cerrar sesion</button>
+                  <button class="btn btn-default btn-flat btn-block">Cerrar sesión</button>
                 </form>
               </li>
     

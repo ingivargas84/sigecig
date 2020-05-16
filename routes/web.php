@@ -94,6 +94,8 @@ function(){
     Route::get('/colaborador/getJson/', 'ColaboradorController@getJson')->name('colaborador.getJson');
     Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
     Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
+    Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
+    Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
     Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
     Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
     Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
@@ -129,6 +131,8 @@ function(){
     Route::get( '/subsedes/edit/{su}' , 'SubsedesController@edit')->name('subsedes.edit');
     Route::put( '/subsedes/{su}/update' , 'SubsedesController@update')->name('subsedes.update');
     Route::post('/subsedes/{su}/destroy' , 'SubsedesController@destroy')->name('subsedes.destroy');
+    Route::get('/subsedes/nombreDisponible/', 'SubsedesController@nombreDisponible');
+    Route::get('/subsedes/nombreDisponibleEdit/', 'SubsedesController@nombreDisponibleEdit');
     Route::post('/subsedes/{su}/delete' , 'SubsedesController@delete')->name('subsedes.delete');
     Route::post('/subsedes/{su}/activar' , 'SubsedesController@activar');
 

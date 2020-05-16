@@ -29,22 +29,22 @@
                         <br>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label for="direccion">Direccion:</label>
+                                <label for="direccion">Dirección:</label>
                                 <input type="text" class="form-control" placeholder="Direccion:" name="direccion" >
                             </div>
                             <div class="col-sm-4">
-                                <label for="telefono">Telefono:</label>
+                                <label for="telefono">Teléfono:</label>
                                 <input type="text" class="form-control" placeholder="Telefono:" name="telefono" >
                             </div>
                             <div class="col-sm-4">
-                                <label for="telefono_2">Telefono 2:</label>
+                                <label for="telefono_2">Teléfono 2:</label>
                                 <input type="text" class="form-control" placeholder="Telefono 2:" name="telefono_2">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label for="correo_electronico">Correo electronico:</label>
+                                <label for="correo_electronico">Correo electrónico:</label>
                                 <input type="text" class="form-control" placeholder="Correo electronico:" name="correo_electronico">
                             </div>
 
@@ -63,12 +63,12 @@
 
 @stop
 
-
 @push('styles')
 
 @endpush
 
-
 @push('scripts')
 <script src="{{asset('js/subsedes/create.js')}}"></script>
 @endpush
+
+

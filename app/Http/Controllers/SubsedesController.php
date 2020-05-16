@@ -152,6 +152,45 @@ class SubsedesController extends Controller
         return Response::json(['success' => 'activado con exito']);
 
     }
+
+    public function nombreDisponible(){
+        $dato = Input::get("nombre_sede");
+        $query = Subsedes::where("nombre_sede",$dato)->where('estado', 1)->get();
+             $contador = count($query);
+
+
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
+    }
+
+
+    public function nombreDisponibleEdit(){
+
+        $dato = Input::get("nombre_sede");
+        $id = Input::get("num");
+
+        $query = Subsedes::where("nombre_sede",$dato)->where("estado", 1)->where("id","<>",$id)->get();
+
+        $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
+    }
+
+
+
+
     public function getJson(Request $params)
      {
          //$api_Result['data'] = Subsedes::where('estado','=',1)->get();

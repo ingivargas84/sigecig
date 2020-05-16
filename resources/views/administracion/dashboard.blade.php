@@ -18,8 +18,32 @@
       </a>
     </div>
 
+<<<<<<< HEAD
+  </div>
+
+
+
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-blue">
+        <div class="inner">
+          <h3>2</h3>
+
+          <p>Directorio de Subsedes</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-chatbubbles"></i>
+        </div>
+        <a href="{{route('subsedes.index')}}" class="small-box-footer">
+          Mas info <i class="fa fa-arrow-circle-right"></i>
+        </a>
+      </div>
+
+    </div>
+
+=======
 
   </div>
 
 
+>>>>>>> 4cdb2027303e3d6f41f94a3421a464d5d6fbb8f9
 @stop
