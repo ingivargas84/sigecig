@@ -4,12 +4,12 @@
 <section class="content-header">
     <h1>
       Listado de Tipos de Pago
-      <small>Registro de Tipos de Pago</small>
+      <!-- <small>Registro de Tipos de Pago</small> -->
     </h1>
-    <ol class="breadcrumb">
+    <!-- <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
       <li class="active">Tipos de Pago</li>
-    </ol>
+    </ol> -->
   </section>
 
   @endsection
