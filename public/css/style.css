@@ -4,9 +4,27 @@
     margin-left: 5px;
 }
 
-.error {
-	color: red;
-	font-weight: bold;
+.ajs-cancel {
+    display: none;
+}
+
+.btn-error {
+	color: white !important;
+	background: #812D2D !important;
+}
+
+.btn-error:hover {
+    background: #FF4B4B !important;
+}
+
+.btn-confirm {
+    color: white !important;
+    background: #376BAC !important;
+
+}
+
+.btn-confirm:hover {
+    background: #03306D !important;
 }
 
 .modal-header-success {

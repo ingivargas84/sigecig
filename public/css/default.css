@@ -10,9 +10,10 @@
   border-radius: 2px;
 }
 .alertify .ajs-header {
-  color: black;
+  color: white;
+  text-align: center;
   font-weight: bold;
-  background: #fafafa;
+  background: #3769AC;
   border-bottom: #eee 1px solid;
   border-radius: 2px 2px 0 0;
 }
