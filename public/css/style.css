@@ -1,3 +1,9 @@
+.blue-icon {
+    color: #03306D;
+    background: white;
+    margin-left: 5px;
+}
+
 .error {
 	color: red;
 	font-weight: bold;
