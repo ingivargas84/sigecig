@@ -3,8 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-      Firma de Resolución
-      <small>Estados de solicitud</small>
+    Solicitudes de Subsidio de Auxilio Póstumo
     </center>
     </h1>
     <ol class="breadcrumb">
@@ -37,13 +36,7 @@
 @endpush
 
 @push('scripts')
-  <script>
-    $(document).ready(function() {
-        resolucion_table.ajax.url("{{route('resolucion.getJson')}}").load();
-    });
-  
-</script>
-  <script src="{{asset('js/resolucion/index.js')}}"></script>
+
   <script src="{{asset('js/resolucion/index.js')}}"></script>
 
   @endpush

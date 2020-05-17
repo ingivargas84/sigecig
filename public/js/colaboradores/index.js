@@ -2,6 +2,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
     //"ajax": "/solicitudes/getJson",
     "responsive": true,
     "processing": true,
+    "retrieve": true,
     "info": true,
     "showNEntries": true,
     "dom": 'Bfrtip',

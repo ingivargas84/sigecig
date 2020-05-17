@@ -1,6 +1,7 @@
 var resolucion_table = $('#resolucion-table').DataTable({
     "ajax": "/resolucion/getJson",
     "responsive": true,
+    "retrieve": true,
     "processing": true,
     "info": true,
     "showNEntries": true,
@@ -89,9 +90,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "orderable": false,
         "width" : "10%",
         "render": function(data, type, full, meta) {
-            var rol_user = $("input[name='rol_user']").val();
-            var urlActual =  $("input[name='urlActual']").val();
-            if(rol_user == 'Timbre' && data == 'AprobadaJunta'){
+            if(data == 'Aprobado por Junta'){
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -99,7 +98,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-print' title='Imprimir'></i>" + 
                 "</a>" + "</div>";
             }
-            else if(rol_user == 'Timbre' && data == 'ResolucionFirmada'){
+            else if(data == 'Resolución Firmada'){
 
                 return "<div id='" + full.id + "' class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -107,6 +106,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-flag' title='Cambiar estado'></i>" + 
                 "</a>" + "</div>";
             }
+            else return "";
            
             
         },

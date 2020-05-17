@@ -14,7 +14,7 @@
           <a href="{{route('resolucion.index')}}">
             <i class="fa fa-book">
               </i> 
-              <span>Resolución de Pago</span>
+              <span>Subsidio de Auxilio Póstumo</span>
             </a>
         </li>
                
