@@ -155,7 +155,6 @@ Route::get('pdf', function(){
     return $pdf->stream('archivo.pdf');
 });
 
-//Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
 //Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);

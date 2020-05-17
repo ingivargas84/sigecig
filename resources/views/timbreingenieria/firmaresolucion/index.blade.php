@@ -44,7 +44,6 @@
   
 </script>
   <script src="{{asset('js/resolucion/index.js')}}"></script>
-  <script src="{{asset('js/resolucion/index.js')}}"></script>
 
   @endpush
 @stop
