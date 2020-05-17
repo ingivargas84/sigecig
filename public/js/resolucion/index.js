@@ -1,5 +1,5 @@
 var resolucion_table = $('#resolucion-table').DataTable({
-    //"ajax": "/resolucion/getJson",
+    "ajax": "/resolucion/getJson",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -67,7 +67,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
     {
         "title": "Nombre",
-        "data": "nombre_colegiado",
+        "data": "Nombre1",
         "width" : "50%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
@@ -76,8 +76,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
     {
         "title": "Estado Solicitud",
-        "data": "id_estado_solicitud",
-        "width" : "20%",
+        "data": "estado_solicitud_ap",
+        "width" : "30%",
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
@@ -85,13 +85,28 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
     {
         "title": "Acciones",
-        "data": "estado",
+        "data": "estado_solicitud_ap",
         "orderable": false,
-        "width" : "20%",
+        "width" : "10%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual =  $("input[name='urlActual']").val();
-           
+            if(rol_user == 'Timbre' && data == 'AprobadaJunta'){
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='/pdf'>" +
+                "<i class='fas fa-print' title='Imprimir'></i>" + 
+                "</a>" + "</div>";
+            }
+            else if(rol_user == 'Timbre' && data == 'ResolucionFirmada'){
+
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" + 
+                "<i class='fas fa-flag' title='Cambiar estado'></i>" + 
+                "</a>" + "</div>";
+            }
            
             
         },

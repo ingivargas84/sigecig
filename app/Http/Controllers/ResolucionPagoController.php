@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\ServiceProvider;
+
 
 class ResolucionPagoController extends Controller
 {
@@ -13,6 +17,11 @@ class ResolucionPagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function imprimir(){
+        $pdf = \PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+        return $pdf->stream('primerpdf.pdf');
+    }
     public function index()
     {
         {
@@ -91,10 +100,14 @@ class ResolucionPagoController extends Controller
     {
         $user_id = Auth::id();
        
-        if(auth()->user()->hasRole('Timbre')){
-            $query = "SELECT U.n_colegiado, U.id_estado_solicitud, IF(U.estado = 1,'Activo', 'Inactivo') as estado, R.name
-            from plataforma_solicitudes_ap U ";            
-        } 
+        {
+        $query = "SELECT U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
+        FROM plataforma_solicitudes_ap U
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
+        INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
+        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona";
+        }
+    	
         
         $result = DB::select($query);
         $api_Result['data'] = $result;

@@ -25,7 +25,7 @@
     <img src="{{$negocio[0]->logotipo}}" height="50rem" style="fill:blue">
     @endif
   </a>
-  
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -103,15 +103,15 @@
   </div>
 </div>
 
-    
-            
+
+
  <!-- Pié de página -->
     <footer>
         <div class="container">
           <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
-              <ul class="list-inline text-center">
-                {{--<li class="list-inline-item">
+              <u{l class="list-inline text-center">
+            {{--<li class="list-inline-item">
                   <a href="#">
                     <span class="fa-stack fa-lg">
                       <i class="fa fa-circle fa-stack-2x"></i>
@@ -140,7 +140,7 @@
             </div>
           </div>
         </div>
-      </footer>      
+      </footer>
 @endsection
 
 @push('scripts')

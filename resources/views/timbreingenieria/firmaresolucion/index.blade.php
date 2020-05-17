@@ -4,7 +4,7 @@
 <section class="content-header">
     <h1><center>
       Firma de Resolución
-      <small>Firma de Resolución</small>
+      <small>Estados de solicitud</small>
     </center>
     </h1>
     <ol class="breadcrumb">
@@ -43,6 +43,7 @@
     });
   
 </script>
+  <script src="{{asset('js/resolucion/index.js')}}"></script>
   <script src="{{asset('js/resolucion/index.js')}}"></script>
 
   @endpush

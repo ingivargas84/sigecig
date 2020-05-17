@@ -13,7 +13,7 @@
 
 Route::group([
     'middleware'=>['auth','estado'] ],
-function(){ 
+function(){
 
     // Pantalla Principal y General
     Route::get('/admin','HomeController@index')->name('dashboard');
@@ -57,7 +57,7 @@ function(){
     Route::get('/proveedores/nitDisponible/', 'ProveedoresController@nitDisponible')->name('proveedores.nitDisponible');
 
     Route::get( '/corte' , 'HomeController@corte_diario')->name('corte');
-    
+
 
     // Módulo de Gerencia
     Route::get( '/solicitud' , 'SolicitudBoletaController@index')->name('solicitud.index');
@@ -109,8 +109,30 @@ function(){
 
     // Módulo de ResolucionPago
     Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
-    Route::get('/resolucion/getJson/', 'ResolucionController@getJson')->name('resolucion.getJson');
-   
+    Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
+
+    // Modulo de Tipos de pago
+    Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
+    Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
+    Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
+    Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
+    Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
+    Route::get( '/tipoDePago/edit/{tipo}' , 'TipoDePagoController@edit')->name('tipoDePago.edit');
+    Route::put( '/tipoDePago/{tipo}/update' , 'TipoDePagoController@update')->name('tipoDePago.update');
+    Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
+    Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
+    Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
+
+    // Modulo de Sub Sedes
+    Route::get( '/subsedes' , 'SubsedesController@index')->name('subsedes.index');
+    Route::get( '/subsedes/getJson/' , 'SubsedesController@getJson')->name('subsedes.getJson');
+    Route::get( '/subsedes/new' , 'SubsedesController@create')->name('subsedes.new');
+    Route::post( '/subsedes/save/' , 'SubsedesController@store')->name('subsedes.save');
+    Route::get( '/subsedes/edit/{su}' , 'SubsedesController@edit')->name('subsedes.edit');
+    Route::put( '/subsedes/{su}/update' , 'SubsedesController@update')->name('subsedes.update');
+    Route::post('/subsedes/{su}/destroy' , 'SubsedesController@destroy')->name('subsedes.destroy');
+    Route::post('/subsedes/{su}/delete' , 'SubsedesController@delete')->name('subsedes.delete');
+    Route::post('/subsedes/{su}/activar' , 'SubsedesController@activar');
 });
 
 
@@ -119,6 +141,12 @@ Route::get('/', function () {
     return view('welcome', compact('negocio'));
 });
 
+Route::get('pdf', function(){
+    $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+    return $pdf->stream('archivo.pdf');
+});
+
+//Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
 //Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);
