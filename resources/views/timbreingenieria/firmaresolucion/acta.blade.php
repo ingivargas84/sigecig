@@ -9,21 +9,22 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="form-group col-sm-12 {{ $errors->has('codigo') ? 'has-error': '' }}" >
+                    <div class="form-group col-sm-12 {{ $errors->has('no_acta') ? 'has-error': '' }}" >
                         <label for="no_acta">No. Acta:</label>
-                        <input type="text" class="form-control" placeholder="Código:" name="no_acta">
+                        <input type="number" class="form-control" placeholder="No. Acta:" name="no_acta">
                         {!! $errors->first('no_acta', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="no_punto_acta" class="col-form-label">Punto de Acta:</label>
-                        <input type="text" class="form-control" placeholder="No. Punto de Acta:" name="no_punto_acta">
+                        <input type="number" class="form-control" placeholder="No. Punto de Acta:" name="no_punto_acta">
                     </div>
                 </div>
               <br>
               <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
+              <input type="hidden" name="idSolicitud">
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="ButtonTipoModal" >Guardar</button>
+            <div class="modal-footer text-center">
+                <button type="submit" class="btn btn-confirm" id="ButtonActaModal" >Guardar</button>
             </div>
           </div>
     </div>

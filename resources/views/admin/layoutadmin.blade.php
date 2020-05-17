@@ -13,6 +13,9 @@
    <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Muli">
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
+    <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+  
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
@@ -38,8 +41,7 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datepicker/datepicker3.css')}}">
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+
 
   <link rel="stylesheet" href="{{asset('adminlte/css/skins/skin-blue.min.css')}}">
 

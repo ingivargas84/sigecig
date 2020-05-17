@@ -8,8 +8,9 @@
     background-color: #376BAC;
 }
 
-.close:focus, .close:hover {
+.close, .close:focus, .close:hover {
     color: white !important;
+    opacity: 1 !important;
 }
 
 .error {
@@ -30,6 +31,7 @@
 }
 
 .btn-confirm {
+    min-width: 150px;
     color: white !important;
     background: #376BAC !important;
 

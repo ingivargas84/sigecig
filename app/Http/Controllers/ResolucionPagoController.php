@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\ServiceProvider;
+use App\PlataformaSolicitudAp;
+
 
 
 class ResolucionPagoController extends Controller
@@ -80,9 +82,20 @@ class ResolucionPagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function addActa(PlataformaSolicitudAp $solicitud, Request $request)
     {
-        //
+        $nuevos_datos = array(
+            'no_acta' => $request->no_acta,
+            'no_punto_acta' => $request->no_punto_acta,
+            'id_estado_solicitud' => 7,
+            );
+        $json = json_encode($nuevos_datos);
+        
+        
+        $solicitud->update($nuevos_datos);
+
+        //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
+        return Response::json(['success' => 'Éxito']);
     }
 
     /**

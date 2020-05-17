@@ -138,9 +138,66 @@ var resolucion_table = $('#resolucion-table').DataTable({
         
 
         var modal = $(this);
-        modal.find(".modal-body input[name='test']").val(id);
+        modal.find(".modal-body input[name='idSolicitud']").val(id);
 
      });
+
+    var validator = $("#ActaForm").validate({
+        ignore: [],
+        onkeyup:false,
+        onclick: false,
+        //onfocusout: false,
+        rules: {
+            no_acta:{
+                required: true,
+            },
+            no_punto_acta: {
+                required : true
+            }
+        },
+        messages: {
+            no_acta: {
+                required: "Por favor, ingrese el No. de Acta",
+            },
+            no_punto_acta: {
+                required: "Por favor, ingrese el No. de Punto de Acta"
+            }
+        }
+    });
+
+    $("#ButtonActaModal").click(function(event) {
+        event.preventDefault();
+        if ($('#ActaForm').valid()) {
+            updateModal();
+        } else {
+            validator.focusInvalid();
+        }
+    });
+
+    function updateModal(button) {
+        var formData = $("#ActaForm").serialize();
+        var id = $("input[name='idSolicitud']").val();
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
+            url: "/auxiliopostumo/"+id+"/acta",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                BorrarFormularioUpdate();
+                $('#modalIngresoActa').modal("hide");
+                resolucion_table.ajax.reload();
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Datos de Acta agregados con Éxito!!');
+            },
+        });
+    }
+
+    function BorrarFormularioUpdate() {
+        $("#ActaForm :input").each(function () {
+            $(this).val('');
+        });
+    };
 
 /*function confirmar() {
     var txt;
