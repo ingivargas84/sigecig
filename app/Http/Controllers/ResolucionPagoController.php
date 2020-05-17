@@ -90,12 +90,27 @@ class ResolucionPagoController extends Controller
             'id_estado_solicitud' => 7,
             );
         $json = json_encode($nuevos_datos);
-        
-        
+
+
         $solicitud->update($nuevos_datos);
 
         //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
         return Response::json(['success' => 'Éxito']);
+    }
+
+    public function mail(request $request)
+    {
+        $data = $request->all();
+
+        Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
+
+            $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
+
+            $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
+
+    });
+                
+        return Response::json($data);
     }
 
     /**
