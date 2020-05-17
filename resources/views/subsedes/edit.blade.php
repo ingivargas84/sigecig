@@ -28,29 +28,31 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4">
-                                <label for="direccion">Direccion:</label>
+                            <div class="col-sm-3">
+                                <label for="direccion">Dirección:</label>
                                 <input type="text" class="form-control" name="direccion" value="{{$su->direccion}}">
                             </div>
-                            <div class="col-sm-4">
-                                    <label for="nombre">telefono:</label>
+                            <div class="col-sm-3">
+                                    <label for="nombre">Teléfono:</label>
                                 <input type="number" class="form-control" name="telefono" value="{{$su->telefono}}">
                             </div>
-                            <div class="col-sm-4">
-                                    <label for="telefono_2">Telefono:</label>
+                            <div class="col-sm-3">
+                                    <label for="telefono_2">Teléfono:</label>
                                     <input type="number" class="form-control" name="telefono_2" value="{{$su->telefono_2}}">
                             </div>
-                            <div class="col-sm-4">
-                                <label for="correo_electronico">Correo Electronico:</label>
+                            <div class="col-sm-3">
+                                <label for="correo_electrónico">Correo Electrónico:</label>
                                 <input type="text" class="form-control" name="correo_electronico" value="{{$su->correo_electronico}}">
-                        </div>
+                                <input type="hidden" name="num" value="{{$su->id}}">
                         </div>
                         <br>
-                        <div class="text-right m-t-15">
+                        <div class="row">
+                        <div class="text-right mt-3">
                             <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
                             <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
                         </div>
-
+                    </div>
+                    </div>
                     </div>
                 </div>
             </div>

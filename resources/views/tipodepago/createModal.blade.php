@@ -4,14 +4,15 @@
         <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Agregar Tipo de Pago</h4>
+              <h4 class="modal-title text-center" id="myModalLabel">Agregar Tipo de Pago</h4>
             </div>
             <div class="modal-body">
 
                 <div class="row">
                     <div class="form-group col-sm-12 {{ $errors->has('codigo') ? 'has-error': '' }}" >
-                        <label for="codigo">Codigo:</label>
-                        <input type="text" class="form-control" placeholder="Codigo:" name="codigo">
+                        <label for="codigo">Código:</label>
+                        <input type="text" class="form-control" placeholder="Código:" name="codigo">
+                        {!! $errors->first('codigo', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="tipo_de_pago" class="col-form-label">Tipo De Pago:</label>
@@ -26,9 +27,9 @@
                         <input type="number" class="form-control" placeholder="Precio Particular:" name="precio_particular">
                     </div>
                     <div class="form-group col-sm-12" >
-                        <label for="categoria_id">Categoria:</label>
+                        <label for="categoria_id">Categoría:</label>
                         <select name="categoria_id" class="form-control" id="categoria_id">
-                            <option value="">-- Escoja la categoria --</option>
+                            <option value="">-- Escoja la Categoría --</option>
                             @foreach ($cat as $cate)
                                 <option value="{{ $cate->id }}">{{ $cate->categoria }}</option>
                             @endforeach

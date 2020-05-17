@@ -13,11 +13,11 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         'pageLength',
         {
             extend: 'excelHtml5',
-            filename: 'equipos',
+            filename: 'sigecig_tipos_de_pagos_fecha',
         },
         {
             extend: 'csvHtml5',
-            filename: 'equipos',
+            filename: 'sigecig_tipos_de_pagos_fecha',
         }
     ],
 
@@ -59,7 +59,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
     },
 
     {
-        "title": "Codigo",
+        "title": "Código",
         "data": "codigo",
         "width" : "8%",
         "responsivePriority": 2,
@@ -71,7 +71,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "title": "Tipo de Pago",
         "data": "tipo_de_pago",
         "width" : "20%",
-        "responsivePriority": 2,
+        "responsivePriority": 3,
         "render": function( data, type, full, meta ) {
             return (data );},
     },
@@ -80,7 +80,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "title": "Precio de Colegiados",
         "data": "precio_colegiado",
         "width" : "10%",
-        "responsivePriority": 2,
+        "responsivePriority": 4,
         "render": function( data, type, full, meta ) {
             return (data );},
     },
@@ -89,16 +89,16 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "title": "Precio Particular",
         "data": "precio_particular",
         "width" : "10%",
-        "responsivePriority": 2,
+        "responsivePriority": 5,
         "render": function( data, type, full, meta ) {
             return (data );},
     },
 
     {
-        "title": "Categoria",
+        "title": "Categoría",
         "data": "categoria_id",
         "width" : "10%",
-        "responsivePriority": 2,
+        "responsivePriority": 6,
         "render": function( data, type, full, meta ) {
             if (data == 1){return ('Timbres')}
             else if (data == 2){return ('Cursos')}
@@ -115,23 +115,23 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "orderable": false,
         "width" : "10%",
         "render": function(data, type, full, meta) {
-                        var rol_user = $("input[name='rol_user']").val();
+            var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
 
             if(full.estado == 0){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-tipodepago' data-toggle='modal' data-target='#FormTipoPagoUpdate' data-id='" + full.id + "' data-codigo='" + full.codigo + "' data-tipo_de_pago='"+full.tipo_de_pago+"' data-precio_colegiado='"+full.precio_colegiado+"' data-precio_particular='"+full.precio_particular+"' data-categoria_id='"+full.categoria_id+"'>" +
+                "<a href='#' class='edit-tipodepago' data-toggle='modal' data-target='#editUpdateModal' data-id='" + full.id + "' data-codigo='" + full.codigo + "' data-tipo_de_pago='"+full.tipo_de_pago+"' data-precio_colegiado='"+full.precio_colegiado+"' data-precio_particular='"+full.precio_particular+"' data-categoria_id='"+full.categoria_id+"'>" +
                 "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-tipodepago'"+ "data-method='post' data-id='"+full.id+"' >" +
                 "<i class='fa fa-thumbs-down' title='Rechazar Registro'></i>" +
-                "</a>" + "</div>" +
-                "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/delete' class='delete-tipodepago'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-trash' title='Eliminar Registro'></i>" +
-                "</a>" + "</div>";
+                "</a>" + "</div>" ;
+                // "<div class='float-right col-lg-4'>" +
+                // "<a href='"+urlActual+"/"+full.id+"/delete' class='delete-tipodepago'"+ "data-method='post' data-id='"+full.id+"' >" +
+                // "<i class='fa fa-trash' title='Eliminar Registro'></i>" +
+                // "</a>" + "</div>";
 
             } else{
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
@@ -148,7 +148,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
 
 
         },
-        "responsivePriority": 5
+        "responsivePriority": 1
     }]
 
 });

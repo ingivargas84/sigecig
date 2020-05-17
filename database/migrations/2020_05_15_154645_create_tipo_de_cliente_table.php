@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateColaboradorTable extends Migration
+class CreateTipoDeClienteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateColaboradorTable extends Migration
      */
     public function up()
     {
-        Schema::create('sigecig_colaborador', function (Blueprint $table) {
+        Schema::create('sigecig_tipo_de_cliente', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->string('dpi');
-            $table->integer('puesto');
-            $table->integer('departamento');
-            $table->string('telefono');
-            $table->integer('estado');
+            $table->string('tipo_de_cliente');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateColaboradorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sigecig_colaborador');
+        Schema::dropIfExists('sigecig_tipo_de_cliente');
     }
 }

@@ -11,9 +11,10 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="form-group col-sm-12" >
+                    <div class="form-group col-sm-12 {{ $errors->has('codigo') ? 'has-error': '' }}" >
                         <label for="codigo">Codigo:</label>
                         <input type="text" class="form-control" name="codigo">
+                        {!! $errors->first('codigo', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="tipo_de_pago" class="col-form-label">Tipo De Pago:</label>
@@ -39,7 +40,7 @@
                 </div>
               <br>
               <input type="hidden" name="_token" id="tipopagoToken" value="{{ csrf_token() }}">
-              <input type="hidden" name="id">
+              <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

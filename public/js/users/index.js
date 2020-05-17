@@ -55,7 +55,7 @@ var users_table = $('#users-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
     },
-    
+
     {
         "title": "Username",
         "data": "username",
@@ -63,8 +63,8 @@ var users_table = $('#users-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
-    
+    },
+
     {
         "title": "Nombre",
         "data": "name",
@@ -72,7 +72,7 @@ var users_table = $('#users-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
+    },
 
     {
         "title": "Email",
@@ -81,7 +81,7 @@ var users_table = $('#users-table').DataTable({
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
+    },
 
     {
         "title": "Rol",
@@ -90,7 +90,7 @@ var users_table = $('#users-table').DataTable({
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
+    },
 
     {
         "title": "Estado",
@@ -100,8 +100,8 @@ var users_table = $('#users-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
     },
-    
-          
+
+
     {
         "title": "Acciones",
         "data": "estado",
@@ -112,41 +112,41 @@ var users_table = $('#users-table').DataTable({
             var urlActual =  $("input[name='urlActual']").val();
             if(rol_user == 'Super-Administrador' && data == 'Activo' || rol_user == 'Administrador' && data == 'Activo'){
 
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left col-lg-4'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" + 
-                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" + 
-                "</a>" + "</div>" + 
-                "<div class='float-right col-lg-4'>" + 
-                "<a href='"+urlActual+"/"+full.id+"' class='remove-user'"+ "data-method='delete'"+ ">" + 
-                "<i class='fa fa-thumbs-down' title='Desactivar Usuario'></i>" + 
+                return "<div id='" + full.id + "' class='text-center'>" +
+                "<div class='float-left col-lg-4'>" +
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" +
+                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" +
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='"+urlActual+"/"+full.id+"' class='remove-user'"+ "data-method='delete'"+ ">" +
+                "<i class='fa fa-thumbs-down' title='Desactivar Usuario'></i>" +
                 "</a>" + "</div>"+
-                "<div class='float-left col-lg-4'>" + 
-                "<a href='#' class='reset-password'>" + 
-                "<i class='fa fa-btn fa-lock-open' title='Resetear Password' data-toggle='modal' data-target='#modalResetPasswordTercero' data-id='"+full.id+"'></i>" + 
-                "</a>" + "</div>" ;                
+                "<div class='float-left col-lg-4'>" +
+                "<a href='#' class='reset-password'>" +
+                "<i class='fa fa-btn fa-lock-open' title='Resetear Password' data-toggle='modal' data-target='#modalResetPasswordTercero' data-id='"+full.id+"'></i>" +
+                "</a>" + "</div>" ;
             }
             else if(rol_user == 'Super-Administrador' && data == 'Inactivo' || rol_user == 'Administrador' && data == 'Inactivo'){
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left col-lg-6'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" + 
-                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" + 
+                return "<div id='" + full.id + "' class='text-center'>" +
+                "<div class='float-left col-lg-6'>" +
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" +
+                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" +
                 "</a>" + "</div>" +
-                "<div class='float-left col-lg-6'>" + 
-                "<a href='#' class='reset-password'>" + 
-                "<i class='fa fa-btn fa-lock-open' title='Resetear Password' data-toggle='modal' data-target='#modalResetPasswordTercero' data-id='"+full.id+"'></i>" + 
-                "</a>" + "</div>" ; 
+                "<div class='float-left col-lg-6'>" +
+                "<a href='#' class='reset-password'>" +
+                "<i class='fa fa-btn fa-lock-open' title='Resetear Password' data-toggle='modal' data-target='#modalResetPasswordTercero' data-id='"+full.id+"'></i>" +
+                "</a>" + "</div>" ;
             }
             else{
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left col-lg-12'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" + 
-                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" + 
+                return "<div id='" + full.id + "' class='text-center'>" +
+                "<div class='float-left col-lg-12'>" +
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalUpdateUser' data-id='"+full.id+"' data-email='"+full.email+"' data-username='"+full.username+"' data-rol='"+full.rol+"' data-name_user='"+full.name+"'>" +
+                "<i class='fa fa-btn fa-edit' title='Editar Usuario'></i>" +
                 "</a>" + "</div>";
 
             }
-            
-            
+
+
         },
         "responsivePriority": 4
     }]
@@ -157,8 +157,8 @@ var users_table = $('#users-table').DataTable({
 $(document).on('click', 'a.remove-user', function(e) {
     e.preventDefault(); // does not go through with the link.
 
-    var $this = $(this);    
-    alertify.confirm('Desactivar Usuario', 'Esta seguro de desactivar el usuario', 
+    var $this = $(this);
+    alertify.confirm('Desactivar Usuario', 'Esta seguro de desactivar el usuario',
         function(){
             $.post({
                 type: $this.data('method'),
@@ -167,12 +167,12 @@ $(document).on('click', 'a.remove-user', function(e) {
                 users_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Usuario Desactivado con Éxito!!');
-            }); 
+            });
          }
         , function(){
-            alertify.set('notifier','position', 'top-center'); 
+            alertify.set('notifier','position', 'top-center');
             alertify.error('Cancelar')
-        });   
+        });
 });
 
 /*function confirmar() {

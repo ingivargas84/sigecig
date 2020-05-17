@@ -1,6 +1,6 @@
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-        <li class="header">Navegacion</li>
+        <li class="header">Navegación</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="{{request()->is('admin')? 'active': ''}}" >
           <a href="{{route('dashboard')}}">
@@ -19,7 +19,7 @@
         </li>
                
         <li class="treeview {{request()->is('empleados*', 'puestos*','destinos_pedidos*','tipos_localidad*','localidades*','unidades_medida*','categorias_insumos*','insumos*', 'productos*', 'categorias_menus*', 'recetas*', 'cajas*')? 'active': ''}}">
-          <a href="#"><i class="fa fa-book"></i> <span>Catalogos Generales</span>
+          <a href="#"><i class="fa fa-book"></i> <span>Catálogos Generales</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

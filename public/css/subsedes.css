@@ -1,0 +1,6 @@
+.registro{
+    display:grid;
+    grid-template-columns: 2fr 8fr;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
