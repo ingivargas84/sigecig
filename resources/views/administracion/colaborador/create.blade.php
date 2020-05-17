@@ -15,7 +15,7 @@
 @stop
 
 @section('content')
-    <form method="POST" id="ColaboradorForm"  action="{{route('colaborador.save'}">
+    <form method="POST" id="ColaboradorForm"  action="{{route('colaborador.save')}}">
             {{csrf_field()}}
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -78,7 +78,6 @@
                             <button class="btn btn-success form-button" id="ButtonColaborador" name="ButtonColaborador">Guardar</button>
                         </div>
 
-<<<<<<< HEAD
 
 
                         <!-- Navbar Right Menu -->
@@ -101,8 +100,6 @@
                                   {{--<img src="{{ auth()->user()->url }}" class="img-circle" alt="User Image">--}}
                                   <span class="fa fa-user"></span>
 
-=======
->>>>>>> 4cdb2027303e3d6f41f94a3421a464d5d6fbb8f9
                     </div>
                 </div>
             </div>

@@ -17,8 +17,6 @@
         Mas info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
-
-<<<<<<< HEAD
   </div>
 
 
@@ -40,10 +38,10 @@
 
     </div>
 
-=======
+
 
   </div>
 
 
->>>>>>> 4cdb2027303e3d6f41f94a3421a464d5d6fbb8f9
+
 @stop

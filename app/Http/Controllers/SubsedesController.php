@@ -175,7 +175,7 @@ class SubsedesController extends Controller
         $dato = Input::get("nombre_sede");
         $id = Input::get("num");
 
-        $query = Subsedes::where("nombre_sede",$dato)->where("estado", 1)->where("id","<>",$id)->get();
+        $query = Subsedes::where("nombre_sede",$dato)->where("estado", 1)->where("id","!=",$id)->get();
 
         $contador = count($query);
         if ($contador == 0 )
