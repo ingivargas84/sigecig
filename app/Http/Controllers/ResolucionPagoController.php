@@ -103,9 +103,7 @@ class ResolucionPagoController extends Controller
         $data = $request->all();
 
         Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
-
             $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
-
             $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
 
     });
