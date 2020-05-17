@@ -10,17 +10,22 @@
 
   <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
   <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Muli">
 
-  <link rel="stylesheet" href="{{asset('css/style.css') }}">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
-  <!-- Font Awesome -->
+            <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome-4.5.0/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/fontawesome.min.css') }}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/all.css') }}">
   
+  <link rel="stylesheet" href="{{asset('css/style.css') }}">
+
+  <link rel="stylesheet" href="{{asset('css/style.css') }}">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
+
   @stack('styles')
 
   {{--<link rel="stylesheet" href="{{asset('DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css') }}">--}}

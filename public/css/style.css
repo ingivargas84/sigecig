@@ -4,6 +4,18 @@
     margin-left: 5px;
 }
 
+.new-modal-header {
+    background-color: #376BAC;
+}
+
+.close:focus, .close:hover {
+    color: white !important;
+}
+
+.error {
+    color: red;
+}
+
 .ajs-cancel {
     display: none;
 }

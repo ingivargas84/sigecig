@@ -10,7 +10,8 @@
 
   <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
   <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Muli">
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">

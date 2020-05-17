@@ -90,12 +90,28 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "orderable": false,
         "width" : "10%",
         "render": function(data, type, full, meta) {
-            if(data == 'Aprobado por Junta'){
+            if(data == 'Ingreso de acta'){
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='/pdf'>" +
                 "<i class='fas fa-print' title='Imprimir'></i>" + 
+                "</a>" + "</div>";
+            }
+            else if(data == 'Aprobado por Junta'){
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
+                "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
+                "</a>" + "</div>";
+            }
+            else if(data == 'Configuración de Pago'){
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='/pdf'>" +
+                "<i class='fas fa-university' title='Configuración de Pago'></i>" + 
                 "</a>" + "</div>";
             }
             else if(data == 'Resolución Firmada'){
@@ -116,6 +132,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
 });
 
 
+    $('#modalIngresoActa').on('shown.bs.modal', function(event){
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        
+
+        var modal = $(this);
+        modal.find(".modal-body input[name='test']").val(id);
+
+     });
 
 /*function confirmar() {
     var txt;

@@ -14,7 +14,7 @@
 
 
   @section('content')
-
+@include('timbreingenieria.firmaresolucion.acta')
 
   
   <!-- /.box-header -->
