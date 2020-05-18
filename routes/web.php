@@ -113,6 +113,8 @@ function(){
     Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
     Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
     Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
+    Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
+
 
 
     // Modulo de Tipos de pago

@@ -16,7 +16,10 @@
   @section('content')
 @include('admin.firmaresolucion.acta')
 
-  
+  <div class="box-header">
+      <a class="btn btn-confirm pull-right" target="_blank" href="auxiliopostumo/solicitudes_pendientes">
+        Solicitudes por aprobar <i class="fa fa-check"></i>  </a>
+  </div>
   <!-- /.box-header -->
   <div class="box-body">
     <input type="hidden" name="rol_user" value="{{$user->roles[0]->name}}">
