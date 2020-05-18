@@ -56,6 +56,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
     },
+
+    {
+        "title": "No. Solicitud",
+        "data": "no_solicitud",
+        "width" : "10%",
+        "responsivePriority": 1,
+        "render": function( data, type, full, meta ) {
+            return (data);},
+    }, 
      
     {
         "title": "No. Colegiado",
@@ -69,7 +78,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
     {
         "title": "Nombre",
         "data": "Nombre1",
-        "width" : "50%",
+        "width" : "40%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
@@ -78,7 +87,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
     {
         "title": "Estado Solicitud",
         "data": "estado_solicitud_ap",
-        "width" : "30%",
+        "width" : "20%",
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
@@ -90,15 +99,23 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "orderable": false,
         "width" : "10%",
         "render": function(data, type, full, meta) {
-            if(data == 'Ingreso de acta'){
+            if(data == 'Documentos Enviados'){  //Estado 2 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='/resolucion/asap/" + full.id + "' class='asap' >" + 
+                "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
+                "</a>" + "</div>";
+            }
+            else if(data == 'Ingreso de acta'){  //Estado 7 de la solicitud
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='/pdf'>" +
                 "<i class='fas fa-print' title='Imprimir'></i>" + 
                 "</a>" + "</div>";
-            }
-            else if(data == 'Aprobado por Junta'){
+            }   
+            else if(data == 'Aprobado por Junta'){    //Estado 5 de la solicitud
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -106,7 +123,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
                 "</a>" + "</div>";
             }
-            else if(data == 'Configuración de Pago'){
+            else if(data == 'Configuración de Pago'){  //Estado 9 de la solicitud
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -114,7 +131,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-university' title='Configuración de Pago'></i>" + 
                 "</a>" + "</div>";
             }
-            else if(data == 'Resolución Firmada'){
+            else if(data == 'Resolución Firmada'){   //Estado 8 de la solicitud
 
                 return "<div id='" + full.id + "' class='text-center'>" + 
                 "<div class='float-center'>" + 
