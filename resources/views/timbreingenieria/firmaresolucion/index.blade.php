@@ -3,8 +3,7 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-      Firma de Resolución
-      <small>Estados de solicitud</small>
+    Solicitudes de Subsidio de Auxilio Póstumo
     </center>
     </h1>
     <ol class="breadcrumb">
@@ -13,11 +12,8 @@
     </ol>
   </section>
 
-
   @section('content')
 
-
-  
   <!-- /.box-header -->
   <div class="box-body">
     <input type="hidden" name="rol_user" value="{{$user->roles[0]->name}}">
@@ -43,6 +39,7 @@
     });
   
 </script>
+
   <script src="{{asset('js/resolucion/index.js')}}"></script>
 
   @endpush

@@ -16,25 +16,28 @@ class EstadoSolicitudApSeeder extends Seeder
             'estado_solicitud_ap'=>'Creada'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'DocEnviados'
+            'estado_solicitud_ap'=>'Documentos Enviados'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'RechazadaDoc'
+            'estado_solicitud_ap'=>'Documentación Rechazada'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'EnviadaJunta'
+            'estado_solicitud_ap'=>'Documentación Aprobada'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'AprobadaJunta'
+            'estado_solicitud_ap'=>'Aprobado por Junta'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'RechazadaJunta'
+            'estado_solicitud_ap'=>'Rechazado por Junta'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'ResolucionFirmada'
+            'estado_solicitud_ap'=>'Ingreso de acta'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
-            'estado_solicitud_ap'=>'PagoConfigurado'
+            'estado_solicitud_ap'=>'Resolución Firmada'
+        ]);
+        DB::table('sigecig_estado_solicitud_ap')->insert([
+            'estado_solicitud_ap'=>'Configuración de Pago'
         ]);
         DB::table('sigecig_estado_solicitud_ap')->insert([
             'estado_solicitud_ap'=>'Finalizada'

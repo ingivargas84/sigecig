@@ -19,8 +19,9 @@ class ResolucionPagoController extends Controller
      */
 
     function imprimir(){
-        $pdf = \PDF::loadView('timbreingenieria.firmaresolucion.pdf');
-        return $pdf->stream('primerpdf.pdf');
+        $nombre = Auth::User();
+        $pdf = \PDF::loadView('timbreingenieria.firmaresolucion.pdf', compact('nombre'));
+        return $pdf->stream('AnticipoAP.pdf');
     }
     public function index()
     {
@@ -101,11 +102,12 @@ class ResolucionPagoController extends Controller
         $user_id = Auth::id();
        
         {
-        $query = "SELECT U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
-        FROM plataforma_solicitudes_ap U
+        $query = "SELECT U.id, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
+        FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
-        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona";
+        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
+        WHERE S.id >=3";
         }
     	
         

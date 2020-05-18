@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlataformaSolicitudAp extends Model
 {
-    protected $table = 'plataforma_solicitudes_ap';
+    protected $table = 'sigecig_solicitudes_ap';
 
     protected $fillable = [
         'id',

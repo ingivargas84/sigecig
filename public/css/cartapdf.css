@@ -1,12 +1,42 @@
-body {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
+
+#principal {
+    --myColor: blue;
+}
+.fecha {
+        text-align: right;
+}
+
+.datos {
+  text-align: left;
+}
+
+.datos1 {
+  text-align: center;
+}
+
+.texto1 {
+  text-align: justify;
+}
   .sender-column {
     text-align: right;
   }
   
+  label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: .4rem 0;
+}
+
+table, td, th {
+  border-collapse: collapse;
+  border: 1px solid black;
+  margin: 0 auto;
+
+}
   h1 {
     font-size: 1.5em;
   }

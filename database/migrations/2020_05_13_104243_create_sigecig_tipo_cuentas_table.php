@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlataformaTipoCuentasTable extends Migration
+class CreateSigecigTipoCuentasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePlataformaTipoCuentasTable extends Migration
      */
     public function up()
     {
-        Schema::create('plataforma_tipo_cuentas', function (Blueprint $table) {
+        Schema::create('sigecig_tipo_cuentas', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('tipo_cuenta');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreatePlataformaTipoCuentasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plataforma_tipo_cuentas');
+        Schema::dropIfExists('sigecig_tipo_cuentas');
     }
 }

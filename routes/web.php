@@ -150,10 +150,11 @@ Route::get('/', function () {
     return view('welcome', compact('negocio'));
 });
 
-Route::get('pdf', function(){
-    $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
-    return $pdf->stream('archivo.pdf');
-});
+Route::get('pdf', 'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
+//Route::get('pdf', function(){
+  //  $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+    //return $pdf->stream('archivo.pdf');
+//});
 
 //Auth::routes();
 

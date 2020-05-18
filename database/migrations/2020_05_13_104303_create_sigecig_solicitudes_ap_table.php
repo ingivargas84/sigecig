@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlataformaSolicitudesApTable extends Migration
+class CreateSigecigSolicitudesApTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePlataformaSolicitudesApTable extends Migration
      */
     public function up()
     {
-        Schema::create('plataforma_solicitudes_ap', function (Blueprint $table) {
+        Schema::create('sigecig_solicitudes_ap', function (Blueprint $table) {
             $table->Increments('id');
             $table->DateTime('fecha_solicitud');
             $table->Integer('n_colegiado');
@@ -22,6 +22,9 @@ class CreatePlataformaSolicitudesApTable extends Migration
             $table->Integer('id_tipo_cuenta');
             $table->Integer('estado');
             $table->Integer('no_cuenta');
+            $table->integer('no_solicitud');
+            $table->integer('no_acta')->nullable();
+            $table->string('no_punto_acta', 10)->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ class CreatePlataformaSolicitudesApTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plataforma_solicitudes_ap');
+        Schema::dropIfExists('sigecig_solicitudes_ap');
     }
 }
