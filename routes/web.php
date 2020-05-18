@@ -109,15 +109,18 @@ function(){
     Route::put('/acta/{acta}/update', 'ActaMaestroController@update')->name('acta.update');
     Route::post('/acta/{acta}/destroy', 'ActaMaestroController@destroy')->name('acta.destroy');
 
+    // Módulo de ResolucionPago
+    Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
+    Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
+    Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
+
+
     // Modulo de Tipos de pago
     Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
     Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
     Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
     Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
     Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
-    //Route::get( '/tipoDePago/edit/{tipo}' , 'TipoDePagoController@edit')->name('tipoDePago.edit');
-    //Route::put( '/tipoDePago/{tipo}/update' , 'TipoDePagoController@update')->name('tipoDePago.update');
-    // Route::post('tipoDePago/update/{tipo}' , 'TipoDePagoController@update' );
     Route::post('tipoDePago/{tipo}/update' , 'TipoDePagoController@update' );
     Route::get('tipoDePago/{tipo}/edit', 'TipoDePagoController@edit' );
     Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
@@ -138,6 +141,9 @@ function(){
     Route::get('/subsedes/nombreDisponibleEdit/', 'SubsedesController@nombreDisponibleEdit');
     Route::post('/subsedes/{su}/delete' , 'SubsedesController@delete')->name('subsedes.delete');
     Route::post('/subsedes/{su}/activar' , 'SubsedesController@activar');
+
+    // Modulo de Creacion de Recibos
+    Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
 });
 
 
@@ -146,6 +152,12 @@ Route::get('/', function () {
     return view('welcome', compact('negocio'));
 });
 
+Route::get('pdf', function(){
+    $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+    return $pdf->stream('archivo.pdf');
+});
+
+//Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
 //Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);

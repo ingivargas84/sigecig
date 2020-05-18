@@ -32,7 +32,7 @@ class SubsedesController extends Controller
      */
     public function index()
     {
-        return view('subsedes.index');
+        return view('admin.subsedes.index');
 
     }
 
@@ -43,7 +43,7 @@ class SubsedesController extends Controller
      */
     public function create()
     {
-        return view('subsedes.create');
+        return view('admin.subsedes.create');
     }
 
     /**
@@ -87,7 +87,7 @@ class SubsedesController extends Controller
      */
     public function edit(Subsedes $su)
     {
-        return view('subsedes.edit', compact('su'));
+        return view('admin.subsedes.edit', compact('su'));
 
     }
 
@@ -110,8 +110,6 @@ class SubsedesController extends Controller
 
         );
         $json = json_encode($nuevos_datos);
-
-
 
         event(new ActualizacionBitacora(1, Auth::user()->id,'edicion', $su, $json, 'subsedes' ));
         $su->update($request->all());

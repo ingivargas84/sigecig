@@ -29,7 +29,7 @@ class SolicitudBoletaController extends Controller
      */
     public function index()
     {
-        return view ("gerencia.solicitud.index");
+        return view ("admin.solicitud.index");
     }
 
     /**
@@ -39,7 +39,7 @@ class SolicitudBoletaController extends Controller
      */
     public function create()
     {
-        return view("gerencia.solicitud.create");
+        return view("admin.solicitud.create");
     }
 
     /**
@@ -83,7 +83,7 @@ class SolicitudBoletaController extends Controller
      */
     public function edit(SolicitudBoleta $solBoleta)
     {
-        return view('gerencia.solicitud.edit', compact('solBoleta'));
+        return view('admin.solicitud.edit', compact('solBoleta'));
     }
 
     /**
