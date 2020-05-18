@@ -9,8 +9,8 @@ use DB;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
-use App\Banco;
-use App\TipoDeCuenta;
+use App\PlataformaBanco;
+use App\PlataformaTipoCuenta;
 
 
 
@@ -51,8 +51,8 @@ class ResolucionPagoController extends Controller
 
     public function asap(PlataformaSolicitudAp $solicitud)
     {
-        $banco = Banco::where("id",$solicitud->id_banco)->get();
-        $tipocuenta = TipoDeCuenta::where("id",$solicitud->id_tipo_cuenta)->get();
+        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get();
 
         return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta'));
     }
