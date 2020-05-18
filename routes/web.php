@@ -115,6 +115,8 @@ function(){
     Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
     Route::get('/resolucion/asap/{solicitud}', 'ResolucionPagoController@asap')->name('resolucion.asap');
     Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
+    Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
+
 
 
     // Modulo de Tipos de pago

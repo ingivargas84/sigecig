@@ -126,15 +126,20 @@ class ResolucionPagoController extends Controller
         return Response::json($data);
     }
     
-    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
+
     public function destroy($id)
     {
         //
+    }
+
+    
+    public function solicitudesPendientes()
+    {
+        $cuenta = PlataformaSolicitudAp::all();
+
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta"))
+        ->setPaper('a4', 'landscape')
+        ->stream('archivo.pdf');
     }
     
     public function getJson(Request $params)
