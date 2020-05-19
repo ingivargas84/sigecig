@@ -2,7 +2,7 @@
 
 @section('header')
     <section class="content-header">
-        <h1>Creción de Recibos</h1>
+        <h1><center>Creción de Recibos</center></h1>
   </section>
 
   @endsection

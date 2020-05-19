@@ -7,7 +7,10 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\ServiceProvider;
+use App\PlataformaSolicitudAp;
+use App\AdmPersona;
 
 
 class ResolucionPagoController extends Controller
@@ -18,16 +21,26 @@ class ResolucionPagoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function imprimir(){
-        $nombre = Auth::User();
-        $pdf = \PDF::loadView('timbreingenieria.firmaresolucion.pdf', compact('nombre'));
-        return $pdf->stream('AnticipoAP.pdf');
+    function imprimir(Request $Nombre1){
+     
+        $adm_usuario=DB::table('adm_usuario')
+        ->join('adm_persona', 'adm_persona.idPersona', '=', 'adm_usuario.idPersona')
+        ->select('adm_persona.Nombre1')
+        ->get();
+
+         $nombre = AdmPersona::where('Nombre1', '=', '$Nombre1')->get();
+      
+    // dd($nombre);
+     
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('nombre'));
+        return $pdf->stream('ArchivoPDF.pdf');
     }
     public function index()
     {
         {
             $user = Auth::User();
-            return view ('timbreingenieria.firmaresolucion.index', compact('user'));
+            return view ('admin.firmaresolucion.index', compact('user'));
         }
     }
 
@@ -81,9 +94,33 @@ class ResolucionPagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function addActa(PlataformaSolicitudAp $solicitud, Request $request)
     {
-        //
+        $nuevos_datos = array(
+            'no_acta' => $request->no_acta,
+            'no_punto_acta' => $request->no_punto_acta,
+            'id_estado_solicitud' => 7,
+            );
+        $json = json_encode($nuevos_datos);
+
+
+        $solicitud->update($nuevos_datos);
+
+        //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
+        return Response::json(['success' => 'Éxito']);
+    }
+
+    public function mail(request $request)
+    {
+        $data = $request->all();
+
+        Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
+            $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
+            $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
+
+    });
+                
+        return Response::json($data);
     }
 
     /**
@@ -92,9 +129,13 @@ class ResolucionPagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function solicitudesPendientes()
     {
-        //
+        $cuenta = PlataformaSolicitudAp::all();
+
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta"))
+        ->setPaper('a4', 'landscape')
+        ->stream('archivo.pdf');
     }
 
     public function getJson(Request $params)

@@ -112,6 +112,9 @@ function(){
     // Módulo de ResolucionPago
     Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
     Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
+    Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
+    Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
+    Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
 
     // Modulo de Tipos de pago
     Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
@@ -144,17 +147,10 @@ function(){
     Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
 });
 
-
 Route::get('/', function () {
     $negocio = App\Negocio::all();
     return view('welcome', compact('negocio'));
 });
-
-Route::get('pdf', 'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-//Route::get('pdf', function(){
-  //  $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
-    //return $pdf->stream('archivo.pdf');
-//});
 
 //Auth::routes();
 
