@@ -49,7 +49,7 @@
                     <label for="password">Contraseña:</label>
                     <input name="password" class="form-control" type="password" placeholder="Ingresa contraseña">
                 </div>
-  
+
                 <div class="form-group col-sm-6 {{ $errors->has('password') ? 'has-error': '' }}">
                     <label for="password_confirmation">Repite la contraseña:</label>
                     <input name="password_confirmation" class="form-control" type="password" placeholder="Repite contraseña">
@@ -58,13 +58,13 @@
               </div>
 
               <input type="hidden" name="_token" id="tokenUser" value="{{ csrf_token() }}">
-              
+
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary" id="ButtonUserModal" >Agregar</button>
             </div>
-          </div>
         </div>
+    </div>
     {!! Form::close() !!}
-      </div>
+</div>

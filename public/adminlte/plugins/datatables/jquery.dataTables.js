@@ -11291,7 +11291,7 @@
 			 *    $(document).ready( function() {
 			 *      $('#example').dataTable( {
 			 *        "language": {
-			 *          "lengthMenu": "Display _MENU_ records"
+			 *          "lengthMenu": "Ver _MENU_ registros"
 			 *        }
 			 *      } );
 			 *    } );

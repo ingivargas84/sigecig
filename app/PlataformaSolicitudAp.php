@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlataformaSolicitudAp extends Model
 {
-    protected $table = 'plataforma_solicitudes_ap';
+    protected $table = 'sigecig_solicitudes_ap';
 
     protected $fillable = [
         'id',
@@ -15,6 +15,9 @@ class PlataformaSolicitudAp extends Model
         'id_estado_solicitud',
         'id_banco',
         'id_tipo_cuenta',
-        'no_cuenta'
+        'no_cuenta',
+        'no_acta',
+        'no_punto_acta',
+        'no_solicitud'      
     ];
 }

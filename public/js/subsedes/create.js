@@ -11,13 +11,31 @@ $.validator.addMethod("ntel", function (value, element ){
 }, "Debe ingresar el número de teléfono con 8 dígitos");
 
 
+$.validator.addMethod("nombreunico", function(value, element){
+    var valid = false;
+    var urlActual = $("input[name='urlActual']").val();
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/subsedes/nombreDisponible/",
+        data:"nombre_sede=" + value,
+        dataType: "json",
+        success: function (msg) {
+            valid=!msg;
+        }
+    });
+    return valid;
+    }, "El nombre ya esta registrado en el sistema");
+
+
 
 var validator = $("#subsedesForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
 		nombre_sede:{
-            required: true
+            required: true,
+            nombreunico: true
         },
         direccion:{
             required: true
@@ -40,7 +58,7 @@ var validator = $("#subsedesForm").validate({
 	},
 	messages: {
 		nombre_sede: {
-			required: "Por favor, ingrese el nombre de la subsede"
+            required: "Por favor, ingrese el nombre de la subsede"
         },
         direccion: {
 			required: "Por favor, ingrese la Direccion de la sede"

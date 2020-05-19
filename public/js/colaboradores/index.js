@@ -2,6 +2,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
     //"ajax": "/solicitudes/getJson",
     "responsive": true,
     "processing": true,
+    "retrieve": true,
     "info": true,
     "showNEntries": true,
     "dom": 'Bfrtip',
@@ -53,8 +54,18 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
-    
+    },
+
+    {
+        "title": "DPI",
+        "data": "dpi",
+        "width" : "30%",
+        "responsivePriority": 2,
+        "render": function( data, type, full, meta ) {
+            return (data);},
+    },
+
+
     {
         "title": "Puesto",
         "data": "puesto",
@@ -105,7 +116,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
             else if(data == 8){return ('Mensajeria')}
             else if(data == 8){return ('Mantenimiento')}
         },
-    }, 
+    },
 
     {
         "title": "Telefono",
@@ -115,7 +126,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
     },
-     
+
     {
         "title": "Acciones",
         "orderable": false,
@@ -124,14 +135,14 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
-                    return "<div id='" + full.id + "' class='text-center'>" + 
-                    "<div class='float-right col-lg-6'>" + 
-                    "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-colaborador' >" + 
-                    "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" + 
+                    return "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-right col-lg-6'>" +
+                    "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-colaborador' >" +
+                    "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                     "</a>" + "</div>"+
-                    "<div class='float-right col-lg-4'>" + 
-                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-colaborador'"+ "data-method='post' data-id='"+full.id+"' >" + 
-                    "<i class='fa fa-trash' title='Eliminar Registro'></i>" + 
+                    "<div class='float-right col-lg-4'>" +
+                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-colaborador'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-trash' title='Eliminar Registro'></i>" +
                     "</a>" + "</div>";
                 }else{
                     return "<div id='" + full.id + "' class='text-center'>" + "</div>";
@@ -145,8 +156,8 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
 $(document).on('click', 'a.destroy-colaborador', function(e) {
     e.preventDefault(); // does not go through with the link.
 
-    var $this = $(this);    
-    alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro', 
+    var $this = $(this);
+    alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -157,10 +168,10 @@ $(document).on('click', 'a.destroy-colaborador', function(e) {
                 solicitudes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Registro Eliminado con Éxito!!');
-            }); 
+            });
          }
         , function(){
-            alertify.set('notifier','position', 'top-center'); 
+            alertify.set('notifier','position', 'top-center');
             alertify.error('Cancelar')
-        });   
+        });
 });
