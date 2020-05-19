@@ -11,6 +11,8 @@ use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
 use App\PlataformaBanco;
 use App\PlataformaTipoCuenta;
+use App\SQLSRV_Colegiado;
+use App\SQLSRV_Profesion;
 
 
 
@@ -51,10 +53,12 @@ class ResolucionPagoController extends Controller
 
     public function asap(PlataformaSolicitudAp $solicitud)
     {
-        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get();
-        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get();
+        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get()->first();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$solicitud->n_colegiado)->get()->first();
 
-        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta'));
+        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion'));
     }
     
     /**
