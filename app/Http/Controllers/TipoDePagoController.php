@@ -32,7 +32,7 @@ class TipoDePagoController extends Controller
     public function index()
     {
         $cat = CategoriaTipoPago::all();
-        return view('tipodepago.index', compact( 'cat'));
+        return view('admin.tipodepago.index', compact( 'cat'));
     }
 
     /**

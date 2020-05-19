@@ -1,4 +1,4 @@
-@extends('administracion.layoutadministracion')
+@extends('admin.layoutadmin')
 
 @section('header')
 <section class="content-header">
@@ -16,8 +16,8 @@
 
 @section('content')
 @include('admin.users.confirmarAccionModal')
-@include('tipodepago.createModal')
-@include('tipodepago.editModal')
+@include('admin.tipodepago.createModal')
+@include('admin.tipodepago.editModal')
 
 
 <div class="loader loader-bar is-active"></div>

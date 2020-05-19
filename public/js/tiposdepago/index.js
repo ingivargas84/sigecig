@@ -125,7 +125,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
                 "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-tipodepago'"+ "data-method='post' data-id='"+full.id+"' >" +
+                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-tipodepago'"+ "data-method='post' data-id='"+full.id + "'  data-codigo='" + full.codigo +"'>" +
                 "<i class='fa fa-thumbs-down' title='Rechazar Registro'></i>" +
                 "</a>" + "</div>" ;
                 // "<div class='float-right col-lg-4'>" +
@@ -165,9 +165,11 @@ $("#btnConfirmarAccion").click(function(event) {
 
 $(document).on('click', 'a.destroy-tipodepago', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    var button = $(e.currentTarget);
+    var idTipoPago = button[0].dataset.id;
+    var codigo = button[0].dataset.codigo;
     var $this = $(this);
-    alertify.confirm('Desactivar tipo de pago', 'Esta seguro de Desactivar el tipo de pago',
+    alertify.confirm('Desactivar tipo de pago', 'Esta seguro de Desactivar el tipo de pago con código: <strong>' +codigo + "</strong>", 
         function(){
             $('.loader').fadeIn();
             $.post({
