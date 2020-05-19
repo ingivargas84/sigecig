@@ -43,32 +43,7 @@ class HomeController extends Controller
     {
         $user = Auth::User();
 
-        if($user->hasRole('Gerencia')){
-        return view('gerencia.dashboard');
-        }
-        if($user->hasRole('JuntaDirectiva')){
-        return view('juntadirectiva.dashboard');
-        }
-        if($user->hasRole('Administrador') || $user->hasRole('Super-Administrador')){
-        return view('administracion.dashboard');
-        }
-        if($user->hasRole('JefeContabilidad')|| $user->hasRole('Contabilidad')){
-        return view('contabilidad.dashboard');
-        }
-        if($user->hasRole('JefeInformatica') || $user->hasRole('SoporteInformatica')){
-        return view('informatica.dashboard');
-        }
-        if($user->hasRole('Ceduca')|| $user->hasRole('JefeCeduca')){
-        return view('ceduca.dashboard');
-        }
-        if($user->hasRole('JefeTimbres')|| $user->hasRole('Timbre')){
-        return view('timbreingenieria.dashboard');
-        }
-        if($user->hasRole('JefeComisiones') || $user->hasRole('Comisiones')){
-        return view('comisiones.dashboard');
-        }
-        if($user->hasRole('Auditoria')){
-        return view('auditoria.dashboard');
-        }
+        return view('admin.dashboard');
+        
     }   
 }

@@ -32,7 +32,7 @@ class TipoDePagoController extends Controller
     public function index()
     {
         $cat = CategoriaTipoPago::all();
-        return view('tipodepago.index', compact( 'cat'));
+        return view('admin.tipodepago.index', compact( 'cat'));
     }
 
     /**
@@ -54,34 +54,6 @@ class TipoDePagoController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        // $this->authorize('create', new TipoDePago);
-
-        // $data = $request->all();
-        // $errors = Validator::make($data,[
-        //     'codigo' => 'unique',
-        //     'tipo_de_pago',
-        //     'precio_colegiado',
-        //     'precio_particular',
-        //     'categoria_id'
-        // ]);
-
-        // if($errors->fails())
-        //  {
-        //     return  Response::json($errors->errors(), 422);
-        //  }
-
-        // $tipo = new TipoDePago;
-        // $tipo->codigo=$data['codigo'];
-        // $tipo->tipo_de_pago=$data['tipo_de_pago'];
-        // $tipo->precio_colegiado=$data['precio_colegiado'];
-        // $tipo->precio_particular=$data['precio_particular'];
-        // $tipo->categoria_id=$data['categoria_id'];
-        // $tipo->estado=0; //el estado 0 es activo
-        // $tipo->save();
-
-
-
         $tipo = new TipoDePago;
         $tipo->codigo=$request->get('codigo');
         $tipo->tipo_de_pago=$request->get('tipo_de_pago');
@@ -180,7 +152,7 @@ class TipoDePagoController extends Controller
 
      public function nombreDisponible(){
         $dato = Input::get("codigo");
-        $query = TipoDePago::where("codigo",$dato)->where('estado', 0)->get();
+        $query = TipoDePago::where("codigo",$dato)->where('estado', '!=', null)->get();
              $contador = count($query);
         if ($contador == 0 )
         {

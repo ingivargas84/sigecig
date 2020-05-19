@@ -29,7 +29,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        return view ('administracion.colaborador.index');
+        return view ('admin.colaborador.index');
     }
 
     /**
@@ -42,7 +42,7 @@ class ColaboradorController extends Controller
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
         $sub = Subsedes::all();
-        return view ('administracion.colaborador.create', compact('puestos','departamentos', 'sub'));
+        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub'));
     }
 
     /**
@@ -101,7 +101,7 @@ class ColaboradorController extends Controller
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
         $sub = Subsedes::all();
-        return view ('administracion.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub'));
+        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub'));
     }
 
     /**

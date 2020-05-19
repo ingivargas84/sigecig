@@ -2,9 +2,9 @@
 
 @section('header')
 <section class="content-header">
-    <h1>
-      Listado de Usuarios
-      <small>Todos los usuarios</small>
+    <h1><center>
+      Usuarios
+      </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>

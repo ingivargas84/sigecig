@@ -112,20 +112,29 @@ function(){
     // Módulo de ResolucionPago
     Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
     Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
+    Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
+    Route::get('/resolucion/asap/{solicitud}', 'ResolucionPagoController@asap')->name('resolucion.asap');
+    Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
+    Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
+
+
 
     // Modulo de Tipos de pago
-    Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
-    Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
-    Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
-    Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
-    Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
-    Route::post('tipoDePago/{tipo}/update' , 'TipoDePagoController@update' );
-    Route::get('tipoDePago/{tipo}/edit', 'TipoDePagoController@edit' );
-    Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
-    Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
-    Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
-    Route::get('/tipoDePago/nombreDisponible/', 'TipoDePagoController@nombreDisponible');
-    Route::get('/tipoDePago/nombreDisponibleEdit/', 'TipoDePagoController@nombreDisponibleEdit');
+
+    Route::group(['middleware' => ['role:Administrador']], function () {
+        Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
+        Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
+        Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
+        Route::post( '/tipoDePago/save/' , 'TipoDePagoController@store')->name('tipoDePago.save');
+        Route::post('tipoDePago' , 'TipoDePagoController@store' )->name('tipoDePago.store');
+        Route::post('tipoDePago/{tipo}/update' , 'TipoDePagoController@update' );
+        Route::get('tipoDePago/{tipo}/edit', 'TipoDePagoController@edit' );
+        Route::post('/tipoDePago/{tipo}/destroy' , 'TipoDePagoController@destroy')->name('tipoDePago.destroy');
+        Route::post('/tipoDePago/{tipo}/delete' , 'TipoDePagoController@delete')->name('tipoDePago.delete');
+        Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
+        Route::get('/tipoDePago/nombreDisponible/', 'TipoDePagoController@nombreDisponible');
+        Route::get('/tipoDePago/nombreDisponibleEdit/', 'TipoDePagoController@nombreDisponibleEdit');
+    });
 
     // Modulo de Sub Sedes
     Route::get( '/subsedes' , 'SubsedesController@index')->name('subsedes.index');
@@ -142,6 +151,8 @@ function(){
 
     // Modulo de Creacion de Recibos
     Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
+
+
 });
 
 
