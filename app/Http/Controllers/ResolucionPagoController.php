@@ -139,9 +139,15 @@ class ResolucionPagoController extends Controller
     
     public function solicitudesPendientes()
     {
-        $cuenta = PlataformaSolicitudAp::all();
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",1)->get();
+        
+        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente','cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
+                ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
+                ->where('cc00.c_cliente', $cuenta[0]->n_colegiado)
+                ->get();  
+                
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta"))
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta","cuenta1"))
         ->setPaper('a4', 'landscape')
         ->stream('archivo.pdf');
     }

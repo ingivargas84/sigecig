@@ -20,7 +20,6 @@ class PlataformaSolicitudAp extends Model
         'no_acta',
         'no_punto_acta',
         'no_solicitud'
-
-        
     ];
+
 }
