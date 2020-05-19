@@ -20,7 +20,6 @@ class CreatePlataformaSolicitudesApTable extends Migration
             $table->Integer('id_estado_solicitud');
             $table->integer('id_banco');
             $table->Integer('id_tipo_cuenta');
-            $table->Integer('estado');
             $table->Integer('no_cuenta');
             $table->timestamps();
         });

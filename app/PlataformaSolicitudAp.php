@@ -15,8 +15,6 @@ class PlataformaSolicitudAp extends Model
         'id_estado_solicitud',
         'id_banco',
         'id_tipo_cuenta',
-        'estado',
         'no_cuenta'
-        
     ];
 }
