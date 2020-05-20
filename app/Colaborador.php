@@ -13,6 +13,7 @@ class Colaborador extends Model
         'dpi',
         'puesto',
         'departamento',
+        'subsede',
         'telefono',
         'estado',
         'usuario'

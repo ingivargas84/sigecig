@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li><a href="{{route('subsedes.index')}}"><i class="fa fa-list"></i> Colaboradores</a></li>
-          <li class="active">Crear</li>
+          <li class="active">Editar</li>
         </ol>
     </section>
 @stop
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <br>
-                            <div class="text-right mt-3">
+                        <div class="text-right m-t-15">
                                 <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
                                 <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
                             </div>

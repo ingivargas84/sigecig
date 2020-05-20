@@ -17,11 +17,22 @@ class CreateColaboradorTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('dpi');
-            $table->integer('puesto');
-            $table->integer('departamento');
+
+            $table->unsignedInteger('puesto')->nullable();
+            $table->foreign('puesto')->references('id')->on('sigecig_puesto')->onDelete('cascade');
+
+            $table->unsignedInteger('departamento')->nullable();
+            $table->foreign('departamento')->references('id')->on('sigecig_departamento')->onDelete('cascade');
+
+            $table->unsignedInteger('subsede')->nullable();
+            $table->foreign('subsede')->references('id')->on('sigecig_subsedes')->onDelete('cascade');
+
             $table->string('telefono');
-            $table->integer('usuario');
-            $table->integer('estado');
+
+            $table->unsignedInteger('usuario')->nullable();
+            $table->foreign('usuario')->references('id')->on('sigecig_users')->onDelete('cascade');
+
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }

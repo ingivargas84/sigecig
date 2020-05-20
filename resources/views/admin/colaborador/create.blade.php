@@ -14,6 +14,7 @@
     </section>
 @stop
 
+@section('content')
     <form method="POST" id="ColaboradorForm"  action="{{route('colaborador.save')}}">
 
             {{csrf_field()}}
@@ -54,8 +55,8 @@
                         <br>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label for="su">Subsedes:</label>
-                                <select name="subsedes" class="form-control">
+                                <label for="subsede">Subsedes:</label>
+                                <select name="subsede" class="form-control">
                                     <option value="">-- Escoja la subsedes del empleado --</option>
                                         @foreach ($sub as $su)
                                             <option value="{{ $su['id'] }}">{{ $su['nombre_sede'] }}</option>
@@ -63,8 +64,8 @@
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label for="user">Seleccione un Usuario:</label>
-                                <select name="user" class="form-control">
+                                <label for="usuario">Seleccione un Usuario:</label>
+                                <select name="usuario" class="form-control">
                                     <option value="">-- Escoja un Usuario--</option>
                                         @foreach ($user as $users)
                                             <option value="{{ $users['id'] }}">{{ $users['username'] }}</option>
@@ -83,7 +84,7 @@
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('colaborador.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonColaborador" name="ButtonColaborador">Guardar</button>
+                            <button class="btn btn-success form-button" id="ButtonColaborador" >Guardar</button>
                         </div>
 
                     </div>

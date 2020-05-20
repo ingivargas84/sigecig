@@ -77,7 +77,9 @@ var validator = $("#subsedesForm").validate({
 
 $("#ButtonSubsedes").click(function(event) {
 	if ($('#SubsedesForm').valid()) {
-		$('.loader').addClass("is-active");
+        $('.loader').addClass("is-active");
+        subsedes_table.ajax.reload();
+        alertify.success(' La sede ha sido creada con Éxito!!');
 	} else {
 		validator.focusInvalid();
 	}
