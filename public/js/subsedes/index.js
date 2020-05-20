@@ -33,6 +33,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
         "sthousands":      ",",
         "sProcessing":     "Procesando...",
         "sLengthMenu":     "Mostrar _MENU_ registros",
+        "lengthMenu":      "Mostrar _MENU_ registros",
         "sZeroRecords":    "No se encontraron resultados",
         "sEmptyTable":     "Ningún dato disponible en esta tabla",
         "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
@@ -152,9 +153,10 @@ $("#btnConfirmarAccion").click(function(event) {
 
 $(document).on('click', 'a.destroy-sede', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-error";
     var $this = $(this);
-    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la sede',
+    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la sede', null, null)
+        .set('labels', {ok:'Desactivar'}, 
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -162,24 +164,27 @@ $(document).on('click', 'a.destroy-sede', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
+                alertify.confirm().destroy();
                 subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('La sede desactivada con Éxito!!');
             });
          }
         , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
+            alertify.set('notifier','position', 'top-center', 'error');
         });
 });
 
 $(document).on('click', 'a.activar-sede', function(e) {
+    alertify.confirm().destroy();
     e.preventDefault(); // does not go through with the link.
-
     var $this = $(this);
-    alertify.confirm('Activar Sede', 'Esta seguro de activar la Sede',
+    alertify.defaults.theme.ok = "btn btn-confirm";
+    alertify.confirm('Activar Sede', 'Esta seguro de activar la Sede', null, null)
+    .set('labels', {ok:'Confirmar'}, 
         function(){
             $('.loader').fadeIn();
+            alertify.success('Ok');
             $.post({
                 type: $this.data('method'),
                 url: $this.attr('href')
@@ -192,7 +197,6 @@ $(document).on('click', 'a.activar-sede', function(e) {
          }
         , function(){
             alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
         });
 });
 

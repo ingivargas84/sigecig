@@ -2675,6 +2675,7 @@ a:focus {
 }
 .table-bordered {
   border: 1px solid #f4f4f4;
+
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -2687,6 +2688,8 @@ a:focus {
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
+  background: #03306D;
+  color: white;
 }
 .table.no-border,
 .table.no-border td,

@@ -72,7 +72,6 @@
         event.preventDefault();
         if ($('#FormTipoPagoUpdate').valid()) {
             updateModal();
-            //$('.loader').addClass("is-active");
         } else {
             validator.focusInvalid();
         }
@@ -85,7 +84,6 @@
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-            //url: urlActual+"/update/"+id,
             url: "/tipoDePago/"+id+"/update",
             data: formData,
             dataType: "json",
@@ -114,13 +112,6 @@
                 window.location.hash = '#edit';
 
         });
-
-
-    /*$(".edit-user").click(function(){
-        alert($(".edit-user").attr("data-id"));
-        console.log('si');
-
-    });*/
 
     $.validator.addMethod("nombreunicoedit", function(value, element){
         var valid = false;

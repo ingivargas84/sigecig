@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlataformaBanco extends Model
 {
-    protected $table = 'plataforma_bancos';
+    protected $table = 'sigecig_bancos';
 
     protected $fillable = [
         'id',

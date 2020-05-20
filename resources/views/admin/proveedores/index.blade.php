@@ -2,9 +2,9 @@
 
 @section('header')
 <section class="content-header">
-    <h1>
-      Listado de Proveedores
-      <small>Todos los proveedores</small>
+    <h1><center>
+      Proveedores
+      </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
