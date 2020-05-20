@@ -45,9 +45,10 @@
                                 <input type="text" class="form-control" name="correo_electronico" value="{{$su->correo_electronico}}">
                                 <input type="hidden" name="num" value="{{$su->id}}">
                         </div>
+                        </div>
                         <br>
                         <div class="row">
-                        <div class="text-right mt-3">
+                        <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
                             <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
                         </div>
