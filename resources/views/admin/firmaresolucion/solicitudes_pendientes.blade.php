@@ -35,12 +35,12 @@
 			<th>Teléfono </th>
 			<th>Fecha de Nacimiento</th>
 			<th>Colegio Pagado hasta</th>
-
 			<th>Timbre Pagado hasta</th>
 			<th>Fecha de solicitud</th>
 
 
 		</tr>
+		
 		@foreach($cuenta1 as $a1)
 		@foreach($cuenta as $a)
 		<tr>
