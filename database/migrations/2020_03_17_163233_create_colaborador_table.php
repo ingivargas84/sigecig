@@ -20,6 +20,7 @@ class CreateColaboradorTable extends Migration
             $table->integer('puesto');
             $table->integer('departamento');
             $table->string('telefono');
+            $table->integer('usuario');
             $table->integer('estado');
             $table->timestamps();
         });

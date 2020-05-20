@@ -7,7 +7,7 @@
 <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-blue">
       <div class="inner">
-        <h3>3</h3>
+        <h3>1</h3>
 
         <p>Registro de Llamadas</p>
       </div>
@@ -23,7 +23,7 @@
 <div class="col-lg-3 col-xs-6">
   <div class="small-box bg-green">
       <div class="inner">
-        <h3>1</h3>
+        <h3>2</h3>
 
         <p>Directorio de Colaboradores</p>
       </div>
@@ -36,7 +36,22 @@
     </div>
   </div>
 
-  
+<!-- @role('Administrador')
+<div class="col-lg-3 col-xs-6">
+  <div class="small-box bg-orange">
+      <div class="inner">
+        <h3>3</h3>
 
+        <p>Tipos de pago</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-ios-bookmarks"></i>
+      </div>
+      <a href="{{route('tipoDePago.index')}}" class="small-box-footer">
+        Mas info <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+@endrole -->
 
 @stop

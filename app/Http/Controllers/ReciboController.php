@@ -28,7 +28,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.creacionRecibo.index');
     }
 
     /**
@@ -95,5 +95,34 @@ class ReciboController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDatosColegiado($n_cliente)
+    {
+        $datos = DB::table('cc00')
+        ->select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago')
+        ->where('c_cliente', $c_cliente)
+        ->get();
+    }
+
+    public function getDatosEmpresa()
+    {
+        $tipoCliente = Input::get('tipoCliente');
+        if($tipoCliente == 'e') {
+            return $this->getDatosColegiado();
+        } else if ($tipoCliente == 'e') {
+            $query = "SELECT CODIGO colegiado, EMPRESA nombres, '' apellidos FROM MAEEMPR WHERE CODIGO=:nit";
+            $parametros = array(':nit' => Input::get('colegiado'));
+            $users = DB::select($query, $parametros);
+            $colegiadoR = null;
+            foreach($users as $colegiado) {
+                $colegiadoR = $colegiado;
+            }
+            if(!$colegiadoR) {
+                $respuesta = array('error' => '1', 'mensaje' => 'Datos no encontrados');
+                return json_encode($respuesta);
+            }
+            return json_encode($colegiadoR);
+        }
     }
 }

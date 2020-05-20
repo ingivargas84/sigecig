@@ -13,11 +13,22 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         'pageLength',
         {
             extend: 'excelHtml5',
-            filename: 'sigecig_tipos_de_pagos_fecha',
+            filename: function(){
+                        var d = new Date();
+                        return 'sigecig_tipos_de_pagos_' + d;
+                        },
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5 ]}
         },
         {
             extend: 'csvHtml5',
-            filename: 'sigecig_tipos_de_pagos_fecha',
+            filename: function(){
+                        var d = new Date();
+                        var n = d.getTime();
+                        return 'sigecig_tipos_de_pagos_' + d;
+                        },
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5 ]}
         }
     ],
 
@@ -169,7 +180,7 @@ $(document).on('click', 'a.destroy-tipodepago', function(e) {
     var idTipoPago = button[0].dataset.id;
     var codigo = button[0].dataset.codigo;
     var $this = $(this);
-    alertify.confirm('Desactivar tipo de pago', 'Esta seguro de Desactivar el tipo de pago con código: <strong>' +codigo + "</strong>", 
+    alertify.confirm('Desactivar tipo de pago', 'Esta seguro de Desactivar el tipo de pago con código: <strong>' +codigo + "</strong>",
         function(){
             $('.loader').fadeIn();
             $.post({

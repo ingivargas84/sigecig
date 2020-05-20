@@ -22,4 +22,5 @@ class PlataformaSolicitudAp extends Model
         'pdf_dpi_ap',
         'pdf_solicitud_ap'    
     ];
+
 }
