@@ -19,7 +19,7 @@ $.validator.addMethod("nombreunicoE", function(value, element){
         type: "GET",
         async: false,
         url: "/subsedes/nombreDisponibleEdit/",
-        data:"nombre_sede=" + value + "id=" + id,
+        data:"nombre_sede=" + value,
         dataType: "json",
         success: function (msg) {
             valid=!msg;
@@ -50,11 +50,7 @@ var validator = $("#subsedesUpdateForm").validate({
             ntel1 : true
 
         },
-        telefono_2: {
-            required : true,
-            number : true,
-            ntel1 : true
-		}
+
 	},
 	messages: {
 		nombre_sede: {
@@ -62,20 +58,17 @@ var validator = $("#subsedesUpdateForm").validate({
 
         },
         direccion: {
-			required: "Por favor, ingrese la Direccion de la sede "
+			required: "Por favor, ingrese la Dirección de la sede "
 		},
 		correo_electronico: {
-            required: "Por favor, ingrese su correo electronico",
-            email: "ingrese un correo electronico correcto. ej: correo@correo.com"
+            required: "Por favor, ingrese su correo electrónico",
+            email: "Ingrese un correo electronico correcto. ej: correo@correo.com"
 		},
 		telefono: {
-            required: "por favor, ingrese el numero de telefono de la sede ",
-            number: "debe ingresa un dato numerico"
+            required: "Por favor, ingrese el número de teléfono de la sede ",
+            number: "Debe ingresa un dato numerico"
         },
-        telefono_2: {
-            required: "por favor, ingrese el numero segundo numero de la subsede ",
-            number: "debe ingresa un dato numerico"
-		}
+
 	}
 });
 

@@ -1,4 +1,4 @@
-$.validator.addMethod("ntelc", function (value, element ){
+$.validator.addMethod("ntelc1", function (value, element ){
     var valor = value.length;
     if(valor == 8)
     {
@@ -11,7 +11,7 @@ $.validator.addMethod("ntelc", function (value, element ){
 }, "Debe ingresar el número de teléfono con 8 dígitos");// validacion de telefono
 
 
-    function cuiIsValid(cui){
+    function cuiIsValid(cui1){
         var console = window.console;
         if (!cui) {
             console.log("CUI vacío");
@@ -120,7 +120,7 @@ var validator = $("#ColaboradorUpdateForm").validate({
 		},
 		telefono:{
             required: true,
-            ntelc:   true
+            ntelc1:   true
 		},
 	},
 	messages: {

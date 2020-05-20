@@ -14,7 +14,9 @@ class Colaborador extends Model
         'puesto',
         'departamento',
         'telefono',
-        'estado'
+        'estado',
+        'usuario'
+
 
     ];
 }

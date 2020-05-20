@@ -13,12 +13,17 @@ var subsedes_table = $('#subsedes-table').DataTable({
     "buttons": [
         'pageLength',
         {
+
             extend: 'excelHtml5',
-            filename: 'Cig_Subsdes_fecha',
+            filename: 'Cig_Subsdes',
+            exportOptions: {
+            columns: [ 0, 1, 2, 3, 4 ]}
         },
         {
             extend: 'csvHtml5',
-            filename: 'Cig_Subsdes_fecha',
+            filename: 'Cig_Subsdes',
+            exportOptions: {
+            columns: [ 0, 1, 2, 3, 4 ]}
         }
     ],
 
@@ -159,7 +164,7 @@ $(document).on('click', 'a.destroy-sede', function(e) {
                 $('.loader').fadeOut(225);
                 subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success('Sede desactivada con Éxito!!');
+                    alertify.success('La sede desactivada con Éxito!!');
             });
          }
         , function(){
@@ -182,7 +187,7 @@ $(document).on('click', 'a.activar-sede', function(e) {
                 $('.loader').fadeOut(225);
                 subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success(' la sede ha sido activada con Éxito!!');
+                    alertify.success(' La sede ha sido activada con Éxito!!');
             });
          }
         , function(){

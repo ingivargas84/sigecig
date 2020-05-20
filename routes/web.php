@@ -94,8 +94,6 @@ function(){
     Route::get('/colaborador/getJson/', 'ColaboradorController@getJson')->name('colaborador.getJson');
     Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
     Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
-    Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
-    Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
     Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
     Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
     Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
