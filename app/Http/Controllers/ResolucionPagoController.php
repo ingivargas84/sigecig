@@ -11,124 +11,138 @@ use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
 use App\AdmPersona;
-
+use App\PlataformaBanco;
+use App\PlataformaTipoCuenta;
+use App\AdmUsuario;
+use Carbon\Carbon;
 
 class ResolucionPagoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+      public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-    function imprimir(Request $Nombre1){
-     
-        $adm_usuario=DB::table('adm_usuario')
-        ->join('adm_persona', 'adm_persona.idPersona', '=', 'adm_usuario.idPersona')
-        ->select('adm_persona.Nombre1')
-        ->get();
+    function imprimir(PlataformaSolicitudAp $id){
+        $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
 
-         $nombre = AdmPersona::where('Nombre1', '=', '$Nombre1')->get();
-      
-    // dd($nombre);
-     
-
-      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('nombre'));
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
         return $pdf->stream('ArchivoPDF.pdf');
     }
+
     public function index()
     {
-        {
-            $user = Auth::User();
-            return view ('admin.firmaresolucion.index', compact('user'));
-        }
+        $user = Auth::User();
+        return view ('admin.firmaresolucion.index', compact('user'));
     }
-
+    
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function create()
     {
         $user = new User;
     }
 
+    public function asap(PlataformaSolicitudAp $solicitud)
+    {
+        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get();
+
+        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta'));
+    }
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
     public function store(Request $request)
     {
         $user = new User;
     }
-
+    
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function show($id)
     {
         //
     }
-
+    
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function edit($id)
     {
         //
     }
 
+    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 8,
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
     public function addActa(PlataformaSolicitudAp $solicitud, Request $request)
     {
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
             'id_estado_solicitud' => 7,
-            );
+        );
         $json = json_encode($nuevos_datos);
-
-
+        
+        
         $solicitud->update($nuevos_datos);
-
+        
         //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
         return Response::json(['success' => 'Éxito']);
     }
-
+    
     public function mail(request $request)
     {
         $data = $request->all();
-
+        
         Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
             $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
             $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
-
-    });
-                
+            
+        });
+        
         return Response::json($data);
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    
     public function solicitudesPendientes()
     {
         $cuenta = PlataformaSolicitudAp::all();
@@ -137,24 +151,20 @@ class ResolucionPagoController extends Controller
         ->setPaper('a4', 'landscape')
         ->stream('archivo.pdf');
     }
-
+    
     public function getJson(Request $params)
-    {
-        $user_id = Auth::id();
-       
-        {
-        $query = "SELECT U.id, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
+    {  
+        $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
         FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
-        WHERE S.id >=3";
-        }
-    	
+        WHERE U.id_estado_solicitud >=2";
         
         $result = DB::select($query);
         $api_Result['data'] = $result;
-
+        
         return Response::json( $api_Result );
     }
+    
 }

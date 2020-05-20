@@ -112,9 +112,12 @@ function(){
     // Módulo de ResolucionPago
     Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
     Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
-    Route::post('auxiliopostumo/{solicitud}/acta' , 'ResolucionPagoController@addActa' );
+    Route::post('auxiliopostumo/{solicitud}/acta', 'ResolucionPagoController@addActa' );
+    Route::get('/resolucion/asap/{solicitud}', 'ResolucionPagoController@asap')->name('resolucion.asap');
+    Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
     Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
     Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
+    Route::post('resolucion/{tipo}/cambio', 'ResolucionPagoController@cambiarestado');
 
     // Modulo de Tipos de pago
     Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
@@ -145,6 +148,8 @@ function(){
 
     // Modulo de Creacion de Recibos
     Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
+
+
 });
 
 Route::get('/', function () {

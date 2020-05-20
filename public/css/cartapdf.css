@@ -17,6 +17,10 @@
 .texto1 {
   text-align: justify;
 }
+.texto2 {
+  margin-left: 20px;
+  text-align: justify;
+}
   .sender-column {
     text-align: right;
   }
@@ -35,7 +39,7 @@ table, td, th {
   border-collapse: collapse;
   border: 1px solid black;
   margin: 0 auto;
-
+  text-align: center;
 }
   h1 {
     font-size: 1.5em;
