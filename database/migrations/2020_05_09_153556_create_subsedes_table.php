@@ -18,7 +18,7 @@ class CreateSubsedesTable extends Migration
             $table->string('nombre_sede');
             $table->string('direccion');
             $table->string('telefono');
-            $table->string('telefono_2');
+            $table->string('telefono_2')->nullable();
             $table->string('correo_electronico');
             $table->integer('estado');
             $table->softDeletes();

@@ -14,6 +14,7 @@ use App\Colaborador;
 use App\Puesto;
 use App\Departamento;
 use App\Subsedes;
+use App\User;
 
 class ColaboradorController extends Controller
 {
@@ -41,8 +42,10 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
+        $user = User::all();
         $sub = Subsedes::all();
-        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub'));
+
+        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub', 'user'));
     }
 
     /**
@@ -59,6 +62,7 @@ class ColaboradorController extends Controller
         $colaborador->puesto=$request->get('puesto');
         $colaborador->departamento=$request->get('departamento');
         $colaborador->telefono=$request->get('telefono');
+        $colaborador->usuario=$request->get('usuario');
         $colaborador->estado=1;
         $colaborador->save();
 
@@ -100,8 +104,11 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
+        $user = User::all();
         $sub = Subsedes::all();
-        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub'));
+
+        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
+
     }
 
     /**
@@ -109,7 +116,7 @@ class ColaboradorController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function update(Colaborador $colaborador, Request $request)
     {
@@ -119,6 +126,7 @@ class ColaboradorController extends Controller
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
             'telefono' => $request->telefono,
+            'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
 
