@@ -33,7 +33,10 @@ Route::group([
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
         
-        
+        // Módulo Contabilidad Y JefeContabilidad
+        Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
+        Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
+
         // Módulo Contabilidad
         Route::get( '/proveedores' , 'ProveedoresController@index')->name('proveedores.index');
         Route::get( '/proveedores/getJson/' , 'ProveedoresController@getJson')->name('proveedores.getJson');
