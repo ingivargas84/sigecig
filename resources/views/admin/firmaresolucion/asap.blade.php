@@ -26,37 +26,37 @@
                             </div>
                             <div class="col-sm-7">
                                 <label for="nombre">Nombre Colegiado:</label>
-                                <input type="text" readonly class="form-control" placeholder="Nombre:" name="nombre" value="{{$solicitud->n_colegiado}}" >
+                                <input type="text" readonly class="form-control" placeholder="Nombre:" name="nombre" value="{{$colegiado->n_cliente}}" >
                             </div>
                             <div class="col-sm-3">
                             <label for="telefono">Fecha de Nacimiento:</label>
-                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$solicitud->fecha_solicitud}}">
+                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{ \Carbon\Carbon::parse($colegiado->fecha_nac)->format('d-m-Y')}}">
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-sm-9">
                                 <label for="telefono">Profesión:</label>
-                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$solicitud->fecha_solicitud}}">
+                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$profesion->n_profesion}}">
                             </div>
                             <div class="col-sm-3">
                                 <label for="dpi">DPI/CUI:</label>
-                                <input type="text" readonly class="form-control" placeholder="Dpi:" name="dpi" value="{{$solicitud->fecha_solicitud}}" >
+                                <input type="text" readonly class="form-control" placeholder="Dpi:" name="dpi" value="{{$colegiado->registro}}" >
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-sm-2">
-                                <label for="telefono">Teléfono:</label>
-                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$solicitud->fecha_solicitud}}">
+                                <label for="telefono">Teléfono(s):</label>
+                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$colegiado->telefono}}">
                             </div>
                             <div class="col-sm-4">
                                 <label for="dpi">Banco:</label>
-                                <input type="text" readonly class="form-control" placeholder="Banco:" name="banco" value="{{$banco[0]->nombre_banco}}" >
+                                <input type="text" readonly class="form-control" placeholder="Banco:" name="banco" value="{{$banco->nombre_banco}}" >
                             </div>
                             <div class="col-sm-3">
                                 <label for="telefono">Tipo de Cuenta:</label>
-                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$tipocuenta[0]->tipo_cuenta}}">
+                                <input type="text" readonly class="form-control" placeholder="Telefono:" name="telefono" value="{{$tipocuenta->tipo_cuenta}}">
                             </div>
                             <div class="col-sm-3">
                                 <label for="telefono">No Cuenta Bancaria:</label>

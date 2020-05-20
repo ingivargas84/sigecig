@@ -40,8 +40,8 @@
               <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="ButtonTipoModal" >Guardar</button>
+              <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button> -->
+                <button type="submit" class="btn btn-primary" id="ButtonTipoModal" style="padding: 6px 46px">GUARDAR</button>
             </div>
           </div>
     </div>

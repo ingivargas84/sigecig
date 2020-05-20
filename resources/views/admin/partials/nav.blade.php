@@ -5,7 +5,7 @@
   </li>
   <!-- Optionally, you can add icons to the links -->
   <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> <span>Inicio</span></a>
-  </li>   
+  </li>
 
   @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Compras|JefeRRHH")
   <li class="treeview {{request()->is('colaboradores*')? 'active': ''}}">
@@ -29,9 +29,15 @@
       @endrole
 
       @role("Super-Administrador|Administrador|JefeContabilidad|Gerencia|Auditoria|Compras")
-      <li class="{{request()->is('proveedores')? 'active': ''}}"><a href="{{route('proveedores.index')}}"> 
+      <li class="{{request()->is('proveedores')? 'active': ''}}"><a href="{{route('proveedores.index')}}">
         <i class="fa fa-eye"></i>Proveedores</a>
-      </li> 
+      </li>
+      @endrole
+
+      @role("Super-Administrador|Administrador")
+      <li class="{{request()->is('tipo')? 'active': ''}}"><a href="{{route('tipoDePago.index')}}">
+        <i class="fa fa-eye"></i>Tipo De Pago</a>
+      </li>
       @endrole
 
     </ul>
@@ -49,9 +55,9 @@
 
           @role("Super-Administrador|JuntaDirectiva|AsistenteJD")
           <ul class="treeview-menu">
-            <li class="{{request()->is('actas')? 'active': ''}}"><a href="{{route('acta.index')}}"> 
+            <li class="{{request()->is('actas')? 'active': ''}}"><a href="{{route('acta.index')}}">
               <i class="fa fa-eye"></i>Registro de Actas de JD</a>
-            </li>  
+            </li>
           </ul>
           @endrole
 
@@ -69,21 +75,21 @@
 
           @role("Super-Administrador|Administrador|AsistenteJD|JefeContabilidad|Auditoria|JefeInformatica|Asistente|JefeComisiones|JefeRRHH|TribunalHonor|TribunalElectoral|Compras|JefeCeduca|JefeTimbres")
           <ul class="treeview-menu">
-            <li class="{{request()->is('solicitud')? 'active': ''}}"><a href="{{route('solicitud.index')}}"> 
+            <li class="{{request()->is('solicitud')? 'active': ''}}"><a href="{{route('solicitud.index')}}">
               <i class="fa fa-eye"></i>Solicitud de Boletas</a>
-            </li>  
+            </li>
           </ul>
           @endrole
 
           @role("Super-Administrador|Gerencia|Asistente")
           <ul class="treeview-menu">
-            <li class="{{request()->is('boleta')? 'active': ''}}"><a href="{{route('boleta.index')}}"> 
+            <li class="{{request()->is('boleta')? 'active': ''}}"><a href="{{route('boleta.index')}}">
               <i class="fa fa-eye"></i>Administración de Boletas</a>
-            </li>  
+            </li>
           </ul>
           @endrole
 
-        </li> 
+        </li>
         @endrole
 
 
@@ -97,9 +103,9 @@
 
           @role("Super-Administrador|JefeTimbres|Timbre")
           <ul class="treeview-menu">
-            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}"> 
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Subsidio Auxilio Póstumo</a>
-            </li>  
+            </li>
           </ul>
           @endrole
 
@@ -116,10 +122,10 @@
 
           @role('Super-Administrador|JefeInformatica|SoporteInformatica')
           <ul class="treeview-menu">
-            <li class="{{request()->is('users')? 'active': ''}}"><a href="{{route('users.index')}}"> 
+            <li class="{{request()->is('users')? 'active': ''}}"><a href="{{route('users.index')}}">
               <i class="fa fa-eye"></i>Usuarios</a>
             </li>
-          </ul>          
+          </ul>
           @endrole
 
         </li>
@@ -132,11 +138,11 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
-  
+
             <ul class="treeview-menu">
-              <li class="{{request()->routeIs('negocio.edit')? 'active': ''}}"><a href="{{route('negocio.edit', 1)}}"> 
+              <li class="{{request()->routeIs('negocio.edit')? 'active': ''}}"><a href="{{route('negocio.edit', 1)}}">
                 <i class="fa fa-edit"></i>Editar Mi Negocio</a>
-              </li>  
+              </li>
             </ul>
         </li>
         @endrole
