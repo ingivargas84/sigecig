@@ -31,7 +31,7 @@ class BoletaController extends Controller
      */
     public function index()
     {
-        return view ('gerencia.boleta.index');
+        return view ('admin.boleta.index');
     }
 
     /**
@@ -41,7 +41,7 @@ class BoletaController extends Controller
      */
     public function create()
     {
-        return view ('gerencia.boleta.create');
+        return view ('admin.boleta.create');
     }
 
     /**
@@ -83,7 +83,7 @@ class BoletaController extends Controller
      */
     public function edit(Boleta $boleta)
     {
-        return view('gerencia.boleta.edit', compact('boleta'));
+        return view('admin.boleta.edit', compact('boleta'));
     }
 
     /**

@@ -16,9 +16,11 @@ class CreateColaboradorTable extends Migration
         Schema::create('sigecig_colaborador', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->string('dpi');
             $table->integer('puesto');
             $table->integer('departamento');
             $table->string('telefono');
+            $table->integer('usuario');
             $table->integer('estado');
             $table->timestamps();
         });

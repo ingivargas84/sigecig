@@ -10,8 +10,12 @@
 
   <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
   <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Muli">
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
+    <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+  
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
@@ -37,8 +41,7 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datepicker/datepicker3.css')}}">
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+
 
   <link rel="stylesheet" href="{{asset('adminlte/css/skins/skin-blue.min.css')}}">
 
@@ -98,11 +101,11 @@
                   <small>Desde {{ auth()->user()->created_at->format('d/M/Y') }}</small>
                 </p>
               </li>
-
               <li class="user-footer">
+                <button class="btn btn-default btn-flat btn-block" href="#" data-toggle="modal" data-target="#modalResetPassword">Cambiar Contraseña</button>
                 <form  method="POST" action=" {{ route('logout') }} ">
                   {{ csrf_field() }}
-                  <button class="btn btn-default btn-flat btn-block">Cerrar sesion</button>
+                  <button class="btn btn-default btn-flat btn-block">Cerrar sesión</button>
                 </form>
               </li>
     
@@ -114,6 +117,23 @@
     </nav>
   </header>
   
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar Menu -->
+
+      @include('admin.partials.nav')
+
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

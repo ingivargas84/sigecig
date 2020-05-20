@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Colaborador;
 use App\Puesto;
 use App\Departamento;
+use App\Subsedes;
+use App\User;
 
 class ColaboradorController extends Controller
 {
@@ -28,7 +30,7 @@ class ColaboradorController extends Controller
      */
     public function index()
     {
-        return view ('administracion.colaborador.index');
+        return view ('admin.colaborador.index');
     }
 
     /**
@@ -40,7 +42,10 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
-        return view ('administracion.colaborador.create', compact('puestos','departamentos')); 
+        $user = User::all();
+        $sub = Subsedes::all();
+
+        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub', 'user'));
     }
 
     /**
@@ -53,13 +58,29 @@ class ColaboradorController extends Controller
     {
         $colaborador=new Colaborador;
         $colaborador->nombre=$request->get('nombre');
+        $colaborador->dpi=$request->get('dpi');
         $colaborador->puesto=$request->get('puesto');
         $colaborador->departamento=$request->get('departamento');
         $colaborador->telefono=$request->get('telefono');
+        $colaborador->usuario=$request->get('usuario');
         $colaborador->estado=1;
         $colaborador->save();
 
         return redirect()->route('colaborador.index')->withFlash('Colaborador se creo exitosamente!');
+    }
+
+    public function dpiDisponible(){
+        $dato = Input::get("dpi");
+        $query = Colaborador::where("dpi",$dato)->where('estado', 1)->get();
+             $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
     }
 
     /**
@@ -83,7 +104,11 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
-        return view ('administracion.colaborador.edit', compact('colaborador','puestos','departamentos')); 
+        $user = User::all();
+        $sub = Subsedes::all();
+
+        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
+
     }
 
     /**
@@ -91,15 +116,17 @@ class ColaboradorController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function update(Colaborador $colaborador, Request $request)
     {
         $nuevos_datos = array(
             'nombre' => $request->nombre,
+            'dpi' => $request->dpi,
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
             'telefono' => $request->telefono,
+            'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
 
@@ -118,12 +145,12 @@ class ColaboradorController extends Controller
     {
         $colaborador->estado=0;
         $colaborador->save();
-        return Response::json(['success' => 'Éxito']); 
+        return Response::json(['success' => 'Éxito']);
     }
 
     public function getJson(Request $params)
      {
-         $api_Result['data'] = Colaborador::where('estado','!=',0)->get(); 
+         $api_Result['data'] = Colaborador::where('estado','!=',0)->get();
          return Response::json( $api_Result );
      }
-}
+    }

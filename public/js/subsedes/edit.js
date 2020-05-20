@@ -1,4 +1,4 @@
-$.validator.addMethod("ntel", function (value, element ){
+$.validator.addMethod("ntel1", function (value, element ){
     var valor = value.length;
     if(valor == 8)
     {
@@ -11,14 +11,31 @@ $.validator.addMethod("ntel", function (value, element ){
 }, "Debe ingresar el número de teléfono con 8 dígitos");
 
 
+$.validator.addMethod("nombreunicoE", function(value, element){
+    var valid = false;
+    var id = $("input[name='num']").val();
+    var urlActual = $("input[name='urlActual']").val();
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "/subsedes/nombreDisponibleEdit/",
+        data:"nombre_sede=" + value,
+        dataType: "json",
+        success: function (msg) {
+            valid=!msg;
+        }
+    });
+    return valid;
+    }, "El nombre ya esta registrado en el sistema");
 
-var validator = $("#subsedesForm").validate({
+
+var validator = $("#subsedesUpdateForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
 		nombre_sede:{
-            required: true
-
+            required: true,
+            nombreunicoE: true
         },
             direccion:{
                 required: true
@@ -30,36 +47,28 @@ var validator = $("#subsedesForm").validate({
 		},
 		telefono: {
             required : true,
-            ntel : true
+            ntel1 : true
 
         },
-        telefono_2: {
-            required : true,
-            number : true,
-            ntel : true
-		}
+
 	},
 	messages: {
 		nombre_sede: {
-			required: "Por favor, ingrese el nombre de la subsede"
+            required: "Por favor, ingrese el nombre de la subsede"
+
         },
         direccion: {
-			required: "Por favor, ingrese la Direccion de la sede "
+			required: "Por favor, ingrese la Dirección de la sede "
 		},
 		correo_electronico: {
-            required: "Por favor, ingrese su correo electronico",
-            email: "ingrese un correo electronico correcto. ej: correo@correo.com"
+            required: "Por favor, ingrese su correo electrónico",
+            email: "Ingrese un correo electronico correcto. ej: correo@correo.com"
 		},
 		telefono: {
-            required: "por favor, ingrese el numero de telefono de la sede ",
-            number: "debe ingresa un dato numerico",
-            ntel : "El número de teléfono debe contener 8 digitos"
+            required: "Por favor, ingrese el número de teléfono de la sede ",
+            number: "Debe ingresa un dato numerico"
         },
-        telefono_2: {
-            required: "por favor, ingrese el numero segundo numero de la subsede ",
-            number: "debe ingresa un dato numerico",
-            ntel: "El número de teléfono debe contener 8 digitos"
-		}
+
 	}
 });
 

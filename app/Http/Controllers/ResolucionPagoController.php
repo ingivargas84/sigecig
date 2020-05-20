@@ -1,0 +1,181 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Input;
+use Barryvdh\DomPDF\ServiceProvider;
+use App\PlataformaSolicitudAp;
+use App\AdmPersona;
+use App\PlataformaBanco;
+use App\PlataformaTipoCuenta;
+use App\AdmUsuario;
+use Carbon\Carbon;
+use App\SQLSRV_Colegiado;
+use App\SQLSRV_Profesion;
+
+
+
+class ResolucionPagoController extends Controller
+{
+      public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    function imprimir(PlataformaSolicitudAp $id){
+        $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
+        return $pdf->stream('ArchivoPDF.pdf');
+    }
+
+    public function index()
+    {
+        $user = Auth::User();
+        return view ('admin.firmaresolucion.index', compact('user'));
+    }
+    
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create()
+    {
+        $user = new User;
+    }
+
+    public function asap(PlataformaSolicitudAp $solicitud)
+    {
+        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get()->first();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+
+        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion'));
+    }
+    
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request)
+    {
+        $user = new User;
+    }
+    
+    /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function show($id)
+    {
+        //
+    }
+    
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function edit($id)
+    {
+        //
+    }
+
+    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 8,
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
+    
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function addActa(PlataformaSolicitudAp $solicitud, Request $request)
+    {
+        $nuevos_datos = array(
+            'no_acta' => $request->no_acta,
+            'no_punto_acta' => $request->no_punto_acta,
+            'id_estado_solicitud' => 7,
+        );
+        $json = json_encode($nuevos_datos);
+        
+        
+        $solicitud->update($nuevos_datos);
+        
+        //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
+        return Response::json(['success' => 'Éxito']);
+    }
+    
+    public function mail(request $request)
+    {
+        $data = $request->all();
+        
+        Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
+            $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
+            $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
+            
+        });
+        
+        return Response::json($data);
+    }
+    
+
+    public function destroy($id)
+    {
+        //
+    }
+
+    
+    public function solicitudesPendientes()
+    {
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",2)->get();
+        
+        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente','cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
+                ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
+                ->where('cc00.c_cliente', $cuenta[0]->n_colegiado)
+                ->get();  
+                
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta","cuenta1"))
+        ->setPaper('a4', 'landscape')
+        ->stream('archivo.pdf');
+    }
+    
+    public function getJson(Request $params)
+    {  
+        $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
+        FROM sigecig_solicitudes_ap U
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
+        INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
+        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
+        WHERE U.id_estado_solicitud >=2";
+        
+        $result = DB::select($query);
+        $api_Result['data'] = $result;
+        
+        return Response::json( $api_Result );
+    }
+    
+}
