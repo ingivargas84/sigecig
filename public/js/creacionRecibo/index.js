@@ -16,6 +16,18 @@ function obtenerDatosColegiado()
     url:  '/colegiado/' + valor,
     success: function(response){
         if(response != ""){
+            var D = new Date(response.f_ult_timbre);
+            var d = D.getDate();
+            var m = D.getMonth();
+            var y = D.getFullYear();
+            response.f_ult_timbre = d + '/' + m + '/' + y;
+
+            var D = new Date(response.f_ult_pago);
+            var d = D.getDate();
+            var m = D.getMonth();
+            var y = D.getFullYear();
+            response.f_ult_pago = d + '/' + m + '/' + y;
+
             $("input[name='n_cliente']").val(response.n_cliente);
             $("input[name='estado']").val(response.estado);
             $("input[name='f_ult_timbre']").val(response.f_ult_timbre);

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Empresa;
+use App\TipoDePago;
 use App\User;
 use Validator;
 
@@ -28,7 +29,8 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        return view('admin.creacionRecibo.index');
+        $tipo = TipoDePago::all();
+        return view('admin.creacionRecibo.index', compact('tipo'));
     }
 
     /**
