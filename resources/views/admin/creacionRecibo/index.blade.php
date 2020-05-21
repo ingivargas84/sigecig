@@ -10,7 +10,7 @@
 @section('content')
 
 
-<form method="POST" >
+<form method="POST" id="ReciboForm">
             {{csrf_field()}}
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -47,27 +47,35 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <div class="form-group">
                                         <label for="n_cliente" class="control-label">Nombres</label>
                                         <div>
-                                            <input type="text" id="n_cliente" name="n_cliente" required class="form-control">
+                                            <input type="text" disabled id="n_cliente" name="n_cliente" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divStatus" style="display: block;">
+                                <div class="col-sm-1" id="divStatus" style="display: block;">
                                     <div class="form-group">
-                                        <label for="status" class="control-label">Status</label>
+                                        <label for="estado" class="control-label">Status</label>
                                         <div>
-                                            <input id="status" disabled type="text" class="form-control" name="status" style="color: rgb(0, 128, 0)">
+                                            <input id="estado" disabled type="text" class="form-control" name="estado" style="color: rgb(0, 128, 0)">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divMontoTimbre" style="display: block;">
+                                <div class="col-sm-2" id="divf_ult_timbre" style="display: block;">
                                     <div class="form-group">
-                                        <label for="montotimbre" class="control-label">Pago Timbre</label>
+                                        <label for="f_ult_timbre" class="control-label">Pago Timbre</label>
                                         <div>
-                                            <input id="montotimbre" disabled type="text" class="form-control" name="montotimbre" style="color: rgb(0, 128, 0)">
+                                            <input id="f_ult_timbre" disabled type="text" class="form-control" name="f_ult_timbre" style="color: rgb(0, 128, 0)">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="divf_ult_pago" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="f_ult_pago" class="control-label">Pago Colegio</label>
+                                        <div>
+                                            <input id="f_ult_pago" disabled type="text" class="form-control" name="f_ult_pago" style="color: rgb(0, 128, 0)">
                                         </div>
                                     </div>
                                 </div>
@@ -77,17 +85,17 @@
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label for="c_cliente" class="control-label">Nit</label>
+                                        <label for="nit" class="control-label">Nit</label>
                                         <div>
-                                            <input type="text" id="c_cliente" name="c_cliente" required class="form-control">
+                                            <input type="text" id="nit" name="nit" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="n_cliente" class="control-label">Nombres</label>
+                                        <label for="empresa" class="control-label">Empresa</label>
                                         <div>
-                                            <input type="text" id="n_cliente" name="n_cliente" required class="form-control">
+                                            <input type="text" disabled id="empresa" name="empresa" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -99,9 +107,13 @@
 </form>
     <div class="loader loader-bar"></div>
 
+@endsection
+
+@push('scripts')
+<script src="{{asset('js/creacionRecibo/index.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $("div.desc").hide();
+        $("#e").hide();
         $("input[name$='tipoCliente']").click(function() {
             var test = $(this).val();
             $("div.desc").hide();
@@ -110,4 +122,4 @@
 });
 </script>
 
-@endsection
+@endpush
