@@ -7,10 +7,14 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
+use App\AdmPersona;
 use App\PlataformaBanco;
 use App\PlataformaTipoCuenta;
+use App\AdmUsuario;
+use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
 
@@ -18,23 +22,20 @@ use App\SQLSRV_Profesion;
 
 class ResolucionPagoController extends Controller
 {
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    
-    public function __construct()
+      public function __construct()
     {
         $this->middleware('auth');
     }
-    
-    function imprimir(){
-        $pdf = \PDF::loadView('admin.firmaresolucion.pdf');
-        return $pdf->stream('primerpdf.pdf');
+
+    function imprimir(PlataformaSolicitudAp $id){
+        $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
+        return $pdf->stream('ArchivoPDF.pdf');
     }
-    
-    
+
     public function index()
     {
         $user = Auth::User();
@@ -93,6 +94,17 @@ class ResolucionPagoController extends Controller
     {
         //
     }
+
+    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 8,
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
     
     /**
     * Update the specified resource in storage.
@@ -139,10 +151,23 @@ class ResolucionPagoController extends Controller
     
     public function solicitudesPendientes()
     {
-        $cuenta = PlataformaSolicitudAp::all();
+        $path = 'images/timbre.png';
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta"))
-        ->setPaper('a4', 'landscape')
+        $mytime = Carbon::now();
+        $ap = PlataformaSolicitudAp::where("id_estado_solicitud",4)->orderBy("n_colegiado", "asc")->get();
+
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",4)->pluck('n_colegiado');
+        
+        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente','cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
+                ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
+                ->whereIn('cc00.c_cliente', $cuenta)
+                ->orderBy("c_cliente", "asc")
+                ->get();  
+
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64"))
+        ->setPaper('legal', 'landscape')
         ->stream('archivo.pdf');
     }
     
@@ -160,8 +185,5 @@ class ResolucionPagoController extends Controller
         
         return Response::json( $api_Result );
     }
-    
-    
-    
     
 }

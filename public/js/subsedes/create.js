@@ -50,31 +50,26 @@ var validator = $("#subsedesForm").validate({
             number : true,
             ntel: true
         },
-        telefono_2: {
-            required : true,
-            number : true,
-            ntel: true
-		}
+
 	},
 	messages: {
 		nombre_sede: {
             required: "Por favor, ingrese el nombre de la subsede"
         },
         direccion: {
-			required: "Por favor, ingrese la Direccion de la sede"
+			required: "Por favor, ingrese la Dirección de la sede"
 		},
 		correo_electronico: {
-            required: "Por favor, ingrese su correo electronico",
-            email: "ingrese un correo electronico correcto. ej: correo@correo.com"
+            required: "Por favor, ingrese su correo electrónico",
+            email: "ingrese un correo electrónico correcto. ej: correo@correo.com"
 		},
 		telefono: {
-            required: "por favor, ingrese el numero de telefono de la sede ",
-            number: "debe ingresa un dato numerico",
+            required: "Por favor, ingrese el número de teléfono de la sede ",
+            number: "Debe ingresa un dato numerico",
             ntel: "El número de teléfono debe contener 8 digitos"
         },
         telefono_2: {
-            required: "por favor, ingrese el numero segundo numero de la subsede ",
-            number: "debe ingresa un dato numerico",
+            number: "Debe ingresa un dato numerico",
             ntel: "El número de teléfono debe contener 8 digitos"
 		}
 	}
@@ -82,7 +77,9 @@ var validator = $("#subsedesForm").validate({
 
 $("#ButtonSubsedes").click(function(event) {
 	if ($('#SubsedesForm').valid()) {
-		$('.loader').addClass("is-active");
+        $('.loader').addClass("is-active");
+        subsedes_table.ajax.reload();
+        alertify.success(' La sede ha sido creada con Éxito!!');
 	} else {
 		validator.focusInvalid();
 	}

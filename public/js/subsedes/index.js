@@ -14,11 +14,33 @@ var subsedes_table = $('#subsedes-table').DataTable({
         'pageLength',
         {
             extend: 'excelHtml5',
-            filename: 'Cig_Subsdes_fecha',
+            filename: function(){
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
+                        },
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5 ]}
         },
         {
             extend: 'csvHtml5',
-            filename: 'Cig_Subsdes_fecha',
+            filename: function(){
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
+                        },
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5 ]}
         }
     ],
 
@@ -112,7 +134,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
                 "<i class='fa fa-btn fa-edit' title='Editar sede'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-sede'"+ "data-method='post' data-id='"+full.id+"' >" +
+                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-sede'"+ "data-method='post' data-id='"+full.id+"' data-nombre_sede='" + full.nombre_sede +"'>" +
                 "<i class='fa fa-thumbs-down' title='Desactivar Sede'></i>" +
                 "</a>" + "</div>";
 
@@ -120,7 +142,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-sede'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-sede'"+ "data-method='post' data-id='"+full.id+"' data-nombre_sede='" + full.nombre_sede +"'>" +
                     "<i class='fa fa-thumbs-up' title='Activar Sede'></i>" +
                     "</a>" + "</div>";
                 }else{
@@ -146,12 +168,20 @@ $("#btnConfirmarAccion").click(function(event) {
 	}
 });
 
+setTimeout(function() {
+    $("#alert-success").hide('blind', {}, 500)
+}, 5000);
+
+
 $(document).on('click', 'a.destroy-sede', function(e) {
     e.preventDefault(); // does not go through with the link.
     alertify.defaults.theme.ok = "btn btn-error";
+    var button = $(e.currentTarget);
+    var idSubsede = button[0].dataset.id;
+    var nombre = button[0].dataset.nombre_sede;
     var $this = $(this);
-    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la sede', null, null)
-        .set('labels', {ok:'Desactivar'}, 
+    alertify.confirm('Desactivar Sede', 'Esta seguro en desactivar la sede con nombre: <strong>' +nombre + "</strong>",
+        //.set('labels', {ok:'Desactivar'},
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -162,7 +192,7 @@ $(document).on('click', 'a.destroy-sede', function(e) {
                 alertify.confirm().destroy();
                 subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success('Sede desactivada con Éxito!!');
+                    alertify.success('La sede desactivada con Éxito!!');
             });
          }
         , function(){
@@ -175,8 +205,11 @@ $(document).on('click', 'a.activar-sede', function(e) {
     e.preventDefault(); // does not go through with the link.
     var $this = $(this);
     alertify.defaults.theme.ok = "btn btn-confirm";
-    alertify.confirm('Activar Sede', 'Esta seguro de activar la Sede', null, null)
-    .set('labels', {ok:'Confirmar'}, 
+    var button = $(e.currentTarget);
+    var idSubsede = button[0].dataset.id;
+    var nombre = button[0].dataset.nombre_sede;
+    alertify.confirm('Activar Sede', 'Esta seguro de activar la Sede con mombre: <strong>' +nombre + "</strong>",
+    //.set('labels', {ok:'Confirmar'},
         function(){
             $('.loader').fadeIn();
             alertify.success('Ok');
@@ -187,7 +220,7 @@ $(document).on('click', 'a.activar-sede', function(e) {
                 $('.loader').fadeOut(225);
                 subsedes_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success(' la sede ha sido activada con Éxito!!');
+                    alertify.success(' La sede ha sido activada con Éxito!!');
             });
          }
         , function(){

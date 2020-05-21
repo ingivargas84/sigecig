@@ -12,7 +12,6 @@
     </ol>
   </section>
 
-
   @section('content')
 @include('admin.firmaresolucion.acta')
 
@@ -39,6 +38,12 @@
 @endpush
 
 @push('scripts')
+  <script>
+    $(document).ready(function() {
+        resolucion_table.ajax.url("{{route('resolucion.getJson')}}").load();
+    });
+  
+</script>
 
   <script src="{{asset('js/resolucion/index.js')}}"></script>
 

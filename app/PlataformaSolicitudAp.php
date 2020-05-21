@@ -15,12 +15,12 @@ class PlataformaSolicitudAp extends Model
         'id_estado_solicitud',
         'id_banco',
         'id_tipo_cuenta',
-        'estado',
         'no_cuenta',
+        'no_solicitud',
         'no_acta',
-        'no_punto_acta',
-        'no_solicitud'
-
-        
+        'no_punto_acta',       
+        'pdf_dpi_ap',
+        'pdf_solicitud_ap'    
     ];
+
 }
