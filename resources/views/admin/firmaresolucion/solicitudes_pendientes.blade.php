@@ -26,10 +26,14 @@
 
 </style>
 <body>
+	<div style="display: inline-block;">
+	<img src="{{$base64}}" width="150" height="150">
+	</div>
+	<div style="display: inline-block; margin-left: -180px">
+
 	<h1><center>Solicitudes Subsidio de Auxilio Póstumo </center></h1>
 	<h2><center>Pendientes de Aprobación </center></h2>
-
-
+	</div>
 	<table style="width:100%">
 		<tr>
 			<th>Colegiado </th>
@@ -60,6 +64,7 @@
 		</tr>
 		@endforeach
 	</table>
+	<strong>Fecha y hora de impresión: </strong>{{$mytime}}
 
 </body>
 

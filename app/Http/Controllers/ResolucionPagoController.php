@@ -151,7 +151,11 @@ class ResolucionPagoController extends Controller
     
     public function solicitudesPendientes()
     {
+        $path = 'images/timbre.png';
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
 
+        $mytime = Carbon::now();
         $ap = PlataformaSolicitudAp::where("id_estado_solicitud",4)->orderBy("n_colegiado", "asc")->get();
 
         $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",4)->pluck('n_colegiado');
@@ -162,7 +166,7 @@ class ResolucionPagoController extends Controller
                 ->orderBy("c_cliente", "asc")
                 ->get();  
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap"))
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64"))
         ->setPaper('legal', 'landscape')
         ->stream('archivo.pdf');
     }
