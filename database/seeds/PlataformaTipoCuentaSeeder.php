@@ -13,11 +13,11 @@ class PlataformaTipoCuentaSeeder extends Seeder
     public function run()
     {
         $cta=new PlataformaTipoCuenta();
-        $cta->tipo_cuenta="Cuenta Monetaria";
+        $cta->tipo_cuenta="Monetaria";
         $cta->save();
 
         $cta=new PlataformaTipoCuenta();
-        $cta->tipo_cuenta="Cuenta de Ahorro";
+        $cta->tipo_cuenta="Ahorro";
         $cta->save();
     }
 }

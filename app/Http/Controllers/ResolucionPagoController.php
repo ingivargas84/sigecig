@@ -7,10 +7,14 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
+use App\AdmPersona;
 use App\PlataformaBanco;
 use App\PlataformaTipoCuenta;
+use App\AdmUsuario;
+use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
 
@@ -18,23 +22,20 @@ use App\SQLSRV_Profesion;
 
 class ResolucionPagoController extends Controller
 {
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-    
-    public function __construct()
+      public function __construct()
     {
         $this->middleware('auth');
     }
-    
-    function imprimir(){
-        $pdf = \PDF::loadView('admin.firmaresolucion.pdf');
-        return $pdf->stream('primerpdf.pdf');
+
+    function imprimir(PlataformaSolicitudAp $id){
+        $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
+        return $pdf->stream('ArchivoPDF.pdf');
     }
-    
-    
+
     public function index()
     {
         $user = Auth::User();
@@ -92,6 +93,17 @@ class ResolucionPagoController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 8,
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
     }
     
     /**
@@ -164,8 +176,5 @@ class ResolucionPagoController extends Controller
         
         return Response::json( $api_Result );
     }
-    
-    
-    
     
 }

@@ -20,11 +20,12 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->Integer('id_estado_solicitud');
             $table->integer('id_banco');
             $table->Integer('id_tipo_cuenta');
-            $table->Integer('estado');
             $table->Integer('no_cuenta');
-            $table->integer('no_solicitud');
+            $table->integer('no_solicitud')->nullable();
             $table->integer('no_acta')->nullable();
             $table->string('no_punto_acta', 10)->nullable();
+            $table->string('pdf_dpi_ap', 255)->nullable();
+            $table->string('pdf_solicitud_ap', 100)->nullable();
             $table->timestamps();
         });
     }

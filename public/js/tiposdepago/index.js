@@ -14,8 +14,14 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         {
             extend: 'excelHtml5',
             filename: function(){
-                        var d = new Date();
-                        return 'sigecig_tipos_de_pagos_' + d;
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                         },
             exportOptions: {
                 columns: [ 0, 1, 2, 3, 4, 5 ]}
@@ -23,9 +29,14 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         {
             extend: 'csvHtml5',
             filename: function(){
-                        var d = new Date();
-                        var n = d.getTime();
-                        return 'sigecig_tipos_de_pagos_' + d;
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                         },
             exportOptions: {
                 columns: [ 0, 1, 2, 3, 4, 5 ]}

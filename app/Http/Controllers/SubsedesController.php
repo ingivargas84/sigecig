@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
 use App\Subsedes;
@@ -65,7 +66,8 @@ class SubsedesController extends Controller
 
 
         event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $su, 'subsedes' ));
-        return redirect()->route('subsedes.index')->withFlash('subsede se creo exitosamente!');
+
+        return redirect()->route('subsedes.index')->with('flash','La Subsede ha sido creada correctamente');
     }
 
     /**
