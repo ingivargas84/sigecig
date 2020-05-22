@@ -115,4 +115,12 @@ class ReciboController extends Controller
 
         return $consulta;
     }
+
+    public function getTipoDePago($tipo)
+    {
+        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular')
+            ->where('id', $tipo)->get()->first();
+
+            return $consulta;
+    }
 }

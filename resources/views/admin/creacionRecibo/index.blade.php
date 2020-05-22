@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         <label for="cantidad" class="control-label">Cantidad</label>
                                         <div>
-                                            <input id="cantidad" disabled type="text" class="form-control" name="cantidad">
+                                            <input id="cantidad" type="text" class="form-control" name="cantidad">
                                         </div>
                                     </div>
                                 </div>
@@ -129,19 +129,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divDescripcion" style="display: block;">
+                                <div class="col-sm-4" id="divdescTipoPagoColegiado" style="display: block;">
                                     <div class="form-group">
-                                        <label for="descripcion" class="control-label">Descripcion</label>
+                                        <label for="descTipoPagoColegiado" class="control-label">Descripcion</label>
                                         <div>
-                                            <input id="descripcion" disabled type="text" class="form-control" name="descripcion">
+                                            <input id="descTipoPagoColegiado" disabled type="text" class="form-control" name="descTipoPagoColegiado">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divsubtotal" style="display: block;">
+                                <div class="col-sm-2" id="divsubtotalColegiado" style="display: block;">
                                     <div class="form-group">
-                                        <label for="subtotal" class="control-label">Subtotal</label>
+                                        <label for="subtotalColegiado" class="control-label">Subtotal</label>
                                         <div>
-                                            <input id="subtotal" disabled type="text" class="form-control" name="subtotal">
+                                            <input id="subtotalColegiado" disabled type="text" class="form-control" name="subtotalColegiado">
                                         </div>
                                     </div>
                                 </div>

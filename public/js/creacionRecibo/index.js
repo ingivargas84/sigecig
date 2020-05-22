@@ -70,3 +70,24 @@ function obtenerDatosEmpresa()
   });
 }
 
+$(document).ready(function () {
+    $("#codigo").change (function () {
+        var valor = $("#codigo").val();
+        $.ajax({
+            type: 'GET',
+            url: '/tipoPagoColegiado/' + valor,
+            success: function(response){
+                //if(valor != null){
+                    $("input[name='precioU']").val(response.precio_colegiado);
+                    $("input[name='descTipoPagoColegiado']").val(response.tipo_de_pago);
+                //}else {
+            },
+            error: function() {
+                    $("input[name='precioU']").val('');
+                    $("input[name='descTipoPagoColegiado']").val('');
+                }
+        });
+    });
+});
+
+
