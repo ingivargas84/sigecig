@@ -149,6 +149,9 @@ Route::group([
 
         // Modulo de Creacion de Recibos
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
+        Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
+        Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
+        Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
 
 
     });

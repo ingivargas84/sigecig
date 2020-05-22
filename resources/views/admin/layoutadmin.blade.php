@@ -145,11 +145,11 @@
     <section class="content">
 
       @if(session()->has('flash'))
-        <div class="alert alert-success">{{ session('flash') }}
+        <div class="alert alert-success" id="alert-success">{{ session('flash') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
         </div>
       @elseif(session()->has('alerta'))
-        <div class="alert alert-warning">{{ session('alerta') }}
+        <div class="alert alert-warning" id="alert-warning">{{ session('alerta') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
         </div>
       @endif

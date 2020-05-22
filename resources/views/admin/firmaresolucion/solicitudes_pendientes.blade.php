@@ -19,16 +19,24 @@
 		margin-bottom: 7px;
 	}
 
+	th {
+		text-align: left;
+	}
+
 
 </style>
 <body>
+	<div style="display: inline-block;">
+	<img src="{{$base64}}" width="150" height="150">
+	</div>
+	<div style="display: inline-block; margin-left: -180px">
+
 	<h1><center>Solicitudes Subsidio de Auxilio Póstumo </center></h1>
 	<h2><center>Pendientes de Aprobación </center></h2>
-
-
+	</div>
 	<table style="width:100%">
 		<tr>
-			<th>No. Colegiado </th>
+			<th>Colegiado </th>
 			<th>Nombre Completo</th>
 			<th>DPI</th>
 			<th>Profesión</th>
@@ -39,12 +47,11 @@
 			<th>Fecha de solicitud</th>
 
 
+
 		</tr>
-		
 		@foreach($cuenta1 as $a1)
-		@foreach($cuenta as $a)
 		<tr>
-			<td>{{  $a->n_colegiado }}</td>
+			<td>{{  $a1->c_cliente }}</td>
 			<td>{{  $a1->n_cliente }}</td>
 			<td>{{  $a1->registro }}</td>
 			<td>{{  $a1->n_profesion }}</td>
@@ -52,11 +59,12 @@
 			<td>{{  \Carbon\Carbon::parse($a1->fecha_nac)->format('d-m-Y') }}</td>
 			<td>{{  \Carbon\Carbon::parse($a1->f_ult_pago)->format('d-m-Y') }}</td>
 			<td>{{  \Carbon\Carbon::parse($a1->f_ult_timbre)->format('d-m-Y') }}</td>
-			<td>{{  \Carbon\Carbon::parse($a->fecha_solicitud)->format('d-m-Y') }}</td>
+			<td>{{  \Carbon\Carbon::parse($ap[$loop->iteration-1]->fecha_solicitud)->format('d-m-Y') }}</td>
+
 		</tr>
 		@endforeach
-		@endforeach
 	</table>
+	<strong>Fecha y hora de impresión: </strong>{{$mytime}}
 
 </body>
 
