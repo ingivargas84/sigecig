@@ -62,7 +62,7 @@ var validator = $("#subsedesUpdateForm").validate({
 		},
 		correo_electronico: {
             required: "Por favor, ingrese su correo electrónico",
-            email: "Ingrese un correo electronico correcto. ej: correo@correo.com"
+            email: "Ingrese un correo electrónico correcto. ej: correo@correo.com"
 		},
 		telefono: {
             required: "Por favor, ingrese el número de teléfono de la sede ",
