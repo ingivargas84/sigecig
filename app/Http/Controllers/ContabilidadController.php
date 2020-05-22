@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
-
+use App\PlataformaSolicitudAp;
+use App\AdmPersona;
+use App\PlataformaBanco;
+use App\PlataformaTipoCuenta;
+use App\AdmUsuario;
+use App\User;
 use DB;
 
 class ContabilidadController extends Controller
@@ -16,6 +21,17 @@ class ContabilidadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function fechaconfig(PlataformaSolicitudAp $tipo)
+    {
+        $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get()->first();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $tipo->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+
+        return view ('admin.contabilidad.configfecha', compact('tipo', 'solicitud','banco','tipocuenta', 'adm_usuario', 'adm_persona'));
+    }
+
     public function index()
     {
         $user = Auth::User();
@@ -72,6 +88,23 @@ class ContabilidadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function configfecha(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'no_acta' => $request->no_acta,
+            'no_punto_acta' => $request->no_punto_acta,
+            'id_estado_solicitud' => 7,
+        );
+        $json = json_encode($nuevos_datos);
+        
+        
+        $tipo->update($nuevos_datos);
+        
+        //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
+        return Response::json(['success' => 'Éxito']);
+    }
+
     public function update(Request $request, $id)
     {
         //

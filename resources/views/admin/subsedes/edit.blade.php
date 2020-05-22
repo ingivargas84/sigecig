@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li><a href="{{route('subsedes.index')}}"><i class="fa fa-list"></i> Colaboradores</a></li>
-          <li class="active">Crear</li>
+          <li class="active">Editar</li>
         </ol>
     </section>
 @stop
@@ -20,6 +20,7 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-body">
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="nombre">Nombre:</label>
@@ -44,18 +45,19 @@
                                 <label for="correo_electrónico">Correo Electrónico:</label>
                                 <input type="text" class="form-control" name="correo_electronico" value="{{$su->correo_electronico}}">
                                 <input type="hidden" name="num" value="{{$su->id}}">
+                            </div>
                         </div>
                         <br>
-                        <div class="row">
-                        <div class="text-right mt-3">
+                        <div class="text-right m-t-15">
+
                             <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
+                                <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
                         </div>
-                    </div>
-                    </div>
+
                     </div>
                 </div>
             </div>
+
     </form>
     <div class="loader loader-bar"></div>
 

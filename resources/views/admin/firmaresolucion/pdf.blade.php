@@ -7,15 +7,6 @@
     <title>Archivo Imprimible</title>
     <link rel="stylesheet" href="css/cartapdf.css" />
 </head>
-
-@section('content')
-<script>
-    var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-    var f=new Date();
-    document.write("Guatemala, " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
-</script>
-@endsection
-
 <body>
     <div class="principal">
         <div class="fecha">

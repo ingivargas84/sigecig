@@ -14,10 +14,10 @@
 Route::group([
     'middleware'=>['auth','estado'] ],
     function(){
-        
+
         // Pantalla Principal y General
         Route::get('/admin','HomeController@index')->name('dashboard');
-        
+
         // Módulo Informática
         Route::get('user/getJson' , 'UsersController@getJson' )->name('users.getJson');
         Route::get('users' , 'UsersController@index' )->name('users.index');
@@ -29,13 +29,15 @@ Route::group([
         Route::post('users/reset' , 'UsersController@resetPassword')->name('users.reset');
         Route::get( '/users/cargar' , 'UsersController@cargarSelect')->name('users.cargar');
         Route::get( '/users/cargarA' , 'UsersController@cargarSelectApertura')->name('users.cargarA');
-        
+
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
         
         // Módulo Contabilidad Y JefeContabilidad
         Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
         Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
+        Route::post('contabilidad/{tipo}/fecha' , 'ContabilidadController@fechaconfig' );
+
 
         // Módulo Contabilidad
         Route::get( '/proveedores' , 'ProveedoresController@index')->name('proveedores.index');
@@ -47,10 +49,10 @@ Route::group([
         Route::post('/proveedores/{proveedor}/delete' , 'ProveedoresController@destroy');
         Route::post('/proveedores/{proveedor}/activar' , 'ProveedoresController@activar');
         Route::get('/proveedores/nitDisponible/', 'ProveedoresController@nitDisponible')->name('proveedores.nitDisponible');
-        
+
         Route::get( '/corte' , 'HomeController@corte_diario')->name('corte');
-        
-        
+
+
         // Módulo de Gerencia
         Route::get( '/solicitud' , 'SolicitudBoletaController@index')->name('solicitud.index');
         Route::get( '/solicitud/getJson/' , 'SolicitudBoletaController@getJson')->name('solicitud.getJson');
@@ -61,7 +63,7 @@ Route::group([
         Route::post('/solicitud/{solBoleta}/destroy' , 'SolicitudBoletaController@destroy')->name('solicitud.destroy');
         Route::post('/solicitud/{solBoleta}/delete' , 'SolicitudBoletaController@delete')->name('solicitud.delete');
         Route::post('/solicitud/{solBoleta}/activar' , 'SolicitudBoletaController@activar');
-        
+
         Route::get( '/boleta', 'BoletaController@index')->name('boleta.index');
         Route::get( '/boleta/getJson/', 'BoletaController@getJson')->name('boleta.getJson');
         Route::get( '/boleta/new', 'BoletaController@create')->name('boleta.new');
@@ -71,7 +73,7 @@ Route::group([
         Route::post('/boleta/{boleta}/destroy' , 'BoletaController@destroy')->name('boleta.destroy');
         Route::post('/boleta/{boleta}/delete' , 'BoletaController@delete')->name('boleta.delete');
         Route::post('/boleta/{boleta}/activar' , 'BoletaController@activar');
-        
+
         Route::get( '/llamada', 'InformeLlamadasController@index')->name('llamada.index');
         Route::get( '/llamada/getJson/', 'InformeLlamadasController@getJson')->name('llamada.getJson');
         Route::get( '/llamada/new', 'InformeLlamadasController@create')->name('llamada.new');
@@ -80,7 +82,7 @@ Route::group([
         Route::put( '/llamada/{informe}/update' , 'InformeLlamadasController@update')->name('llamada.update');
         Route::post('/llamada/{informe}/delete' , 'InformeLlamadasController@delete')->name('llamada.delete');
         Route::post('/llamada/{informe}/activar' , 'InformeLlamadasController@activar');
-        
+
         // Módulo de Administracion
         Route::get('/colaborador', 'ColaboradorController@index')->name('colaborador.index');
         Route::get('/colaborador/getJson/', 'ColaboradorController@getJson')->name('colaborador.getJson');
@@ -91,7 +93,7 @@ Route::group([
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
-        
+
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
         Route::get('/acta/getJson/', 'ActaMaestroController@getJson')->name('acta.getJson');
@@ -100,7 +102,7 @@ Route::group([
         Route::get('/acta/edit/{acta}', 'ActaMaestroController@edit')->name('acta.edit');
         Route::put('/acta/{acta}/update', 'ActaMaestroController@update')->name('acta.update');
         Route::post('/acta/{acta}/destroy', 'ActaMaestroController@destroy')->name('acta.destroy');
-        
+
         // Módulo de ResolucionPago
         Route::get('/resolucion', 'ResolucionPagoController@index')->name('resolucion.index');
         Route::get('/resolucion/getJson/', 'ResolucionPagoController@getJson')->name('resolucion.getJson');
@@ -110,8 +112,8 @@ Route::group([
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
         Route::post('resolucion/{tipo}/cambio', 'ResolucionPagoController@cambiarestado');
-        
-        // Modulo de Tipos de pago        
+
+        // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
         Route::get( '/tipoDePago/getJson/' , 'TipoDePagoController@getJson')->name('tipoDePago.getJson');
         Route::get( '/tipoDePago/new' , 'TipoDePagoController@create')->name('tipoDePago.new');
@@ -124,7 +126,7 @@ Route::group([
         Route::post('/tipoDePago/{tipo}/activar' , 'TipoDePagoController@activar');
         Route::get('/tipoDePago/nombreDisponible/', 'TipoDePagoController@nombreDisponible');
         Route::get('/tipoDePago/nombreDisponibleEdit/', 'TipoDePagoController@nombreDisponibleEdit');
-        
+
         // Modulo de Sub Sedes
         Route::get( '/subsedes' , 'SubsedesController@index')->name('subsedes.index');
         Route::get( '/subsedes/getJson/' , 'SubsedesController@getJson')->name('subsedes.getJson');
@@ -137,29 +139,29 @@ Route::group([
         Route::get('/subsedes/nombreDisponibleEdit/', 'SubsedesController@nombreDisponibleEdit');
         Route::post('/subsedes/{su}/delete' , 'SubsedesController@delete')->name('subsedes.delete');
         Route::post('/subsedes/{su}/activar' , 'SubsedesController@activar');
-        
+
         // Modulo de Creacion de Recibos
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
-        
-        
+
+
     });
-    
-    
+
+
     Route::get('/', function () {
         $negocio = App\Negocio::all();
         return view('welcome', compact('negocio'));
     });
-    
+
     Route::get('pdf', function(){
         $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
         return $pdf->stream('archivo.pdf');
     });
-    
+
     //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
     //Auth::routes();
-    
+
     //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);
-    
+
     // Authentication Routes...
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
@@ -168,14 +170,14 @@ Route::group([
     Route::post('/user/contador' , 'Auth\LoginController@Contador')->name('user.contador');
     Route::post('/password/reset2' , 'Auth\ForgotPasswordController@ResetPassword')->name('password.reset2');
     Route::get('/user-existe/', 'Auth\LoginController@userExiste')->name('user.existe');
-    
+
     //Registration Routes...
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
-    
+
     // Password Reset Routes...
     /*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');*/
-    
+

@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
 use App\Colaborador;
 use App\Puesto;
 use App\Departamento;
 use App\Subsedes;
+use App\User;
 
 class ColaboradorController extends Controller
 {
@@ -41,8 +43,13 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
+        $user = User::select('sigecig_users.id','sigecig_users.username')
+        ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
+        ->wherenull('sigecig_colaborador.usuario')
+        ->get();
         $sub = Subsedes::all();
-        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub'));
+
+        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub', 'user'));
     }
 
     /**
@@ -53,14 +60,13 @@ class ColaboradorController extends Controller
      */
     public function store(Request $request)
     {
-        $colaborador=new Colaborador;
-        $colaborador->nombre=$request->get('nombre');
-        $colaborador->dpi=$request->get('dpi');
-        $colaborador->puesto=$request->get('puesto');
-        $colaborador->departamento=$request->get('departamento');
-        $colaborador->telefono=$request->get('telefono');
-        $colaborador->estado=1;
+
+        $data = $request->all();
+        $colaborador = Colaborador::create($data);
+        $colaborador->estado = 1;
         $colaborador->save();
+
+        event(new ActualizacionBitacora($colaborador->id, Auth::user()->id, 'Creacion', '', $colaborador,'Colaborador'));
 
         return redirect()->route('colaborador.index')->withFlash('Colaborador se creo exitosamente!');
     }
@@ -100,8 +106,11 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
+        $user = User::all();
         $sub = Subsedes::all();
-        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub'));
+
+        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
+
     }
 
     /**
@@ -109,7 +118,7 @@ class ColaboradorController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function update(Colaborador $colaborador, Request $request)
     {
@@ -119,6 +128,7 @@ class ColaboradorController extends Controller
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
             'telefono' => $request->telefono,
+            'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
 

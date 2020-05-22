@@ -14,6 +14,7 @@
 
   @section('content')
 @include('admin.firmaresolucion.acta')
+@include('admin.contabilidad.configfecha')
 
   <div class="box-header">
       <a class="btn btn-confirm pull-right" target="_blank" href="auxiliopostumo/solicitudes_pendientes">
