@@ -14,8 +14,14 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         {
             extend: 'excelHtml5',
             filename: function(){
-                        var d = new Date();
-                        return 'sigecig_tipos_de_pagos_' + d;
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                         },
             exportOptions: {
                 columns: [ 0, 1, 2, 3, 4, 5 ]}
@@ -23,9 +29,14 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         {
             extend: 'csvHtml5',
             filename: function(){
-                        var d = new Date();
-                        var n = d.getTime();
-                        return 'sigecig_tipos_de_pagos_' + d;
+                        var D = new Date()
+                        var d = D.getDate();
+                        var m = D.getMonth();
+                        var y = D.getFullYear();
+                        var h = D.getHours();
+                        var min = D.getMinutes();
+                        var seg = D.getSeconds();
+                        return 'sigecig_tipos_de_pagos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                         },
             exportOptions: {
                 columns: [ 0, 1, 2, 3, 4, 5 ]}
@@ -148,7 +159,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-tipodepago'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-tipodepago'"+ "data-method='post' data-id='"+full.id+"' data-codigo='" + full.codigo +"'>" +
                     "<i class='fa fa-thumbs-up' title='Aprobar Resgitro'></i>" +
                     "</a>" + "</div>";
                 }else{
@@ -176,11 +187,13 @@ $("#btnConfirmarAccion").click(function(event) {
 
 $(document).on('click', 'a.destroy-tipodepago', function(e) {
     e.preventDefault(); // does not go through with the link.
+    alertify.defaults.theme.ok = "btn btn-error";
     var button = $(e.currentTarget);
     var idTipoPago = button[0].dataset.id;
     var codigo = button[0].dataset.codigo;
     var $this = $(this);
     alertify.confirm('Desactivar tipo de pago', 'Esta seguro de Desactivar el tipo de pago con código: <strong>' +codigo + "</strong>",
+    //.set('labels', {ok:'Desactivar'},
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -188,22 +201,26 @@ $(document).on('click', 'a.destroy-tipodepago', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
+                //alertify.confirm().destroy();
                 tipodepago_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Registro desactivado con Éxito!!');
             });
          }
         , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
+            alertify.set('notifier','position', 'top-center', 'error');
+            // alertify.error('Cancelar')
         });
 });
 
 $(document).on('click', 'a.activar-tipodepago', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-confirm";
+    var button = $(e.currentTarget);
+    var idTipoPago = button[0].dataset.id;
+    var codigo = button[0].dataset.codigo;
     var $this = $(this);
-    alertify.confirm('Aprobar Registro', 'Esta seguro de aprobar el registro',
+    alertify.confirm('Aprobar Registro', 'Esta seguro de aprobar el registro: <strong>' +codigo + "</strong>",
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -218,7 +235,7 @@ $(document).on('click', 'a.activar-tipodepago', function(e) {
          }
         , function(){
             alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
+            //alertify.error('Cancelar')
         });
 });
 

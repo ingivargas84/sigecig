@@ -43,8 +43,7 @@
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="ButtonTipoModalUpdate" >Actualizar</button>
+                <button type="submit" class="btn btn-primary edit" id="ButtonTipoModalUpdate" >Actualizar</button>
             </div>
           </div>
     </div>

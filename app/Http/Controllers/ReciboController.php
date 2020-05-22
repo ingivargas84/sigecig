@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
-use App\Colegiado;
-use App\Empresa;
+use App\SQLSRV_Colegiado;
+use App\SQLSRV_Empresa;
+use App\TipoDePago;
 use App\User;
 use Validator;
 
@@ -28,7 +29,8 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        return view('admin.creacionRecibo.index');
+        $tipo = TipoDePago::all();
+        return view('admin.creacionRecibo.index', compact('tipo'));
     }
 
     /**
@@ -97,32 +99,20 @@ class ReciboController extends Controller
         //
     }
 
-    public function getDatosColegiado($n_cliente)
+    public function getDatosColegiado($colegiado)
     {
-        $datos = DB::table('cc00')
-        ->select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago')
-        ->where('c_cliente', $c_cliente)
-        ->get();
+        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago')
+            ->where('c_cliente', $colegiado)->get()->first();
+
+        return $consulta;
+        //dd($consulta);
     }
 
-    public function getDatosEmpresa()
+    public function getDatosEmpresa($nit)
     {
-        $tipoCliente = Input::get('tipoCliente');
-        if($tipoCliente == 'e') {
-            return $this->getDatosColegiado();
-        } else if ($tipoCliente == 'e') {
-            $query = "SELECT CODIGO colegiado, EMPRESA nombres, '' apellidos FROM MAEEMPR WHERE CODIGO=:nit";
-            $parametros = array(':nit' => Input::get('colegiado'));
-            $users = DB::select($query, $parametros);
-            $colegiadoR = null;
-            foreach($users as $colegiado) {
-                $colegiadoR = $colegiado;
-            }
-            if(!$colegiadoR) {
-                $respuesta = array('error' => '1', 'mensaje' => 'Datos no encontrados');
-                return json_encode($respuesta);
-            }
-            return json_encode($colegiadoR);
-        }
+        $consulta= SQLSRV_Empresa::select('empresa')
+            ->where('nit', $nit)->get()->first();
+
+        return $consulta;
     }
 }
