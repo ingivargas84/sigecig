@@ -100,45 +100,78 @@ $.validator.addMethod("ntelc1", function (value, element ){
     }, "El CUI/DPI ingresado está incorrecto");
 
 
+    $.validator.addMethod("dpiunico", function(value, element){
+        var valid = false;
+        var urlActual = $("input[name='urlActual']").val();
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/colaborador/dpiDisponible/",
+            data:"dpi=" + value,
+            dataType: "json",
+            success: function (msg) {
+                valid=!msg;
+            }
+        });
+        return valid;
+        }, "El CUI/DPI ya esta registrado en el sistema");
 
-var validator = $("#ColaboradorUpdateForm").validate({
-	ignore: [],
-	onkeyup:false,
-	rules: {
-		nombre:{
-			required: true
+
+
+    var validator = $("#ColaboradorForm").validate({
+        ignore: [],
+        onkeyup:false,
+        rules: {
+            nombre:{
+                required: true,
+
+            },
+            puesto: {
+                required : true
+            },
+            telefono: {
+                required : true,
+                numero : true
+            },
+            dpi: {
+                    required : true,
+                    dpi : true,
+                    dpiunico : true
+
+            },
+            departamento: {
+                required: true
+            },
+            subsedes: {
+                required: true
+            },
+            telefono:{
+                required: true,
+                ntelc : true
+
+            },
         },
-        dpi :{
-            required : true
-
-        },
-		puesto: {
-			required : true
-		},
-		departamento: {
-			required: true
-		},
-		telefono:{
-            required: true,
-            ntelc1:   true
-		},
-	},
-	messages: {
-		nombre: {
-			required: "Por favor, ingrese el nombre"
-		},
-		puesto: {
-			required: "Por favor, ingrese el puesto"
-		},
-
-		departamento: {
-			required: "Por favor, ingrese el departamento"
-		},
-		telefono: {
-			required: "Por favor, ingrese el telefono"
-		}
-	}
-});
+        messages: {
+            nombre: {
+                required: "Por favor, ingrese el nombre"
+            },
+            puesto: {
+                required: "Por favor, seleccione un puesto"
+            },
+            dpi: {
+                required: "Por favor, ingrese un número de CUI/DPI"
+            },
+            departamento: {
+                required: "Por favor, seleccione un departamento"
+            },
+            subsedes: {
+                required: "Por favor, seleccione una subsede"
+            },
+            telefono: {
+                required: "Por favor, ingrese el telefono"
+            }
+        }
+    });
 
 $("#ButtonColaboradorUpdate").click(function(event) {
 	if ($('#ColaboradorUpdateForm').valid()) {

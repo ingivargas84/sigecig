@@ -157,7 +157,7 @@ $(document).on('click', 'a.destroy-colaborador', function(e) {
     e.preventDefault(); // does not go through with the link.
 
     var $this = $(this);
-    alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro',
+    alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro del  Colaborador',
         function(){
             $('.loader').fadeIn();
             $.post({

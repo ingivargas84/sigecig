@@ -1,7 +1,7 @@
 <!-- Modal -->
 
 <div class="modal fade" id="editUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <form method="POST" id="FormTipoPagoUpdate">
+    <form method="POST" id="FormcajasUpdate">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,8 +11,8 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="form-group col-sm-12 {{ $errors->has('codigo') ? 'has-error': '' }}" >
-                        <label for="codigo">Codigo:</label>
+                    <div class="form-group col-sm-12 {{ $errors->has('cajas') ? 'has-error': '' }}" >
+                        <label for="codigo">:</label>
                         <input type="text" class="form-control" name="codigo">
                         {!! $errors->first('codigo', '<span class="help-block">:message</span>') !!}
                     </div>
@@ -43,7 +43,8 @@
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary edit" id="ButtonTipoModalUpdate" >Actualizar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" id="ButtonTipoModalUpdate" >Actualizar</button>
             </div>
           </div>
     </div>

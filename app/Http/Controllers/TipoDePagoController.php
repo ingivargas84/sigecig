@@ -167,7 +167,7 @@ class TipoDePagoController extends Controller
     public function nombreDisponibleEdit(){
         $dato = Input::get("codigo");
         $id = Input::get('id');
-        $query = TipoDePago::where("codigo",$dato)->where('estado', 1)->where('id','!=', $id)->get();
+        $query = TipoDePago::where("codigo",$dato)->where('id','!=', $id)->get();
         $contador = count($query);
         if ($contador == 0 )
         {

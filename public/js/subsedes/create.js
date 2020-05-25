@@ -75,9 +75,9 @@ var validator = $("#subsedesForm").validate({
 	}
 });
 
-$("#ButtonSubsedes").click(function(event) {
-	if ($('#SubsedesForm').valid()) {
-		$('.loader').addClass("is-active");
+$("#subsedes").click(function(event) {
+	if ($('#subsedesForm').valid()) {
+        $('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
 	}
