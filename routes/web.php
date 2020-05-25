@@ -89,6 +89,18 @@ Route::group([
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
 
+       // Módulo de Registro de Cajas
+       Route::get('/cajas', 'CajasController@index')->name('cajas.index');
+       Route::get('/cajas/getJson/', 'CajasController@getJson')->name('cajas.getJson');
+       Route::get('/cajas/new', 'CajasController@create')->name('cajas.new');
+       Route::post('/cajas/save/', 'CajasController@store')->name('cajas.save');
+       Route::get('/cajas/dpiDisponible/', 'CajasController@dpiDisponible');
+       Route::get('/cajas/dpiDisponibleEdit/', 'CajasController@dpiEdit');
+       Route::get('/cajas/edit/{cajas}', 'CajasController@edit')->name('cajas.edit');
+       Route::put('/cajas/{cajas}/update', 'CajasController@update')->name('cajas.update');
+       Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
+
+
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
         Route::get('/acta/getJson/', 'ActaMaestroController@getJson')->name('acta.getJson');
