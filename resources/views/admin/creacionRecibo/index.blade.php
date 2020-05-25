@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         <label for="cantidad" class="control-label">Cantidad</label>
                                         <div>
-                                            <input id="cantidad" type="text" class="form-control" name="cantidad">
+                                            <input id="cantidad" type="number" min="1" class="form-control" name="cantidad" value="1">
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +145,35 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-1" id="divButtonPlus" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="buttonPlus" class="control-label"></label>
+                                        <div>
+                                            <button id="buttonPlus" class="btn btn-danger" name="buttonPlus" onclick="agregarproductof()">+</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <br>
+
+                                <div class='container' id='detalle'>
+                                    <table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Leyenda</th><th>Subtotal</th><th>Eliminar</th></tr></thead>
+                                        <tbody>
+                                        @if(isset($detalle))
+                                            @foreach ($detalle as $fila)
+                                            <tr>
+                                            <td>{!! $fila->codigo; !!}</td>
+                                            <td>{!! $fila->cantidad; !!}</td>
+                                            <td>{!! $fila->preciou; !!}</td>
+                                            <td>{!! $fila->descripcion; !!}</td>
+                                            <td align="right" class="subtotalVal">{!! $fila->subtotal; !!}</td>
+                                            <td><button class="form-button btn btn-danger" onclick="eliminardetalle(this)" type="button">Eliminar</button></td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+
                                 <div class="col-sm-2 col-sm-offset-8" id="divTotal" style="display: block;">
                                     <div class="form-group">
                                         <label for="total" class="control-label">Total</label>

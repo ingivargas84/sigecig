@@ -29,7 +29,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::all();
+        $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
         return view('admin.creacionRecibo.index', compact('tipo'));
     }
 
@@ -119,7 +119,7 @@ class ReciboController extends Controller
     public function getTipoDePago($tipo)
     {
         $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular')
-            ->where('id', $tipo)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
             return $consulta;
     }
