@@ -8,7 +8,7 @@
         </h1>
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
-          <li><a href="{{route('subsedes.index')}}"><i class="fa fa-list"></i> Colaboradores</a></li>
+          <li><a href="{{route('subsedes.index')}}"><i class="fa fa-list"></i> Subsedes</a></li>
           <li class="active">Editar</li>
         </ol>
     </section>

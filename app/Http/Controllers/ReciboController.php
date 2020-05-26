@@ -29,7 +29,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::all();
+        $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
         return view('admin.creacionRecibo.index', compact('tipo'));
     }
 
@@ -101,7 +101,7 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago')
+        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre')
             ->where('c_cliente', $colegiado)->get()->first();
 
         return $consulta;
@@ -114,5 +114,13 @@ class ReciboController extends Controller
             ->where('nit', $nit)->get()->first();
 
         return $consulta;
+    }
+
+    public function getTipoDePago($tipo)
+    {
+        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular')
+            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
+
+            return $consulta;
     }
 }
