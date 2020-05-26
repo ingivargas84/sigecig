@@ -34,9 +34,8 @@ Route::group([
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
         
         // Módulo Contabilidad Y JefeContabilidad
-        Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
-        Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
-        Route::post('contabilidad/{tipo}/fecha' , 'ContabilidadController@fechaconfig' );
+      //  Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
+       // Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
 
 
         // Módulo Contabilidad
@@ -111,7 +110,9 @@ Route::group([
         Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-        Route::post('resolucion/{tipo}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
+
 
         // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');

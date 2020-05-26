@@ -36,6 +36,19 @@ class ResolucionPagoController extends Controller
         return $pdf->stream('ArchivoPDF.pdf');
     }
 
+    public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'fecha_pago_ap' => $request->fecha_pago_ap,
+            'id_estado_solicitud' => 9,
+
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
+
     public function index()
     {
         $user = Auth::User();
@@ -95,13 +108,13 @@ class ResolucionPagoController extends Controller
         //
     }
 
-    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    public function cambiarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
         $nuevos_datos = array(
             'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
-        $tipo->update($nuevos_datos);
+        $solicitud->update($nuevos_datos);
         
         return Response::json(['success' => 'Éxito']);
     }
@@ -173,12 +186,25 @@ class ResolucionPagoController extends Controller
     
     public function getJson(Request $params)
     {  
+        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres')){
         $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
         FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         WHERE U.id_estado_solicitud >=2";
+        }
+
+        else{    
+        $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
+        FROM sigecig_solicitudes_ap U
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+        INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
+        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
+        INNER JOIN sigecig_bancos B ON B.id=U.id_banco
+        INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
+        WHERE U.id_estado_solicitud >=8";
+        }
         
         $result = DB::select($query);
         $api_Result['data'] = $result;

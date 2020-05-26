@@ -102,7 +102,7 @@
           @endrole
           @role("Super-Administrador|Contabilidad|JefeContabilidad")
           <ul class="treeview-menu">
-            <li class="{{request()->is('contabilidad')? 'active': ''}}"><a href="{{route('contabilidad.index')}}">
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
             </li>
           </ul>
