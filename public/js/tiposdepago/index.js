@@ -201,7 +201,7 @@ $(document).on('click', 'a.destroy-tipodepago', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
-                //alertify.confirm().destroy();
+                alertify.confirm().destroy();
                 tipodepago_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Registro desactivado con Éxito!!');

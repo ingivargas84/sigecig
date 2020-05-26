@@ -101,7 +101,7 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago')
+        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre')
             ->where('c_cliente', $colegiado)->get()->first();
 
         return $consulta;
