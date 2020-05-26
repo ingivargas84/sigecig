@@ -31,8 +31,10 @@ class ResolucionPagoController extends Controller
         $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
         $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
         $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$id->n_colegiado)->get()->first();
 
-      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date', 'profesion'));
         return $pdf->stream('ArchivoPDF.pdf');
     }
 
@@ -119,6 +121,17 @@ class ResolucionPagoController extends Controller
         return Response::json(['success' => 'Éxito']);
     }
     
+    public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 10,
+        );
+        $json = json_encode($nuevos_datos);
+        $solicitud->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
+
     /**
     * Update the specified resource in storage.
     *

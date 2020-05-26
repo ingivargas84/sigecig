@@ -124,6 +124,7 @@ Route::group([
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
         Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
+        Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
 
         // Modulo de Tipos de pago

@@ -143,8 +143,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
-                "<a href='/pdf'>" +
-                "<i class='fas fa-university' title='Configuración de Pago'></i>" + 
+                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"'>" +
+                "<i class='fas fa-university' title='Finalizar'></i>" + 
                 "</a>" + "</div>";
             }
             else if(data == 'Resolución Firmada'){   //Estado 8 de la solicitud
@@ -236,7 +236,6 @@ $('#modalCambioEstado').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
     var id = button.data('id');
     
-
     var modal = $(this);
     modal.find(".modal-body input[name='idSolicitud']").val(id);
 
@@ -247,7 +246,9 @@ $('#modalCambioEstado').on('shown.bs.modal', function(event){
         e.preventDefault(); // does not go through with the link.
     
         var $this = $(this);
-        alertify.confirm('Cambiar Estado', 'Esta seguro de cambiar el estado',
+        alertify.defaults.theme.ok = "btn btn-confirm";
+
+        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado firmó su resolución',
             function(){
                 $('.loader').fadeIn();
                 $.post({
@@ -258,6 +259,31 @@ $('#modalCambioEstado').on('shown.bs.modal', function(event){
                     resolucion_table.ajax.reload();
                         alertify.set('notifier','position', 'top-center');
                         alertify.success('Estado cambiado con exito');
+                });
+             }
+            , function(){
+                alertify.set('notifier','position', 'top-center');
+                alertify.error('Cancelar')
+            });
+    });
+
+    $(document).on('click', 'a.finalizar-estado', function(e) {
+        e.preventDefault(); // does not go through with the link.
+    
+        var $this = $(this);
+        alertify.defaults.theme.ok = "btn btn-confirm";
+
+        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el estado',
+            function(){
+                $('.loader').fadeIn();
+                $.post({
+                    type: $this.data('method'),
+                    url: $this.attr('href')
+                }).done(function (data) {
+                    $('.loader').fadeOut(225);
+                    resolucion_table.ajax.reload();
+                        alertify.set('notifier','position', 'top-center');
+                        alertify.success('Estado finalizado con exito');
                 });
              }
             , function(){
