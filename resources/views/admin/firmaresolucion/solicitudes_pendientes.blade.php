@@ -49,6 +49,7 @@
 
 
 		</tr>
+
 		@foreach($cuenta1 as $a1)
 		<tr>
 			<td>{{  $a1->c_cliente }}</td>
@@ -63,6 +64,7 @@
 
 		</tr>
 		@endforeach
+
 	</table>
 	<strong>Fecha y hora de impresión: </strong>{{$mytime}}
 
