@@ -32,6 +32,10 @@ Route::group([
 
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
+        
+        // Módulo Contabilidad Y JefeContabilidad
+      //  Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
+       // Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
 
 
         // Módulo Contabilidad
@@ -89,6 +93,18 @@ Route::group([
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
 
+       // Módulo de Registro de Cajas
+       Route::get('/cajas', 'CajasController@index')->name('cajas.index');
+       Route::get('/cajas/getJson/', 'CajasController@getJson')->name('cajas.getJson');
+       Route::get('/cajas/new', 'CajasController@create')->name('cajas.new');
+       Route::post('/cajas/save/', 'CajasController@store')->name('cajas.save');
+       Route::get('/cajas/dpiDisponible/', 'CajasController@dpiDisponible');
+       Route::get('/cajas/dpiDisponibleEdit/', 'CajasController@dpiEdit');
+       Route::get('/cajas/edit/{cajas}', 'CajasController@edit')->name('cajas.edit');
+       Route::put('/cajas/{cajas}/update', 'CajasController@update')->name('cajas.update');
+       Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
+
+
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
         Route::get('/acta/getJson/', 'ActaMaestroController@getJson')->name('acta.getJson');
@@ -106,7 +122,10 @@ Route::group([
         Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-        Route::post('resolucion/{tipo}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
+        Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
+
 
         // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');
@@ -137,6 +156,9 @@ Route::group([
 
         // Modulo de Creacion de Recibos
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
+        Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
+        Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
+        Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
 
 
     });

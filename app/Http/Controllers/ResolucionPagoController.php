@@ -31,9 +31,24 @@ class ResolucionPagoController extends Controller
         $date = Carbon::now()->toDateTimeString('%A %d %B %Y');
         $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
         $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$id->n_colegiado)->get()->first();
 
-      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date'));
+
+      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date', 'profesion'));
         return $pdf->stream('ArchivoPDF.pdf');
+    }
+
+    public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)
+    {
+        $nuevos_datos = array(
+            'fecha_pago_ap' => $request->fecha_pago_ap,
+            'id_estado_solicitud' => 9,
+
+        );
+        $json = json_encode($nuevos_datos);
+        $tipo->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
     }
 
     public function index()
@@ -95,17 +110,28 @@ class ResolucionPagoController extends Controller
         //
     }
 
-    public function cambiarestado(PlataformaSolicitudAp $tipo, Request $request)
+    public function cambiarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
         $nuevos_datos = array(
             'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
-        $tipo->update($nuevos_datos);
+        $solicitud->update($nuevos_datos);
         
         return Response::json(['success' => 'Éxito']);
     }
     
+    public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
+    {
+        $nuevos_datos = array(
+            'id_estado_solicitud' => 10,
+        );
+        $json = json_encode($nuevos_datos);
+        $solicitud->update($nuevos_datos);
+        
+        return Response::json(['success' => 'Éxito']);
+    }
+
     /**
     * Update the specified resource in storage.
     *
@@ -151,7 +177,11 @@ class ResolucionPagoController extends Controller
     
     public function solicitudesPendientes()
     {
+        $path = 'images/timbre.png';
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
 
+        $mytime = Carbon::now();
         $ap = PlataformaSolicitudAp::where("id_estado_solicitud",4)->orderBy("n_colegiado", "asc")->get();
 
         $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",4)->pluck('n_colegiado');
@@ -162,19 +192,32 @@ class ResolucionPagoController extends Controller
                 ->orderBy('cc00.c_cliente', 'asc')
                 ->get();  
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap"))
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64"))
         ->setPaper('legal', 'landscape')
         ->stream('archivo.pdf');
     }
     
     public function getJson(Request $params)
     {  
+        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres')){
         $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap
         FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         WHERE U.id_estado_solicitud >=2";
+        }
+
+        else{    
+        $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
+        FROM sigecig_solicitudes_ap U
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+        INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
+        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
+        INNER JOIN sigecig_bancos B ON B.id=U.id_banco
+        INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
+        WHERE U.id_estado_solicitud >=8";
+        }
         
         $result = DB::select($query);
         $api_Result['data'] = $result;

@@ -92,6 +92,22 @@
         </li>
         @endrole
 
+        @role("Super-Administrador|Contabilidad|JefeContabilidad")
+        <li class="treeview {{request()->is('contabilidad')? 'active': ''}}">
+          <a href="#"><i class="fa fa-book"></i> <span>Admon de Contabilidad</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          @endrole
+          @role("Super-Administrador|Contabilidad|JefeContabilidad")
+          <ul class="treeview-menu">
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
+              <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
+            </li>
+          </ul>
+        @endrole
+
 
         @role("Super-Administrador|JefeTimbres|Timbre")
         <li class="treeview {{request()->is('')? 'active': ''}}">
@@ -100,7 +116,7 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-
+          
           @role("Super-Administrador|JefeTimbres|Timbre")
           <ul class="treeview-menu">
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
@@ -108,6 +124,8 @@
             </li>
           </ul>
           @endrole
+
+         
 
         </li>
         @endrole
