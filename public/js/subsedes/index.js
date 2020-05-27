@@ -168,10 +168,6 @@ $("#btnConfirmarAccion").click(function(event) {
 	}
 });
 
-setTimeout(function() {
-    $("#alert-success").hide('blind', {}, 500)
-}, 5000);
-
 
 $(document).on('click', 'a.destroy-sede', function(e) {
     e.preventDefault(); // does not go through with the link.

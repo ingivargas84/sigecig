@@ -19,6 +19,10 @@
 		margin-bottom: 7px;
 	}
 
+	th {
+		text-align: left;
+	}
+
 
 </style>
 <body>
@@ -28,7 +32,7 @@
 
 	<table style="width:100%">
 		<tr>
-			<th>No. Colegiado </th>
+			<th>Colegiado </th>
 			<th>Nombre Completo</th>
 			<th>DPI</th>
 			<th>Profesión</th>
@@ -39,12 +43,12 @@
 			<th>Fecha de solicitud</th>
 
 
+
 		</tr>
-		
-		
-		@foreach($datos as $a1)
+
+		@foreach($cuenta1 as $a1)
 		<tr>
-			<td>{{  $a1->n_colegiado }}</td>
+			<td>{{  $a1->c_cliente }}</td>
 			<td>{{  $a1->n_cliente }}</td>
 			<td>{{  $a1->registro }}</td>
 			<td>{{  $a1->n_profesion }}</td>
@@ -52,10 +56,11 @@
 			<td>{{  \Carbon\Carbon::parse($a1->fecha_nac)->format('d-m-Y') }}</td>
 			<td>{{  \Carbon\Carbon::parse($a1->f_ult_pago)->format('d-m-Y') }}</td>
 			<td>{{  \Carbon\Carbon::parse($a1->f_ult_timbre)->format('d-m-Y') }}</td>
-			<td>{{  \Carbon\Carbon::parse($a1->fecha_solicitud)->format('d-m-Y') }}</td>
+			<td>{{  \Carbon\Carbon::parse($ap[$loop->iteration-1]->fecha_solicitud)->format('d-m-Y') }}</td>
+
 		</tr>
 		@endforeach
-		
+
 	</table>
 
 </body>

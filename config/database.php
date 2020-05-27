@@ -69,16 +69,12 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB2_HOST', '127.0.0.1'),
-            'port' => env('DB2_PORT', '1433'),
+            'host' => env('DB2_HOST', 'localhost'),
             'database' => env('DB2_DATABASE', 'forge'),
-            'username' => env('DB2_USERNAME', 'forge'),
+            'username' => env('DB2_USERNAME', 'forege'),
             'password' => env('DB2_PASSWORD', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
+            'charset' => 'utf8',
             'prefix' => '',
-            'strict' => true,
-            'engine' => null,
         ],
 
     ],
