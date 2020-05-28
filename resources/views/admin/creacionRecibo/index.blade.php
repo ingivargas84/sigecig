@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divprecioU" style="display: block;">
+                                <div class="col-sm-1 col-lg-2" id="divprecioU" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioU" class="control-label">Precio U.</label>
                                         <div>

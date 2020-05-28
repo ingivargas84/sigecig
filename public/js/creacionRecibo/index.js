@@ -34,12 +34,13 @@ function obtenerDatosColegiado()
                 response.estado = 'Activo';
             }
 
+            var monto_timbre = parseFloat(response.monto_timbre);
 
             $("input[name='n_cliente']").val(response.n_cliente);
             $("input[name='estado']").val(response.estado);
             $("input[name='f_ult_timbre']").val(response.f_ult_timbre);
             $("input[name='f_ult_pago']").val(response.f_ult_pago);
-            $("input[name='monto_timbre']").val(response.monto_timbre);
+            $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
         }else {
             alertify.error('Numero de colegiado no exite');
             $("#ReciboForm")[0].reset();
