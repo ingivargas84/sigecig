@@ -224,5 +224,25 @@ class ResolucionPagoController extends Controller
         
         return Response::json( $api_Result );
     }
+
+    public function aprDocumentosAp($solicitud){
+        $user = Auth::User();
+        $estado_solicitud = PlataformaSolicitudAp::Where("n_colegiado", $solicitud)->get()->first();
+        $estado_solicitud->id_estado_solicitud='4';
+        $estado_solicitud->update();
+
+        return view ('admin.firmaresolucion.index', compact('user'));
+       
+    }
+
+    public function rczDocumentosAp($solicitud){
+        $user = Auth::User();
+        $estado_solicitud = PlataformaSolicitudAp::Where("n_colegiado", $solicitud)->get()->first();
+        $estado_solicitud->id_estado_solicitud='3';
+        $estado_solicitud->update();
+
+        return view ('admin.firmaresolucion.index', compact('user'));
+       
+    }
     
 }

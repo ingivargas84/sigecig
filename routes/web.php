@@ -126,6 +126,10 @@ Route::group([
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
+        //Módulo Auxilio Postumo-->Aprobacion de Documentos
+        Route::get('/resolucion/aprdocumentosap/{solicitud}','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
+        Route::get('/resolucion/rczdocumentosap/{solicitud}','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
+
 
         // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');

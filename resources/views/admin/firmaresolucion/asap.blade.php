@@ -66,8 +66,8 @@
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('resolucion.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonAutorizar" name="ButtonAutorizar">Autorizar</button>
-                            <button class="btn btn-danger form-button" id="ButtonRechazar" name="ButtonRechazar">Rechazar</button>
+                        <a class="btn btn-success form-button" id="ButtonAutorizar" name="ButtonAutorizar " href=" {{route('doc.aprobacion',$solicitud->n_colegiado )}}" >Autorizar</a>
+                            <a class="btn btn-danger form-button" id="ButtonRechazar" name="ButtonRechazar" href=" {{route('doc.rechazado',$solicitud->n_colegiado )}}">Rechazar</a>
                         </div>
 
 
