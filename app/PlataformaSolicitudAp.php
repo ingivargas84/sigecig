@@ -20,7 +20,8 @@ class PlataformaSolicitudAp extends Model
         'no_acta',
         'no_punto_acta',       
         'pdf_dpi_ap',
-        'pdf_solicitud_ap'    
+        'pdf_solicitud_ap',
+        'fecha_pago_ap'  
     ];
 
 }
