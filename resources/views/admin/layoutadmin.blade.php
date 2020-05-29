@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
     <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
-  
+
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/fontawesome.min.css') }}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/all.css') }}">
-  
+
   @stack('styles')
 
   {{--<link rel="stylesheet" href="{{asset('DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css') }}">--}}
@@ -67,18 +67,18 @@
       <span class="logo-mini"><b>C</b>IG</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>SIGECIG</b></span>
-      
+
     </a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
 
     <!-- Sidebar toggle button-->
-     
+
 
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
-      
+
         <ul class="nav navbar-nav">
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
@@ -108,7 +108,7 @@
                   <button class="btn btn-default btn-flat btn-block">Cerrar sesión</button>
                 </form>
               </li>
-    
+
             </ul>
           </li>
         </ul>
@@ -116,7 +116,7 @@
       </div>
     </nav>
   </header>
-  
+
 
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
@@ -136,9 +136,9 @@
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background: white;">
     <!-- Content Header (Page header) -->
-    
+
     @yield('header')
 
     <!-- Main content -->
@@ -228,34 +228,34 @@
         resizable:true,
         startMaximized:false,
         transition:'pulse',
-    
+
         // notifier defaults
         notifier:{
-            // auto-dismiss wait time (in seconds)  
+            // auto-dismiss wait time (in seconds)
             delay:5,
             // default position
             position:'bottom-right',
             // adds a close button to notifier messages
             closeButton: false
         },
-    
-        // language resources 
+
+        // language resources
         glossary:{
             // dialogs default title
             title:'Aviso!',
             // ok button text
             ok: 'OK',
             // cancel button text
-            cancel: 'Cancelar'            
+            cancel: 'Cancelar'
         },
-    
+
         // theme settings
         theme:{
             // class name attached to prompt dialog input textbox.
             input:'ajs-input',
             // class name attached to ok button
             ok:'ajs-ok',
-            // class name attached to cancel button 
+            // class name attached to cancel button
             cancel:'ajs-cancel'
         }
     };

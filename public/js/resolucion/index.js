@@ -232,23 +232,13 @@ var validator = $("#FormFechaAp").validate({
     }
 });
 
-$('#modalCambioEstado').on('shown.bs.modal', function(event){
-    var button = $(event.relatedTarget);
-    var id = button.data('id');
-    
-    var modal = $(this);
-    modal.find(".modal-body input[name='idSolicitud']").val(id);
-
- });
-
-
     $(document).on('click', 'a.cambiar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
     
         var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
 
-        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado firmó su resolución',
+        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado firmó su resolución?',
             function(){
                 $('.loader').fadeIn();
                 $.post({
@@ -273,7 +263,7 @@ $('#modalCambioEstado').on('shown.bs.modal', function(event){
         var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
 
-        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el estado',
+        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el proceso de anticipo de auxilio póstumo?',
             function(){
                 $('.loader').fadeIn();
                 $.post({

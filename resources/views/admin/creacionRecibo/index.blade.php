@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divprecioU" style="display: block;">
+                                <div class="col-sm-1 col-lg-2" id="divprecioU" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioU" class="control-label">Precio U.</label>
                                         <div>
@@ -185,13 +185,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="e" class="desc"> <!-- Inicia vista de Empresa -->
+                        <div id="e" class="desc" style="display: none"> <!-- Inicia vista de Empresa -->
                             <div class="row col-sm-offset-1">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="nit" class="control-label">Nit</label>
                                         <div>
-                                            <input type="nuber" id="nit" name="nit" required class="form-control">
+                                            <input type="text" id="nit" name="nit" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +200,109 @@
                                         <label for="empresa" class="control-label">Empresa</label>
                                         <div>
                                             <input type="text" disabled id="empresa" name="empresa" required class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-sm-offset-1">
+                                <div class="col-sm-2" id="divColegioE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="codigoE" class="control-label">Codigo</label>
+                                        <select name="codigoE" class="form-control" id="codigoE">
+                                            <option value="">-- Escoja --</option>
+                                            @foreach ($tipo as $ti)
+                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" id="divCantidadE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="cantidadE" class="control-label">Cantidad</label>
+                                        <div>
+                                            <input id="cantidadE" type="number" min="1" class="form-control" name="cantidadE" value="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" id="divprecioUE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="precioUE" class="control-label">Precio U.</label>
+                                        <div>
+                                            <input id="precioUE" disabled type="text" class="form-control" name="precioUE">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4" id="divdescTipoPagoE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="descTipoPagoE" class="control-label">Descripcion</label>
+                                        <div>
+                                            <input id="descTipoPagoE" disabled type="text" class="form-control" name="descTipoPagoE">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="divsubtotalE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="subtotalE" class="control-label">Subtotal</label>
+                                        <div>
+                                            <input id="subtotalE" disabled type="text" class="form-control" name="subtotalE">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" id="divButtonAgregarE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="buttonAgregarE" class="control-label"></label>
+                                        <div>
+                                            <a id="buttonAgregarE" class="btn btn-danger" name="buttonAgregarE" onclick="agregarproductofE()">+</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class='container' id='detalleE'>
+                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th>Eliminar</th></tr></thead>
+                                        <tbody>
+                                        @if(isset($detalleE))
+                                            @foreach ($detalleE as $fila)
+                                            <tr>
+                                            <td>{!! $fila->codigo; !!}</td>
+                                            <td>{!! $fila->cantidad; !!}</td>
+                                            <td>{!! $fila->precioU; !!}</td>
+                                            <td>{!! $fila->descripcion; !!}</td>
+                                            <td align="right" class="subtotalE">{!! $fila->subtotal; !!}</td>
+                                            <td><button class="form-button btn btn-danger" onclick="eliminardetalleE(this)" type="button">Eliminar</button></td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-sm-2 col-sm-offset-8" id="divTotalE" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="totalE" class="control-label">Total</label>
+                                        <div>
+                                            <input id="totalE" disabled type="text" class="form-control" name="totalE">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="p" class="desc" style="display: none"> <!-- Inicia vista Particular -->
+                            <div class="row col-sm-offset-1">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="dpi" class="control-label">DPI</label>
+                                        <div>
+                                            <input type="number" id="dpi" name="dpi" required class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="empresa" class="control-label">Nombre</label>
+                                        <div>
+                                            <input type="text" id="empresa" name="empresa" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -301,13 +404,13 @@
 <script>
     $(document).ready(function() {
         $("#e").hide();
+        $("#p").hide();
         $("input[name$='tipoCliente']").click(function() {
             var test = $(this).val();
             $("div.desc").hide();
             $("#" + test).show();
-            //$("div.desc").val(null);
-            // $("#e")[0].reset();
-            // $("#p")[0].reset();
+            $('input[type="text"]').val('');
+            $('input[type="number"]').val('');
     });
 });
 </script>
