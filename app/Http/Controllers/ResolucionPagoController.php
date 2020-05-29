@@ -73,8 +73,7 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
         $profesion = SQLSRV_Profesion::where("c_cliente",$solicitud->n_colegiado)->get()->first();
-
-        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion'));
+        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion','no_solicitud'));
     }
     
     /**
@@ -227,7 +226,7 @@ class ResolucionPagoController extends Controller
 
     public function aprDocumentosAp($solicitud){
         $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("n_colegiado", $solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='4';
         $estado_solicitud->update();
 
@@ -235,9 +234,9 @@ class ResolucionPagoController extends Controller
        
     }
 
-    public function rczDocumentosAp($solicitud){
+    public function rczDocumentosAp(Request $request, $solicitud){
         $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("n_colegiado", $solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='3';
         $estado_solicitud->update();
 

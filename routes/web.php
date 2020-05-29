@@ -128,7 +128,7 @@ Route::group([
 
         //Módulo Auxilio Postumo-->Aprobacion de Documentos
         Route::get('/resolucion/aprdocumentosap/{solicitud}','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
-        Route::get('/resolucion/rczdocumentosap/{solicitud}','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
+        Route::post('/resolucion/rczdocumentosap/{solicitud}','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
 
 
         // Modulo de Tipos de pago

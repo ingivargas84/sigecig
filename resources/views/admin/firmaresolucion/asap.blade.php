@@ -14,7 +14,7 @@
 @stop
 
 @section('content')
-    <form method="POST" id="AsapForm"  action="{{route('asap.save')}}">
+    <form method="POST" id="AsapForm"  action="{{route('doc.rechazado', $solicitud->no_solicitud )}}">
             {{csrf_field()}}
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -66,8 +66,23 @@
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('resolucion.index') }}">Regresar</a>
-                        <a class="btn btn-success form-button" id="ButtonAutorizar" name="ButtonAutorizar " href=" {{route('doc.aprobacion',$solicitud->n_colegiado )}}" >Autorizar</a>
-                            <a class="btn btn-danger form-button" id="ButtonRechazar" name="ButtonRechazar" href=" {{route('doc.rechazado',$solicitud->n_colegiado )}}">Rechazar</a>
+                        <a class="btn btn-success form-button" id="ButtonAutorizar" name="ButtonAutorizar " href=" {{route('doc.aprobacion',$solicitud->no_solicitud )}}" >Autorizar</a>
+                            <a class="btn btn-danger form-button" id="ButtonRechazar" name="ButtonRechazar" href=" #ventana1" data-toggle="modal">Rechazar</a>
+                            <div class="modal fade" id="ventana1" >
+                                <div class="modal-dialog" style=" margin-top: 230px;" >
+                                   <div class="modal-content" style="border-radius: 20px 20px 0px 0px" >
+                                       <div class="modal-header" style="text-align: center; border-radius: 15px 15px 0px 0px;">
+                                           <h5 class="modal-title ">MOTIVO DE RECHAZO </h5>
+                                       </div>
+                                       <div class="modal-body" style="text-align: center">
+                                            <textarea name="mensaje" id="" cols="30" rows="10" style="background: #d2d2d2; margin-top: 20px; border-radius: 10px 10px 10px 10px; width: 500px; max-width: 550px;height: 262px;" ></textarea>
+                                       </div>
+                                       <div class="modal-footer">
+                                           <button type="submit" style="background: #858585; color:white;"> ENVIAR </button>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -78,6 +93,8 @@
     <div class="loader loader-bar"></div>
 
 @stop
+
+
 
 
 @push('styles')
