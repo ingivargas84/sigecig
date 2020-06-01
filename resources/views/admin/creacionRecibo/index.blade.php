@@ -290,7 +290,7 @@
                         </div>
                         <div id="p" class="desc" style="display: none"> <!-- Inicia vista Particular -->
                             <div class="row col-sm-offset-1">
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="dpi" class="control-label">DPI</label>
                                         <div>
@@ -411,6 +411,7 @@
             $("#" + test).show();
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
+            $("tbody").children().remove()
     });
 });
 </script>
