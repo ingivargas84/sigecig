@@ -224,23 +224,19 @@ class ResolucionPagoController extends Controller
         return Response::json( $api_Result );
     }
 
-    public function aprDocumentosAp($solicitud){
-        $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
+    public function aprDocumentosAp(Request $request){   
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='4';
         $estado_solicitud->update();
-
-        return view ('admin.firmaresolucion.index', compact('user'));
-       
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
-    public function rczDocumentosAp(Request $request, $solicitud){
-        $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
-        $estado_solicitud->id_estado_solicitud='3';
-        $estado_solicitud->update();
-
-        return view ('admin.firmaresolucion.index', compact('user'));
+    public function rczDocumentosAp(Request $request){
+         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+         $estado_solicitud->solicitud_rechazo_ap = $request->texto;
+         $estado_solicitud->id_estado_solicitud='3';
+         $estado_solicitud->update();    
+         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
        
     }
     

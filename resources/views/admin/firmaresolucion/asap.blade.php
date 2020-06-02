@@ -1,6 +1,8 @@
 @extends('admin.layoutadmin')
 
 @section('header')
+    <link rel="stylesheet" href=" {{ asset('font-awesome/css/font-awesome.css') }}">
+    <meta id="token" name="csrf-token" content="{{ csrf_token() }}"/>
     <section class="content-header">
         <h1>
           Autorización de Solicitudes de Auxilio Póstumo
@@ -10,12 +12,15 @@
           <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Autorizacion</a></li>
           <li class="active">Crear</li>
         </ol>
+       
+
     </section>
 @stop
 
 @section('content')
-    <form method="POST" id="AsapForm"  action="{{route('doc.rechazado', $solicitud->no_solicitud )}}">
-            {{csrf_field()}}
+    <form id="miForumulario" action="">
+            @csrf
+            {{-- {{csrf_field()}} --}}
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-body">
@@ -66,19 +71,24 @@
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('resolucion.index') }}">Regresar</a>
-                        <a class="btn btn-success form-button" id="ButtonAutorizar" name="ButtonAutorizar " href=" {{route('doc.aprobacion',$solicitud->no_solicitud )}}" >Autorizar</a>
+                            
+                             <input type="submit"  value="Autorizar" id="ButtonAutorizar" class="btn btn-success form-button" >
                             <a class="btn btn-danger form-button" id="ButtonRechazar" name="ButtonRechazar" href=" #ventana1" data-toggle="modal">Rechazar</a>
+                          
+                            <div id="divmsga" style="display: none; color:green;" class="alert alert-primary" role="alert" ></div>
                             <div class="modal fade" id="ventana1" >
-                                <div class="modal-dialog" style=" margin-top: 230px;" >
+                                <div class="modal-dialog" style=" margin-top: 100px;" >
                                    <div class="modal-content" style="border-radius: 20px 20px 0px 0px" >
                                        <div class="modal-header" style="text-align: center; border-radius: 15px 15px 0px 0px;">
                                            <h5 class="modal-title ">MOTIVO DE RECHAZO </h5>
                                        </div>
                                        <div class="modal-body" style="text-align: center">
-                                            <textarea name="mensaje" id="" cols="30" rows="10" style="background: #d2d2d2; margin-top: 20px; border-radius: 10px 10px 10px 10px; width: 500px; max-width: 550px;height: 262px;" ></textarea>
+                                            <textarea name="mensaje" id="mensaje" cols="30" rows="10" style=" margin-top: 20px; border-radius: 10px 10px 10px 10px; width: 500px; max-width: 550px;height: 262px;" ></textarea>
                                        </div>
                                        <div class="modal-footer">
-                                           <button type="submit" style="background: #858585; color:white;"> ENVIAR </button>
+                                           <input type="submit" style="background: #858585; color:white; width: 110px;" value="Enviar" id="enviar" class="btn btn-secondary">
+                                           <div id="divmsg" style="display: none; color:green;" class="alert alert-primary" role="alert"></div>
+                                          
                                        </div>
                                    </div>
                                 </div>
@@ -88,6 +98,7 @@
 
                     </div>
                 </div>
+                <input type="hidden" id="no_solicitud" name="no_solicitud" value="{{$solicitud->no_solicitud}}" style="display: none">
             </div>
     </form>
     <div class="loader loader-bar"></div>
@@ -104,4 +115,5 @@
 
 @push('scripts')
 <script src="{{asset('js/resolucion/asap.js')}}"></script>
+
 @endpush
