@@ -12,13 +12,13 @@ class EstadoSolicitudSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('estado_solicitud')->insert([
+        DB::table('sigecig_estado_solicitud')->insert([
             'estado_solicitud'=>'creada'
         ]);
-        DB::table('estado_solicitud')->insert([
+        DB::table('sigecig_estado_solicitud')->insert([
             'estado_solicitud'=>'rechazado'
         ]);
-        DB::table('estado_solicitud')->insert([
+        DB::table('sigecig_estado_solicitud')->insert([
             'estado_solicitud'=>'aprobado'
         ]);
     }

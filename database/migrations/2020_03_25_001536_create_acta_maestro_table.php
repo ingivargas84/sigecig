@@ -13,7 +13,7 @@ class CreateActaMaestroTable extends Migration
      */
     public function up()
     {
-        Schema::create('acta_maestro', function (Blueprint $table) {
+        Schema::create('sigecig_acta_maestro', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('no_acta');
             $table->date('fecha_acta');
@@ -30,6 +30,6 @@ class CreateActaMaestroTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acta_maestro');
+        Schema::dropIfExists('sigecig_acta_maestro');
     }
 }

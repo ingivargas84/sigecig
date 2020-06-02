@@ -13,7 +13,7 @@ class CreateActaDetalleTable extends Migration
      */
     public function up()
     {
-        Schema::create('acta_detalle', function (Blueprint $table) {
+        Schema::create('sigecig_acta_detalle', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acta_maestro_id');
             $table->integer('no_punto');
@@ -29,6 +29,6 @@ class CreateActaDetalleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acta_detalle');
+        Schema::dropIfExists('sigecig_acta_detalle');
     }
 }

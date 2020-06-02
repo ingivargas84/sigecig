@@ -13,7 +13,7 @@ class CreateSolicitudBoletaTable extends Migration
      */
     public function up()
     {
-        Schema::create('solicitud_boleta', function (Blueprint $table) {
+        Schema::create('sigecig_solicitud_boleta', function (Blueprint $table) {
             $table->increments('id');
             $table->date('fecha');
             $table->integer('departamento_id');
@@ -23,7 +23,7 @@ class CreateSolicitudBoletaTable extends Migration
             $table->integer('estado_solicitud');
             $table->string('quien_la_usara',100);
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('sigecig_users');
             //$table->foreign('estado_solicitud')->references('id')->on('estado_solicitud');
 
             $table->timestamps();
@@ -37,6 +37,6 @@ class CreateSolicitudBoletaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicitud_boleta');
+        Schema::dropIfExists('sigecig_solicitud_boleta');
     }
 }

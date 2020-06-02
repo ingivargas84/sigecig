@@ -10,8 +10,12 @@
 
   <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
   <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Muli">
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
+    <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
@@ -20,7 +24,7 @@
   <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/fontawesome.min.css') }}">
   <link rel="stylesheet" href="{{asset('fontawesome/css/all.css') }}">
-  
+
   @stack('styles')
 
   {{--<link rel="stylesheet" href="{{asset('DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css') }}">--}}
@@ -37,8 +41,7 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datepicker/datepicker3.css')}}">
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('adminlte/css/AdminLTE.min.css')}}">
+
 
   <link rel="stylesheet" href="{{asset('adminlte/css/skins/skin-blue.min.css')}}">
 
@@ -64,18 +67,18 @@
       <span class="logo-mini"><b>C</b>IG</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>SIGECIG</b></span>
-      
+
     </a>
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
 
     <!-- Sidebar toggle button-->
-     
+
 
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
-      
+
         <ul class="nav navbar-nav">
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
@@ -98,14 +101,14 @@
                   <small>Desde {{ auth()->user()->created_at->format('d/M/Y') }}</small>
                 </p>
               </li>
-
               <li class="user-footer">
+                <button class="btn btn-default btn-flat btn-block" href="#" data-toggle="modal" data-target="#modalResetPassword">Cambiar Contraseña</button>
                 <form  method="POST" action=" {{ route('logout') }} ">
                   {{ csrf_field() }}
-                  <button class="btn btn-default btn-flat btn-block">Cerrar sesion</button>
+                  <button class="btn btn-default btn-flat btn-block">Cerrar sesión</button>
                 </form>
               </li>
-    
+
             </ul>
           </li>
         </ul>
@@ -113,23 +116,40 @@
       </div>
     </nav>
   </header>
-  
+
+
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar Menu -->
+
+      @include('admin.partials.nav')
+
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background: white;">
     <!-- Content Header (Page header) -->
-    
+
     @yield('header')
 
     <!-- Main content -->
     <section class="content">
 
       @if(session()->has('flash'))
-        <div class="alert alert-success">{{ session('flash') }}
+        <div class="alert alert-success" id="alert-success">{{ session('flash') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
         </div>
       @elseif(session()->has('alerta'))
-        <div class="alert alert-warning">{{ session('alerta') }}
+        <div class="alert alert-warning" id="alert-warning">{{ session('alerta') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
         </div>
       @endif
@@ -208,34 +228,34 @@
         resizable:true,
         startMaximized:false,
         transition:'pulse',
-    
+
         // notifier defaults
         notifier:{
-            // auto-dismiss wait time (in seconds)  
+            // auto-dismiss wait time (in seconds)
             delay:5,
             // default position
             position:'bottom-right',
             // adds a close button to notifier messages
             closeButton: false
         },
-    
-        // language resources 
+
+        // language resources
         glossary:{
             // dialogs default title
             title:'Aviso!',
             // ok button text
             ok: 'OK',
             // cancel button text
-            cancel: 'Cancelar'            
+            cancel: 'Cancelar'
         },
-    
+
         // theme settings
         theme:{
             // class name attached to prompt dialog input textbox.
             input:'ajs-input',
             // class name attached to ok button
             ok:'ajs-ok',
-            // class name attached to cancel button 
+            // class name attached to cancel button
             cancel:'ajs-cancel'
         }
     };

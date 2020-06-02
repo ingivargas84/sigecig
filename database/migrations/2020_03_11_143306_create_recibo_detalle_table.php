@@ -13,7 +13,7 @@ class CreateReciboDetalleTable extends Migration
      */
     public function up()
     {
-        Schema::create('recibo_detalle', function (Blueprint $table) {
+        Schema::create('sigecig_recibo_detalle', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateReciboDetalleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recibo_detalle');
+        Schema::dropIfExists('sigecig_recibo_detalle');
     }
 }

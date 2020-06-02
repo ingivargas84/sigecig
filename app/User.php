@@ -16,6 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = 'sigecig_users';
     protected $fillable = [
         'name', 'email', 'password', 'username', 'contador_intentos', 'estado'
     ];
@@ -32,7 +33,7 @@ class User extends Authenticatable
     public function scopeCajeros($query)
     {
         $consulta = "SELECT U.id, U.name, IF(U.estado = 1,'Activo', 'Inactivo') as estado, R.name as rol
-        from users U 
+        from users_sigecig U 
         LEFT JOIN model_has_roles M on M.model_id = U.id
         LEFT JOIN roles R on R.id = M.role_id WHERE R.name ='Cobrador' order by U.id desc ";   
 

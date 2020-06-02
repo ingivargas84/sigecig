@@ -41,59 +41,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = User::all();
-        return view('admin.dashboard', compact('users'));
-    }
+        $user = Auth::User();
 
-    public function gerencia()
-    {
-        return view('gerencia.dashboard');
-    }
-
-    public function juntadirectiva()
-    {
-        return view('juntadirectiva.dashboard');
-    }
-
-    public function administracion()
-    {
-        return view('administracion.dashboard');
-    }
-
-    public function contabilidad()
-    {
-        return view('contabilidad.dashboard');
-    }
-
-    public function informatica()
-    {
-        return view('informatica.dashboard');
-    }
-
-    public function ceduca()
-    {
-        return view('ceduca.dashboard');
-    }
-
-    public function nuevoscolegiados()
-    {
-        return view('nuevoscolegiados.dashboard');
-    }
-
-    public function timbreingenieria()
-    {
-        return view('timbreingenieria.dashboard');
-    }
-
-    public function comisiones()
-    {
-        return view('comisiones.dashboard');
-    }
-
-    public function auditoria()
-    {
-        return view('auditoria.dashboard');
-    }
-
-   
+        return view('admin.dashboard');
+        
+    }   
 }

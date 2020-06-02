@@ -29,7 +29,7 @@ class ActaMaestroController extends Controller
      */ 
     public function index()
     {
-        return view ('juntadirectiva.acta.index');
+        return view ('admin.acta.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class ActaMaestroController extends Controller
      */
     public function create()
     {
-        return view ('juntadirectiva.acta.create');
+        return view ('admin.acta.create');
     }
 
     /**
@@ -92,7 +92,7 @@ class ActaMaestroController extends Controller
      */
     public function edit(ActaMaestro $acta)
     {
-        return view('juntadirectiva.acta.edit', compact('acta'));
+        return view('admin.acta.edit', compact('acta'));
     }
 
     /**

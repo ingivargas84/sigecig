@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActaMaestro extends Model
 {
-    protected $table = 'acta_maestro';
+    protected $table = 'sigecig_acta_maestro';
 
     protected $fillable = [
         'no_acta',

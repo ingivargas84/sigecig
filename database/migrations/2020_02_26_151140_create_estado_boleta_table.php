@@ -13,7 +13,7 @@ class CreateEstadoBoletaTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_boleta', function (Blueprint $table) {
+        Schema::create('sigecig_estado_boleta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('estado_boleta',40);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateEstadoBoletaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_boleta');
+        Schema::dropIfExists('sigecig_estado_boleta');
     }
 }

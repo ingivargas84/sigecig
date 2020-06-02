@@ -13,7 +13,7 @@ class CreateEstadoSolicitudTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_solicitud', function (Blueprint $table) {
+        Schema::create('sigecig_estado_solicitud', function (Blueprint $table) {
             $table->increments('id');
             $table->string('estado_solicitud',40);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateEstadoSolicitudTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_solicitud');
+        Schema::dropIfExists('sigecig_estado_solicitud');
     }
 }

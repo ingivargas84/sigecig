@@ -9,7 +9,7 @@ class InformeLlamada extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'informe_llamadas';
+    protected $table = 'sigecig_informe_llamadas';
 
     protected $dates = ['deleted_at'];
 

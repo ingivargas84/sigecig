@@ -19,26 +19,49 @@ class UsersSeeder extends Seeder
 
         $superadminRole = Role::create(['name' => 'Super-Administrador']);
         $adminRole = Role::create(['name' => 'Administrador']);
+        $jdRole = Role::create(['name' => 'JuntaDirectiva']);
+        $asistentejdRole = Role::create(['name' => 'AsistenteJD']);
+        $gerenciaRole = Role::create(['name' => 'Gerencia']);
+        $jefecontabilidadRole = Role::create(['name' => 'JefeContabilidad']);
+        $contabilidadRole = Role::create(['name' => 'Contabilidad']);
+        $auditoriaRole = Role::create(['name' => 'Auditoria']);
+        $jefeinformaticaRole = Role::create(['name' => 'JefeInformatica']);
+        $soporteinformaticaRole = Role::create(['name' => 'SoporteInformatica']);
+        $asistenteRole = Role::create(['name' => 'Asistente']);
+        $subsedeRole = Role::create(['name' => 'Subsede']);
+        $coordinacionsubsedeRole = Role::create(['name' => 'CoordinacionSubSede']);
+        $jefecomisionesRole = Role::create(['name' => 'JefeComisiones']);
+        $comisionesRole = Role::create(['name' => 'Comisiones']);
+        $jeferrhhRole = Role::create(['name' => 'JefeRRHH']);
+        $rrhhRole = Role::create(['name' => 'RRHH']);
+        $cajaRole = Role::create(['name' => 'Caja']);
+        $tribunalhonorRole = Role::create(['name' => 'TribunalHonor']);
+        $tribunalelectoralRole = Role::create(['name' => 'TribunalElectoral']);
+        $comprasRole = Role::create(['name' => 'Compras']);
+        $jefeceducaRole = Role::create(['name' => 'JefeCeduca']);
+        $ceducaRole = Role::create(['name' => 'Ceduca']);
+        $jefetimbresRole = Role::create(['name' => 'JefeTimbres']);
+        $timbreRole = Role::create(['name' => 'Timbre']);
 
-        $user = new user;
-        $user->name = 'Super Administrador';
-        $user->email= 'superadmin@gmail.com';
-        $user->password = bcrypt('superadmin');
-        $user->username = 'superadmin';
-        $user->estado = 1;
-        $user->save();
-        $user->assignRole($superadminRole); 
+        $sigecig_users = new user;
+        $sigecig_users->name = 'Super Administrador';
+        $sigecig_users->email= 'superadmin@gmail.com';
+        $sigecig_users->password = bcrypt('superadmin');
+        $sigecig_users->username = 'superadmin';
+        $sigecig_users->estado = 1;
+        $sigecig_users->save();
+        $sigecig_users->assignRole($superadminRole); 
 
-        $user = new user;
-        $user->name = 'Administrador';
-        $user->email= 'admin@1gmail.com';
-        $user->password = bcrypt('admin');
-        $user->username = 'admin';
-        $user->estado = 1;
-        $user->save();
-        $user->assignRole($adminRole);
+        $sigecig_users = new user;
+        $sigecig_users->name = 'Administrador';
+        $sigecig_users->email= 'admin@1gmail.com';
+        $sigecig_users->password = bcrypt('admin');
+        $sigecig_users->username = 'admin';
+        $sigecig_users->estado = 1;
+        $sigecig_users->save();
+        $sigecig_users->assignRole($adminRole);
 
-        
+    
         
     }
 }

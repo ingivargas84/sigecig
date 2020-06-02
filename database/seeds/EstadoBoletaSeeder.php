@@ -12,10 +12,10 @@ class EstadoBoletaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('estado_boleta')->insert([
+        DB::table('sigecig_estado_boleta')->insert([
             'estado_boleta'=>'Activa'
         ]);
-        DB::table('estado_boleta')->insert([
+        DB::table('sigecig_estado_boleta')->insert([
             'estado_boleta'=>'Inactiva'
         ]);
     }

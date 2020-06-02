@@ -13,7 +13,7 @@ class CreateInformeLlamadasTable extends Migration
      */
     public function up()
     {
-        Schema::create('informe_llamadas', function (Blueprint $table) {
+        Schema::create('sigecig_informe_llamadas', function (Blueprint $table) {
             $table->increments('id');
             $table->datetime('fecha_hora');
             $table->integer('colegiado');
@@ -32,6 +32,6 @@ class CreateInformeLlamadasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('informe_llamadas');
+        Schema::dropIfExists('sigecig_informe_llamadas');
     }
 }

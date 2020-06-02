@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Puesto extends Model
 {
-    protected $table = 'puesto';
+    protected $table = 'sigecig_puesto';
 
     protected $fillable = [
         'puesto'

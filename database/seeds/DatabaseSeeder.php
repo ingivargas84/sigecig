@@ -15,14 +15,18 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UsersSeeder::class);
         $this->call(NegocioSeeder::class);
-        $this->call(EstadoSolicitudSeeder::class);
-        $this->call(EstadoProcesoBoletaSeeder::class);
-        $this->call(EstadoBoletaSeeder::class);
-        $this->call(PuestoSeeder::class);
         $this->call(DepartamentoSeeder::class);
-        
+        $this->call(EstadoBoletaSeeder::class);
+        $this->call(EstadoProcesoBoletaSeeder::class);
+        $this->call(EstadoSolicitudSeeder::class);
+        $this->call(PuestoSeeder::class);
+        $this->call(EstadoSolicitudApSeeder::class);
+        $this->call(CategoriaTipoPagoSeeder::class);
+        $this->call(PlataformaBancoSeeder::class);
+        $this->call(PlataformaTipoCuentaSeeder::class);
+
         //$this->call(TiposLocalidadesSeeder::class);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');        
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

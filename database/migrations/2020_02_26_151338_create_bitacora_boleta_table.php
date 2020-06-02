@@ -13,15 +13,15 @@ class CreateBitacoraBoletaTable extends Migration
      */
     public function up()
     {
-        Schema::create('bitacora_boleta', function (Blueprint $table) {
+        Schema::create('sigecig_bitacora_boleta', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('no_boleta');
             $table->string('accion',100);
             $table->unsignedinteger('user_id');
             $table->date('fecha');
 
-            $table->foreign('user_id')->references('id')->on('users');
-            
+            $table->foreign('user_id')->references('id')->on('sigecig_users');
+
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateBitacoraBoletaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bitacora_boleta');
+        Schema::dropIfExists('sigecig_bitacora_boleta');
     }
 }

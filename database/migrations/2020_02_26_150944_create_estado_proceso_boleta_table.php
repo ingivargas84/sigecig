@@ -13,7 +13,7 @@ class CreateEstadoProcesoBoletaTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado_proceso_boleta', function (Blueprint $table) {
+        Schema::create('sigecig_estado_proceso_boleta', function (Blueprint $table) {
             $table->increments('id');
             $table->string('estado_proceso_boleta',40);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateEstadoProcesoBoletaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_proceso_boleta');
+        Schema::dropIfExists('sigecig_estado_proceso_boleta');
     }
 }

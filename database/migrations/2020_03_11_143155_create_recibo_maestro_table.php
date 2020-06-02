@@ -13,7 +13,7 @@ class CreateReciboMaestroTable extends Migration
      */
     public function up()
     {
-        Schema::create('recibo_maestro', function (Blueprint $table) {
+        Schema::create('sigecig_recibo_maestro', function (Blueprint $table) {
             $table->increments('id');
             $table->date('fecha_recibo');
             $table->string('serie');
@@ -37,6 +37,6 @@ class CreateReciboMaestroTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recibo_maestro');
+        Schema::dropIfExists('sigecig_recibo_maestro');
     }
 }

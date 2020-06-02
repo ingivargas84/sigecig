@@ -13,7 +13,7 @@ class CreateProveedoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('proveedores', function (Blueprint $table) {
+        Schema::create('sigecig_proveedores', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre_comercial');
             $table->string('nombre_legal')->nullable();
@@ -23,9 +23,9 @@ class CreateProveedoresTable extends Migration
             $table->string('email')->nullable();
             $table->string('contacto1')->nullable();
             $table->string('contacto2')->nullable();
-        
+
             $table->unsignedInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('sigecig_users')->onDelete('cascade');
 
             $table->boolean('estado')->default(1);
             $table->timestamps();
@@ -39,6 +39,6 @@ class CreateProveedoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proveedores');
+        Schema::dropIfExists('sigecig_proveedores');
     }
 }

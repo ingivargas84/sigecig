@@ -13,7 +13,7 @@ class CreateBitacorasTable extends Migration
      */
     public function up()
     {
-        Schema::create('bitacoras', function (Blueprint $table) {
+        Schema::create('sigecig_bitacoras', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('modelo_id');
             $table->unsignedInteger('user_id');
@@ -32,6 +32,6 @@ class CreateBitacorasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bitacoras');
+        Schema::dropIfExists('sigecig_bitacoras');
     }
 }

@@ -13,7 +13,7 @@ class CreateBoletaTable extends Migration
      */
     public function up()
     {
-        Schema::create('boleta', function (Blueprint $table) {
+        Schema::create('sigecig_boleta', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('no_boleta')->nullable()->unique();
             $table->string('nombre_usuario',80)->nullable();
@@ -36,6 +36,6 @@ class CreateBoletaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boleta');
+        Schema::dropIfExists('sigecig_boleta');
     }
 }

@@ -224,6 +224,7 @@ th {
   tr,
   img {
     page-break-inside: avoid;
+    color: #03306d !important;
   }
   img {
     max-width: 100% !important;
@@ -5349,8 +5350,8 @@ button.list-group-item-success.active:hover,
 a.list-group-item-success.active:focus,
 button.list-group-item-success.active:focus {
   color: #fff;
-  background-color: #3c763d;
-  border-color: #3c763d;
+  background-color: #03306D;
+  border-color: #03306D;
 }
 .list-group-item-info {
   color: #31708f;
