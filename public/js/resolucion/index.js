@@ -118,6 +118,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
                 "</a>" + "</div>";
             }
+            else if(data == 'Documentación Aprobada'){    //Estado 4 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"'>" +                 
+                "<i class='fas fa-address-card' title='APROBACIÓN JUNTA DIRECTIVA'></i>" + 
+                "</a>" + "</div>";
+            }
+     
             else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
 
                 return "<div class='text-center'>" + 
@@ -232,7 +241,7 @@ var validator = $("#FormFechaAp").validate({
     }
 });
 
-    $(document).on('click', 'a.cambiar-estado', function(e) {
+    $(document).on(' click', 'a.cambiar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
     
         var $this = $(this);
@@ -362,3 +371,10 @@ var validator = $("#FormFechaAp").validate({
     }
     document.getElementById("demo").innerHTML = txt;
   }*/
+
+  function RechazarSolicitud(){
+        $('.btn-danger').click(function(){
+           $('#modal-body').modal('show');
+        });
+       
+  };
