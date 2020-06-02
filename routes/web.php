@@ -130,6 +130,10 @@ Route::group([
         Route::post('/resolucion/aprdocumentosap','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
         Route::post('/resolucion/rczdocumentosap','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
 
+        //Módulo Auxilio Postumo-->Aprobacion o Rechazo por Junta
+        Route::post('/resolucion/aprdocumentosjunta','ResolucionPagoController@aprDocumentosJunta')->name('doc.aprobacionJunta');
+        Route::post('/resolucion/rczdocumentosjunta','ResolucionPagoController@rczDocumentosJunta')->name('doc.rechazadoJunta');
+
 
         // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');

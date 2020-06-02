@@ -1,15 +1,12 @@
 function mostrarMensajeRechazo(mensaje) {
-    $("#divmsg").empty();
-    $("#divmsg").append("<p>"+mensaje+"</p>");
-    $("#divmsg").show(500);
-    $("#divmsg").hide(2000);
+    alertify.set('notifier','position', 'bottom-center');
+    alertify.success(mensaje);
+    
   }
 
   function mostrarMensajeAutorizacion(mensaje) {
-    $("#divmsga").empty();
-    $("#divmsga").append("<p>"+mensaje+"</p>");
-    $("#divmsga").show(500);
-    $("#divmsga").hide(2000);
+    alertify.set('notifier','position', 'bottom-center');
+    alertify.success(mensaje);
   }
 
 
@@ -40,13 +37,17 @@ $('#enviar').click(function (e) {
         
         success: function (data) {
             mostrarMensajeRechazo(data.mensaje);
-           limpiarCampos();
+            limpiarCampos();
     
         },
         error: function (jqXHR, estado, error){
             console.log(estado)
             console.log(error)
         }
+    }).always(function (data) {
+        $('#ventana1').modal("hide");
+        resolucion_table.ajax.reload();
+       
     });
     
 });
@@ -74,6 +75,10 @@ $('#ButtonAutorizar').click(function (e) {
             console.log(estado)
             console.log(error)
         }
+    }).always(function (data) {
+        $('#modalAprobacionJunta').modal("hide");
+        resolucion_table.ajax.reload();
+       
     });
     
 });
