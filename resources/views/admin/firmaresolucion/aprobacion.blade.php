@@ -1,16 +1,16 @@
 
 <div class="modal fade" id="modalAprobacionJunta" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">APROBACIÓN JUNTA DIRECTIVA</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal-content" style="border-radius: 20px 20px 0px 0px">
+      <div class="modal-header" style="text-align: center; border-radius: 15px 15px 0px 0px; ">
+        <h4 class="modal-title" style="line-height: 0; " id="exampleModalLabel">APROBACIÓN JUNTA DIRECTIVA</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="display: none">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group" STYLE="text-align: center">
+          <div class="form-group" style="text-align: center; font-weight: bold">
             <a href="" class="btn btn-success" id="aprobarSolicitud" type="button">APROVADO</a>
             <a href="" class="btn btn-danger" id="rechazarSolicitud">RECHAZADO</a>
             <div id="divmsga1" style="display: none; color:green;" class="alert alert-primary" role="alert" ></div>
@@ -26,7 +26,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="enviarRechazo"  style="display: none" >ENVIAR</button >
+        <button type="button" class="btn btn-secondary" id="enviarRechazo"  style="display: none; background: #858585; width: 150px" >ENVIAR</button >
         <div id="divmsga" style="display: none; color:green;" class="alert alert-primary" role="alert" ></div>
       </div>
     </div>
