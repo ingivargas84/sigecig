@@ -29,6 +29,7 @@
       <input type="hidden" name="urlActual" value="{{url()->current()}}">
   </div>
   <!-- /.box-body -->
+ 
 </div>
 <!-- /.box --> 
 
@@ -47,7 +48,7 @@
 </script>
   <script src="{{asset('js/resolucion/index.js')}}"></script>
   <script >
-
+    
   </script>
 
   @endpush

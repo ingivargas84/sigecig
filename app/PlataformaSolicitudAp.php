@@ -22,7 +22,8 @@ class PlataformaSolicitudAp extends Model
         'pdf_dpi_ap',
         'pdf_solicitud_ap',
         'fecha_pago_ap',
-        'solicitud_rechazo_ap'  
+        'solicitud_rechazo_ap' ,
+        'solicitud_rechazo_junta' 
     ];
 
 }
