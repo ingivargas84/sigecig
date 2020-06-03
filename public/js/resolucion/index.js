@@ -155,6 +155,13 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "</a>" + "</div>";
                 ;
             }
+            else if(data == 'Finalizada'){   //Estado 10 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='edit-user' data-toggle='modal' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
+                "<i class='fas fa-eye' title='Detalle'></i>" + 
+                "</a>" + "</div>";
+            }
             else return "";
         },
         "responsivePriority": 4

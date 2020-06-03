@@ -14,11 +14,11 @@ use App\AdmPersona;
 use App\PlataformaBanco;
 use App\PlataformaTipoCuenta;
 use App\AdmUsuario;
+use App\BitacoraAp;
 use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
-
-
+use App\Events\ActualizacionBitacoraAp;
 
 class ResolucionPagoController extends Controller
 {
@@ -32,14 +32,16 @@ class ResolucionPagoController extends Controller
         $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
         $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
         $profesion = SQLSRV_Profesion::where("c_cliente",$id->n_colegiado)->get()->first();
+     
 
-
-      $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date', 'profesion'));
+        $pdf = \PDF::loadView('admin.firmaresolucion.pdf', compact('id', 'adm_usuario', 'adm_persona', 'date', 'profesion'));
         return $pdf->stream('ArchivoPDF.pdf');
     }
 
     public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)
     {
+        $fecha = date("Y/m/d h:m:s");
+
         $nuevos_datos = array(
             'fecha_pago_ap' => $request->fecha_pago_ap,
             'id_estado_solicitud' => 9,
@@ -48,6 +50,8 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
         
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, $fecha, $tipo->id_estado_solicitud));
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -56,7 +60,43 @@ class ResolucionPagoController extends Controller
         $user = Auth::User();
         return view ('admin.firmaresolucion.index', compact('user'));
     }
-    
+
+    public function bitacora(PlataformaSolicitudAp $id)
+    {
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$id->n_colegiado)->get()->first();
+        $fecha_Nac = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $tel = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $reg = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
+        $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
+        $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->no_solicitud)->get()->first();
+       // $usuario_cambio = BitacoraAp::where('usuario','=', $adm_usuario->idPersona)->get()->first();
+        //$fecha_cambio = BitacoraAp::where("usuario",'=',$adm_usuario->idPersona)->get()->first();
+        
+
+        $user = Auth::User();
+        return view ('admin.bitacora.index', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg','banco','tipocuenta', 'usuario_cambio'));
+    }
+
+    function imprimirbitacora(PlataformaSolicitudAp $id){
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $adm_persona=AdmPersona::where('idPersona', '=', $adm_usuario->idPersona)->get()->first();
+        $fecha_Nac = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $profesion = SQLSRV_Profesion::where("c_cliente",$id->n_colegiado)->get()->first();
+        $tel = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $reg = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
+        $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
+        $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
+
+        $user = Auth::User();
+
+        $pdf = \PDF::loadView('admin.bitacora.pdfbitacora', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg','banco','tipocuenta'));
+        return $pdf->stream('BitacoraPDF.pdf');
+    }
+
+
     /**
     * Show the form for creating a new resource.
     *
@@ -112,23 +152,33 @@ class ResolucionPagoController extends Controller
 
     public function cambiarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
+// Estado 5 a estado 8
+        $fecha = date("Y/m/d h:m:s");
         $nuevos_datos = array(
-            'id_estado_solicitud' => 8,
+            'id_estado_solicitud' => 8
+                   
         );
+
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-        
+
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+
         return Response::json(['success' => 'Éxito']);
     }
     
     public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
+        //Estado 9 a 10
+        $fecha = date("Y/m/d h:m:s");
         $nuevos_datos = array(
             'id_estado_solicitud' => 10,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-        
+   
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -141,16 +191,20 @@ class ResolucionPagoController extends Controller
     */
     public function addActa(PlataformaSolicitudAp $solicitud, Request $request)
     {
+        //Estado 7 a 8
+        $fecha = date("Y/m/d h:m:s");
+
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 7,
+            'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
         
         
         $solicitud->update($nuevos_datos);
-        
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+
         //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
         return Response::json(['success' => 'Éxito']);
     }

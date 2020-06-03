@@ -33,11 +33,6 @@ Route::group([
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
         
-        // Módulo Contabilidad Y JefeContabilidad
-      //  Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
-       // Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
-
-
         // Módulo Contabilidad
         Route::get( '/proveedores' , 'ProveedoresController@index')->name('proveedores.index');
         Route::get( '/proveedores/getJson/' , 'ProveedoresController@getJson')->name('proveedores.getJson');
@@ -126,6 +121,9 @@ Route::group([
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
+        // Módulo Bitacora
+        Route::get('/resolucion/{id}/bitacora/', 'ResolucionPagoController@bitacora')->name('bitacora.index');
+        Route::get('/resolucion/pdf_bitacora/{id}/', 'ResolucionPagoController@imprimirbitacora')->name('bitacora.pdfbitacora');
 
         // Modulo de Tipos de pago
         Route::get( '/tipoDePago' , 'TipoDePagoController@index')->name('tipoDePago.index');

@@ -24,6 +24,7 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->integer('no_solicitud');
             $table->integer('no_acta')->nullable();
             $table->string('no_punto_acta', 10)->nullable();
+            $table->DateTime('fecha_pago_ap')->nullable();
             $table->string('pdf_dpi_ap', 255)->nullable();
             $table->string('pdf_solicitud_ap', 100)->nullable();
             $table->timestamps();
