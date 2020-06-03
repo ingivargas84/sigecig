@@ -47,7 +47,18 @@ function obtenerDatosColegiado()
         }
     }
   });
-  $("tbody").children().remove()
+    $('select[name="codigo"]').val('');
+    $('input[type="text"]').val('');
+    $('input[name="efectivo"]').val('');
+    $('input[name="cheque"]').val('');
+    $('input[name="montoCheque"]').val('');
+    $('input[name="tarjeta"]').val('');
+    $('input[name="montoTarjeta"]').val('');
+    $("tbody").children().remove();
+    $('input[name="tipoDePago"]').prop('checked', false);
+    comprobarCheckEfectivo();
+    comprobarCheckCheque();
+    comprobarCheckTarjeta();
 }
 
 $(document).ready(function(){
@@ -78,7 +89,14 @@ function obtenerDatosEmpresa()
 
     }
   });
-  $("tbody").children().remove()
+  $('select[name="codigoE"]').val('');
+    $('input[type="number"]').val('');
+    $('input[name="efectivoE"]').val('');
+    $('input[name="chequeE"]').val('');
+    $('input[name="montoChequeE"]').val('');
+    $('input[name="tarjetaE"]').val('');
+    $('input[name="montoTarjetaE"]').val('');
+    $("tbody").children().remove()
 }
 
 //Funcionamiento sobre colegiado
@@ -273,6 +291,68 @@ function getTotal() {
   limpiarFilaDetalle();
 }
 
+function comprobarCheckEfectivo()
+{
+    if (document.getElementById("tipoDePagoEfectivo").checked){
+        document.getElementById('efectivo').readOnly = false;
+    }
+    else{
+        document.getElementById('efectivo').readOnly = true;
+        $('input[name="efectivo"]').val('');
+    }
+}
+
+function comprobarCheckCheque()
+{
+    if (document.getElementById("tipoDePagoCheque").checked){
+        document.getElementById('cheque').readOnly = false;
+        document.getElementById('montoCheque').style.display = "";
+    }
+    else{
+        document.getElementById('cheque').readOnly = true;
+        document.getElementById('montoCheque').style.display = "none";
+        $('input[name="cheque"]').val('');
+        $('input[name="montoCheque"]').val('');
+    }
+}
+
+function comprobarCheckTarjeta()
+{
+    if (document.getElementById("tipoDePagoTarjeta").checked){
+        document.getElementById('tarjeta').readOnly = false;
+        document.getElementById('montoTarjeta').style.display = "";
+    }
+    else{
+        document.getElementById('tarjeta').readOnly = true;
+        document.getElementById('montoTarjeta').style.display = "none";
+        $('input[name="tarjeta"]').val('');
+        $('input[name="montoTarjeta"]').val('');
+    }
+}
+
+$("#guardarRecibo").click(function(e){
+    if (document.getElementById("tipoDePagoEfectivo").checked){
+        if ($('#efectivo').val() == 0){
+            alertify.error('el monto de efectivo no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoCheque").checked){
+        if ($('#cheque').val() == 0){
+            alertify.error('los datos de cheque no pueden ir vacios...');
+        }
+        if ($('#montoCheque').val() == 0){
+            alertify.error('el monto del cheque no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoTarjeta").checked){
+        if ($('#tarjeta').val() == 0){
+            alertify.error('los datos de tarjeta no pueden ir vacios...');
+        }
+        if ($('#montoTarjeta').val() == 0){
+            alertify.error('el monto de tarjeta no puede ser 0...');
+        }
+    }
+  })
 
 
 //Funcionamiento sobre EMPRESA
@@ -463,6 +543,69 @@ function getTotalE() {
   getTotalE();
   limpiarFilaDetalleE();
 }
+
+function comprobarCheckEfectivoE()
+{
+    if (document.getElementById("tipoDePagoEfectivoE").checked){
+        document.getElementById('efectivoE').readOnly = false;
+    }
+    else{
+        document.getElementById('efectivoE').readOnly = true;
+        $('input[name="efectivoE"]').val('');
+    }
+}
+
+function comprobarCheckChequeE()
+{
+    if (document.getElementById("tipoDePagoChequeE").checked){
+        document.getElementById('chequeE').readOnly = false;
+        document.getElementById('montoChequeE').style.display = "";
+    }
+    else{
+        document.getElementById('chequeE').readOnly = true;
+        document.getElementById('montoChequeE').style.display = "none";
+        $('input[name="chequeE"]').val('');
+        $('input[name="montoChequeE"]').val('');
+    }
+}
+
+function comprobarCheckTarjetaE()
+{
+    if (document.getElementById("tipoDePagoTarjetaE").checked){
+        document.getElementById('tarjetaE').readOnly = false;
+        document.getElementById('montoTarjetaE').style.display = "";
+    }
+    else{
+        document.getElementById('tarjetaE').readOnly = true;
+        document.getElementById('montoTarjetaE').style.display = "none";
+        $('input[name="tarjetaE"]').val('');
+        $('input[name="montoTarjetaE"]').val('');
+    }
+}
+
+$("#guardarReciboE").click(function(e){
+    if (document.getElementById("tipoDePagoEfectivoE").checked){
+        if ($('#efectivoE').val() == 0){
+            alertify.error('el monto de efectivo no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoChequeE").checked){
+        if ($('#chequeE').val() == 0){
+            alertify.error('los datos de cheque no pueden ir vacios...');
+        }
+        if ($('#montoChequeE').val() == 0){
+            alertify.error('el monto del cheque no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoTarjetaE").checked){
+        if ($('#tarjetaE').val() == 0){
+            alertify.error('los datos de tarjeta no pueden ir vacios...');
+        }
+        if ($('#montoTarjetaE').val() == 0){
+            alertify.error('el monto de tarjeta no puede ser 0...');
+        }
+    }
+  })
 
 //Funcionamiento sobre Particular
 
@@ -655,4 +798,65 @@ function getTotalP() {
   limpiarFilaDetalleP();
 }
 
+function comprobarCheckEfectivoP()
+{
+    if (document.getElementById("tipoDePagoEfectivoP").checked){
+        document.getElementById('efectivoP').readOnly = false;
+    }
+    else{
+        document.getElementById('efectivoP').readOnly = true;
+        $('input[name="efectivoP"]').val('');
+    }
+}
 
+function comprobarCheckChequeP()
+{
+    if (document.getElementById("tipoDePagoChequeP").checked){
+        document.getElementById('chequeP').readOnly = false;
+        document.getElementById('montoChequeP').style.display = "";
+    }
+    else{
+        document.getElementById('chequeP').readOnly = true;
+        document.getElementById('montoChequeP').style.display = "none";
+        $('input[name="chequeP"]').val('');
+        $('input[name="montoChequeP"]').val('');
+    }
+}
+
+function comprobarCheckTarjetaP()
+{
+    if (document.getElementById("tipoDePagoTarjetaP").checked){
+        document.getElementById('tarjetaP').readOnly = false;
+        document.getElementById('montoTarjetaP').style.display = "";
+    }
+    else{
+        document.getElementById('tarjetaP').readOnly = true;
+        document.getElementById('montoTarjetaP').style.display = "none";
+        $('input[name="tarjetaP"]').val('');
+        $('input[name="montoTarjetaP"]').val('');
+    }
+}
+
+$("#guardarReciboP").click(function(e){
+    if (document.getElementById("tipoDePagoEfectivoP").checked){
+        if ($('#efectivoP').val() == 0){
+            alertify.error('el monto de efectivo no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoChequeP").checked){
+        if ($('#chequeP').val() == 0){
+            alertify.error('los datos de cheque no pueden ir vacios...');
+        }
+        if ($('#montoChequeP').val() == 0){
+            alertify.error('el monto del cheque no puede ser 0...');
+        }
+    }
+    if (document.getElementById("tipoDePagoTarjetaP").checked){
+        if ($('#tarjetaP').val() == 0){
+            alertify.error('los datos de tarjeta no pueden ir vacios...');
+        }
+        if ($('#montoTarjetaP').val() == 0){
+            alertify.error('el monto de tarjeta no puede ser 0...');
+        }
+    }
+  })

@@ -184,13 +184,72 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div class="col-sm-2 col-sm-offset-8" id="divTotal" style="display: block;">
                                     <div class="form-group">
-                                        <label for="total" class="control-label">Total</label>
+                                        <label for="total" class="control-label">Total A Pagar</label>
                                         <div>
                                             <input id="total" disabled type="text" class="form-control" name="total">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePago" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePago" id="tipoDePagoEfectivo" onchange="comprobarCheckEfectivo();" value="efectivo">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoCheque" onchange="comprobarCheckCheque();" value="cheque">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoTarjeta" onchange="comprobarCheckTarjeta();" value="tarjeta">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivo" name="efectivo" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="cheque" name="cheque" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjeta" name="tarjeta" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarRecibo" name="guardarRecibo">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -307,6 +366,66 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePagoE" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoEfectivoE" onchange="comprobarCheckEfectivoE();" value="efectivoE">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoChequeE" onchange="comprobarCheckChequeE();" value="chequeE">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoTarjetaE" onchange="comprobarCheckTarjetaE();" value="tarjetaE">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivoE" name="efectivoE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="chequeE" name="chequeE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjetaE" name="tarjetaE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarReciboE" name="guardarReciboE">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div id="p" class="desc" style="display: none"> <!-- Inicia vista Particular -->
                             <div class="row col-sm-offset-1">
@@ -420,6 +539,66 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePagoP" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoEfectivoP" onchange="comprobarCheckEfectivoP();" value="efectivoP">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoChequeP" onchange="comprobarCheckChequeP();" value="chequeP">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoTarjetaP" onchange="comprobarCheckTarjetaP();" value="tarjetaP">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivoP" name="efectivoP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="chequeP" name="chequeP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjetaP" name="tarjetaP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarReciboP" name="guardarReciboP">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -444,9 +623,21 @@
             $('select[name="codigo"]').val('');
             $('select[name="codigoE"]').val('');
             $('select[name="codigoP"]').val('');
-            $("tbody").children().remove()
+            $("tbody").children().remove();
+            $('input[name="tipoDePago"]').prop('checked', false);
+            comprobarCheckEfectivo();
+            comprobarCheckCheque();
+            comprobarCheckTarjeta();
+            $('input[name="tipoDePagoE"]').prop('checked', false);
+            comprobarCheckEfectivoE();
+            comprobarCheckChequeE();
+            comprobarCheckTarjetaE();
+            $('input[name="tipoDePagoP"]').prop('checked', false);
+            comprobarCheckEfectivoP();
+            comprobarCheckChequeP();
+            comprobarCheckTarjetaP();
+        });
     });
-});
 </script>
 
 @endpush
