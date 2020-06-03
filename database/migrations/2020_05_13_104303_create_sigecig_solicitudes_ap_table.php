@@ -26,6 +26,8 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->string('no_punto_acta', 10)->nullable();
             $table->string('pdf_dpi_ap', 255)->nullable();
             $table->string('pdf_solicitud_ap', 100)->nullable();
+            $table->string('solicitud_rechazo_ap', 500)->nullable();
+            $table->string('solicitud_rechazo_junta', 500)->nullable();
             $table->timestamps();
         });
     }
