@@ -124,12 +124,20 @@ class ResolucionPagoController extends Controller
     
     public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
+
+
+
         $nuevos_datos = array(
             'id_estado_solicitud' => 10,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-        
+
+        $auxpost = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $auxpost->auxpost='1';
+        $auxpost->paga_auxilio='1';
+        $auxpost->update();
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -276,4 +284,6 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
+
+
 }
