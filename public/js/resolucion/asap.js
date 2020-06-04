@@ -82,3 +82,19 @@ $('#ButtonAutorizar').click(function (e) {
     });
     
 });
+
+
+
+  $('#solicitud_pdf').click(function (e) { 
+      e.preventDefault();
+      $('#solicitudpdf').toggle();
+      $('.fn1').toggleClass('fondo1');
+      
+  });
+
+  
+  $('#dpi_pdf').click(function (e) { 
+    e.preventDefault();
+    $('#dpipdf').toggle();
+    $('.fn2').toggleClass('fondo1');
+});

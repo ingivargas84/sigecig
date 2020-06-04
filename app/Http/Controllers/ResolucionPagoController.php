@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Image,File;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
@@ -17,6 +18,7 @@ use App\AdmUsuario;
 use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -122,12 +124,20 @@ class ResolucionPagoController extends Controller
     
     public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
+
+
+
         $nuevos_datos = array(
             'id_estado_solicitud' => 10,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-        
+
+        $auxpost = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $auxpost->auxpost='1';
+        $auxpost->paga_auxilio='1';
+        $auxpost->update();
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -255,5 +265,25 @@ class ResolucionPagoController extends Controller
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
 
     }
-    
+
+    public function verSolicitudAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_solicitud_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+    public function verDpiAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_dpi_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+
+
 }
