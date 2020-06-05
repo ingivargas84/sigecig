@@ -129,19 +129,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divdescTipoPagoColegiado" style="display: block;">
+                                <div class="col-sm-4" id="divdescTipoPago" style="display: block;">
                                     <div class="form-group">
-                                        <label for="descTipoPagoColegiado" class="control-label">Descripcion</label>
+                                        <label for="descTipoPago" class="control-label">Descripcion</label>
                                         <div>
-                                            <input id="descTipoPagoColegiado" disabled type="text" class="form-control" name="descTipoPagoColegiado">
+                                            <input id="descTipoPago" disabled type="text" class="form-control" name="descTipoPago">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divsubtotalColegiado" style="display: block;">
+                                <div class="col-sm-2" id="divsubtotal" style="display: block;">
                                     <div class="form-group">
-                                        <label for="subtotalColegiado" class="control-label">Subtotal</label>
+                                        <label for="subtotal" class="control-label">Subtotal</label>
                                         <div>
-                                            <input id="subtotalColegiado" disabled type="text" class="form-control" name="subtotalColegiado">
+                                            <input id="subtotal" disabled type="text" class="form-control" name="subtotal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" id="divcategoria_id" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="categoria_id" class="control-label">categorida_id</label>
+                                        <div>
+                                            <input id="categoria_id" disabled type="text" class="form-control" name="categoria_id">
                                         </div>
                                     </div>
                                 </div>
@@ -156,17 +164,19 @@
                                 <br>
                             </div>
                             <div class="row">
-                                <div class='container' id='detalle'>
-                                    <table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th>Eliminar</th></tr></thead>
+                                <div style="padding: 0px 26px;" id="detalle">
+                                    <table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
                                         <tbody>
                                         @if(isset($detalle))
                                             @foreach ($detalle as $fila)
                                             <tr>
-                                            <td>{!! $fila->codigo; !!}</td>
+                                            <td style="display: none;">{!! $fila->codigo; !!}</td>
+                                            <td>{!! $fila->nombreCodigo; !!}</td>
                                             <td>{!! $fila->cantidad; !!}</td>
                                             <td>{!! $fila->precioU; !!}</td>
                                             <td>{!! $fila->descripcion; !!}</td>
-                                            <td align="right" class="subtotalColegiado">{!! $fila->subtotal; !!}</td>
+                                            <td style="display: none;">{!! $fila->categoria_id; !!}</td>
+                                            <td align="right" class="subtotal">{!! $fila->subtotal; !!}</td>
                                             <td><button class="form-button btn btn-danger" onclick="eliminardetalle(this)" type="button">Eliminar</button></td>
                                             </tr>
                                             @endforeach
@@ -174,13 +184,72 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div class="col-sm-2 col-sm-offset-8" id="divTotal" style="display: block;">
                                     <div class="form-group">
-                                        <label for="total" class="control-label">Total</label>
+                                        <label for="total" class="control-label">Total A Pagar</label>
                                         <div>
                                             <input id="total" disabled type="text" class="form-control" name="total">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePago" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePago" id="tipoDePagoEfectivo" onchange="comprobarCheckEfectivo();" value="efectivo">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoCheque" onchange="comprobarCheckCheque();" value="cheque">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoTarjeta" onchange="comprobarCheckTarjeta();" value="tarjeta">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivo" name="efectivo" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="cheque" name="cheque" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjeta" name="tarjeta" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarRecibo" name="guardarRecibo">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +293,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divprecioUE" style="display: block;">
+                                <div class="col-sm-1 col-lg-2" id="divprecioUE" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioUE" class="control-label">Precio U.</label>
                                         <div>
@@ -248,6 +317,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-1" id="divcategoria_idE" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="categoria_idE" class="control-label">categorida_id</label>
+                                        <div>
+                                            <input id="categoria_idE" disabled type="text" class="form-control" name="categoria_idE">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-1" id="divButtonAgregarE" style="display: block;">
                                     <div class="form-group">
                                         <label for="buttonAgregarE" class="control-label"></label>
@@ -259,16 +336,18 @@
                                 <br>
                             </div>
                             <div class="row">
-                                <div class='container' id='detalleE'>
-                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th>Eliminar</th></tr></thead>
+                                <div style="padding: 0px 26px;" id="detalleE">
+                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
                                         <tbody>
                                         @if(isset($detalleE))
                                             @foreach ($detalleE as $fila)
                                             <tr>
-                                            <td>{!! $fila->codigo; !!}</td>
-                                            <td>{!! $fila->cantidad; !!}</td>
-                                            <td>{!! $fila->precioU; !!}</td>
-                                            <td>{!! $fila->descripcion; !!}</td>
+                                            <td style="display: none;">{!! $fila->codigoE; !!}</td>
+                                            <td>{!! $fila->nombreCodigoE; !!}</td>
+                                            <td>{!! $fila->cantidadE; !!}</td>
+                                            <td>{!! $fila->precioUE; !!}</td>
+                                            <td>{!! $fila->descripcionE; !!}</td>
+                                            <td style="display: none;">{!! $fila->categoria_idE; !!}</td>
                                             <td align="right" class="subtotalE">{!! $fila->subtotal; !!}</td>
                                             <td><button class="form-button btn btn-danger" onclick="eliminardetalleE(this)" type="button">Eliminar</button></td>
                                             </tr>
@@ -287,10 +366,70 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePagoE" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoEfectivoE" onchange="comprobarCheckEfectivoE();" value="efectivoE">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoChequeE" onchange="comprobarCheckChequeE();" value="chequeE">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoTarjetaE" onchange="comprobarCheckTarjetaE();" value="tarjetaE">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivoE" name="efectivoE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="chequeE" name="chequeE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjetaE" name="tarjetaE" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarReciboE" name="guardarReciboE">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div id="p" class="desc" style="display: none"> <!-- Inicia vista Particular -->
                             <div class="row col-sm-offset-1">
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="dpi" class="control-label">DPI</label>
                                         <div>
@@ -300,18 +439,18 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="empresa" class="control-label">Nombre</label>
+                                        <label for="nombre" class="control-label">Nombre</label>
                                         <div>
-                                            <input type="text" id="empresa" name="empresa" required class="form-control">
+                                            <input type="text" id="nombre" name="nombre" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row col-sm-offset-1">
-                                <div class="col-sm-2" id="divColegioE" style="display: block;">
+                                <div class="col-sm-2" id="divColegioP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="codigoE" class="control-label">Codigo</label>
-                                        <select name="codigoE" class="form-control" id="codigoE">
+                                        <label for="codigoP" class="control-label">Codigo</label>
+                                        <select name="codigoP" class="form-control" id="codigoP">
                                             <option value="">-- Escoja --</option>
                                             @foreach ($tipo as $ti)
                                                 <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
@@ -319,61 +458,71 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divCantidadE" style="display: block;">
+                                <div class="col-sm-1" id="divCantidadP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="cantidadE" class="control-label">Cantidad</label>
+                                        <label for="cantidadP" class="control-label">Cantidad</label>
                                         <div>
-                                            <input id="cantidadE" type="number" min="1" class="form-control" name="cantidadE" value="1">
+                                            <input id="cantidadP" type="number" min="1" class="form-control" name="cantidadP" value="1">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divprecioUE" style="display: block;">
+                                <div class="col-sm-1 col-lg-2" id="divprecioUP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="precioUE" class="control-label">Precio U.</label>
+                                        <label for="precioUP" class="control-label">Precio U.</label>
                                         <div>
-                                            <input id="precioUE" disabled type="text" class="form-control" name="precioUE">
+                                            <input id="precioUP" disabled type="text" class="form-control" name="precioUP">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divdescTipoPagoE" style="display: block;">
+                                <div class="col-sm-4" id="divdescTipoPagoP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="descTipoPagoE" class="control-label">Descripcion</label>
+                                        <label for="descTipoPagoP" class="control-label">Descripcion</label>
                                         <div>
-                                            <input id="descTipoPagoE" disabled type="text" class="form-control" name="descTipoPagoE">
+                                            <input id="descTipoPagoP" disabled type="text" class="form-control" name="descTipoPagoP">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divsubtotalE" style="display: block;">
+                                <div class="col-sm-2" id="divsubtotalP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="subtotalE" class="control-label">Subtotal</label>
+                                        <label for="subtotalP" class="control-label">Subtotal</label>
                                         <div>
-                                            <input id="subtotalE" disabled type="text" class="form-control" name="subtotalE">
+                                            <input id="subtotalP" disabled type="text" class="form-control" name="subtotalP">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divButtonAgregarE" style="display: block;">
+                                <div class="col-sm-1" id="divcategoria_idP" style="display: none;">
                                     <div class="form-group">
-                                        <label for="buttonAgregarE" class="control-label"></label>
+                                        <label for="categoria_idP" class="control-label">categorida_id</label>
                                         <div>
-                                            <a id="buttonAgregarE" class="btn btn-danger" name="buttonAgregarE" onclick="agregarproductofE()">+</a>
+                                            <input id="categoria_idP" disabled type="text" class="form-control" name="categoria_idP">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1" id="divButtonAgregarP" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="buttonAgregarP" class="control-label"></label>
+                                        <div>
+                                            <a id="buttonAgregarP" class="btn btn-danger" name="buttonAgregarP" onclick="agregarproductofP()">+</a>
                                         </div>
                                     </div>
                                 </div>
                                 <br>
                             </div>
                             <div class="row">
-                                <div class='container' id='detalleE'>
-                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th>Eliminar</th></tr></thead>
+                                <div style="padding: 0px 26px;" id="detalleP">
+                                    <table class="table table-striped table-hover" id="tablaDetalleP"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style="display: none;">categoria_idP</th><th>Eliminar</th></tr></thead>
                                         <tbody>
-                                        @if(isset($detalleE))
-                                            @foreach ($detalleE as $fila)
+                                        @if(isset($detalleP))
+                                            @foreach ($detalleP as $fila)
                                             <tr>
-                                            <td>{!! $fila->codigo; !!}</td>
-                                            <td>{!! $fila->cantidad; !!}</td>
-                                            <td>{!! $fila->precioU; !!}</td>
-                                            <td>{!! $fila->descripcion; !!}</td>
-                                            <td align="right" class="subtotalE">{!! $fila->subtotal; !!}</td>
-                                            <td><button class="form-button btn btn-danger" onclick="eliminardetalleE(this)" type="button">Eliminar</button></td>
+                                            <td style="display: none;">{!! $fila->codigoP; !!}</td>
+                                            <td>{!! $fila->nombreCodigoP; !!}</td>
+                                            <td>{!! $fila->cantidadP; !!}</td>
+                                            <td>{!! $fila->precioUP; !!}</td>
+                                            <td>{!! $fila->descripcionP; !!}</td>
+                                            <td style="display: none;">{!! $fila->categoria_idP; !!}</td>
+                                            <td align="right" class="subtotalP">{!! $fila->subtotalP; !!}</td>
+                                            <td><button class="form-button btn btn-danger" onclick="eliminardetalleP(this)" type="button">Eliminar</button></td>
                                             </tr>
                                             @endforeach
                                         @endif
@@ -381,12 +530,72 @@
                                     </table>
                                 </div>
 
-                                <div class="col-sm-2 col-sm-offset-8" id="divTotalE" style="display: block;">
+                                <div class="col-sm-2 col-sm-offset-8" id="divTotalP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="totalE" class="control-label">Total</label>
+                                        <label for="totalP" class="control-label">Total</label>
                                         <div>
-                                            <input id="totalE" disabled type="text" class="form-control" name="totalE">
+                                            <input id="totalP" disabled type="text" class="form-control" name="totalP">
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1">
+                                    <div class="form-group">
+                                        <label for="tipoDePagoP" class="control-label">TIPO DE PAGO</label>
+                                        <div>
+                                            <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoEfectivoP" onchange="comprobarCheckEfectivoP();" value="efectivoP">Efectivo</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoChequeP" onchange="comprobarCheckChequeP();" value="chequeP">Cheque</label>
+                                            <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoTarjetaP" onchange="comprobarCheckTarjetaP();" value="tarjetaP">Tarjeta</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="efectivoP" name="efectivoP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="chequeP" name="chequeP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="number" id="tarjetaP" name="tarjetaP" class="form-control" min="0" readOnly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-1 col-sm-2">
+                                        <div class="form-group">
+                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" placeholder="ingrese la cantidad" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-1">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarReciboP" name="guardarReciboP">
+                                            GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                                            NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -403,16 +612,32 @@
 <script src="{{asset('js/creacionRecibo/index.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $("#e").hide();
-        $("#p").hide();
+        // $("#e").hide();
+        // $("#p").hide();
         $("input[name$='tipoCliente']").click(function() {
             var test = $(this).val();
             $("div.desc").hide();
             $("#" + test).show();
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
+            $('select[name="codigo"]').val('');
+            $('select[name="codigoE"]').val('');
+            $('select[name="codigoP"]').val('');
+            $("tbody").children().remove();
+            $('input[name="tipoDePago"]').prop('checked', false);
+            comprobarCheckEfectivo();
+            comprobarCheckCheque();
+            comprobarCheckTarjeta();
+            $('input[name="tipoDePagoE"]').prop('checked', false);
+            comprobarCheckEfectivoE();
+            comprobarCheckChequeE();
+            comprobarCheckTarjetaE();
+            $('input[name="tipoDePagoP"]').prop('checked', false);
+            comprobarCheckEfectivoP();
+            comprobarCheckChequeP();
+            comprobarCheckTarjetaP();
+        });
     });
-});
 </script>
 
 @endpush

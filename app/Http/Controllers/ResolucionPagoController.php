@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Image,File;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
@@ -17,6 +18,7 @@ use App\AdmUsuario;
 use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -69,7 +71,7 @@ class ResolucionPagoController extends Controller
     }
 
     public function asap(PlataformaSolicitudAp $solicitud)
-    {
+    {  
         $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get()->first();
         $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
@@ -123,12 +125,20 @@ class ResolucionPagoController extends Controller
     
     public function finalizarestado(PlataformaSolicitudAp $solicitud, Request $request)
     {
+
+
+
         $nuevos_datos = array(
             'id_estado_solicitud' => 10,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-        
+
+        $auxpost = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $auxpost->auxpost='1';
+        $auxpost->paga_auxilio='1';
+        $auxpost->update();
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -225,24 +235,56 @@ class ResolucionPagoController extends Controller
         return Response::json( $api_Result );
     }
 
-    public function aprDocumentosAp($solicitud){
-        $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
+    public function aprDocumentosAp(Request $request){   
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='4';
         $estado_solicitud->update();
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+    }
 
-        return view ('admin.firmaresolucion.index', compact('user'));
+    public function rczDocumentosAp(Request $request){
+         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+         $estado_solicitud->solicitud_rechazo_ap = $request->texto;
+         $estado_solicitud->id_estado_solicitud='3';
+         $estado_solicitud->update();    
+         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
        
     }
 
-    public function rczDocumentosAp(Request $request, $solicitud){
-        $user = Auth::User();
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
-        $estado_solicitud->id_estado_solicitud='3';
-        $estado_solicitud->update();
-
-        return view ('admin.firmaresolucion.index', compact('user'));
-       
+    public function aprDocumentosJunta(Request $request){
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
+        $estado_solicitud->id_estado_solicitud='5';
+        $estado_solicitud->update();    
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
-    
+
+    public function rczDocumentosJunta(Request $request){
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
+        $estado_solicitud->solicitud_rechazo_junta = $request->texto;
+        $estado_solicitud->id_estado_solicitud='10';
+        $estado_solicitud->update();    
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+
+    }
+
+    public function verSolicitudAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_solicitud_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+    public function verDpiAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_dpi_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+
+
 }

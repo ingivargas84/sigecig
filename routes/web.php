@@ -32,7 +32,7 @@ Route::group([
 
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
-        
+
         // Módulo Contabilidad Y JefeContabilidad
       //  Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
        // Route::get('/contabilidad/getJson/', 'ContabilidadController@getJson')->name('contabilidad.getJson');
@@ -127,8 +127,16 @@ Route::group([
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
         //Módulo Auxilio Postumo-->Aprobacion de Documentos
-        Route::get('/resolucion/aprdocumentosap/{solicitud}','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
-        Route::post('/resolucion/rczdocumentosap/{solicitud}','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
+        Route::post('/resolucion/aprdocumentosap','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
+        Route::post('/resolucion/rczdocumentosap','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
+
+        //Módulo Auxilio Postumo-->Aprobacion o Rechazo por Junta
+        Route::post('/resolucion/aprdocumentosjunta','ResolucionPagoController@aprDocumentosJunta')->name('doc.aprobacionJunta');
+        Route::post('/resolucion/rczdocumentosjunta','ResolucionPagoController@rczDocumentosJunta')->name('doc.rechazadoJunta');
+
+        //Modulo para mostrar documentos de Auxilio Postumo
+        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp');
+        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp');
 
 
         // Modulo de Tipos de pago
@@ -163,7 +171,6 @@ Route::group([
         Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
         Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
-
 
     });
 

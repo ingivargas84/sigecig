@@ -118,6 +118,19 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
                 "</a>" + "</div>";
             }
+
+            else if(data == 'Documentación Aprobada'){    //Estado 4 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
+                "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
+                "</a>" + "</div>";
+
+                
+            }
+
+   
+     
             else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -144,7 +157,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
-                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"'>" +
+                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' >"  +
                 "<i class='fas fa-university' title='Finalizar'></i>" + 
                 "</a>" + "</div>";
             }
@@ -311,6 +324,30 @@ function updateModal(button) {
     });
 }
 
+<<<<<<< HEAD
+=======
+    
+
+    function updateModal(button) {
+        var formData = $("#ActaForm").serialize();
+        var id = $("div.']").val();
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
+            url: "/auxiliopostumo/"+id+"/acta",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                BorrarFormularioUpdate();
+                $('#modalIngresoActa').modal("hide");
+                resolucion_table.ajax.reload();
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Datos agregados con Éxito!!');
+            },
+        });
+    }
+>>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
 
 $("#ButtonFechaPagoAp").click(function(event) {
     event.preventDefault();
@@ -339,6 +376,109 @@ function updateModalFecha(button) {
     });
 }
 
+<<<<<<< HEAD
+=======
+    $("#rechazarSolicitud").click(function(event) {
+        event.preventDefault();
+        $('#text-area').show();
+        $('#enviarRechazo').show();
+
+    });
+
+    $("#aprobarSolicitud").click(function(event) {
+        event.preventDefault();
+        $('#text-area').hide();
+        $('#enviarRechazo').hide();
+        
+    
+        var id_solicitud= $("input[name=id_solicitud]").val();
+        $.ajax({
+            
+            type: "POST",
+            headers: { 'X-CSRF-TOKEN': $("input[name=_token]").val()},
+            url: '/resolucion/aprdocumentosjunta',
+            data: {id_solicitud:id_solicitud},          
+            success: function (data) {
+                mostrarMensajeAutorizacion(data.mensaje);
+                limpiarCampos();
+            },
+
+            error: function (jqXHR, estado, error){
+                console.log(estado)
+                console.log(error)
+            }
+        }).always(function (data) {
+            $('#modalAprobacionJunta').modal("hide");
+            resolucion_table.ajax.reload();
+           
+        });
+
+
+    });
+
+    $('#modalAprobacionJunta').on('shown.bs.modal', function(event){
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var modal = $(this);
+        modal.find(".modal-body input[name='id_solicitud']").val(id);
+     });
+
+        $('#enviarRechazo').click(function (e) { 
+            e.preventDefault();
+        
+            var texto = $("textarea[name=mensaje]").val();
+            var id_solicitud= $("input[name=id_solicitud]").val();
+            $.ajax({
+                
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $("input[name=_token]").val()},
+                url: '/resolucion/rczdocumentosjunta',
+                data: {texto:texto, id_solicitud:id_solicitud},
+                
+                success: function (data) {
+                    mostrarMensajeRechazo(data.mensaje);
+                    limpiarCampos();
+                },
+                error: function (jqXHR, estado, error){
+                    console.log(estado)
+                    console.log(error)
+                }
+            }).always(function (data) {
+                $('#modalAprobacionJunta').modal("hide");
+                resolucion_table.ajax.reload();
+               
+            });
+            
+        });
+            
+     
+
+    
+    
+
+
+
+
+    function updateModalFecha(button) {
+        var formData = $("#FormFechaAp").serialize();
+        var id = $("input[name='idFecha']").val();
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
+            url: "/resolucion/"+id+"/fecha",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                $('#modalConfiguraFecha').modal("hide");
+                resolucion_table.ajax.reload();
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Fecha agregada con Éxito!');
+            },
+        });
+    }
+   
+ 
+>>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
 
 
 function BorrarFormularioUpdate() {
@@ -363,3 +503,21 @@ function BorrarFormularioUpdate2() {
     }
     document.getElementById("demo").innerHTML = txt;
   }*/
+
+ function mostrarMensajeRechazo(mensaje) {
+    alertify.set('notifier','position', 'bottom-center');
+    alertify.success(mensaje);
+
+  }
+
+  function mostrarMensajeAutorizacion(mensaje) {
+    alertify.set('notifier','position', 'bottom-center');
+    alertify.success(mensaje);
+  }
+
+
+  function limpiarCampos() { 
+      $('#mensaje').val('');
+ 
+   }
+
