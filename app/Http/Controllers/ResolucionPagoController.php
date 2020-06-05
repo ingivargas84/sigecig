@@ -71,11 +71,9 @@ class ResolucionPagoController extends Controller
         $reg = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
         $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
         $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
-        $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->no_solicitud)->get()->first();
-       // $usuario_cambio = BitacoraAp::where('usuario','=', $adm_usuario->idPersona)->get()->first();
-        //$fecha_cambio = BitacoraAp::where("usuario",'=',$adm_usuario->idPersona)->get()->first();
-        
+        $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->id)->orderBy('estado_solicitud', 'asc')->get();
 
+//dd($usuario_cambio);
         $user = Auth::User();
         return view ('admin.bitacora.index', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg','banco','tipocuenta', 'usuario_cambio'));
     }
@@ -89,10 +87,11 @@ class ResolucionPagoController extends Controller
         $reg = SQLSRV_Colegiado::where("c_cliente",$id->n_colegiado)->get()->first();
         $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
         $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
+        $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->id)->orderBy('estado_solicitud', 'asc')->get();
 
         $user = Auth::User();
 
-        $pdf = \PDF::loadView('admin.bitacora.pdfbitacora', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg','banco','tipocuenta'));
+        $pdf = \PDF::loadView('admin.bitacora.pdfbitacora', compact('id', 'user', 'adm_usuario',  'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg','banco','tipocuenta', 'usuario_cambio'));
         return $pdf->stream('BitacoraPDF.pdf');
     }
 
@@ -108,12 +107,11 @@ class ResolucionPagoController extends Controller
     }
 
     public function asap(PlataformaSolicitudAp $solicitud)
-    {
+    {  
         $banco = PlataformaBanco::where("id",$solicitud->id_banco)->get()->first();
         $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
         $profesion = SQLSRV_Profesion::where("c_cliente",$solicitud->n_colegiado)->get()->first();
-
         return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion'));
     }
     
@@ -277,6 +275,44 @@ class ResolucionPagoController extends Controller
         $api_Result['data'] = $result;
         
         return Response::json( $api_Result );
+    }
+
+    public function aprDocumentosAp(Request $request, PlataformaSolicitudAp $solicitud){   
+        $fecha = date("Y/m/d h:m:s");
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+        $estado_solicitud->id_estado_solicitud='4';
+        $estado_solicitud->update();
+
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+    }
+
+    public function rczDocumentosAp(Request $request){
+         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+         $estado_solicitud->solicitud_rechazo_ap = $request->texto;
+         $estado_solicitud->id_estado_solicitud='3';
+         $estado_solicitud->update();    
+         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+       
+    }
+
+    public function aprDocumentosJunta(Request $request, PlataformaSolicitudAp $solicitud){
+        $fecha = date("Y/m/d h:m:s");
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
+        $estado_solicitud->id_estado_solicitud='5';
+        $estado_solicitud->update();    
+
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+    }
+
+    public function rczDocumentosJunta(Request $request){
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
+        $estado_solicitud->solicitud_rechazo_junta = $request->texto;
+        $estado_solicitud->id_estado_solicitud='10';
+        $estado_solicitud->update();    
+        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+
     }
     
 }

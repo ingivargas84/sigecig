@@ -15,6 +15,7 @@
   @section('content')
 @include('admin.firmaresolucion.acta')
 @include('admin.contabilidad.configfecha')
+@include('admin.firmaresolucion.aprobacion')
 
   <div class="box-header">
       <a class="btn btn-confirm pull-right" target="_blank" href="auxiliopostumo/solicitudes_pendientes">
@@ -28,6 +29,7 @@
       <input type="hidden" name="urlActual" value="{{url()->current()}}">
   </div>
   <!-- /.box-body -->
+ 
 </div>
 <!-- /.box --> 
 
@@ -41,12 +43,13 @@
 @push('scripts')
   <script>
     $(document).ready(function() {
-        resolucion_table.ajax.url("{{route('resolucion.getJson')}}").load();
+        resolucion_table.ajax.url("{{route('resolucion.getJson')}}").load();       
     });
-  
 </script>
-
   <script src="{{asset('js/resolucion/index.js')}}"></script>
+  <script >
+    
+  </script>
 
   @endpush
 @stop

@@ -113,7 +113,6 @@ class TipoDePagoController extends Controller
 
         $tipo->update($request->all());
 
-        //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -181,7 +180,11 @@ class TipoDePagoController extends Controller
 
     public function getJson(Request $params)
      {
-         $api_Result['data'] = TipoDePago::all();
+        $query = "SELECT T.id, T.codigo, t.tipo_de_pago, T.precio_colegiado, T.precio_particular, C.categoria, T.estado
+        FROM sigecig_tipo_de_pago T
+        INNER JOIN sigecig_categoria_tipo_pago C ON T.categoria_id = C.id";
+
+        $api_Result['data'] = DB::select($query);
          return Response::json( $api_Result );
      }
 

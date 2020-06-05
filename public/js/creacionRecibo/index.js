@@ -34,18 +34,20 @@ function obtenerDatosColegiado()
                 response.estado = 'Activo';
             }
 
+            var monto_timbre = parseFloat(response.monto_timbre);
 
             $("input[name='n_cliente']").val(response.n_cliente);
             $("input[name='estado']").val(response.estado);
             $("input[name='f_ult_timbre']").val(response.f_ult_timbre);
             $("input[name='f_ult_pago']").val(response.f_ult_pago);
-            $("input[name='monto_timbre']").val(response.monto_timbre);
+            $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
         }else {
             alertify.error('Numero de colegiado no exite');
             $("#ReciboForm")[0].reset();
         }
     }
   });
+  $("tbody").children().remove()
 }
 
 $(document).ready(function(){
@@ -70,12 +72,13 @@ function obtenerDatosEmpresa()
             $("input[name='empresa']").val(response.empresa);
         }else {
             alertify.error('NIT no existe');
-            //$(".input").val('');
-            $("#ReciboForm")[0].reset();
+            $('input[type="text"]').val('');
+            $('input[type="number"]').val('');
         }
 
     }
   });
+  $("tbody").children().remove()
 }
 
 //Funcionamiento sobre colegiado
@@ -127,15 +130,52 @@ function agregarproductof() {
     //llenarDatos();
     $("#cantidad").change();
     if($.isNumeric($("#cantidad").val()) && $.isNumeric($("#cantidad").val()) && $.isNumeric($("#subtotalColegiado").val())) {
-      addnewrow();
-    //   $("#codigo").val('');
-    //   $("#cantidad").val('');
-    //     $("#precioU").val('');
-    //     $("#descTipoPagoColegiado").val('');
-    //     $("#subtotalColegiado").val('');
+
+        validateRow();
       limpiarFilaDetalle();
     }
   }
+
+function validateRow(){
+    $('#tablaDetalle').each(function(index, tr) {
+
+        var nFilas = $("#tablaDetalle tr").length;
+
+        if((nFilas == 1) && ($('#codigo').val() != "")){
+            addnewrow();
+        }else if (nFilas > 1){
+            var filas = $("#tablaDetalle").find("tr");
+
+            for(var i= 0; i < filas.length; i++){
+
+                var celdas = $(filas[i]).find("td");
+
+                var nuevoSubTotal = 0;
+                var subTotalColeNue = $('#subtotalColegiado').val();
+                var subTotalColeAnt = $($(celdas[4])).text();
+
+                var codigoAnt = $($(celdas[0])).text();
+
+                var totalCant = 0;
+                var cantidadA = $($(celdas[1])).text();
+                var cantidadN = $('#cantidad').val();
+
+                if(codigoAnt == $('#codigo').val()){
+
+                        totalCant = Number(cantidadA) + Number(cantidadN);
+                        nuevoSubTotal = Number(subTotalColeAnt) + Number(subTotalColeNue);
+
+                        celdas[1].innerHTML = totalCant;
+                        celdas[4].innerHTML = nuevoSubTotal;
+
+                        getTotal();
+                        finish();
+                }
+            }
+            addnewrow();
+        }
+    });
+}
 
   function addnewrow() {
 
@@ -148,11 +188,11 @@ function agregarproductof() {
 	resultado += '<tr class="filaDetalleVal">';
 
 
-	resultado += '<td class="codigo">';
+	resultado += '<td class="codigo" id="codigo">';
 	resultado += $("#codigo").val();
 	resultado += '</td>';
 
-	resultado += '<td>';
+	resultado += '<td class="cantidad" id="cantidad">';
 	resultado += $("#cantidad").val();
 	resultado += '</td>';
 
@@ -164,7 +204,7 @@ function agregarproductof() {
 	resultado += $("#descTipoPagoColegiado").val();
 	resultado += '</td>';
 
-	resultado += '<td align="right" class="subtotalColegiado">';
+	resultado += '<td align="center" class="subtotalColegiado">';
 	resultado += $("#subtotalColegiado").val();
 	resultado += '</td>';
 
@@ -174,13 +214,13 @@ function agregarproductof() {
 	resultado += '</td>';
 	resultado += '</tr>';
 
-
-
 	$(resultado).prependTo("#tablaDetalle > tbody");
    getTotal();
 //   rellenarLeyenda();
 //   mostrarConstancia();
 }
+
+
 
 function getTotal() {
     var total = 0;
@@ -192,29 +232,6 @@ function getTotal() {
     //$("#efectivo").val(total);
     //$("#sueldo").val(total);
 }
-
-
-function llenarDatos() {
-    //alert($.trim($('#codigo').val()).toUpperCase());
-    $("#codigo").val(($("#codigo").val()).toUpperCase());
-    if($.trim($('#codigo').val()).toUpperCase() === 'INT' || $('#codigo').val() === 'int') {
-      if($("#tipo").val() == "02") {
-        //getInteresTimbre();
-      } else {
-        errorCategoria();
-      }
-    } else {
-      console.log("morir1");
-      getPrecios();
-    }
-}
-
-function errorCategoria() {
-    //if($("#codigo")==""){
-        alert("Producto no pertenece a esta categoría");
-        limpiarFilaDetalle();
-    //}
- }
 
   function limpiarFilaDetalle() {
     //$("input[name='codigo']").val('');
@@ -237,20 +254,16 @@ function errorCategoria() {
   //mostrarConstancia();
 }
 
-function validarregistro(){
-    $dato =  $("#tablaDetalle.codigo").val();
-    if($("#codigo" != null)){
-        var cantidad = $("#tablaDetalle .cantidad");
-        var subtotal = $("#tablaDetalle .subtotalColegiado");
-        $("#tablaDetalle .cantidad").each(function (index, element) {
-        cantidad += parseInt($(this).html(),10);
-        subtotal += parseInt($(this).html(),10);
-        });
 
-        $("#total").val(total.toFixed(2));
-    }
-}
+$(document).ready(function(){
+    	$("#buttonAgregar").click(function(){
+        	$("#buttonAgregar").attr(
 
+                "value","OTRO TEXTO"
+
+            );
+    	});
+});
 
 //Funcionamiento sobre EMPRESA
 
@@ -294,21 +307,58 @@ $(document).ready(function(){
     });
 });
 
-function agregarproductofE() {
+  function agregarproductofE() {
     $("#codigoE").change();
 
-    //llenarDatosE();
+    //llenarDatos();
     $("#cantidadE").change();
-    if($.isNumeric($("#cantidadE").val()) && $.isNumeric($("#cantidadE").val()) && $.isNumeric($("#subtotalE").val())) {
-      addnewrowE();
-    //   $("#codigo").val('');
-    //   $("#cantidad").val('');
-    //     $("#precioU").val('');
-    //     $("#descTipoPagoColegiado").val('');
-    //     $("#subtotalColegiado").val('');
+    if($.isNumeric($("#cantidadE").val()) && $.isNumeric($("#cantidadE").val()) && $.isNumeric($("#subtotalColegiadoE").val())) {
+
+        validateRowE();
       limpiarFilaDetalleE();
     }
   }
+
+function validateRowE(){
+    $('#tablaDetalleE').each(function(index, tr) {
+
+        var nFilas = $("#tablaDetalleE tr").length;
+
+        if((nFilas == 1) && ($('#codigoE').val() != "")){
+            addnewrowE();
+        }else if (nFilas > 1){
+            var filas = $("#tablaDetalleE").find("tr");
+
+            for(var i= 0; i < filas.length; i++){
+
+                var celdas = $(filas[i]).find("td");
+
+                var nuevoSubTotal = 0;
+                var subTotalENue = $('#subtotalE').val();
+                var subTotalEAnt = $($(celdas[4])).text();
+
+                var codigoAnt = $($(celdas[0])).text();
+
+                var totalCant = 0;
+                var cantidadA = $($(celdas[1])).text();
+                var cantidadN = $('#cantidadE').val();
+
+                if(codigoAnt == $('#codigoE').val()){
+
+                        totalCant = Number(cantidadA) + Number(cantidadN);
+                        nuevoSubTotal = Number(subTotalEAnt) + Number(subTotalENue);
+
+                        celdas[1].innerHTML = totalCant;
+                        celdas[4].innerHTML = nuevoSubTotal;
+
+                        getTotalE();
+                        finish();
+                }
+            }
+            addnewrowE();
+        }
+    });
+}
 
   function addnewrowE() {
 
@@ -351,8 +401,6 @@ function agregarproductofE() {
 
 	$(resultado).prependTo("#tablaDetalleE > tbody");
    getTotalE();
-//   rellenarLeyenda();
-//   mostrarConstancia();
 }
 
 function getTotalE() {
@@ -362,32 +410,7 @@ function getTotalE() {
     });
 
     $("#totalE").val(totalE.toFixed(2));
-    //$("#efectivo").val(total);
-    //$("#sueldo").val(total);
 }
-
-
-function llenarDatosE() {
-    //alert($.trim($('#codigo').val()).toUpperCase());
-    $("#codigoE").val(($("#codigoE").val()).toUpperCase());
-    if($.trim($('#codigoE').val()).toUpperCase() === 'INT' || $('#codigoE').val() === 'int') {
-      if($("#tipoE").val() == "02") {
-        //getInteresTimbre();
-      } else {
-        errorCategoria();
-      }
-    } else {
-      console.log("morir1");
-      getPrecios();
-    }
-}
-
-function errorCategoriaE() {
-    //if($("#codigo")==""){
-        alert("Producto no pertenece a esta categoría");
-        limpiarFilaDetalleE();
-    //}
- }
 
   function limpiarFilaDetalleE() {
     //$("input[name='codigo']").val('');
@@ -405,6 +428,4 @@ function errorCategoriaE() {
 	$(e).closest('tr').remove();
   getTotalE();
   limpiarFilaDetalleE();
-  //rellenarLeyenda();
-  //mostrarConstancia();
 }

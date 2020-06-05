@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Fecha de nacimiento</label>
-                                <input type="text" class="form-control" value="{{$fecha_Nac->fecha_nac}}" readonly>
+                                <input type="text" class="form-control" value="{{date('d-m-Y', strtotime($fecha_Nac->fecha_nac))}}" readonly>
                             </div>
                     </div>
                     <br>
@@ -44,94 +44,116 @@
                             <div class="form-group col-md-2" >
                                 <label for="Nombre1">Teléfono</label>
                                 <input type="text" class="form-control" value="{{$tel->telefono}}" readonly>
-                                </div>
+                            </div>
                             <div class="form-group col-md-4" >
                                 <label>DPI</label>
                                 <input type="text" class="form-control" value="{{$reg->registro}}" readonly>
                             </div>
                         </div>
+                        @foreach($usuario_cambio as $cambio)
+                        @if($cambio ["estado_solicitud"] == 1)
                         <p><b>1. Ingreso de Información</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
-                                <label for="n_colegiado">Fecha de Configuración</label>
-                                <input type="number" class="form-control" name="n_colegiado" readonly>
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>  
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
+                             
                             </div>
                         </div>
+                        @endif  
+                        @if($cambio ["estado_solicitud"] == 2)
                         <p><b>2. Adjuntar Documentación</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
-                                <label for="n_colegiado">Fecha de Configuración</label>
-                                <input type="number" class="form-control" name="n_colegiado" readonly>
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
                             </div>
                         </div>
+                        @endif
+
+                        @if($cambio ["estado_solicitud"] == 4)
                         <p><b>3. Autorización de Documentos</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control"  readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
-                        <p><b>4. Solicitud de Aprobación a Junta Directiva</b>
+                        @endif
+                      
+
+                        @if($cambio ["estado_solicitud"] == 4)
+                       <p><b>4. Solicitud de Aprobación a Junta Directiva</b>
                             <br>
+                           
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control" readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        @endif
+
+                        @if($cambio ["estado_solicitud"] == 5)
                         <p><b>5. Aprobación de Junta Directiva</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->fecha}}" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->usuario}}" readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        @endif
+
+                        @if($cambio ["estado_solicitud"] == 8)
                         <p><b>6. Firma de Resolución</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->fecha}}" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->usuario}}" readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        @endif
+
+                        @if($cambio ["estado_solicitud"] == 9)
                         <p><b>7. Gestión de depósito - Configuración de Pago</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->fecha}}" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->usuario}}" readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         <br>
                             <div class="form-group col-sm-5" >
@@ -147,26 +169,32 @@
                                 <input type="text" class="form-control" value="{{$id->no_cuenta}}" readonly>
                                 </div>
                         </div>
+                        @endif
+
+                        @if($cambio ["estado_solicitud"] == 10)
                         <p><b>8. Pago al Agremiado</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->fecha}}" readonly>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                <input type="text" class="form-control" value="{{$usuario_cambio->usuario}}" readonly>
+                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        @endif 
+                        @endforeach
+                        
                             <br>
                             
                             <div class="text-center m-t-15">
                                 <a class='btn btn-primary form-button' href="{{ route('bitacora.pdfbitacora', $id) }}">Generar PDF</a>
                             </div>
-                        </div>
-                    </div>
-                </div>             
+                    </div> 
+                </div>
+            </div>             
   </form>
   <div class="loader loader-bar"></div>
 

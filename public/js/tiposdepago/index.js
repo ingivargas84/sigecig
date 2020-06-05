@@ -118,18 +118,11 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
 
     {
         "title": "Categoría",
-        "data": "categoria_id",
+        "data": "categoria",
         "width" : "10%",
         "responsivePriority": 6,
         "render": function( data, type, full, meta ) {
-            if (data == 1){return ('Timbres')}
-            else if (data == 2){return ('Cursos')}
-            else if (data == 3){return ('Colegiado')}
-            else if (data == 4){return ('Constancias')}
-            else if (data == 5){return ('Nuevos Colegiados ')}
-            else if (data == 6){return ('Interes')}
-            else if (data == 7){return ('Mora')}
-        },
+            return (data );},
     },
 
     {
