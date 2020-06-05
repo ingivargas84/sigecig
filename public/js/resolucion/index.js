@@ -163,6 +163,14 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "</a>" + "</div>";
                 ;
             }
+            else if(data == 'Finalizada'){  //Estado 2 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fas fa-check-square' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
+            }
             else return "";
         },
         "responsivePriority": 4
