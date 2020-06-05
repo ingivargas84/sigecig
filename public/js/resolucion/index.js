@@ -113,11 +113,11 @@ var resolucion_table = $('#resolucion-table').DataTable({
             if(data == 'Documentos Enviados'){  //Estado 2 de la solicitud
 
                 return "<div class='text-center'>" + 
-                "<div class='float-center'>" + 
+                "<div class='float-center col-lg-6'>" + 
                 "<a href='/resolucion/asap/" + full.id + "' class='asap' >" + 
                 "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
                 "</a>" + "</div>" +
-                "<div class='text-center'>" + 
+                "<div class='text-center col-lg-6'>" + 
                 "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";

@@ -295,7 +295,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->id_estado_solicitud='4';
         $estado_solicitud->update();
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
@@ -316,6 +316,8 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='5';
         $estado_solicitud->update();    
+
+        
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
@@ -343,6 +345,7 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
+
     public function verDpiAp($solicitud){
         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
         $path = $estado_solicitud->pdf_dpi_ap;
