@@ -300,29 +300,36 @@ class ResolucionPagoController extends Controller
     }
 
     public function rczDocumentosAp(Request $request){
+         $fecha = date("Y/m/d h:m:s");
          $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
          $estado_solicitud->solicitud_rechazo_ap = $request->texto;
          $estado_solicitud->id_estado_solicitud='3';
          $estado_solicitud->update();    
+
+         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
          return response()->json(['mensaje' => 'Resgistrado Correctamente']);
        
     }
 
-    public function aprDocumentosJunta(Request $request, PlataformaSolicitudAp $solicitud){
+    public function aprDocumentosJunta(Request $request){
         $fecha = date("Y/m/d h:m:s");
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='5';
         $estado_solicitud->update();    
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
     public function rczDocumentosJunta(Request $request){
+        $fecha = date("Y/m/d h:m:s");
+
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->solicitud_rechazo_junta = $request->texto;
         $estado_solicitud->id_estado_solicitud='10';
         $estado_solicitud->update();    
+
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
 
     }
