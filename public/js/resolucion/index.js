@@ -408,14 +408,6 @@ var validator = $("#FormFechaAp").validate({
             });
             
         });
-            
-     
-
-    
-    
-
-
-
 
     function updateModalFecha(button) {
         var formData = $("#FormFechaAp").serialize();
@@ -434,9 +426,6 @@ var validator = $("#FormFechaAp").validate({
             },
         });
     }
-   
- 
-
 
     function BorrarFormularioUpdate() {
         $("#ActaForm :input").each(function () {
