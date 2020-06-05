@@ -124,21 +124,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<div class='float-center'>" + 
                 "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
                 "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
-                "</a>" + "</div>";
-
-                
-            }
-
-   
-     
+                "</a>" + "</div>";   
+            } 
             else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
                 "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
                 "</a>" + "</div>";
-                
-                
+
             }   
             else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
                 return "<div class='text-center'>" + 
