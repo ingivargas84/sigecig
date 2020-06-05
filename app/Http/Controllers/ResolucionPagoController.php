@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Image,File;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
@@ -19,6 +20,9 @@ use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
 use App\Events\ActualizacionBitacoraAp;
+use Illuminate\Support\Facades\Storage;
+
+
 
 class ResolucionPagoController extends Controller
 {
@@ -49,6 +53,7 @@ class ResolucionPagoController extends Controller
         );
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
+        sendMail($request);
         
         event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, $fecha, $tipo->id_estado_solicitud));
 
@@ -177,6 +182,11 @@ class ResolucionPagoController extends Controller
    
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
 
+        $auxpost = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
+        $auxpost->auxpost='1';
+        $auxpost->paga_auxilio='1';
+        $auxpost->update();
+
         return Response::json(['success' => 'Éxito']);
     }
 
@@ -207,7 +217,7 @@ class ResolucionPagoController extends Controller
         return Response::json(['success' => 'Éxito']);
     }
     
-    public function mail(request $request)
+    public function sendMail(request $request)
     {
         $data = $request->all();
         
@@ -314,5 +324,25 @@ class ResolucionPagoController extends Controller
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
 
     }
-    
+
+    public function verSolicitudAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_solicitud_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+    public function verDpiAp($solicitud){
+        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
+        $path = $estado_solicitud->pdf_dpi_ap;
+        $file = File::get($path);
+        $type = File::mimeType($path);         
+        $response = Response::make($file, 200);     
+        $response->header("Content-Type", $type);
+        return $response;
+    }
+
+
 }

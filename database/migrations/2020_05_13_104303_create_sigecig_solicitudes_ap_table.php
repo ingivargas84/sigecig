@@ -27,6 +27,7 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->DateTime('fecha_pago_ap')->nullable();
             $table->string('pdf_dpi_ap', 255)->nullable();
             $table->string('pdf_solicitud_ap', 100)->nullable();
+            $table->DateTime('fecha_pago_ap')->nullable();
             $table->string('solicitud_rechazo_ap', 500)->nullable();
             $table->string('solicitud_rechazo_junta', 500)->nullable();
             $table->timestamps();
