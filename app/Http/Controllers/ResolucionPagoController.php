@@ -47,6 +47,7 @@ class ResolucionPagoController extends Controller
         );
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
+        sendMail($request);
         
         return Response::json(['success' => 'Éxito']);
     }
@@ -73,7 +74,7 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id",$solicitud->id_tipo_cuenta)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
         $profesion = SQLSRV_Profesion::where("c_cliente",$solicitud->n_colegiado)->get()->first();
-        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion','no_solicitud'));
+        return view ('admin.firmaresolucion.asap', compact('solicitud','banco','tipocuenta','colegiado','profesion'));
     }
     
     /**
@@ -154,7 +155,7 @@ class ResolucionPagoController extends Controller
         return Response::json(['success' => 'Éxito']);
     }
     
-    public function mail(request $request)
+    public function sendMail(request $request)
     {
         $data = $request->all();
         
