@@ -124,21 +124,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<div class='float-center'>" + 
                 "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
                 "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
-                "</a>" + "</div>";
-
-                
-            }
-
-   
-     
+                "</a>" + "</div>";   
+            } 
             else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
                 "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
                 "</a>" + "</div>";
-                
-                
+
             }   
             else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
                 return "<div class='text-center'>" + 
@@ -168,13 +162,6 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fas fa-flag' title='Configurar fecha de pago'></i>" + 
                 "</a>" + "</div>";
                 ;
-            }
-            else if(data == 'Finalizada'){   //Estado 10 de la solicitud
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center'>" + 
-                "<a href='resolucion/"+full.id+"/bitacora' class='edit-user' data-toggle='modal' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
-                "<i class='fas fa-eye' title='Detalle'></i>" + 
-                "</a>" + "</div>";
             }
             else return "";
         },
@@ -312,23 +299,24 @@ $("#ButtonActaModal").click(function(event) {
     }
 });
 
+
 function updateModal(button) {
-    var formData = $("#ActaForm").serialize();
-    var id = $("input[name='idSolicitud']").val();
-    $.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-        url: "/auxiliopostumo/"+id+"/acta",
-        data: formData,
-        dataType: "json",
-        success: function(data) {
-            BorrarFormularioUpdate();
-            $('#modalIngresoActa').modal("hide");
-            resolucion_table.ajax.reload();
-            alertify.set('notifier','position', 'top-center');
-            alertify.success('Datos agregados con Éxito!!');
-        },
-    });
+        var formData = $("#ActaForm").serialize();
+        var id = $("input[name='idSolicitud']").val();
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
+            url: "/auxiliopostumo/"+id+"/acta",
+            data: formData,
+            dataType: "json",
+            success: function(data) {
+                BorrarFormularioUpdate();
+                $('#modalIngresoActa').modal("hide");
+                resolucion_table.ajax.reload();
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Datos de Acta agregados con Éxito!!');
+            },
+        });
 }
 
 $("#ButtonFechaPagoAp").click(function(event) {
@@ -431,6 +419,10 @@ function updateModalFecha(button) {
             
         });
     
+            
+     
+
+
 function BorrarFormularioUpdate() {
     $("#ActaForm :input").each(function () {
         $(this).val('');
@@ -442,17 +434,6 @@ function BorrarFormularioUpdate2() {
         $(this).val('');
     });
 };
-
-
-/*function confirmar() {
-    var txt;
-    if (confirm("Press a button!")) {
-      txt = "You pressed OK!";
-    } else {
-      txt = "You pressed Cancel!";
-    }
-    document.getElementById("demo").innerHTML = txt;
-  }*/
 
  function mostrarMensajeRechazo(mensaje) {
     alertify.set('notifier','position', 'bottom-center');
