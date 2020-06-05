@@ -38,6 +38,7 @@ $('#enviar').click(function (e) {
         success: function (data) {
             mostrarMensajeRechazo(data.mensaje);
             limpiarCampos();
+            window.location.href = "/resolucion";
     
         },
         error: function (jqXHR, estado, error){
@@ -46,7 +47,6 @@ $('#enviar').click(function (e) {
         }
     }).always(function (data) {
         $('#ventana1').modal("hide");
-        resolucion_table.ajax.reload();
        
     });
     
@@ -69,7 +69,7 @@ $('#ButtonAutorizar').click(function (e) {
         success: function (data) {
             mostrarMensajeAutorizacion(data.mensaje);
            limpiarCampos();
-    
+           window.location.href = "/resolucion";
         },
         error: function (jqXHR, estado, error){
             console.log(estado)
@@ -77,7 +77,6 @@ $('#ButtonAutorizar').click(function (e) {
         }
     }).always(function (data) {
         $('#modalAprobacionJunta').modal("hide");
-        resolucion_table.ajax.reload();
        
     });
     

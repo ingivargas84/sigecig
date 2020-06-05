@@ -8,8 +8,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
     "dom": 'Bfrtip',
 
     lengthMenu: [
-        [ 10, 25, 50, -1 ],
-        [ '10 filas', '25 filas', '50 filas', 'Mostrar todo' ]
+    [ 10, 25, 50, -1 ],
+    [ '10 filas', '25 filas', '50 filas', 'Mostrar todo' ]
     ],
 
     "buttons": [
@@ -55,67 +55,71 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    },
+        },
 
-    {
-        "visible": false,
-        "title": "id",
-        "data": "id",
-        "width" : "0%",
-        "responsivePriority": 1,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    },
+        {
+            "visible": false,
+            "title": "id",
+            "data": "id",
+            "width" : "0%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+            },
 
-    {
-        "title": "No. Solicitud",
-        "data": "no_solicitud",
-        "width" : "10%",
-        "responsivePriority": 1,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    }, 
-     
-    {
-        "title": "No. Colegiado",
-        "data": "n_colegiado",
-        "width" : "10%",
-        "responsivePriority": 1,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    }, 
+            {
+                "title": "No. Solicitud",
+                "data": "no_solicitud",
+                "width" : "10%",
+                "responsivePriority": 1,
+                "render": function( data, type, full, meta ) {
+                    return (data);},
+                }, 
+                
+                {
+                    "title": "No. Colegiado",
+                    "data": "n_colegiado",
+                    "width" : "10%",
+                    "responsivePriority": 1,
+                    "render": function( data, type, full, meta ) {
+                        return (data);},
+                    }, 
 
-    {
-        "title": "Nombre",
-        "data": "Nombre1",
-        "width" : "40%",
-        "responsivePriority": 1,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    }, 
+                    {
+                        "title": "Nombre",
+                        "data": "Nombre1",
+                        "width" : "40%",
+                        "responsivePriority": 1,
+                        "render": function( data, type, full, meta ) {
+                            return (data);},
+                        }, 
 
-    {
-        "title": "Estado Solicitud",
-        "data": "estado_solicitud_ap",
-        "width" : "20%",
-        "responsivePriority": 2,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    }, 
+                        {
+                            "title": "Estado Solicitud",
+                            "data": "estado_solicitud_ap",
+                            "width" : "20%",
+                            "responsivePriority": 2,
+                            "render": function( data, type, full, meta ) {
+                                return (data);},
+                            }, 
 
-    {
-        "title": "Acciones",
-        "data": "estado_solicitud_ap",
-        "orderable": false,
-        "width" : "10%",
-        "render": function(data, type, full, meta) {
-            var urlActual = $("input[name='urlActual']").val();
+                            {
+                                "title": "Acciones",
+                                "data": "estado_solicitud_ap",
+                                "orderable": false,
+                                "width" : "10%",
+                                "render": function(data, type, full, meta) {
+                                    var urlActual = $("input[name='urlActual']").val();
             if(data == 'Documentos Enviados'){  //Estado 2 de la solicitud
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='/resolucion/asap/" + full.id + "' class='asap' >" + 
                 "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
             }
 
@@ -124,15 +128,25 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<div class='float-center'>" + 
                 "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
                 "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";   
+            } 
+            else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
+                "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
 
-                
-            }
-
-   
-     
-            else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
-
+            }   
+            else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='/pdf/"+full.id+ " 'target='_blank'>" +
@@ -142,15 +156,12 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<div class='float-center'>" + 
                 "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"'>" +
                 "<i class='fas fa-sync-alt' title='Cambiar estado'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
-            }   
-            else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
-
-                return "<div class='text-center'>" + 
-                "<div class='float-center'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
-                "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
-                "</a>" + "</div>";
+                
             }
             else if(data == 'Configuración de Pago'){  //Estado 9 de la solicitud
 
@@ -158,15 +169,40 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<div class='float-center'>" + 
                 "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' >"  +
                 "<i class='fas fa-university' title='Finalizar'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
             }
             else if(data == 'Resolución Firmada'){   //Estado 8 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 
                 "<div class='float-center'>" + 
                 "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalConfiguraFecha' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
-                "<i class='fas fa-flag' title='Configurar fecha de pago'></i>" + 
+                "<i class='fa fa-flag' title='Configurar fecha de pago'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
                 ;
+            }
+
+            else if(data == 'Documentación Rechazada'){  //Estado 3 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
+            }
+            else if(data == 'Finalizada'){  //Estado 10 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
             }
             else return "";
         },
@@ -192,9 +228,9 @@ $('#modalConfiguraFecha').on('shown.bs.modal', function(event){
     modal.find(".modal-body input[name='no_cuenta']").val(no_cuenta);
     modal.find(".modal-body input[name='idFecha']").val(id);
 
- });
+});
 
- 
+
 var validator = $("#FormFechaAp").validate({
     ignore: [],
     onkeyup:false,
@@ -203,7 +239,7 @@ var validator = $("#FormFechaAp").validate({
     rules: {
         fecha_pago_ap:{
             required: true,
-               },
+        },
     },
     messages: {
         fecha_pago_ap: {
@@ -212,7 +248,7 @@ var validator = $("#FormFechaAp").validate({
     }
 });
 
- $('#modalIngresoActa').on('shown.bs.modal', function(event){
+$('#modalIngresoActa').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
     var id = button.data('id');
     
@@ -220,9 +256,9 @@ var validator = $("#FormFechaAp").validate({
     var modal = $(this);
     modal.find(".modal-body input[name='idSolicitud']").val(id);
 
- });
+});
 
- var validator = $("#ActaForm").validate({
+var validator = $("#ActaForm").validate({
     ignore: [],
     onkeyup:false,
     onclick: false,
@@ -245,9 +281,9 @@ var validator = $("#FormFechaAp").validate({
     }
 });
 
-    $(document).on(' click', 'a.cambiar-estado', function(e) {
+$(document).on('click', 'a.cambiar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-    
+        
         var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
 
@@ -260,19 +296,19 @@ var validator = $("#FormFechaAp").validate({
                 }).done(function (data) {
                     $('.loader').fadeOut(225);
                     resolucion_table.ajax.reload();
-                        alertify.set('notifier','position', 'top-center');
-                        alertify.success('Estado cambiado con exito');
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success('Estado cambiado con exito');
                 });
-             }
+            }
             , function(){
                 alertify.set('notifier','position', 'top-center');
                 alertify.error('Cancelar')
             });
     });
 
-    $(document).on('click', 'a.finalizar-estado', function(e) {
+$(document).on('click', 'a.finalizar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-    
+        
         var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
 
@@ -285,31 +321,29 @@ var validator = $("#FormFechaAp").validate({
                 }).done(function (data) {
                     $('.loader').fadeOut(225);
                     resolucion_table.ajax.reload();
-                        alertify.set('notifier','position', 'top-center');
-                        alertify.success('Estado finalizado con exito');
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success('Estado finalizado con exito');
                 });
-             }
+            }
             , function(){
                 alertify.set('notifier','position', 'top-center');
                 alertify.error('Cancelar')
             });
     });
 
-    $("#ButtonActaModal").click(function(event) {
-        event.preventDefault();
-        if ($('#ActaForm').valid()) {
-            updateModal();
-        } else {
-            validator.focusInvalid();
-        }
-    });
+$("#ButtonActaModal").click(function(event) {
+    event.preventDefault();
+    if ($('#ActaForm').valid()) {
+        updateModal();
+    } else {
+        validator.focusInvalid();
+    }
+});
 
-    
 
-    function updateModal(button) {
+function updateModal(button) {
         var formData = $("#ActaForm").serialize();
-        var id = $("div.']").val();
-
+        var id = $("input[name='idSolicitud']").val();
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
@@ -321,20 +355,37 @@ var validator = $("#FormFechaAp").validate({
                 $('#modalIngresoActa').modal("hide");
                 resolucion_table.ajax.reload();
                 alertify.set('notifier','position', 'top-center');
-                alertify.success('Datos agregados con Éxito!!');
+                alertify.success('Datos de Acta agregados con Éxito!!');
             },
         });
+}
+
+$("#ButtonFechaPagoAp").click(function(event) {
+    event.preventDefault();
+    if ($('#FormFechaAp').valid()) {
+        updateModalFecha();
+    } else {
+        validator.focusInvalid();
     }
+});
 
-
-    $("#ButtonFechaPagoAp").click(function(event) {
-        event.preventDefault();
-        if ($('#FormFechaAp').valid()) {
-            updateModalFecha();
-        } else {
-            validator.focusInvalid();
-        }
+function updateModalFecha(button) {
+    var formData = $("#FormFechaAp").serialize();
+    var id = $("input[name='idFecha']").val();
+    $.ajax({
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
+        url: "/resolucion/"+id+"/fecha",
+        data: formData,
+        dataType: "json",
+        success: function(data) {
+            $('#modalConfiguraFecha').modal("hide");
+            resolucion_table.ajax.reload();
+            alertify.set('notifier','position', 'top-center');
+            alertify.success('Fecha agregada con Éxito!');
+        },
     });
+}
 
     $("#rechazarSolicitud").click(function(event) {
         event.preventDefault();
@@ -439,16 +490,17 @@ var validator = $("#FormFechaAp").validate({
         });
     };
 
+function BorrarFormularioUpdate() {
+    $("#ActaForm :input").each(function () {
+        $(this).val('');
+    });
+};
 
-/*function confirmar() {
-    var txt;
-    if (confirm("Press a button!")) {
-      txt = "You pressed OK!";
-    } else {
-      txt = "You pressed Cancel!";
-    }
-    document.getElementById("demo").innerHTML = txt;
-  }*/
+function BorrarFormularioUpdate2() {
+    $("#FormFechaAp :input").each(function () {
+        $(this).val('');
+    });
+};
 
  function mostrarMensajeRechazo(mensaje) {
     alertify.set('notifier','position', 'bottom-center');

@@ -11,7 +11,7 @@
       <div class="modal-body">
         <form>
           <div class="form-group" style="text-align: center; font-weight: bold">
-            <a href="" class="btn btn-success" id="aprobarSolicitud" type="button">APROVADO</a>
+            <a href="" class="btn btn-success" id="aprobarSolicitud" type="button">APROBADO</a>
             <a href="" class="btn btn-danger" id="rechazarSolicitud">RECHAZADO</a>
             <div id="divmsga1" style="display: none; color:green;" class="alert alert-primary" role="alert" ></div>
           </div>
@@ -25,7 +25,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-secondary" id="enviarRechazo"  style="display: none; background: #858585; width: 150px" >ENVIAR</button >
         <div id="divmsga" style="display: none; color:green;" class="alert alert-primary" role="alert" ></div>
       </div>
