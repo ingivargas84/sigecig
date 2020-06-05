@@ -331,31 +331,6 @@ function updateModal(button) {
     });
 }
 
-<<<<<<< HEAD
-=======
-    
-
-    function updateModal(button) {
-        var formData = $("#ActaForm").serialize();
-        var id = $("div.']").val();
-
-        $.ajax({
-            type: "POST",
-            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-            url: "/auxiliopostumo/"+id+"/acta",
-            data: formData,
-            dataType: "json",
-            success: function(data) {
-                BorrarFormularioUpdate();
-                $('#modalIngresoActa').modal("hide");
-                resolucion_table.ajax.reload();
-                alertify.set('notifier','position', 'top-center');
-                alertify.success('Datos agregados con Éxito!!');
-            },
-        });
-    }
->>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
-
 $("#ButtonFechaPagoAp").click(function(event) {
     event.preventDefault();
     if ($('#FormFechaAp').valid()) {
@@ -383,8 +358,6 @@ function updateModalFecha(button) {
     });
 }
 
-<<<<<<< HEAD
-=======
     $("#rechazarSolicitud").click(function(event) {
         event.preventDefault();
         $('#text-area').show();
@@ -457,37 +430,7 @@ function updateModalFecha(button) {
             });
             
         });
-            
-     
-
     
-    
-
-
-
-
-    function updateModalFecha(button) {
-        var formData = $("#FormFechaAp").serialize();
-        var id = $("input[name='idFecha']").val();
-        $.ajax({
-            type: "POST",
-            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-            url: "/resolucion/"+id+"/fecha",
-            data: formData,
-            dataType: "json",
-            success: function(data) {
-                $('#modalConfiguraFecha').modal("hide");
-                resolucion_table.ajax.reload();
-                alertify.set('notifier','position', 'top-center');
-                alertify.success('Fecha agregada con Éxito!');
-            },
-        });
-    }
-   
- 
->>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
-
-
 function BorrarFormularioUpdate() {
     $("#ActaForm :input").each(function () {
         $(this).val('');
