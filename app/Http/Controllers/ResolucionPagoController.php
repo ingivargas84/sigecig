@@ -205,7 +205,7 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 8,
+            'id_estado_solicitud' => 7,
         );
         $json = json_encode($nuevos_datos);
         

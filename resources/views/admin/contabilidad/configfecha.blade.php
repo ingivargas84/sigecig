@@ -20,7 +20,7 @@
                     <label for="Nombre1">Nombres</label>
                         <input type="text" size="50" maxlength="50" class="form-control" name="Nombre1" readonly>
                     </div>
-                    <div {{ $errors->has('fecha_pago_ap') ? 'has-error': '' }} >
+                    <div class="form-group col-md-6">
                         <label>Fecha de pago de transferencia:</label>
                         <input type="date" class="form-control col-sm-4" name="fecha_pago_ap">                        
                         {!! $errors->first('fecha_pago_ap', '<span class="help-block">:message</span>') !!}
