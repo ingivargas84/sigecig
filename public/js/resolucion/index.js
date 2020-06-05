@@ -305,33 +305,10 @@ $("#ButtonActaModal").click(function(event) {
     }
 });
 
+
 function updateModal(button) {
-    var formData = $("#ActaForm").serialize();
-    var id = $("input[name='idSolicitud']").val();
-    $.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-        url: "/auxiliopostumo/"+id+"/acta",
-        data: formData,
-        dataType: "json",
-        success: function(data) {
-            BorrarFormularioUpdate();
-            $('#modalIngresoActa').modal("hide");
-            resolucion_table.ajax.reload();
-            alertify.set('notifier','position', 'top-center');
-            alertify.success('Datos agregados con Éxito!!');
-        },
-    });
-}
-
-<<<<<<< HEAD
-=======
-    
-
-    function updateModal(button) {
         var formData = $("#ActaForm").serialize();
-        var id = $("div.']").val();
-
+        var id = $("input[name='idSolicitud']").val();
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
@@ -343,11 +320,10 @@ function updateModal(button) {
                 $('#modalIngresoActa').modal("hide");
                 resolucion_table.ajax.reload();
                 alertify.set('notifier','position', 'top-center');
-                alertify.success('Datos agregados con Éxito!!');
+                alertify.success('Datos de Acta agregados con Éxito!!');
             },
         });
-    }
->>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
+}
 
 $("#ButtonFechaPagoAp").click(function(event) {
     event.preventDefault();
@@ -376,8 +352,6 @@ function updateModalFecha(button) {
     });
 }
 
-<<<<<<< HEAD
-=======
     $("#rechazarSolicitud").click(function(event) {
         event.preventDefault();
         $('#text-area').show();
@@ -453,33 +427,6 @@ function updateModalFecha(button) {
             
      
 
-    
-    
-
-
-
-
-    function updateModalFecha(button) {
-        var formData = $("#FormFechaAp").serialize();
-        var id = $("input[name='idFecha']").val();
-        $.ajax({
-            type: "POST",
-            headers: {'X-CSRF-TOKEN': $('#tipopagoToken').val()},
-            url: "/resolucion/"+id+"/fecha",
-            data: formData,
-            dataType: "json",
-            success: function(data) {
-                $('#modalConfiguraFecha').modal("hide");
-                resolucion_table.ajax.reload();
-                alertify.set('notifier','position', 'top-center');
-                alertify.success('Fecha agregada con Éxito!');
-            },
-        });
-    }
-   
- 
->>>>>>> 9650872b50a20a5493db7b12ce79b9d78942968f
-
 
 function BorrarFormularioUpdate() {
     $("#ActaForm :input").each(function () {
@@ -492,17 +439,6 @@ function BorrarFormularioUpdate2() {
         $(this).val('');
     });
 };
-
-
-/*function confirmar() {
-    var txt;
-    if (confirm("Press a button!")) {
-      txt = "You pressed OK!";
-    } else {
-      txt = "You pressed Cancel!";
-    }
-    document.getElementById("demo").innerHTML = txt;
-  }*/
 
  function mostrarMensajeRechazo(mensaje) {
     alertify.set('notifier','position', 'bottom-center');
