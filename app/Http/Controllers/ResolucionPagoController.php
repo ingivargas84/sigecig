@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use Image,File;
+use Image,File,Mail;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Response;
@@ -21,6 +21,7 @@ use App\SQLSRV_Colegiado;
 use App\SQLSRV_Profesion;
 use App\Events\ActualizacionBitacoraAp;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\AprobacionDocAp;
 
 
 
@@ -295,7 +296,16 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->id_estado_solicitud='4';
         $estado_solicitud->update();
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        //envio de Corroe Aprobacion Documentacion
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $estado_solicitud->n_colegiado)->orderBy('id','DESC')->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
+        $infoCorreoAp->subject('Aprobacion de Documentos Auxilio Póstumo');     
+        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+
+        //event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
@@ -304,7 +314,15 @@ class ResolucionPagoController extends Controller
          $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
          $estado_solicitud->solicitud_rechazo_ap = $request->texto;
          $estado_solicitud->id_estado_solicitud='3';
-         $estado_solicitud->update();    
+         $estado_solicitud->update();  
+         
+        //envio de Corroe Aprobacion Documentacion
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $estado_solicitud->n_colegiado)->orderBy('id','DESC')->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
+        $infoCorreoAp->subject('Rechazo de Documentos Auxilio Póstumo');     
+        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
          event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
          return response()->json(['mensaje' => 'Resgistrado Correctamente']);
@@ -316,8 +334,16 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud='5';
         $estado_solicitud->update();    
-
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+
+        //envio de Corroe Aprobacion Solicitud por Junta Directiva
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $estado_solicitud->n_colegiado)->orderBy('id','DESC')->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
+        $infoCorreoAp->subject('Aprobacion de Solicitud por Junta Directiva');     
+        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
@@ -351,6 +377,25 @@ class ResolucionPagoController extends Controller
         $response = Response::make($file, 200);     
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function correo(){
+         $colegiado = '11282';
+        // $fecha_actual=date_format(Now(),'d-m-Y');
+        // $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
+        // $infoCorreoAp = new \App\Mail\AprobacionDocAp($colegiado,$fecha_actual, $solicitudAP);    
+        // $infoCorreoAp->subject('Aprobacion de Documentos Auxilio Póstumo');     
+        // Mail::to('daeliasc@gmail.com')->send($infoCorreoAp);
+
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+        dd($colegiado->n_cliente);
+        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP); 
+        dd($correo);
+        $infoCorreoAp->subject('Rechazo de Documentos Auxilio Póstumo');     
+        Mail::to('daeliasc@gmail.com')->send($infoCorreoAp);
+
     }
 
 
