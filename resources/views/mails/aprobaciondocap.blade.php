@@ -22,33 +22,33 @@
     @if ($solicitudAP['id_estado_solicitud']=='4')
         <h3><center>Estimado agremiado, le informamos que sus documentos han sido revisados</center></h3>
         <h3><center>y aprobados satisfactoriamente</center></h3> <br><br>
-        <h3> <center>A continuacion se detalla el proceso de su solicitud </center> </h3> <br><br>
+        <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br><br>
         <div class="datos" ><label class=""  for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear" style="margin-right: 310px" for="">FECHA: {{$fecha_actual}}</label></div><br><br>
         <div class="datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> <label class="alinear"  for="">STATUS: PASO 03/08</label></div><br><br>
         <div style="text-align: center"><img src="{{ $message->embed(public_path().'/images/paso4.png') }}" alt="picsum" width="" /></div>
 
      @elseif($solicitudAP['id_estado_solicitud']=='5')
-        <h3><center>Estimado agremiado, le informamos que sus solicitud han sido revisada</center></h3>
+        <h3><center>Estimado agremiado, le informamos que su solicitud han sido revisada</center></h3>
         <h3><center>y aprobados satisfactoriamente por Junta Directiva</center></h3> <br><br>
-        <h3> <center>A continuacion se detalla el proceso de su solicitud </center> </h3> <br><br> 
+        <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear" style="margin-right: 310px"  for="">FECHA: {{$fecha_actual}}</label></div><br><br>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> <label  class="alinear" for="">STATUS: PASO 05/08</label></div><br><br>
         <div style="text-align: center"><img src="{{ $message->embed(public_path().'/images/paso5.png') }}" alt="picsum" width="" /></div>
 
     @elseif($solicitudAP['id_estado_solicitud']=='10')
-        <h3><center>Estimado agremiado, lamentamos informarle que su solicitud a sido rechazada por Junta Directiva</center></h3>
-        <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
+        <h3><center>Estimado agremiado, lamentamos informarle que su solicitud ha sido rechazada por Junta Directiva</center></h3>
+        <h3> <center>A continuación se detalla la razon del rechazo</center> </h3> <br><br> 
         <div class=" datos" style="margin-left: 400px; margin-right: 100px;"><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear"  for="">FECHA: {{$fecha_actual}}</label></div> <br><br><br>  
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
-        <div style=""><p><center style="margin-right: 400px; margin-left: 400px; font-size: 20px; ">{{$solicitudAP['solicitud_rechazo_junta']}}</p></div> <br><br>    
+        <div style=""><p style="margin-right: 400px; margin-left: 400px; font-size: 20px; text-align: justify; ">{{$solicitudAP['solicitud_rechazo_junta']}}</p></div> <br><br>       
         <h3><center>Puede iniciar una nueva solicitud en cualquier momento</center></h3>
 
     @elseif($solicitudAP['id_estado_solicitud']=='3')
         <h3><center>Estimado agremiado, lamentamos informarle que sus documentos han sido rechazadas por la Junta Directiva</center></h3>
-        <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
+        <h3> <center>A continuación se detalla la razón del rechazo</center> </h3> <br><br> 
         <div class=" datos" style="margin-left: 350px"><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear"  for="">FECHA: {{$fecha_actual}}</label></div> <br><br><br>  
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
-        <div style=""><p><center style="margin-right: 350px; margin-left: 350px; font-size: 20px; ">{{$solicitudAP['solicitud_rechazo_ap']}}</center></p></div> <br><br>  
+        <div style=""><p style="margin-right: 350px; margin-left: 350px; font-size: 20px; text-align: justify;">{{$solicitudAP['solicitud_rechazo_ap']}}</p></div> <br><br>    
         <h3><center>Puede iniciar una nueva solicitud en cualquier momento</center></h3>
     @endif <br><br><br><br>  
 </body>
