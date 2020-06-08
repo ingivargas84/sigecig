@@ -454,12 +454,14 @@ $(document).ready(function () {
             type: 'GET',
             url: '/tipoPagoColegiado/' + valor,
             success: function(response){
+                if($("#codigoE").val() != ""){
                     $("input[name='precioUE']").val(response.precio_colegiado);
                     $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
                     $("input[name='subtotalE']").val(response.precio_colegiado);
                     $("input[name='categoria_idE']").val(response.categoria_id);
 
                     $("#cantidadE").val(1);
+                }
             },
             error: function() {
                     $("input[name='precioUE']").val('');
@@ -619,7 +621,7 @@ function getTotalE() {
 }
 
   function limpiarFilaDetalleE() {
-    $("select[name='codigo']").val('');
+    $("select[name='codigoE']").val('');
     $("input[name='cantidadE']").val(1);
     $("input[name='precioUE']").val('');
     $("input[name='descTipoPagoE']").val('');
@@ -781,12 +783,14 @@ $(document).ready(function () {
             type: 'GET',
             url: '/tipoPagoColegiado/' + valor,
             success: function(response){
+                if($("#codigoP").val() != ""){
                     $("input[name='precioUP']").val(response.precio_colegiado);
                     $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
                     $("input[name='subtotalP']").val(response.precio_colegiado);
                     $("input[name='categoria_idP']").val(response.categoria_id);
 
                     $("#cantidadP").val(1);
+                }
             },
             error: function() {
                     $("input[name='precioUP']").val('');
@@ -947,12 +951,11 @@ function getTotalP() {
 }
 
   function limpiarFilaDetalleP() {
-    $("select[name='codigo']").val('');
+    $("select[name='codigoP']").val('');
     $("input[name='cantidadP']").val(1);
     $("input[name='precioUP']").val('');
     $("input[name='descTipoPagoP']").val('');
     $("input[name='subtotalP']").val('');
-    $("input[name='monto_timbreP']").val('');
     $("#codigoP").focus();
   }
 
