@@ -167,6 +167,7 @@ Route::group([
         Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
         Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
+        Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
 
     });
 
