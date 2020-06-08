@@ -206,7 +206,7 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 8,
+            'id_estado_solicitud' => 7,
         );
         $json = json_encode($nuevos_datos);
         
@@ -304,7 +304,8 @@ class ResolucionPagoController extends Controller
         $infoCorreoAp->subject('Aprobacion de Documentos Auxilio Póstumo');     
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-        //event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+       
 
         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
@@ -377,6 +378,7 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
+
     public function verDpiAp($solicitud){
         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
         $path = $estado_solicitud->pdf_dpi_ap;
