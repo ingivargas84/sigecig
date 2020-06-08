@@ -365,7 +365,7 @@
                                     <div class="form-group">
                                         <label for="totalE" class="control-label">Total</label>
                                         <div>
-                                            <input id="totalE" disabled type="text" class="form-control" name="totalE">
+                                            <input id="totalE" disabled type="text" class="form-control" name="totalE" style="text-align:right;">
                                         </div>
                                     </div>
                                 </div>
@@ -538,7 +538,7 @@
                                     <div class="form-group">
                                         <label for="totalP" class="control-label">Total</label>
                                         <div>
-                                            <input id="totalP" disabled type="text" class="form-control" name="totalP">
+                                            <input id="totalP" disabled type="text" class="form-control" name="totalP" style="text-align:right;">
                                         </div>
                                     </div>
                                 </div>
