@@ -67,6 +67,8 @@ class SQLSRV_Colegiado extends Model
         'fallecido',  //si un colegiado esta fallecido S=Si, N=No
         'nombre_completo',
         'monto_timbre',
-        'telmovil'
+        'telmovil',
+        'auxpost',
+        'updated_at'
     ];
 }

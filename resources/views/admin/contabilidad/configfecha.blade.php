@@ -20,9 +20,9 @@
                     <label for="Nombre1">Nombres</label>
                         <input type="text" size="50" maxlength="50" class="form-control" name="Nombre1" readonly>
                     </div>
-                    <div class="form-group col-sm-12 {{ $errors->has('fecha_pago_ap') ? 'has-error': '' }}" >
-                        <label for="fecha_pago_ap">Fecha de pago de transferencia:</label>
-                        <input type="date" name="fecha_pago_ap">                        
+                    <div class="form-group col-md-6">
+                        <label>Fecha de pago de transferencia:</label>
+                        <input type="date" class="form-control col-sm-4" name="fecha_pago_ap">                        
                         {!! $errors->first('fecha_pago_ap', '<span class="help-block">:message</span>') !!}
                     </div>
                     <div class="form-group col-sm-8" >
@@ -36,7 +36,7 @@
                     <div class="form-group col-sm-12" >
                         <label for="no_cuenta" >No. de cuenta</label>
                         <input type="text" class="form-control" name="no_cuenta" readonly>
-                        </div>
+                    </div>
                 </div>
               <br>
               <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
