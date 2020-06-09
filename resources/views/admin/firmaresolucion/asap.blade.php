@@ -122,7 +122,7 @@
           
             </div>
     </form>
-    <div class="loader loader-bar"></div>
+    <div class="loader loader-bar is-active" style="display: none"></div>
 
 @stop
 

@@ -341,6 +341,7 @@ $("#ButtonActaModal").click(function(event) {
 });
 
 
+
 function updateModal(button) {
         var formData = $("#ActaForm").serialize();
         var id = $("input[name='idSolicitud']").val();
@@ -406,20 +407,23 @@ function updateModalFecha(button) {
             type: "POST",
             headers: { 'X-CSRF-TOKEN': $("input[name=_token]").val()},
             url: '/resolucion/aprdocumentosjunta',
-            data: {id_solicitud:id_solicitud},          
+            data: {id_solicitud:id_solicitud},   
+            beforeSend: function(){
+                $('.loader').show();
+                $('#modalAprobacionJunta').modal("hide");
+            },    
             success: function (data) {
-                mostrarMensajeAutorizacion(data.mensaje);
                 limpiarCampos();
             },
-
             error: function (jqXHR, estado, error){
                 console.log(estado)
                 console.log(error)
             }
         }).always(function (data) {
-            $('#modalAprobacionJunta').modal("hide");
             resolucion_table.ajax.reload();
-           
+            $('.loader').hide();
+            alertify.set('notifier','position', 'top-center');
+            alertify.success('Resgistrado Correctamente');
         });
 
 
@@ -443,9 +447,12 @@ function updateModalFecha(button) {
                 headers: { 'X-CSRF-TOKEN': $("input[name=_token]").val()},
                 url: '/resolucion/rczdocumentosjunta',
                 data: {texto:texto, id_solicitud:id_solicitud},
-                
+                beforeSend: function () {
+                    $('.loader').show();
+                    $('#modalAprobacionJunta').modal("hide");
+                  },
                 success: function (data) {
-                    mostrarMensajeRechazo(data.mensaje);
+
                     limpiarCampos();
                 },
                 error: function (jqXHR, estado, error){
@@ -453,9 +460,10 @@ function updateModalFecha(button) {
                     console.log(error)
                 }
             }).always(function (data) {
-                $('#modalAprobacionJunta').modal("hide");
                 resolucion_table.ajax.reload();
-               
+                $('.loader').hide();
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Registrado Correctamente');
             });
             
         });
@@ -490,32 +498,32 @@ function updateModalFecha(button) {
         });
     };
 
-function BorrarFormularioUpdate() {
-    $("#ActaForm :input").each(function () {
-        $(this).val('');
-    });
-};
+    function BorrarFormularioUpdate() {
+        $("#ActaForm :input").each(function () {
+            $(this).val('');
+        });
+    };
 
-function BorrarFormularioUpdate2() {
-    $("#FormFechaAp :input").each(function () {
-        $(this).val('');
-    });
-};
+    function BorrarFormularioUpdate2() {
+        $("#FormFechaAp :input").each(function () {
+            $(this).val('');
+        });
+    };
 
- function mostrarMensajeRechazo(mensaje) {
-    alertify.set('notifier','position', 'bottom-center');
-    alertify.success(mensaje);
+    function mostrarMensajeRechazo(mensaje) {
+        alertify.set('notifier','position', 'bottom-center');
+        alertify.success(mensaje);
 
-  }
+    }
 
-  function mostrarMensajeAutorizacion(mensaje) {
-    alertify.set('notifier','position', 'bottom-center');
-    alertify.success(mensaje);
-  }
+    function mostrarMensajeAutorizacion(mensaje) {
+        alertify.set('notifier','position', 'bottom-center');
+        alertify.success(mensaje);
+    }
 
 
-  function limpiarCampos() { 
-      $('#mensaje').val('');
- 
-   }
+    function limpiarCampos() { 
+        $('#mensaje').val('');
+    }
 
+    
