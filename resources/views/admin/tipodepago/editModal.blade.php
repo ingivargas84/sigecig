@@ -43,7 +43,7 @@
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary edit" id="ButtonTipoModalUpdate" >Actualizar</button>
+                <button type="submit" class="btn btn-success edit" id="ButtonTipoModalUpdate" style="padding: 6px 46px">Actualizar</button>
             </div>
           </div>
     </div>

@@ -51,7 +51,10 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$colegiado = $request->get('c_cliente');
+        $colegiado = $_POST['data'];
+        dd($colegiado);
+        return response()->json(['success' => 'Exito']);
     }
 
     /**
@@ -118,7 +121,7 @@ class ReciboController extends Controller
 
     public function getTipoDePago($tipo)
     {
-        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular')
+        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
             ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
             return $consulta;

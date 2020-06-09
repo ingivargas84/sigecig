@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFechaApToSigecigSolicitudesApTable extends Migration
+class CreateSigecigPosCobroTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddFechaApToSigecigSolicitudesApTable extends Migration
      */
     public function up()
     {
-        Schema::table('sigecig_solicitudes_ap', function (Blueprint $table) {
-            $table->DateTime('fecha_pago_ap')->after('pdf_solicitud_ap');
-
+        Schema::create('sigecig_pos_cobro', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('pos_cobro');
+            $table->timestamps();
         });
     }
 
@@ -26,7 +27,6 @@ class AddFechaApToSigecigSolicitudesApTable extends Migration
      */
     public function down()
     {
-        Schema::table('sigecig_solicitudes_ap', function (Blueprint $table) {
-        });
+        Schema::dropIfExists('sigecig_pos_cobro');
     }
 }
