@@ -8,7 +8,15 @@
             </div>
             <div class="modal-body">
 
-                <div class="row">
+                <div class="form-group col-sm-12">
+            
+                <div class="form-group col-md-9" >
+                  <label for="Nombre1"> Agregar datos para el colegiado </label>
+                        <input type="text" size="50" maxlength="50" class="form-control" name="Nombre1" >
+                    </div>
+  
+                    </div>      
+                <div>
                     <div class="form-group col-sm-12 {{ $errors->has('no_acta') ? 'has-error': '' }}" >
                         <label for="no_acta">No. Acta:</label>
                         <input type="number" class="form-control" placeholder="No. Acta:" name="no_acta">

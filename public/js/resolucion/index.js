@@ -154,7 +154,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "</a>" + "</div>" +
                 "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
-                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"'>" +
+                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
                 "<i class='fas fa-sync-alt' title='Cambiar estado'></i>" + 
                 "</a>" + "</div>" +
                 "<div class='text-center'>" + 
@@ -167,7 +167,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
-                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' >"  +
+                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>"  +
                 "<i class='fas fa-university' title='Finalizar'></i>" + 
                 "</a>" + "</div>" +
                 "<div class='text-center'>" + 
@@ -251,11 +251,14 @@ var validator = $("#FormFechaAp").validate({
 $('#modalIngresoActa').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
     var id = button.data('id');
+   // var button = $(event.currentTarget);
+    var Nombre1 = button.data('nombre1');
+  //  var no_solicitud = button[0].dataset.no_solicitud;
     
-
     var modal = $(this);
     modal.find(".modal-body input[name='idSolicitud']").val(id);
-
+    modal.find(".modal-body input[name='Nombre1']").val(Nombre1);
+   
 });
 
 var validator = $("#ActaForm").validate({
@@ -283,11 +286,13 @@ var validator = $("#ActaForm").validate({
 
 $(document).on('click', 'a.cambiar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-        
-        var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
+        var button = $(e.currentTarget);
+        var Nombre1 = button[0].dataset.nombre1;
+        var no_solicitud = button[0].dataset.no_solicitud;
+        var $this = $(this);
 
-        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado firmó su resolución?',
+        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado <strong>' + Nombre1 + '</strong> con número de solicitud: <strong>' + no_solicitud + '</strong> firmó su resolución? ' ,
             function(){
                 $('.loader').fadeIn();
                 $.post({
@@ -296,8 +301,8 @@ $(document).on('click', 'a.cambiar-estado', function(e) {
                 }).done(function (data) {
                     $('.loader').fadeOut(225);
                     resolucion_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Estado cambiado con exito');
+                        alertify.set('notifier','position', 'top-center');
+                        alertify.success('Estado cambiado con exito');
                 });
             }
             , function(){
@@ -308,11 +313,13 @@ $(document).on('click', 'a.cambiar-estado', function(e) {
 
 $(document).on('click', 'a.finalizar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-        
+        var button = $(e.currentTarget);
+        var Nombre1 = button[0].dataset.nombre1;
+        var no_solicitud = button[0].dataset.no_solicitud;
         var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
 
-        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el proceso de anticipo de auxilio póstumo?',
+        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el proceso de anticipo de auxilio póstumo del colegiado <strong>' + Nombre1 + '</strong> con número de solicitud: <strong>' + no_solicitud + '</strong>?',
             function(){
                 $('.loader').fadeIn();
                 $.post({
