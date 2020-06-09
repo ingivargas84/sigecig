@@ -34,8 +34,8 @@
                                 <label>Fecha de nacimiento</label>
                                 <input type="text" class="form-control" value="{{date('d-m-Y', strtotime($fecha_Nac->fecha_nac))}}" readonly>
                             </div>
-                    </div>
-                    <br>
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="form-group col-md-6" >
                                 <label>Profesión</label>
@@ -81,6 +81,28 @@
                         </div>
                         @endif
 
+                        @if($cambio ["estado_solicitud"] == 3)
+                        <p><b>3. Documentación Rechazada</b>
+                            <br>
+                        <div class="row">
+                            <div class="form-group col-md-4" >
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                            </div>
+                            <div class="form-group col-md-4" >
+                                <label>Configurado por:</label>
+                                <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label>Motivo del rechazo:</label>
+                                <input type="text" class="form-control" value="{{$id->solicitud_rechazo_junta}}" readonly>
+                            </div>
+
+                        </div>
+                        @endif
+
                         @if($cambio ["estado_solicitud"] == 4)
                         <p><b>3. Autorización de Documentos</b>
                             <br>
@@ -96,11 +118,9 @@
                         </div>
                         @endif
                       
-
                         @if($cambio ["estado_solicitud"] == 4)
                        <p><b>4. Solicitud de Aprobación a Junta Directiva</b>
                             <br>
-                           
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
@@ -114,7 +134,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 5)
-                        <p><b>5. Aprobación de Junta Directiva</b>
+                        <p><b>5. Aprobación de Junta Auxilio Póstumo</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >

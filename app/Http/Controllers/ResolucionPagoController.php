@@ -76,6 +76,7 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
         $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
         $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->id)->orderBy('estado_solicitud', 'asc')->get();
+      //  $rechazoap = AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
 
 //dd($usuario_cambio);
         $user = Auth::User();
@@ -296,7 +297,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->update();
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
-        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+        return response()->json(['mensaje' => 'Registrado Correctamente']);
     }
 
     public function rczDocumentosAp(Request $request){
@@ -307,7 +308,7 @@ class ResolucionPagoController extends Controller
          $estado_solicitud->update();    
 
          event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+         return response()->json(['mensaje' => 'Registrado Correctamente']);
        
     }
 
@@ -318,7 +319,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->update();    
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+        return response()->json(['mensaje' => 'Registrado Correctamente']);
     }
 
     public function rczDocumentosJunta(Request $request){
@@ -330,7 +331,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->update();    
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+        return response()->json(['mensaje' => 'Registrado Correctamente']);
 
     }
 

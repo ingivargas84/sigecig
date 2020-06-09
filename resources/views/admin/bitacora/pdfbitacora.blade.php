@@ -29,24 +29,38 @@
                 <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{$adm_persona->Nombre1}}</b>
                 </div>   
                 @endif 
+
+                @if($cambio ["estado_solicitud"] == 3)
+                <div class="texto1">
+                    <h4> 3. Documentación Rechazada </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                </div>     
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label><b>Motivo del rechazo:</b></label>
+                                <p>{{$id->solicitud_rechazo_junta}}
+                            </div>
+
+                        </div>
+                @endif
                 
                 @if($cambio ["estado_solicitud"] == 4)
-            <div class="texto1">
-                <h4> 3. Autorización de Documentos </h4>
-                <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                <div class="texto1">
+                    <h4> 3. Autorización de Documentos </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>   
                 @endif 
               
                 @if($cambio ["estado_solicitud"] == 4)
             <div class="texto1">
-                <h4> 4. Solicitud de Aprobación a Junta Directiva  </h4>
+                <h4> 4. Solicitud de Aprobación de Junta Auxilio Póstumo  </h4>
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>   
                 @endif 
 
                 @if($cambio ["estado_solicitud"] == 5)
             <div class="texto1">
-                <h4> 5. Aprobación de Junta Directiva  </h4>
+                <h4> 5. Aprobación de Junta Auxilio Póstumo  </h4>
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                </div>   
                 @endif 

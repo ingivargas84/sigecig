@@ -51,7 +51,10 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$colegiado = $request->get('c_cliente');
+        $colegiado = $_POST['data'];
+        dd($colegiado);
+        return response()->json(['success' => 'Exito']);
     }
 
     /**
