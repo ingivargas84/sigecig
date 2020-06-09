@@ -27,27 +27,27 @@ $('#enviar').click(function (e) {
     var texto = $("textarea[name=mensaje]").val();
     var solicitud = $("input[name=no_solicitud]").val();
     
-   
+
 
     $.ajax({
-
         type: "POST",
         url: "/resolucion/rczdocumentosap",
         data: {texto:texto, solicitud:solicitud},
-        
+        beforeSend:function () {
+            $('.loader').show();
+            $('#ventana1').modal("hide");
+          },
         success: function (data) {
-            mostrarMensajeRechazo(data.mensaje);
-            limpiarCampos();
             window.location.href = "/resolucion";
-    
         },
         error: function (jqXHR, estado, error){
             console.log(estado)
             console.log(error)
         }
-    }).always(function (data) {
-        $('#ventana1').modal("hide");
-       
+    }).always(function () {
+        $('.loader').hide();
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('Resgistrado Correctamente');
     });
     
 });
@@ -64,10 +64,12 @@ $('#ButtonAutorizar').click(function (e) {
         data: { solicitud:solicitud},
         beforeSend: function(){
             $('fa').css('display','inline');
+            $('.loader').show();
+            $('#modalAprobacionJunta').modal("hide");
         },
         
         success: function (data) {
-            mostrarMensajeAutorizacion(data.mensaje);
+           mostrarMensajeAutorizacion(data.mensaje);
            limpiarCampos();
            window.location.href = "/resolucion";
         },
@@ -76,8 +78,10 @@ $('#ButtonAutorizar').click(function (e) {
             console.log(error)
         }
     }).always(function (data) {
-        $('#modalAprobacionJunta').modal("hide");
-       
+        $('.loader').hide();
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('Resgistrado Correctamente');
+        
     });
     
 });

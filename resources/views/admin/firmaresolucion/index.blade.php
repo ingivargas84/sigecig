@@ -29,7 +29,7 @@
       <input type="hidden" name="urlActual" value="{{url()->current()}}">
   </div>
   <!-- /.box-body -->
- 
+  <div class="loader loader-bar is-active" style="display: none "></div>
 </div>
 <!-- /.box --> 
 

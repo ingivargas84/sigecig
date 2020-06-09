@@ -132,6 +132,8 @@ Route::group([
         Route::get('/resolucion/pdf_bitacora/{id}/', 'ResolucionPagoController@imprimirbitacora')->name('bitacora.pdfbitacora');
         //Módulo Auxilio Postumo-->Aprobacion de Documentos
         Route::post('/resolucion/aprdocumentosap','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
+        //envio de correo de aprobacion prueba
+        Route::get('resolucion/correo','ResolucionPagoController@correo');
         Route::post('/resolucion/rczdocumentosap','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
 
         //Módulo Auxilio Postumo-->Aprobacion o Rechazo por Junta
