@@ -61,6 +61,23 @@ function obtenerDatosColegiado()
     comprobarCheckTarjeta();
 }
 
+function limpiarPantallaColegiado()
+{
+    $('select[name="codigo"]').val('');
+    $('input[type="text"]').val('');
+    $('input[type="number"]').val('');
+    $('input[name="efectivo"]').val('');
+    $('input[name="cheque"]').val('');
+    $('input[name="montoCheque"]').val('');
+    $('input[name="tarjeta"]').val('');
+    $('input[name="montoTarjeta"]').val('');
+    $("tbody").children().remove();
+    $('input[name="tipoDePago"]').prop('checked', false);
+    comprobarCheckEfectivo();
+    comprobarCheckCheque();
+    comprobarCheckTarjeta();
+}
+
 $(document).ready(function(){
     $("#nit").keypress(function(e) {
       if(e.which == 13) {
@@ -108,18 +125,20 @@ $(document).ready(function () {
             type: 'GET',
             url: '/tipoPagoColegiado/' + valor,
             success: function(response){
+                if($("#codigo").val() != ""){
                     $("input[name='precioU']").val(response.precio_colegiado);
                     $("input[name='descTipoPago']").val(response.tipo_de_pago);
                     $("input[name='subtotal']").val(response.precio_colegiado);
                     $("input[name='categoria_id']").val(response.categoria_id);
 
                     $("#cantidad").val(1);
+                }
             },
             error: function() {
+                    $("input[name='cantidad']").val(1);
                     $("input[name='precioU']").val('');
                     $("input[name='descTipoPago']").val('');
                     $("input[name='subtotal']").val('');
-                    $("input[name='monto_timbre']").val('');
                     $("input[name='categoria_id']").val('');
                 }
         });
@@ -185,6 +204,7 @@ function validateRow(){
                             celdas[5].innerHTML = nuevoSubTotal;
 
                             getTotal();
+                            limpiarFilaDetalle();
                             finish();
                         }
                     }
@@ -205,6 +225,7 @@ function validateRow(){
                             finish();
                         }else if($('#codigo').val() != ""){
                             addnewrow();
+                            limpiarFilaDetalle();
                             finish();
                         }
                 }
@@ -236,7 +257,7 @@ function validateRow(){
 	resultado += $("#cantidad").val();
 	resultado += '</td>';
 
-	resultado += '<td>';
+	resultado += '<td class="precioU" id="precioU">';
 	resultado += $("#precioU").val();
 	resultado += '</td>';
 
@@ -273,12 +294,11 @@ function getTotal() {
 }
 
   function limpiarFilaDetalle() {
-    //$("input[name='codigo']").val('');
-    $("input[name='canitdad']").val(1);
+    $("select[name='codigo']").val('');
+    $("input[name='cantidad']").val(1);
     $("input[name='precioU']").val('');
     $("input[name='descTipoPago']").val('');
     $("input[name='subtotal']").val('');
-    $("input[name='monto_timbre']").val('');
     $("#codigo").focus();
   }
 
@@ -294,23 +314,23 @@ function getTotal() {
 function comprobarCheckEfectivo()
 {
     if (document.getElementById("tipoDePagoEfectivo").checked){
-        document.getElementById('efectivo').readOnly = false;
+        document.getElementById('montoefectivo').readOnly = false;
     }
     else{
-        document.getElementById('efectivo').readOnly = true;
-        $('input[name="efectivo"]').val('');
+        document.getElementById('montoefectivo').readOnly = true;
+        $('input[name="montoefectivo"]').val('');
     }
 }
 
 function comprobarCheckCheque()
 {
     if (document.getElementById("tipoDePagoCheque").checked){
-        document.getElementById('cheque').readOnly = false;
-        document.getElementById('montoCheque').style.display = "";
+        document.getElementById('montoCheque').readOnly = false;
+        document.getElementById('cheque').style.display = "";
     }
     else{
-        document.getElementById('cheque').readOnly = true;
-        document.getElementById('montoCheque').style.display = "none";
+        document.getElementById('montoCheque').readOnly = true;
+        document.getElementById('cheque').style.display = "none";
         $('input[name="cheque"]').val('');
         $('input[name="montoCheque"]').val('');
     }
@@ -319,40 +339,110 @@ function comprobarCheckCheque()
 function comprobarCheckTarjeta()
 {
     if (document.getElementById("tipoDePagoTarjeta").checked){
-        document.getElementById('tarjeta').readOnly = false;
-        document.getElementById('montoTarjeta').style.display = "";
+        document.getElementById('montoTarjeta').readOnly = false;
+        document.getElementById('tarjeta').style.display = "";
     }
     else{
-        document.getElementById('tarjeta').readOnly = true;
-        document.getElementById('montoTarjeta').style.display = "none";
+        document.getElementById('montoTarjeta').readOnly = true;
+        document.getElementById('tarjeta').style.display = "none";
         $('input[name="tarjeta"]').val('');
         $('input[name="montoTarjeta"]').val('');
     }
 }
 
 $("#guardarRecibo").click(function(e){
+    // ValidarElementos();
+    var efectivoCorrecto = 0;
+    var chequeCorrecto = 0;
+    var tarjetaCorrecta = 0;
+
     if (document.getElementById("tipoDePagoEfectivo").checked){
-        if ($('#efectivo').val() == 0){
+        if ($('#montoefectivo').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        }
-    }
+        } else {efectivoCorrecto = 1;}
+    } else {efectivoCorrecto = 1;}
     if (document.getElementById("tipoDePagoCheque").checked){
         if ($('#cheque').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
-        }
+        } else {chequeCorrecto = 1;}
         if ($('#montoCheque').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
-        }
-    }
+            chequeCorrecto = 0;
+        } else {chequeCorrecto = 1;}
+    } else {chequeCorrecto = 1;}
     if (document.getElementById("tipoDePagoTarjeta").checked){
         if ($('#tarjeta').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
-        }
+        } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjeta').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
+            tarjetaCorrecta = 0;
+        } else {tarjetaCorrecta = 1;}
+    } else {tarjetaCorrecta = 1;}
+
+    if ((document.getElementById("tipoDePagoEfectivo").checked != true)  && (document.getElementById("tipoDePagoCheque").checked != true) && (document.getElementById("tipoDePagoTarjeta").checked != true)){
+        alertify.error('Seleccione un tipo de pago');
+    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+        var totalEfectivo = $('#montoefectivo').val();
+        var totalCheque = $('#montoCheque').val();
+        var totalTarjeta = $('#montoTarjeta').val();
+        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+        if(totalPago == $("#total").val()){
+            //getFormData();
+
+                var config = {};
+                $('input').each(function () {
+                config[this.name] = this.value;
+                });
+
+                //console.log(config);
+
+                let datos = [].map.call(document.getElementById('tablaDetalle').rows,
+                tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
+
+            $('.loader').fadeIn();
+            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+                url: "/creacionRecibo/save",
+                data: {config, datos},
+                datatype: "json",
+                success: function() {
+                    $('.loader').fadeOut(1000);
+                    limpiarPantallaColegiado();
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success('Recibo almacenado con Éxito!!');
+                },
+                error: function(){
+                    $('.loader').fadeOut(1000);
+                    alertify.success('Dato aun no almacenado');
+                }
+
+            });
+            // $('.loader').fadeOut(2000);
+        }else if(totalPago > $("#total").val()){
+            alertify.success('monto de pago es mayor al total');
+        }
+        else if(totalPago < $("#total").val()){
+            alertify.success('monto de pago es menor al total');
         }
     }
-  })
+})
+
+function getFormData(){
+    var config = {};
+     $('input').each(function () {
+      config[this.name] = this.value;
+     });
+
+     //console.log(config);
+
+    let data = [].map.call(document.getElementById('tablaDetalle').rows,
+           tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
+
+    //console.log(data);
+ }
 
 
 //Funcionamiento sobre EMPRESA
@@ -364,12 +454,14 @@ $(document).ready(function () {
             type: 'GET',
             url: '/tipoPagoColegiado/' + valor,
             success: function(response){
+                if($("#codigoE").val() != ""){
                     $("input[name='precioUE']").val(response.precio_colegiado);
                     $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
                     $("input[name='subtotalE']").val(response.precio_colegiado);
                     $("input[name='categoria_idE']").val(response.categoria_id);
 
                     $("#cantidadE").val(1);
+                }
             },
             error: function() {
                     $("input[name='precioUE']").val('');
@@ -439,6 +531,7 @@ $(document).ready(function(){
                             celdas[5].innerHTML = nuevoSubTotal;
 
                             getTotalE();
+                            limpiarFilaDetalleE();
                             finish();
                         }
                     }
@@ -459,6 +552,7 @@ $(document).ready(function(){
                             finish();
                         }else if($('#codigoE').val() != ""){
                             addnewrowE();
+                            limpiarFilaDetalleE();
                             finish();
                         }
                 }
@@ -527,8 +621,8 @@ function getTotalE() {
 }
 
   function limpiarFilaDetalleE() {
-    //$("input[name='codigo']").val('');
-    $("input[name='canitdadE']").val(1);
+    $("select[name='codigoE']").val('');
+    $("input[name='cantidadE']").val(1);
     $("input[name='precioUE']").val('');
     $("input[name='descTipoPagoE']").val('');
     $("input[name='subtotalE']").val('');
@@ -547,23 +641,23 @@ function getTotalE() {
 function comprobarCheckEfectivoE()
 {
     if (document.getElementById("tipoDePagoEfectivoE").checked){
-        document.getElementById('efectivoE').readOnly = false;
+        document.getElementById('montoefectivoE').readOnly = false;
     }
     else{
-        document.getElementById('efectivoE').readOnly = true;
-        $('input[name="efectivoE"]').val('');
+        document.getElementById('montoefectivoE').readOnly = true;
+        $('input[name="montoefectivoE"]').val('');
     }
 }
 
 function comprobarCheckChequeE()
 {
     if (document.getElementById("tipoDePagoChequeE").checked){
-        document.getElementById('chequeE').readOnly = false;
-        document.getElementById('montoChequeE').style.display = "";
+        document.getElementById('montoChequeE').readOnly = false;
+        document.getElementById('chequeE').style.display = "";
     }
     else{
-        document.getElementById('chequeE').readOnly = true;
-        document.getElementById('montoChequeE').style.display = "none";
+        document.getElementById('montoChequeE').readOnly = true;
+        document.getElementById('chequeE').style.display = "none";
         $('input[name="chequeE"]').val('');
         $('input[name="montoChequeE"]').val('');
     }
@@ -572,40 +666,113 @@ function comprobarCheckChequeE()
 function comprobarCheckTarjetaE()
 {
     if (document.getElementById("tipoDePagoTarjetaE").checked){
-        document.getElementById('tarjetaE').readOnly = false;
-        document.getElementById('montoTarjetaE').style.display = "";
+        document.getElementById('montoTarjetaE').readOnly = false;
+        document.getElementById('tarjetaE').style.display = "";
     }
     else{
-        document.getElementById('tarjetaE').readOnly = true;
-        document.getElementById('montoTarjetaE').style.display = "none";
+        document.getElementById('montoTarjetaE').readOnly = true;
+        document.getElementById('tarjetaE').style.display = "none";
         $('input[name="tarjetaE"]').val('');
         $('input[name="montoTarjetaE"]').val('');
     }
 }
 
 $("#guardarReciboE").click(function(e){
+    // ValidarElementos();
+    var efectivoCorrecto = 0;
+    var chequeCorrecto = 0;
+    var tarjetaCorrecta = 0;
+
     if (document.getElementById("tipoDePagoEfectivoE").checked){
-        if ($('#efectivoE').val() == 0){
+        if ($('#montoefectivoE').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        }
-    }
+        } else {efectivoCorrecto = 1;}
+    } else {efectivoCorrecto = 1;}
     if (document.getElementById("tipoDePagoChequeE").checked){
         if ($('#chequeE').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
-        }
+        } else {chequeCorrecto = 1;}
         if ($('#montoChequeE').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
-        }
-    }
+            chequeCorrecto = 0;
+        } else {chequeCorrecto = 1;}
+    } else {chequeCorrecto = 1;}
     if (document.getElementById("tipoDePagoTarjetaE").checked){
         if ($('#tarjetaE').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
-        }
+        } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjetaE').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
+            tarjetaCorrecta = 0;
+        } else {tarjetaCorrecta = 1;}
+    } else {tarjetaCorrecta = 1;}
+
+    if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true)){
+        alertify.error('Seleccione un tipo de pago');
+    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+        var totalEfectivo = $('#montoefectivoE').val();
+        var totalCheque = $('#montoChequeE').val();
+        var totalTarjeta = $('#montoTarjetaE').val();
+        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+        if(totalPago == $("#totalE").val()){
+            //getFormData();
+
+                var configE = {};
+                $('input').each(function () {
+                config[this.name] = this.value;
+                });
+
+                //console.log(config);
+
+                let datosE = [].map.call(document.getElementById('tablaDetalleE').rows,
+                tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
+
+            $('.loader').fadeIn();
+            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+                url: "/creacionRecibo/save",
+                data: {configE, datosE},
+                datatype: "json",
+                success: function() {
+                    $('.loader').fadeOut(1000);
+                    limpiarPantallaE();
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success('Recibo almacenado con Éxito!!');
+                },
+                error: function(){
+                    $('.loader').fadeOut(1000);
+                    alertify.success('Dato aun no almacenado');
+                }
+
+            });
+            // $('.loader').fadeOut(2000);
+        }else if(totalPago > $("#totalE").val()){
+            alertify.success('monto de pago es mayor al total');
+        }
+        else if(totalPago < $("#totalE").val()){
+            alertify.success('monto de pago es menor al total');
         }
     }
-  })
+})
+
+function limpiarPantallaE()
+{
+    $('select[name="codigoE"]').val('');
+    $('input[type="text"]').val('');
+    $('input[type="number"]').val('');
+    $('input[name="montoefectivoE"]').val('');
+    $('input[name="chequeE"]').val('');
+    $('input[name="montoChequeE"]').val('');
+    $('input[name="tarjetaE"]').val('');
+    $('input[name="montoTarjetaE"]').val('');
+    $("tbody").children().remove();
+    $('input[name="tipoDePagoE"]').prop('checked', false);
+    comprobarCheckEfectivoE();
+    comprobarCheckChequeE();
+    comprobarCheckTarjetaE();
+}
 
 //Funcionamiento sobre Particular
 
@@ -616,12 +783,14 @@ $(document).ready(function () {
             type: 'GET',
             url: '/tipoPagoColegiado/' + valor,
             success: function(response){
+                if($("#codigoP").val() != ""){
                     $("input[name='precioUP']").val(response.precio_colegiado);
                     $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
                     $("input[name='subtotalP']").val(response.precio_colegiado);
                     $("input[name='categoria_idP']").val(response.categoria_id);
 
                     $("#cantidadP").val(1);
+                }
             },
             error: function() {
                     $("input[name='precioUP']").val('');
@@ -692,6 +861,7 @@ function agregarproductofP() {
                             celdas[5].innerHTML = nuevoSubTotal;
 
                             getTotalP();
+                            limpiarFilaDetalleP();
                             finish();
                         }
                     }
@@ -712,6 +882,7 @@ function agregarproductofP() {
                             finish();
                         }else if($('#codigoP').val() != ""){
                             addnewrowP();
+                            limpiarFilaDetalleP();
                             finish();
                         }
                 }
@@ -780,12 +951,11 @@ function getTotalP() {
 }
 
   function limpiarFilaDetalleP() {
-    //$("input[name='codigo']").val('');
-    $("input[name='canitdadP']").val(1);
+    $("select[name='codigoP']").val('');
+    $("input[name='cantidadP']").val(1);
     $("input[name='precioUP']").val('');
     $("input[name='descTipoPagoP']").val('');
     $("input[name='subtotalP']").val('');
-    $("input[name='monto_timbreP']").val('');
     $("#codigoP").focus();
   }
 
@@ -801,23 +971,23 @@ function getTotalP() {
 function comprobarCheckEfectivoP()
 {
     if (document.getElementById("tipoDePagoEfectivoP").checked){
-        document.getElementById('efectivoP').readOnly = false;
+        document.getElementById('montoefectivoP').readOnly = false;
     }
     else{
         document.getElementById('efectivoP').readOnly = true;
-        $('input[name="efectivoP"]').val('');
+        $('input[name="montoefectivoP"]').val('');
     }
 }
 
 function comprobarCheckChequeP()
 {
     if (document.getElementById("tipoDePagoChequeP").checked){
-        document.getElementById('chequeP').readOnly = false;
-        document.getElementById('montoChequeP').style.display = "";
+        document.getElementById('montoChequeP').readOnly = false;
+        document.getElementById('chequeP').style.display = "";
     }
     else{
-        document.getElementById('chequeP').readOnly = true;
-        document.getElementById('montoChequeP').style.display = "none";
+        document.getElementById('montoChequeP').readOnly = true;
+        document.getElementById('chequeP').style.display = "none";
         $('input[name="chequeP"]').val('');
         $('input[name="montoChequeP"]').val('');
     }
@@ -826,37 +996,110 @@ function comprobarCheckChequeP()
 function comprobarCheckTarjetaP()
 {
     if (document.getElementById("tipoDePagoTarjetaP").checked){
-        document.getElementById('tarjetaP').readOnly = false;
-        document.getElementById('montoTarjetaP').style.display = "";
+        document.getElementById('montoTarjetaP').readOnly = false;
+        document.getElementById('tarjetaP').style.display = "";
     }
     else{
-        document.getElementById('tarjetaP').readOnly = true;
-        document.getElementById('montoTarjetaP').style.display = "none";
+        document.getElementById('montoTarjetaP').readOnly = true;
+        document.getElementById('tarjetaP').style.display = "none";
         $('input[name="tarjetaP"]').val('');
         $('input[name="montoTarjetaP"]').val('');
     }
 }
 
 $("#guardarReciboP").click(function(e){
+    // ValidarElementos();
+    var efectivoCorrecto = 0;
+    var chequeCorrecto = 0;
+    var tarjetaCorrecta = 0;
+
     if (document.getElementById("tipoDePagoEfectivoP").checked){
-        if ($('#efectivoP').val() == 0){
+        if ($('#montoefectivoP').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        }
-    }
+        } else {efectivoCorrecto = 1;}
+    } else {efectivoCorrecto = 1;}
     if (document.getElementById("tipoDePagoChequeP").checked){
         if ($('#chequeP').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
-        }
+        } else {chequeCorrecto = 1;}
         if ($('#montoChequeP').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
-        }
-    }
+            chequeCorrecto = 0;
+        } else {chequeCorrecto = 1;}
+    } else {chequeCorrecto = 1;}
     if (document.getElementById("tipoDePagoTarjetaP").checked){
         if ($('#tarjetaP').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
-        }
+        } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjetaP').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
+            tarjetaCorrecta = 0;
+        } else {tarjetaCorrecta = 1;}
+    } else {tarjetaCorrecta = 1;}
+
+    if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true)){
+        alertify.error('Seleccione un tipo de pago');
+    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+        var totalEfectivo = $('#montoefectivoP').val();
+        var totalCheque = $('#montoChequeP').val();
+        var totalTarjeta = $('#montoTarjetaP').val();
+        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+        if(totalPago == $("#totalP").val()){
+            //getFormData();
+
+                var configP = {};
+                $('input').each(function () {
+                configP[this.name] = this.value;
+                });
+
+                //console.log(config);
+
+                let datosP = [].map.call(document.getElementById('tablaDetalleP').rows,
+                tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
+
+            $('.loader').fadeIn();
+            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+                url: "/creacionRecibo/save",
+                data: {configP, datosP},
+                datatype: "json",
+                success: function() {
+                    $('.loader').fadeOut(1000);
+                    limpiarPantallaP();
+                    alertify.set('notifier','position', 'top-center');
+                    alertify.success('Recibo almacenado con Éxito!!');
+                },
+                error: function(){
+                    $('.loader').fadeOut(1000);
+                    alertify.success('Dato aun no almacenado');
+                }
+
+            });
+            // $('.loader').fadeOut(2000);
+        }else if(totalPago > $("#totalP").val()){
+            alertify.success('monto de pago es mayor al total');
+        }
+        else if(totalPago < $("#totalP").val()){
+            alertify.success('monto de pago es menor al total');
         }
     }
-  })
+})
+
+function limpiarPantallaP()
+{
+    $('select[name="codigoP"]').val('');
+    $('input[type="text"]').val('');
+    $('input[type="number"]').val('');
+    $('input[name="montoefectivoP"]').val('');
+    $('input[name="chequeP"]').val('');
+    $('input[name="montoChequeP"]').val('');
+    $('input[name="tarjetaP"]').val('');
+    $('input[name="montoTarjetaP"]').val('');
+    $("tbody").children().remove();
+    $('input[name="tipoDePagoP"]').prop('checked', false);
+    comprobarCheckEfectivoP();
+    comprobarCheckChequeP();
+    comprobarCheckTarjetaP();
+}
