@@ -15,17 +15,17 @@ class CreateReciboMaestroTable extends Migration
     {
         Schema::create('sigecig_recibo_maestro', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('fecha_recibo');
-            $table->string('serie');
-            $table->string('num_recibo');
-            $table->integer('no_colegiado');
-            $table->string('nombre_colegiado');
-            $table->string('anulado');
-            $table->float('efectivo');
-            $table->float('tarjeta');
-            $table->float('cheque');
-            $table->float('total_recibo');
-            $table->timestamp('fecha_ingreso');
+            $table->integer('serie_recibo_id');
+            $table->integer('numero_recibo');
+            $table->integer('numero_de_identificacion');
+            $table->string('nombre');
+            $table->integer('tipo_de_cliente_id');
+            $table->string('complemento')->nullable();
+            $table->double('monto_efecectivo',10,2)->nullable();
+            $table->double('monto_tarjeta',10,2)->nullable();
+            $table->double('monto_cheque',10,2)->nullable();
+            $table->integer('usuario');
+            $table->double('monto_total',10,2);
             $table->timestamps();
         });
     }
