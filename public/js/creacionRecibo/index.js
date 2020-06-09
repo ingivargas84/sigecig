@@ -351,7 +351,7 @@ function comprobarCheckTarjeta()
 }
 
 $("#guardarRecibo").click(function(e){
-    // ValidarElementos();
+
     var efectivoCorrecto = 0;
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
@@ -359,8 +359,8 @@ $("#guardarRecibo").click(function(e){
     if (document.getElementById("tipoDePagoEfectivo").checked){
         if ($('#montoefectivo').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        } else {efectivoCorrecto = 1;}
-    } else {efectivoCorrecto = 1;}
+        } else {efectivoCorrecto = 1; $('#pagoEfectivo').val("si");}
+    } else {efectivoCorrecto = 1; $('#pagoEfectivo').val("no");}
     if (document.getElementById("tipoDePagoCheque").checked){
         if ($('#cheque').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
@@ -368,8 +368,8 @@ $("#guardarRecibo").click(function(e){
         if ($('#montoCheque').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
-        } else {chequeCorrecto = 1;}
-    } else {chequeCorrecto = 1;}
+        } else {chequeCorrecto = 1; $('#pagoCheque').val("si");}
+    } else {chequeCorrecto = 1; $('#pagoCheque').val("no");}
     if (document.getElementById("tipoDePagoTarjeta").checked){
         if ($('#tarjeta').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
@@ -377,8 +377,8 @@ $("#guardarRecibo").click(function(e){
         if ($('#montoTarjeta').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1;}
-    } else {tarjetaCorrecta = 1;}
+        } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("si");}
+    } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivo").checked != true)  && (document.getElementById("tipoDePagoCheque").checked != true) && (document.getElementById("tipoDePagoTarjeta").checked != true)){
         alertify.error('Seleccione un tipo de pago');
@@ -388,20 +388,16 @@ $("#guardarRecibo").click(function(e){
         var totalTarjeta = $('#montoTarjeta').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#total").val()){
-            //getFormData();
 
                 var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
                 });
 
-                //console.log(config);
-
                 let datos = [].map.call(document.getElementById('tablaDetalle').rows,
                 tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
 
             $('.loader').fadeIn();
-            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
             $.ajax({
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
@@ -418,9 +414,7 @@ $("#guardarRecibo").click(function(e){
                     $('.loader').fadeOut(1000);
                     alertify.success('Dato aun no almacenado');
                 }
-
             });
-            // $('.loader').fadeOut(2000);
         }else if(totalPago > $("#total").val()){
             alertify.success('monto de pago es mayor al total');
         }
@@ -429,21 +423,6 @@ $("#guardarRecibo").click(function(e){
         }
     }
 })
-
-function getFormData(){
-    var config = {};
-     $('input').each(function () {
-      config[this.name] = this.value;
-     });
-
-     //console.log(config);
-
-    let data = [].map.call(document.getElementById('tablaDetalle').rows,
-           tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
-
-    //console.log(data);
- }
-
 
 //Funcionamiento sobre EMPRESA
 
@@ -686,8 +665,8 @@ $("#guardarReciboE").click(function(e){
     if (document.getElementById("tipoDePagoEfectivoE").checked){
         if ($('#montoefectivoE').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        } else {efectivoCorrecto = 1;}
-    } else {efectivoCorrecto = 1;}
+        } else {efectivoCorrecto = 1; $('#pagoEfectivoE').val("si");}
+    } else {efectivoCorrecto = 1; $('#pagoEfectivoE').val("no");}
     if (document.getElementById("tipoDePagoChequeE").checked){
         if ($('#chequeE').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
@@ -695,8 +674,8 @@ $("#guardarReciboE").click(function(e){
         if ($('#montoChequeE').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
-        } else {chequeCorrecto = 1;}
-    } else {chequeCorrecto = 1;}
+        } else {chequeCorrecto = 1; $('#pagoChequeE').val("si");}
+    } else {chequeCorrecto = 1; $('#pagoChequeE').val("no");}
     if (document.getElementById("tipoDePagoTarjetaE").checked){
         if ($('#tarjetaE').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
@@ -704,8 +683,8 @@ $("#guardarReciboE").click(function(e){
         if ($('#montoTarjetaE').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1;}
-    } else {tarjetaCorrecta = 1;}
+        } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
+    } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true)){
         alertify.error('Seleccione un tipo de pago');
@@ -715,25 +694,21 @@ $("#guardarReciboE").click(function(e){
         var totalTarjeta = $('#montoTarjetaE').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#totalE").val()){
-            //getFormData();
 
-                var configE = {};
+                var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
                 });
 
-                //console.log(config);
-
-                let datosE = [].map.call(document.getElementById('tablaDetalleE').rows,
+                let datos = [].map.call(document.getElementById('tablaDetalleE').rows,
                 tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
 
             $('.loader').fadeIn();
-            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
             $.ajax({
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-                url: "/creacionRecibo/save",
-                data: {configE, datosE},
+                url: "/creacionRecibo/save/empresa",
+                data: {config, datos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -745,9 +720,7 @@ $("#guardarReciboE").click(function(e){
                     $('.loader').fadeOut(1000);
                     alertify.success('Dato aun no almacenado');
                 }
-
             });
-            // $('.loader').fadeOut(2000);
         }else if(totalPago > $("#totalE").val()){
             alertify.success('monto de pago es mayor al total');
         }
@@ -974,7 +947,7 @@ function comprobarCheckEfectivoP()
         document.getElementById('montoefectivoP').readOnly = false;
     }
     else{
-        document.getElementById('efectivoP').readOnly = true;
+        document.getElementById('montoefectivoP').readOnly = true;
         $('input[name="montoefectivoP"]').val('');
     }
 }
@@ -1016,8 +989,8 @@ $("#guardarReciboP").click(function(e){
     if (document.getElementById("tipoDePagoEfectivoP").checked){
         if ($('#montoefectivoP').val() == 0){
             alertify.error('el monto de efectivo no puede ser 0...');
-        } else {efectivoCorrecto = 1;}
-    } else {efectivoCorrecto = 1;}
+        } else {efectivoCorrecto = 1; $('#pagoEfectivoP').val("si");}
+    } else {efectivoCorrecto = 1; $('#pagoEfectivoP').val("no");}
     if (document.getElementById("tipoDePagoChequeP").checked){
         if ($('#chequeP').val() == 0){
             alertify.error('los datos de cheque no pueden ir vacios...');
@@ -1025,8 +998,8 @@ $("#guardarReciboP").click(function(e){
         if ($('#montoChequeP').val() == 0){
             alertify.error('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
-        } else {chequeCorrecto = 1;}
-    } else {chequeCorrecto = 1;}
+        } else {chequeCorrecto = 1; $('#pagoChequeP').val("si");}
+    } else {chequeCorrecto = 1; $('#pagoChequeP').val("no");}
     if (document.getElementById("tipoDePagoTarjetaP").checked){
         if ($('#tarjetaP').val() == 0){
             alertify.error('los datos de tarjeta no pueden ir vacios...');
@@ -1034,8 +1007,8 @@ $("#guardarReciboP").click(function(e){
         if ($('#montoTarjetaP').val() == 0){
             alertify.error('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1;}
-    } else {tarjetaCorrecta = 1;}
+        } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
+    } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true)){
         alertify.error('Seleccione un tipo de pago');
@@ -1045,25 +1018,21 @@ $("#guardarReciboP").click(function(e){
         var totalTarjeta = $('#montoTarjetaP').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#totalP").val()){
-            //getFormData();
 
-                var configP = {};
+                var config = {};
                 $('input').each(function () {
-                configP[this.name] = this.value;
+                config[this.name] = this.value;
                 });
 
-                //console.log(config);
-
-                let datosP = [].map.call(document.getElementById('tablaDetalleP').rows,
+                let datos = [].map.call(document.getElementById('tablaDetalleP').rows,
                 tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
 
             $('.loader').fadeIn();
-            //var dataColegiado = $("#ReciboColegiadoForm").serializeArray();
             $.ajax({
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-                url: "/creacionRecibo/save",
-                data: {configP, datosP},
+                url: "/creacionRecibo/save/particular",
+                data: {config, datos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -1075,9 +1044,7 @@ $("#guardarReciboP").click(function(e){
                     $('.loader').fadeOut(1000);
                     alertify.success('Dato aun no almacenado');
                 }
-
             });
-            // $('.loader').fadeOut(2000);
         }else if(totalPago > $("#totalP").val()){
             alertify.success('monto de pago es mayor al total');
         }

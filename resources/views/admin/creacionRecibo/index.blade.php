@@ -40,13 +40,14 @@
                         <br>
                         <div id="c" class="desc col-md-offset-1 col-md-10"> <!-- Inicia vista Colegiado -->
                         <form method="POST" id="ReciboColegiadoForm"  action="{{route('guardarReciboColegiado.save')}}">
+                        <input name="tipoDeCliente" id="tipoDeCliente" value="c" style="display: none;">
                         <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="c_cliente" class="control-label">Colegiado</label>
                                         <div>
-                                            <input type="number" id="c_cliente" name="c_cliente" required class="form-control">
+                                            <input type="number" id="c_cliente" name="c_cliente" required class="form-control" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -213,16 +214,19 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <input type="number" id="montoefectivo" name="montoefectivo" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input name="pagoEfectivo" id="pagoEfectivo" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoCheque" name="montoCheque" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input name="pagoCheque" id="pagoCheque" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input name="pagoTarjeta" id="pagoTarjeta" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -259,6 +263,8 @@
                         </div>
                         </form>
                         <div id="e" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista de Empresa -->
+                        <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="e" style="display: none;">
+                        <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
@@ -388,16 +394,19 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <input type="number" id="montoefectivoE" name="montoefectivoE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoEfectivoE" id="pagoEfectivoE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoChequeE" id="pagoChequeE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoTarjetaE" id="pagoTarjetaE" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -432,6 +441,8 @@
                             </div>
                         </div>
                         <div id="p" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista Particular -->
+                        <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="p" style="display: none;">
+                        <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">
@@ -443,9 +454,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="nombre" class="control-label">Nombre</label>
+                                        <label for="nombreP" class="control-label">Nombre</label>
                                         <div>
-                                            <input type="text" id="nombre" name="nombre" required class="form-control">
+                                            <input type="text" id="nombreP" name="nombreP" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -561,16 +572,19 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <input type="number" id="montoefectivoP" name="montoefectivoP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoEfectivoP" id="pagoEfectivoP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoChequeP" id="pagoChequeP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input name="pagoTarjetaP" id="pagoTarjetaP" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>

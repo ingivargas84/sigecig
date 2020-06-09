@@ -14,6 +14,11 @@ use App\SQLSRV_Colegiado;
 use App\SQLSRV_Empresa;
 use App\TipoDePago;
 use App\User;
+use App\Recibo_Maestro;
+use App\Recibo_Detalle;
+use App\SerieRecibo;
+use App\ReciboCheque;
+use App\ReciboTarjeta;
 use Validator;
 
 class ReciboController extends Controller
@@ -51,9 +56,216 @@ class ReciboController extends Controller
      */
     public function store(Request $request)
     {
-        //$colegiado = $request->get('c_cliente');
-        $colegiado = $_POST['data'];
-        dd($colegiado);
+        // almacen de datos de COLEGIADO
+
+        $tipoDeCliente      = $request->input("config.tipoDeCliente");
+        $colegiado          = $request->input("config.c_cliente");
+        $nombreCliente      = $request->input("config.n_cliente");
+        $estado             = $request->input("config.estado");
+        $complemento        = $request->input("config.complemento");
+        $ultPagoTimbre      = $request->input("config.f_ult_timbre");
+        $ulPagoColegio      = $request->input("config.f_ult_pago");
+        $montoTimbre        = $request->input("config.monto_timbre");
+        $totalAPagar        = $request->input("config.total");
+        $pagoEnEfectivo     = $request->input("config.pagoEfectivo");
+        $montoefectivo      = $request->input("config.montoefectivo");
+        $pagoCheque         = $request->input("config.pagoCheque");
+        $numeroCheque       = $request->input("config.cheque");
+        $montoCheque        = $request->input("config.montoCheque");
+        $pagoTarjeta        = $request->input("config.pagoTarjeta");
+        $numeroTarjeta      = $request->input("config.tarjeta");
+        $montoTarjeta       = $request->input("config.montoTarjeta");
+
+            $tipoDeCliente = 1;
+
+
+        $reciboMaestro = new Recibo_Maestro;
+        $reciboMaestro->serie_recibo_id = 1;
+        $reciboMaestro->numero_recibo = 374;
+        $reciboMaestro->numero_de_identificacion = $colegiado;
+        $reciboMaestro->nombre = $nombreCliente;
+        $reciboMaestro->tipo_de_cliente_id = $tipoDeCliente;
+        $reciboMaestro->complemento = 1;
+        $reciboMaestro->monto_efecectivo = $montoefectivo;
+        $reciboMaestro->monto_tarjeta = $montoTarjeta;
+        $reciboMaestro->monto_cheque = $montoCheque;
+        $reciboMaestro->usuario = Auth::user()->id;
+        $reciboMaestro->monto_total = $totalAPagar;
+        $reciboMaestro->save();
+
+        $array = $request->input("datos");
+
+        for ($i = 1; $i < sizeof($array); $i++){
+            $reciboDetalle = Recibo_Detalle::create([
+                'numero_recibo'     => $reciboMaestro->numero_recibo,
+                'codigo_compra'     => $array[$i][1],
+                'cantidad'          => $array[$i][2],
+                'precio_unitario'   => $array[$i][3],
+                'total'             => $array[$i][5],
+            ]);
+        }
+
+        if ($pagoCheque == 'si'){
+            $bdCheque = new ReciboCheque;
+            $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
+            $bdCheque->numero_cheque = $numeroCheque;
+            $bdCheque->monto = $montoCheque;
+            $bdCheque->nombre_banco = "";
+            $bdCheque->usuario_id = Auth::user()->id;
+            $bdCheque->fecha_de_cheque = now();
+            $bdCheque->save();
+        }
+
+        if ($pagoTarjeta == 'si'){
+            $bdTarjeta = new ReciboTarjeta;
+            $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
+            $bdTarjeta->numero_voucher = $numeroTarjeta;
+            $bdTarjeta->monto = $montoTarjeta;
+            $bdTarjeta->pos_cobro_id = 1;
+            $bdTarjeta->usuario_id = Auth::user()->id;
+            $bdTarjeta->save();
+        }
+
+        return response()->json(['success' => 'Exito']);
+
+
+    }
+
+    public function storeParticular(Request $request)
+    {
+        // almacen de datos de PARTICULAR
+
+        $tipoDeCliente       = $request->input("config.tipoDeCliente");
+        $dpi                 = $request->input("config.dpi");
+        $nombreClienteP      = $request->input("config.nombreP");
+        $totalAPagarP        = $request->input("config.totalP");
+        $pagoEnEfectivoP     = $request->input("config.pagoEfectivoP");
+        $montoefectivoP      = $request->input("config.montoefectivoP");
+        $pagoChequeP         = $request->input("config.pagoChequeP");
+        $numeroChequeP       = $request->input("config.chequeP");
+        $montoChequeP        = $request->input("config.montoChequeP");
+        $pagoTarjetaP        = $request->input("config.pagoTarjetaP");
+        $numeroTarjetaP      = $request->input("config.tarjetaP");
+        $montoTarjetaP       = $request->input("config.montoTarjetaP");
+
+            $tipoDeCliente = 2;
+
+        $reciboMaestroP = new Recibo_Maestro;
+        $reciboMaestroP->serie_recibo_id = 1;
+        $reciboMaestroP->numero_recibo = 481;
+        $reciboMaestroP->numero_de_identificacion = $dpi;
+        $reciboMaestroP->nombre = $nombreClienteP;
+        $reciboMaestroP->tipo_de_cliente_id = $tipoDeCliente;
+        $reciboMaestroP->complemento = 1;
+        $reciboMaestroP->monto_efecectivo = $montoefectivoP;
+        $reciboMaestroP->monto_tarjeta = $montoTarjetaP;
+        $reciboMaestroP->monto_cheque = $montoChequeP;
+        $reciboMaestroP->usuario = Auth::user()->id;
+        $reciboMaestroP->monto_total = $totalAPagarP;
+        $reciboMaestroP->save();
+
+        $array = $request->input("datos");
+
+        for ($i = 1; $i < sizeof($array); $i++){
+            $reciboDetalleP = Recibo_Detalle::create([
+                'numero_recibo'     => $reciboMaestroP->numero_recibo,
+                'codigo_compra'     => $array[$i][1],
+                'cantidad'          => $array[$i][2],
+                'precio_unitario'   => $array[$i][3],
+                'total'             => $array[$i][5],
+            ]);
+        }
+
+        if ($pagoChequeP == 'si'){
+            $bdChequeP = new ReciboCheque;
+            $bdChequeP->numero_recibo = $reciboMaestroP->numero_recibo;
+            $bdChequeP->numero_cheque = $numeroChequeP;
+            $bdChequeP->monto = $montoChequeP;
+            $bdChequeP->nombre_banco = "";
+            $bdChequeP->usuario_id = Auth::user()->id;
+            $bdChequeP->fecha_de_cheque = now();
+            $bdChequeP->save();
+        }
+
+        if ($pagoTarjetaP == 'si'){
+            $bdTarjetaP = new ReciboTarjeta;
+            $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
+            $bdTarjetaP->numero_voucher = $numeroTarjetaP;
+            $bdTarjetaP->monto = $montoTarjetaP;
+            $bdTarjetaP->pos_cobro_id = 1;
+            $bdTarjetaP->usuario_id = Auth::user()->id;
+            $bdTarjetaP->save();
+        }
+
+        return response()->json(['success' => 'Exito']);
+    }
+
+    public function storeEmpresa(Request $request)
+    {
+        // almacen de datos de EMPRESA
+
+        $tipoDeCliente       = $request->input("config.tipoDeCliente");
+        $nit                 = $request->input("config.nit");
+        $empresa             = $request->input("config.empresa");
+        $totalAPagarE        = $request->input("config.totalE");
+        $pagoEnEfectivoE     = $request->input("config.pagoEfectivoE");
+        $montoefectivoE      = $request->input("config.montoefectivoE");
+        $pagoChequeE         = $request->input("config.pagoChequeE");
+        $numeroChequeE       = $request->input("config.chequeE");
+        $montoChequeE        = $request->input("config.montoChequeE");
+        $pagoTarjetaE        = $request->input("config.pagoTarjetaE");
+        $numeroTarjetaE      = $request->input("config.tarjetaE");
+        $montoTarjetaE       = $request->input("config.montoTarjetaE");
+
+            $tipoDeCliente = 3;
+
+        $reciboMaestroE = new Recibo_Maestro;
+        $reciboMaestroE->serie_recibo_id = 1;
+        $reciboMaestroE->numero_recibo = 126;
+        $reciboMaestroE->numero_de_identificacion = $nit;
+        $reciboMaestroE->nombre = $empresa;
+        $reciboMaestroE->tipo_de_cliente_id = $tipoDeCliente;
+        $reciboMaestroE->complemento = 1;
+        $reciboMaestroE->monto_efecectivo = $montoefectivoE;
+        $reciboMaestroE->monto_tarjeta = $montoTarjetaE;
+        $reciboMaestroE->monto_cheque = $montoChequeE;
+        $reciboMaestroE->usuario = Auth::user()->id;
+        $reciboMaestroE->monto_total = $totalAPagarE;
+        $reciboMaestroE->save();
+
+        $array = $request->input("datos");
+
+        for ($i = 1; $i < sizeof($array); $i++){
+            $reciboDetalleE = Recibo_Detalle::create([
+                'numero_recibo'     => $reciboMaestroE->numero_recibo,
+                'codigo_compra'     => $array[$i][1],
+                'cantidad'          => $array[$i][2],
+                'precio_unitario'   => $array[$i][3],
+                'total'             => $array[$i][5],
+            ]);
+        }
+
+        if ($pagoChequeE == 'si'){
+            $bdChequeE = new ReciboCheque;
+            $bdChequeE->numero_recibo = $reciboMaestroE->numero_recibo;
+            $bdChequeE->numero_cheque = $numeroChequeE;
+            $bdChequeE->monto = $montoChequeE;
+            $bdChequeE->nombre_banco = "";
+            $bdChequeE->usuario_id = Auth::user()->id;
+            $bdChequeE->fecha_de_cheque = now();
+            $bdChequeE->save();
+        }
+
+        if ($pagoTarjetaE == 'si'){
+            $bdTarjetaE = new ReciboTarjeta;
+            $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
+            $bdTarjetaE->numero_voucher = $numeroTarjetaE;
+            $bdTarjetaE->monto = $montoTarjetaE;
+            $bdTarjetaE->pos_cobro_id = 1;
+            $bdTarjetaE->usuario_id = Auth::user()->id;
+            $bdTarjetaE->save();
+        }
+
         return response()->json(['success' => 'Exito']);
     }
 

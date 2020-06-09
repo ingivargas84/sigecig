@@ -32,7 +32,7 @@ Route::group([
 
         Route::get( '/negocio/{negocio}/edit' , 'NegocioController@edit')->name('negocio.edit');
         Route::put( '/negocio/{negocio}/update' , 'NegocioController@update')->name('negocio.update');
-        
+
 
         // Módulo Contabilidad Y JefeContabilidad
       //  Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad.index');
@@ -176,6 +176,8 @@ Route::group([
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
         Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
+        Route::post('/creacionRecibo/save/particular', 'ReciboController@storeParticular')->name('guardarReciboParticular.save');
+        Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');
 
     });
 
