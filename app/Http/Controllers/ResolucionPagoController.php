@@ -77,6 +77,7 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
         $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
         $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->id)->orderBy('estado_solicitud', 'asc')->get();
+      //  $rechazoap = AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
 
 
         $user = Auth::User();
@@ -225,7 +226,7 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 7,
+            'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
         
@@ -345,7 +346,7 @@ class ResolucionPagoController extends Controller
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
          event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+         return response()->json(['mensaje' => 'Registrado Correctamente']);
        
     }
 
@@ -397,7 +398,6 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
-
     public function verDpiAp($solicitud){
         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
         $path = $estado_solicitud->pdf_dpi_ap;
