@@ -176,7 +176,8 @@ Route::group([
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
         Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
-        Route::get( '/tipoPagoColegiado/{tipo}', 'ReciboController@getTipoDePago');
+        Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
+        Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
         Route::post('/creacionRecibo/save/particular', 'ReciboController@storeParticular')->name('guardarReciboParticular.save');
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');

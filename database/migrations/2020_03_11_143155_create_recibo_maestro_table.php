@@ -17,7 +17,7 @@ class CreateReciboMaestroTable extends Migration
             $table->increments('id');
             $table->integer('serie_recibo_id');
             $table->integer('numero_recibo');
-            $table->integer('numero_de_identificacion');
+            $table->string('numero_de_identificacion');
             $table->string('nombre');
             $table->integer('tipo_de_cliente_id');
             $table->string('complemento')->nullable();

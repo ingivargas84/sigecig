@@ -57,7 +57,8 @@ class ReciboController extends Controller
     public function store(Request $request)
     {
         // almacen de datos de COLEGIADO
-
+        //dd($request);
+        $serieRecibo        = $request->input("config.tipoSerieRecibo");
         $tipoDeCliente      = $request->input("config.tipoDeCliente");
         $colegiado          = $request->input("config.c_cliente");
         $nombreCliente      = $request->input("config.n_cliente");
@@ -77,15 +78,23 @@ class ReciboController extends Controller
         $montoTarjeta       = $request->input("config.montoTarjeta");
 
             $tipoDeCliente = 1;
+            if($serieRecibo == 'a'){
+                $serieRecibo = 1;
+            }elseif($serieRecibo == 'b'){
+                $serieRecibo = 2;
+            }
 
+        //$lastValue = DB::table('sigecig_recibo_maestro')->orderBy('numero_recibo', 'desc')->first();
+        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestro = new Recibo_Maestro;
-        $reciboMaestro->serie_recibo_id = 1;
-        $reciboMaestro->numero_recibo = 374;
+        $reciboMaestro->serie_recibo_id = $serieRecibo;
+        //$reciboMaestro->numero_recibo =  $lastValue->numero_recibo + 1;
+        $reciboMaestro->numero_recibo =  $lastValue + 1;
         $reciboMaestro->numero_de_identificacion = $colegiado;
         $reciboMaestro->nombre = $nombreCliente;
         $reciboMaestro->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestro->complemento = 1;
+        $reciboMaestro->complemento = $complemento;
         $reciboMaestro->monto_efecectivo = $montoefectivo;
         $reciboMaestro->monto_tarjeta = $montoTarjeta;
         $reciboMaestro->monto_cheque = $montoCheque;
@@ -135,6 +144,7 @@ class ReciboController extends Controller
     {
         // almacen de datos de PARTICULAR
 
+        $serieReciboP        = $request->input("config.tipoSerieReciboP");
         $tipoDeCliente       = $request->input("config.tipoDeCliente");
         $dpi                 = $request->input("config.dpi");
         $nombreClienteP      = $request->input("config.nombreP");
@@ -149,14 +159,21 @@ class ReciboController extends Controller
         $montoTarjetaP       = $request->input("config.montoTarjetaP");
 
             $tipoDeCliente = 2;
+            if($serieReciboP == 'a'){
+                $serieReciboP = 1;
+            }elseif($serieReciboP == 'b'){
+                $serieReciboP = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroP = new Recibo_Maestro;
-        $reciboMaestroP->serie_recibo_id = 1;
-        $reciboMaestroP->numero_recibo = 481;
+        $reciboMaestroP->serie_recibo_id = $serieReciboP;
+        $reciboMaestroP->numero_recibo =  $lastValue + 1;
         $reciboMaestroP->numero_de_identificacion = $dpi;
         $reciboMaestroP->nombre = $nombreClienteP;
         $reciboMaestroP->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroP->complemento = 1;
+        $reciboMaestroP->complemento = " ";
         $reciboMaestroP->monto_efecectivo = $montoefectivoP;
         $reciboMaestroP->monto_tarjeta = $montoTarjetaP;
         $reciboMaestroP->monto_cheque = $montoChequeP;
@@ -204,6 +221,7 @@ class ReciboController extends Controller
     {
         // almacen de datos de EMPRESA
 
+        $serieReciboE        = $request->input("config.tipoSerieReciboE");
         $tipoDeCliente       = $request->input("config.tipoDeCliente");
         $nit                 = $request->input("config.nit");
         $empresa             = $request->input("config.empresa");
@@ -218,14 +236,21 @@ class ReciboController extends Controller
         $montoTarjetaE       = $request->input("config.montoTarjetaE");
 
             $tipoDeCliente = 3;
+            if($serieReciboE == 'a'){
+                $serieReciboE = 1;
+            }elseif($serieReciboE == 'b'){
+                $serieReciboE = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroE = new Recibo_Maestro;
-        $reciboMaestroE->serie_recibo_id = 1;
-        $reciboMaestroE->numero_recibo = 126;
+        $reciboMaestroE->serie_recibo_id = $serieReciboE;
+        $reciboMaestroE->numero_recibo =  $lastValue + 1;
         $reciboMaestroE->numero_de_identificacion = $nit;
         $reciboMaestroE->nombre = $empresa;
         $reciboMaestroE->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroE->complemento = 1;
+        $reciboMaestroE->complemento = " ";
         $reciboMaestroE->monto_efecectivo = $montoefectivoE;
         $reciboMaestroE->monto_tarjeta = $montoTarjetaE;
         $reciboMaestroE->monto_cheque = $montoChequeE;
@@ -331,10 +356,18 @@ class ReciboController extends Controller
         return $consulta;
     }
 
-    public function getTipoDePago($tipo)
+    public function getTipoDePagoA($tipo)
     {
         $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
-            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '=', 3)->get()->first();
+
+            return $consulta;
+    }
+
+    public function getTipoDePagoB($tipo)
+    {
+        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
+            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '!=', 3)->get()->first();
 
             return $consulta;
     }

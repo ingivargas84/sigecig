@@ -58,7 +58,7 @@
         modal.find(".modal-body input[name='tipo_de_pago']").val(tipo_de_pago);
         modal.find(".modal-body input[name='precio_colegiado']").val(precio_colegiado);
         modal.find(".modal-body input[name='precio_particular']").val(precio_particular);
-        modal.find(".modal-body #categoria_id").val(categoria_id);
+        modal.find(".modal-body select[name='categoria_id']").val(categoria_id);
 
      });
 
