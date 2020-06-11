@@ -34,8 +34,8 @@
                                 <label>Fecha de nacimiento</label>
                                 <input type="text" class="form-control" value="{{date('d-m-Y', strtotime($fecha_Nac->fecha_nac))}}" readonly>
                             </div>
-                    </div>
-                    <br>
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="form-group col-md-6" >
                                 <label>Profesión</label>
@@ -81,8 +81,30 @@
                         </div>
                         @endif
 
+                        @if($cambio ["estado_solicitud"] == 3)
+                        <p><b>3. Documentación Rechazada</b>
+                            <br>
+                        <div class="row">
+                            <div class="form-group col-md-4" >
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                            </div>
+                            <div class="form-group col-md-4" >
+                                <label>Configurado por:</label>
+                                <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label>Motivo del rechazo:</label>
+                                <input type="text" class="form-control" value="{{$id->solicitud_rechazo_junta}}" readonly>
+                            </div>
+
+                        </div>
+                        @endif
+
                         @if($cambio ["estado_solicitud"] == 4)
-                        <p><b>3. Autorización de Documentos</b>
+                        <p><b>4. Autorización de Documentos</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -96,11 +118,9 @@
                         </div>
                         @endif
                       
-
                         @if($cambio ["estado_solicitud"] == 4)
-                       <p><b>4. Solicitud de Aprobación a Junta Directiva</b>
+                       <p><b>5. Solicitud de Aprobación a Junta Directiva</b>
                             <br>
-                           
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
@@ -114,7 +134,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 5)
-                        <p><b>5. Aprobación de Junta Directiva</b>
+                        <p><b>6. Aprobación de Junta Auxilio Póstumo</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -129,7 +149,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 8)
-                        <p><b>6. Firma de Resolución</b>
+                        <p><b>7. Firma de Resolución</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -144,7 +164,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 9)
-                        <p><b>7. Gestión de depósito - Configuración de Pago</b>
+                        <p><b>8. Gestión de depósito - Configuración de Pago</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -172,7 +192,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 10)
-                        <p><b>8. Pago al Agremiado</b>
+                        <p><b>9. Pago al Agremiado</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >

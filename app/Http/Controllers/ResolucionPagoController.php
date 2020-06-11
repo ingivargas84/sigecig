@@ -43,6 +43,27 @@ class ResolucionPagoController extends Controller
         return $pdf->stream('ArchivoPDF.pdf');
     }
 
+    public function reporte_ap(PlataformaSolicitudAp $id){
+        $path = 'images/timbre.png';
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
+        $mytime = Carbon::now();
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $ap = PlataformaSolicitudAp::where("id_estado_solicitud",10)->orderBy("n_colegiado", "asc")->get();
+
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",10)->pluck('n_colegiado');
+        
+        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente','cc00.n_cliente', 'cc00.f_ult_pago')
+                ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
+                ->whereIn('cc00.c_cliente', $cuenta)
+                ->orderBy('cc00.c_cliente', 'asc')
+                ->get();  
+
+        $pdf = \PDF::loadView('admin.firmaresolucion.reporteap', compact("cuenta1", "ap", 'base64', 'mytime', 'id'));
+        return $pdf->setPaper('legal', 'landscape')
+        ->stream('ReportePDF.pdf');
+    }
+
     public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)
     {
         $fecha = date("Y/m/d h:m:s");
@@ -77,6 +98,7 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id",$id->id_tipo_cuenta)->get()->first();
         $banco = PlataformaBanco::where("id",$id->id_banco)->get()->first();
         $usuario_cambio = BitacoraAp::where("no_solicitud", '=',$id->id)->orderBy('estado_solicitud', 'asc')->get();
+      //  $rechazoap = AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
 
 
         $user = Auth::User();
@@ -225,7 +247,7 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 7,
+            'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
         
@@ -281,7 +303,7 @@ class ResolucionPagoController extends Controller
     
     public function getJson(Request $params)
     {  
-        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres')){
+        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres|Contabilidad')){
         $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
         FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
@@ -345,7 +367,7 @@ class ResolucionPagoController extends Controller
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
          event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-         return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+         return response()->json(['mensaje' => 'Registrado Correctamente']);
        
     }
 
@@ -397,7 +419,6 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
-
     public function verDpiAp($solicitud){
         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();   
         $path = $estado_solicitud->pdf_dpi_ap;

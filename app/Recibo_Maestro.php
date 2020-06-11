@@ -12,6 +12,7 @@ class Recibo_Maestro extends Model
         'serie_recibo_id',
         'numero_recibo',
         'numero_de_identificacion', //este dato puede ser #coleigado, nit o dpi
+        'nombre',
         'tipo_de_cliente_id',
         'complemento',
         'monto_efecectivo',

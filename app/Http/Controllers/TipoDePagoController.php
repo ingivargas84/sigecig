@@ -98,7 +98,7 @@ class TipoDePagoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TipoDePago $tipo, Request $request)
+    public function update(CategoriaTipoPago $cat, TipoDePago $tipo, Request $request)
     {
         $nuevos_datos = array(
             'codigo' => $request->codigo,
