@@ -43,6 +43,27 @@ class ResolucionPagoController extends Controller
         return $pdf->stream('ArchivoPDF.pdf');
     }
 
+    public function reporte_ap(PlataformaSolicitudAp $id){
+        $path = 'images/timbre.png';
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
+        $mytime = Carbon::now();
+        $adm_usuario=AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $ap = PlataformaSolicitudAp::where("id_estado_solicitud",10)->orderBy("n_colegiado", "asc")->get();
+
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud",10)->pluck('n_colegiado');
+        
+        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente','cc00.n_cliente', 'cc00.f_ult_pago')
+                ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
+                ->whereIn('cc00.c_cliente', $cuenta)
+                ->orderBy('cc00.c_cliente', 'asc')
+                ->get();  
+
+        $pdf = \PDF::loadView('admin.firmaresolucion.reporteap', compact("cuenta1", "ap", 'base64', 'mytime', 'id'));
+        return $pdf->setPaper('legal', 'landscape')
+        ->stream('ReportePDF.pdf');
+    }
+
     public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)
     {
         $fecha = date("Y/m/d h:m:s");
@@ -282,7 +303,7 @@ class ResolucionPagoController extends Controller
     
     public function getJson(Request $params)
     {  
-        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres')){
+        if(auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres|Contabilidad')){
         $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
         FROM sigecig_solicitudes_ap U
         INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 

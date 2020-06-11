@@ -127,6 +127,10 @@ Route::group([
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
+        //Módulo Reporte Finalizadas
+        Route::get('reporte/',  'ResolucionPagoController@reporte_ap' )->name('reporteap.reporte_ap');
+
+
         // Módulo Bitacora
         Route::get('/resolucion/{id}/bitacora/', 'ResolucionPagoController@bitacora')->name('bitacora.index');
         Route::get('/resolucion/pdf_bitacora/{id}/', 'ResolucionPagoController@imprimirbitacora')->name('bitacora.pdfbitacora');
