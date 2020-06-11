@@ -124,6 +124,46 @@ $(document).ready(function () {
     });
 });
 
+// inicia datos colegiado
+
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigo']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigo").empty();
+                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigo').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigo").empty();
+                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigo').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
+                }
+            });
+        }
+    });
+});
 
 $(document).ready(function () {
     $("#codigo").change (function () {
@@ -196,7 +236,6 @@ $(document).ready(function(){
 function agregarproductof() {
     $("#codigo").change();
 
-    //llenarDatos();
     $("#cantidad").change();
     if($.isNumeric($("#cantidad").val()) && $.isNumeric($("#cantidad").val()) && $.isNumeric($("#subtotal").val())) {
 
@@ -374,18 +413,21 @@ function comprobarCheckTarjeta()
     if (document.getElementById("tipoDePagoTarjeta").checked){
         document.getElementById('montoTarjeta').readOnly = false;
         document.getElementById('tarjeta').style.display = "";
+        document.getElementById('pos').style.display = "";
     }
     else{
         document.getElementById('montoTarjeta').readOnly = true;
         document.getElementById('tarjeta').style.display = "none";
+        document.getElementById('pos').style.display = "none";
         $('input[name="tarjeta"]').val('');
         $('input[name="montoTarjeta"]').val('');
+        $('select[name="pos"]').val('');
     }
 }
 
 $("#guardarRecibo").click(function(e){
 
-    var efectivoCorrecto = 0;
+    var efectivoCorrecto = 0; //el 0 indica que no aplica y devuelve error
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
 
@@ -410,6 +452,10 @@ $("#guardarRecibo").click(function(e){
         if ($('#montoTarjeta').val() == 0){
             alertify.warning('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
+        } else {tarjetaCorrecta = 1;}
+        if ($('#pos').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
+            tarjetaCorrecta = 0;
         } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}
 
@@ -428,6 +474,8 @@ $("#guardarRecibo").click(function(e){
                     $('#tipoSerieRecibo').val('b');
                 }
 
+                var pos = $('#pos').val();
+
                 var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
@@ -441,7 +489,7 @@ $("#guardarRecibo").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -464,6 +512,45 @@ $("#guardarRecibo").click(function(e){
 })
 
 //Funcionamiento sobre EMPRESA
+
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigoE']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoE").empty();
+                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoE").empty();
+                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoE').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
+                }
+            });
+        }
+    });
+});
 
 $(document).ready(function () {
     $("#codigoE").change (function () {
@@ -710,12 +797,15 @@ function comprobarCheckTarjetaE()
     if (document.getElementById("tipoDePagoTarjetaE").checked){
         document.getElementById('montoTarjetaE').readOnly = false;
         document.getElementById('tarjetaE').style.display = "";
+        document.getElementById('posE').style.display = "";
     }
     else{
         document.getElementById('montoTarjetaE').readOnly = true;
         document.getElementById('tarjetaE').style.display = "none";
+        document.getElementById('posE').style.display = "none";
         $('input[name="tarjetaE"]').val('');
         $('input[name="montoTarjetaE"]').val('');
+        $('select[name="posE"]').val('');
     }
 }
 
@@ -746,7 +836,11 @@ $("#guardarReciboE").click(function(e){
         if ($('#montoTarjetaE').val() == 0){
             alertify.warning('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
+        } else{tarjetaCorrecta = 1;}
+        if ($('#posE').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
+            tarjetaCorrecta = 0;
+        }else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true)){
@@ -764,6 +858,8 @@ $("#guardarReciboE").click(function(e){
                     $('#tipoSerieReciboE').val('b');
                 }
 
+                var pos = $('#posE').val();
+
                 var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
@@ -777,7 +873,7 @@ $("#guardarReciboE").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/empresa",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -817,6 +913,45 @@ function limpiarPantallaE()
 }
 
 //Funcionamiento sobre Particular
+
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigoP']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoP").empty();
+                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoP").empty();
+                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoP').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
+                }
+            });
+        }
+    });
+});
 
 $(document).ready(function () {
     $("#codigoP").change (function () {
@@ -1064,12 +1199,15 @@ function comprobarCheckTarjetaP()
     if (document.getElementById("tipoDePagoTarjetaP").checked){
         document.getElementById('montoTarjetaP').readOnly = false;
         document.getElementById('tarjetaP').style.display = "";
+        document.getElementById('posP').style.display = "";
     }
     else{
         document.getElementById('montoTarjetaP').readOnly = true;
         document.getElementById('tarjetaP').style.display = "none";
+        document.getElementById('posP').style.display = "none";
         $('input[name="tarjetaP"]').val('');
         $('input[name="montoTarjetaP"]').val('');
+        $('select[name="posP"]').val('');
     }
 }
 
@@ -1100,7 +1238,11 @@ $("#guardarReciboP").click(function(e){
         if ($('#montoTarjetaP').val() == 0){
             alertify.warning('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
+        } else {tarjetaCorrecta = 1}
+        if ($('#posP').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
+            tarjetaCorrecta = 0;
+        }else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true)){
@@ -1118,6 +1260,8 @@ $("#guardarReciboP").click(function(e){
                     $('#tipoSerieReciboP').val('b');
                 }
 
+                var pos = $('#posP').val();
+
                 var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
@@ -1131,7 +1275,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
