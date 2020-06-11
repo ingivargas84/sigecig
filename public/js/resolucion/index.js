@@ -122,6 +122,14 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
             }
+            else if(data == 'Creada'){    //Estado 1 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-center col-lg-6'>" + 
+                "<a href='auxilioPostumo/"+full.id+"/documentosap' class='autorizacion'   data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
+                "<i class='fa fa-paperclip' title='Adjuntar Documentos Auxilio Postumo'></i>" + 
+                "</a>" + "</div>";   
+            } 
+            
 
             else if(data == 'Documentación Aprobada'){    //Estado 4 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 

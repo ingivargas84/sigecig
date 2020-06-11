@@ -289,7 +289,7 @@ class ResolucionPagoController extends Controller
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         INNER JOIN sigecig_bancos B ON B.id=U.id_banco
         INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
-        WHERE U.id_estado_solicitud >=2";
+        WHERE U.id_estado_solicitud >=1";
         }
 
         else{    
@@ -409,8 +409,20 @@ class ResolucionPagoController extends Controller
     }
 
     public function correo(){
-         $colegiado = '11282';
+        
+        $query="SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
+        FROM cc00
+        WHERE auxpost=0 and estado='A' and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
 
+         $resultado = DB::connection('sqlsrv')->select($query);
+         
+        dd($resultado);
+
+     
+  
+
+        $colegiado = '11282';
+        dd($colegiado);
         $fecha_actual=date_format(Now(),'d-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
@@ -423,6 +435,7 @@ class ResolucionPagoController extends Controller
         Mail::to('daeliasc@gmail.com')->send($infoCorreoAp);
 
     }
+
 
 
 }

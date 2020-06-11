@@ -67,6 +67,15 @@
         <div style=""><p style="margin-right: 200px; margin-left: 200px; font-size: 15px; text-align: justify;">{{$solicitudAP['solicitud_rechazo_ap']}}</p></div> <br><br>  
         <div style="text-align: center"><img src="{{ $message->embed(public_path().'/images/paso1.png') }}" alt="picsum" width="" /></div>
         <h3><center>Puede enviar nuevamente sus documentos en cualquier momento</center></h3>
+
+        @elseif($solicitudAP['id_estado_solicitud']=='2')
+        <h3><center>Estimado agremiado, le informamos que sus documentos han sido recibidos</center></h3>
+        <h3><center>y fueron trasladados a revisión  por Junta Directiva</center></h3> <br>
+        <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br>
+        <div class="datos" ><label class=""  for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear" style="margin-right: 310px" for="">FECHA: {{$fecha_actual}}</label></div><br>
+        <div class="datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> <label class="alinear" style="margin-right: 300px" for="">STATUS: PASO 02/08</label></div><br><br>
+        <div style="text-align: center"><img src="{{ $message->embed(public_path().'/images/paso2.png') }}" alt="picsum" width="" /></div>
+        <h3><center>Tiempo estimado de 7 días hábiles. </center></h3>
     @endif <br><br><br><br>  
 
     <div>
