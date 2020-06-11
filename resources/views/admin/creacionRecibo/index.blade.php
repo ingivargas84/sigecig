@@ -41,11 +41,11 @@
                                     <label for="serieRecibo" class="control-label">Serie de Recibo</label>
                                     <div>
                                         <label class="radio-inline">
-                                            <input checked="checked" name="serieRecibo" type="radio" id="serieReciboA">
+                                            <input name="serieRecibo" type="radio" id="serieReciboA" value="a">
                                             A
                                         </label>
                                         <label class="radio-inline">
-                                            <input name="serieRecibo" type="radio" id="serieReciboB">
+                                            <input name="serieRecibo" type="radio" id="serieReciboB" value="b">
                                             B
                                         </label>
                                     </div>
@@ -124,11 +124,8 @@
                                 <div class="col-sm-2 col-lg-2" id="divCdigo" style="display: block;">
                                     <div class="form-group">
                                         <label for="codigo" class="control-label">Codigo</label>
-                                        <select name="codigo" class="form-control" id="codigo">
+                                        <select name="codigo" id="codigo" class="form-control" id="codigo">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -254,9 +251,19 @@
                                             <input type="number" id="cheque" name="cheque" class="form-control" placeholder="No. de cheque" min="0" style="display: none;">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 col-lg-3">
                                         <div class="form-group">
                                             <input type="number" id="tarjeta" name="tarjeta" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="pos" class="form-control" id="pos" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -306,9 +313,6 @@
                                         <label for="codigoE" class="control-label">Codigo</label>
                                         <select name="codigoE" class="form-control" id="codigoE">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -435,9 +439,19 @@
                                             <input type="number" id="chequeE" name="chequeE" class="form-control" placeholder="No. de cheque" min="0" style="display: none;">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 col-lg-3">
                                         <div class="form-group">
                                             <input type="number" id="tarjetaE" name="tarjetaE" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="posE" class="form-control" id="posE" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -485,9 +499,6 @@
                                         <label for="codigoP" class="control-label">Codigo</label>
                                         <select name="codigoP" class="form-control" id="codigoP">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -617,6 +628,16 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <input type="number" id="tarjetaP" name="tarjetaP" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="posP" class="form-control" id="posP" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

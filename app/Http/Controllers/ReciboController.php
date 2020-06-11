@@ -19,6 +19,7 @@ use App\Recibo_Detalle;
 use App\SerieRecibo;
 use App\ReciboCheque;
 use App\ReciboTarjeta;
+use App\PosCobro;
 use Validator;
 
 class ReciboController extends Controller
@@ -34,8 +35,22 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
-        return view('admin.creacionRecibo.index', compact('tipo'));
+        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
+        // return view('admin.creacionRecibo.index', compact('tipo'));
+        $pos = PosCobro::all();
+        return view('admin.creacionRecibo.index', compact('pos'));
+    }
+
+    public function SerieDePagoA($id)
+    {
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->get();
+        return json_encode($tipo);
+    }
+
+    public function SerieDePagoB($id)
+    {
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get();
+        return json_encode($tipo);
     }
 
     /**
@@ -76,6 +91,7 @@ class ReciboController extends Controller
         $pagoTarjeta        = $request->input("config.pagoTarjeta");
         $numeroTarjeta      = $request->input("config.tarjeta");
         $montoTarjeta       = $request->input("config.montoTarjeta");
+        $pos_id             = $request->input("pos");
 
             $tipoDeCliente = 1;
             if($serieRecibo == 'a'){
@@ -130,7 +146,7 @@ class ReciboController extends Controller
             $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
             $bdTarjeta->numero_voucher = $numeroTarjeta;
             $bdTarjeta->monto = $montoTarjeta;
-            $bdTarjeta->pos_cobro_id = 1;
+            $bdTarjeta->pos_cobro_id = $pos_id;
             $bdTarjeta->usuario_id = Auth::user()->id;
             $bdTarjeta->save();
         }
@@ -157,6 +173,7 @@ class ReciboController extends Controller
         $pagoTarjetaP        = $request->input("config.pagoTarjetaP");
         $numeroTarjetaP      = $request->input("config.tarjetaP");
         $montoTarjetaP       = $request->input("config.montoTarjetaP");
+        $pos_idP             = $request->input("pos");
 
             $tipoDeCliente = 2;
             if($serieReciboP == 'a'){
@@ -209,7 +226,7 @@ class ReciboController extends Controller
             $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
             $bdTarjetaP->numero_voucher = $numeroTarjetaP;
             $bdTarjetaP->monto = $montoTarjetaP;
-            $bdTarjetaP->pos_cobro_id = 1;
+            $bdTarjetaP->pos_cobro_id = $pos_idP;
             $bdTarjetaP->usuario_id = Auth::user()->id;
             $bdTarjetaP->save();
         }
@@ -234,6 +251,7 @@ class ReciboController extends Controller
         $pagoTarjetaE        = $request->input("config.pagoTarjetaE");
         $numeroTarjetaE      = $request->input("config.tarjetaE");
         $montoTarjetaE       = $request->input("config.montoTarjetaE");
+        $pos_idE             = $request->input("pos");
 
             $tipoDeCliente = 3;
             if($serieReciboE == 'a'){
@@ -286,7 +304,7 @@ class ReciboController extends Controller
             $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
             $bdTarjetaE->numero_voucher = $numeroTarjetaE;
             $bdTarjetaE->monto = $montoTarjetaE;
-            $bdTarjetaE->pos_cobro_id = 1;
+            $bdTarjetaE->pos_cobro_id = $pos_idE;
             $bdTarjetaE->usuario_id = Auth::user()->id;
             $bdTarjetaE->save();
         }
