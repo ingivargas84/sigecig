@@ -18,7 +18,7 @@ class User extends Authenticatable
      */
     protected $table = 'sigecig_users';
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'contador_intentos', 'estado'
+        'id', 'name', 'email', 'password', 'username', 'contador_intentos', 'estado'
     ];
 
     /**

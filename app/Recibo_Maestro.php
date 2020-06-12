@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recibo_Maestro extends Model
 {
-    protected $table = 'recibo_maestro';
+    protected $table = 'sigecig_recibo_maestro';
 
     protected $fillable = [
-        'fecha_recibo', //fecha del recibo
-        'serie', //serie del recibo
-        'num_recibo', //numero de recibo
-        'no_colegiado', //número de colegiado
-        'nombre_colegiado', //nombre de colegiado
-        'anulado', //recibo anulado o no
-        'efectivo', //cobro en efectivo
-        'tarjeta', //cobro en tarjeta
-        'cheque', //cobro en cheque
-        'total_recibo', //total del recibo
-        'fecha_ingreso', //fecha y hora creación
+        'serie_recibo_id',
+        'numero_recibo',
+        'numero_de_identificacion', //este dato puede ser #coleigado, nit o dpi
+        'nombre',
+        'tipo_de_cliente_id',
+        'complemento',
+        'monto_efecectivo',
+        'monto_tarjeta',
+        'monto_cheque',
+        'usuario',
+        'monto_total'
     ];
 }

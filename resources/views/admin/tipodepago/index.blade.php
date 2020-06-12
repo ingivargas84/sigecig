@@ -52,7 +52,7 @@
 
   <script>
     $(document).ready(function() {
-      $('.loader').fadeOut(225);
+      $('.loader').fadeOut(100);
     });
     $(document).ready(function(){
         tipodepago_table.ajax.url("{{route('tipoDePago.getJson')}}").load();

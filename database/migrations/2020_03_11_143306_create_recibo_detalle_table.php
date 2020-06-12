@@ -15,6 +15,11 @@ class CreateReciboDetalleTable extends Migration
     {
         Schema::create('sigecig_recibo_detalle', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('numero_recibo');
+            $table->string('codigo_compra');
+            $table->integer('cantidad');
+            $table->double('precio_unitario',10,2);
+            $table->double('total',10,2);
             $table->timestamps();
         });
     }

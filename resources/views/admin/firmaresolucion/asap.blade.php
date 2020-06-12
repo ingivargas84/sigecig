@@ -69,22 +69,18 @@
                         </div>
                         <br><br><br>
 
-                        <div class="col-sm-10 col-sm-offset-1  ">
-                            <div class="row">
-                                <div class="fn1" >
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$solicitud->no_solicitud}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
-                                </div>
                             
                 
                                <div class="" id="solicitudpdf" style="display: none">
                                      <embed class="" src="{{ asset('/documentos/ap/solicitudap.pdf') }}" type="application/pdf" width="100%" height="400px" />
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div  class="fn2" >
+                            
+                            <div class="col-sm-6">
                                     <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$solicitud->no_solicitud}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
-                                </div>
         
                                 <div class="" id="dpipdf"  style="display: none">
                                     <embed  src="{{ asset('/documentos/ap/solicitudap.pdf') }}" type="application/pdf" width="100%" height="400px" />
@@ -126,7 +122,7 @@
           
             </div>
     </form>
-    <div class="loader loader-bar"></div>
+    <div class="loader loader-bar is-active" style="display: none"></div>
 
 @stop
 
