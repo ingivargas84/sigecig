@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="form-group col-md-12" >
                                 <label>Motivo del rechazo:</label>
-                                <input type="text" class="form-control" value="{{$id->solicitud_rechazo_junta}}" readonly>
+                                <input type="text" class="form-control" value="{{$id->solicitud_rechazo_ap}}" readonly>
                             </div>
 
                         </div>
@@ -148,8 +148,30 @@
                         </div>
                         @endif
 
+                        @if($cambio ["estado_solicitud"] == 6)
+                        <p><b>7. Rechazado por Junta</b>
+                            <br>
+                        <div class="row">
+                            <div class="form-group col-md-4" >
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                            </div>
+                            <div class="form-group col-md-4" >
+                                <label>Configurado por:</label>
+                                <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label>Motivo del rechazo:</label>
+                                <input type="text" class="form-control" value="{{$id->solicitud_rechazo_junta}}" readonly>
+                            </div>
+
+                        </div>
+                        @endif
+
                         @if($cambio ["estado_solicitud"] == 8)
-                        <p><b>7. Firma de Resolución</b>
+                        <p><b>8. Firma de Resolución</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -164,7 +186,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 9)
-                        <p><b>8. Gestión de depósito - Configuración de Pago</b>
+                        <p><b>9. Gestión de depósito - Configuración de Pago</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
@@ -192,7 +214,7 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 10)
-                        <p><b>9. Pago al Agremiado</b>
+                        <p><b>10. Pago al Agremiado</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >

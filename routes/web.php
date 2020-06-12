@@ -195,6 +195,7 @@ Route::group([
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
         Route::post('/creacionRecibo/save/particular', 'ReciboController@storeParticular')->name('guardarReciboParticular.save');
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');
+        Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
 
     });
 
