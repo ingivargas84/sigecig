@@ -222,9 +222,6 @@ class ResolucionPagoController extends Controller
         $fecha_actual=date_format(Now(),'d-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $solicitud->n_colegiado)->orderBy('id','DESC')->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-        if ($solicitudAP->id_estado_solicitud==10) {
-            $solicitudAP->id_estado_solicitud=$solicitudAP->id_estado_solicitud+1;
-        }
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
@@ -394,7 +391,7 @@ class ResolucionPagoController extends Controller
 
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->solicitud_rechazo_junta = $request->texto;
-        $estado_solicitud->id_estado_solicitud='10';
+        $estado_solicitud->id_estado_solicitud='12';
         $estado_solicitud->update();    
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
@@ -430,20 +427,9 @@ class ResolucionPagoController extends Controller
     }
 
     public function correo(){
-        
-        $query="SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
-        FROM cc00
-        WHERE auxpost=0 and estado='A' and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
-
-         $resultado = DB::connection('sqlsrv')->select($query);
-         
-        dd($resultado);
-
-     
   
-
         $colegiado = '11282';
-        dd($colegiado);
+       
         $fecha_actual=date_format(Now(),'d-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();

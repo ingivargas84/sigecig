@@ -13,14 +13,21 @@ use Illuminate\Support\Facades\Response;
 use DB;
 use Image,File,Mail;
 use App\Mail\AprobacionDocAp;
+use App\AdmUsuario;
+use App\AdmPersona;
+use App\Events\ActualizacionBitacoraAp;
+use Illuminate\Support\Facades\Auth;
 
 class AuxilioPostumoController extends Controller
 {
      //crear una nueva solicitud de auxilio postumo
      public function nuevaSolicitud(){
+        
+        //DATEDIFF(month, c.f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, c.f_ult_timbre, GETDATE()) <= 3)
+
         $query="SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
-        WHERE auxpost=0 and estado='A' and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
+        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
         $result = DB::connection('sqlsrv')->select($query);
 
             $banco=PlataformaBanco::all();
@@ -37,14 +44,38 @@ class AuxilioPostumoController extends Controller
              ->join('cc00prof','cc00.c_cliente','=','cc00prof.c_cliente')
              ->where('cc00.c_cliente', $no_colegiado)
              ->get();  
+
+             
            
             return Response::json($consulta );
         }
 
         public function GuardarSolicitudAp(Request $request){
 
-
             $colegiado = SQLSRV_Colegiado::where("c_cliente",$request->no_colegiado)->get()->first();
+            $admin_usuario = AdmUsuario::Where("Usuario", $colegiado->c_cliente)->get()->first();
+       
+            if(empty($admin_usuario))
+            {
+                $persona= new AdmPersona;
+                $persona->Nombre1=$colegiado->n_cliente;
+                $persona->save(); 
+                $usuario= new AdmUsuario;
+                $usuario->Usuario=$colegiado->c_cliente;
+                $usuario->idIdentidad=1;
+                $usuario->idRol=4;
+                $usuario->TipoInternoExterno=2;
+                $usuario->contrasenna='chuchito';
+                $usuario->idRecordatorio='0';
+                $usuario->palabraclave='chuchito';
+                $usuario->idPersona=$persona->id;
+                $usuario->primerIngreso=0;
+                $usuario->UltimaSesion=Now();
+                $usuario->sesion=0;
+                $usuario->save();
+               
+            }
+    
             $solicitud = DB::table('sigecig_solicitudes_ap')->max('no_solicitud');
             $cuenta= new PlataformaSolicitudAp;
             
@@ -66,7 +97,9 @@ class AuxilioPostumoController extends Controller
            
             $colegiado->telefono=$request->telefono;
             $colegiado->update();
-    
+
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->no_solicitud, Now(), $cuenta->id_estado_solicitud));
+
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         }
 
@@ -124,6 +157,8 @@ class AuxilioPostumoController extends Controller
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->no_solicitud, Now(), $solicitudAP->id_estado_solicitud));
         }
 
     

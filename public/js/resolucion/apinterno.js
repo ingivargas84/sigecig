@@ -91,8 +91,8 @@ $( document ).ready(function() {
             telefono: {
                 required: "Ingrese no. Telefono",
                 number: "No. de Telefono invalido",
-                minlength: "Debe contener 8 digitos",
-                maxlength: "Debe contener 8 digitos"
+                minlength: "Formato XXXXXXXX 8 digitos",
+                maxlength: "Formato XXXXXXXX 8 digitos"
             },
             id_banco: {
                 required: "Seleccione un banco"
