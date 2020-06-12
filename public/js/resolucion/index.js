@@ -399,6 +399,7 @@ function updateModalFecha(button) {
         url: "/resolucion/"+id+"/fecha",
         data: formData,
         dataType: "json",
+        
         success: function(data) {
             $('#modalConfiguraFecha').modal("hide");
             resolucion_table.ajax.reload();
@@ -502,8 +503,12 @@ function updateModalFecha(button) {
             url: "/resolucion/"+id+"/fecha",
             data: formData,
             dataType: "json",
+            beforeSend:function () {
+                $('.loader').show();
+              },
             success: function(data) {
                 $('#modalConfiguraFecha').modal("hide");
+                $('.loader').hide();
                 resolucion_table.ajax.reload();
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Fecha agregada con Éxito!');

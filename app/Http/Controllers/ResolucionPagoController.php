@@ -75,6 +75,14 @@ class ResolucionPagoController extends Controller
         );
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
+
+          //envio de correo Finalizar estado 
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $tipo->n_colegiado)->orderBy('id','DESC')->first();
+        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
+        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
+        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
         
         event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, $fecha, $tipo->id_estado_solicitud));
 
