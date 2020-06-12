@@ -59,7 +59,7 @@
         <div class="datos"> <label  >STATUS: PASO 06/08</label></div><br><br><br>
         <div ><img  class="img1" src="/images/paso6.png" alt="picsum"  /></div>
 
-    @elseif($solicitudAP['id_estado_solicitud']=='10')
+    @elseif($solicitudAP['id_estado_solicitud']=='6')
         <h3><center>Estimado agremiado, lamentamos informarle que su solicitud a sido rechazada por Junta de Auxilio Póstumo</center></h3>
         <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
@@ -68,7 +68,7 @@
         <div style=" "><p class=" rechazo">{{$solicitudAP['solicitud_rechazo_junta']}}</p></div> <br><br>    
         <h3><center>Puede iniciar una nueva solicitud en cualquier momento</center></h3>
 
-    @elseif($solicitudAP['id_estado_solicitud']=='11')
+    @elseif($solicitudAP['id_estado_solicitud']=='10')
         <h3><center>Estimado agremiado, le informamos que su solicitud ha sido finalizada exitosamente</center></h3>
         <h3> <center>La transacción será efectuada el día:  {{ \Carbon\Carbon::parse($solicitudAP['fecha_pago_ap'])->format('d-m-Y')}} </center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 

@@ -366,6 +366,9 @@ function updateModal(button) {
             url: "/auxiliopostumo/"+id+"/acta",
             data: formData,
             dataType: "json",
+            beforeSend:function () {
+                $('.loader').show();
+              },
             success: function(data) {
                 BorrarFormularioUpdate();
                 $('#modalIngresoActa').modal("hide");
@@ -373,6 +376,8 @@ function updateModal(button) {
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Datos de Acta agregados con Éxito!!');
             },
+        }).always(function () {
+            $('.loader').hide();
         });
 }
 

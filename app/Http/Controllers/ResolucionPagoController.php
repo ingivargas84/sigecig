@@ -186,13 +186,7 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
 
-        //envio de correo Firma de Resolucion
-        $fecha_actual=date_format(Now(),'d-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $solicitud->n_colegiado)->orderBy('id','DESC')->first();
-        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
-        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
-        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
 
@@ -247,9 +241,16 @@ class ResolucionPagoController extends Controller
             'id_estado_solicitud' => 8,
         );
         $json = json_encode($nuevos_datos);
-        
-        
         $solicitud->update($nuevos_datos);
+
+                //envio de correo Firma de Resolucion
+                $fecha_actual=date_format(Now(),'d-m-Y');
+                $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $solicitud->n_colegiado)->orderBy('id','DESC')->first();
+                $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
+                $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
+                $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
+                Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
 
         //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
@@ -391,7 +392,7 @@ class ResolucionPagoController extends Controller
 
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->solicitud_rechazo_junta = $request->texto;
-        $estado_solicitud->id_estado_solicitud='12';
+        $estado_solicitud->id_estado_solicitud='6';
         $estado_solicitud->update();    
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
@@ -429,9 +430,12 @@ class ResolucionPagoController extends Controller
     public function correo(){
   
         $colegiado = '11282';
-       
+
+        
+        
         $fecha_actual=date_format(Now(),'d-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
+        
         $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
         return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado'));
         $prueba = "Hola mundo ".$solicitudAP->no_solicitud;

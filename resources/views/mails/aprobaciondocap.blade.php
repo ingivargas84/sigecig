@@ -59,9 +59,9 @@
         <div class="datos"> <label  >STATUS: PASO 06/08</label></div><br><br><br>
         <div ><img  class="img1" src="{{ $message->embed(public_path().'/images/paso6.png') }}" alt="picsum"  /></div>
 
-    @elseif($solicitudAP['id_estado_solicitud']=='12')
+    @elseif($solicitudAP['id_estado_solicitud']=='6')
         <h3><center>Estimado agremiado, lamentamos informarle que su solicitud a sido rechazada por Junta de Auxilio Póstumo</center></h3>
-        <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
+        <h3> <center>A continuacion se detalla la razón del rechazo</center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
