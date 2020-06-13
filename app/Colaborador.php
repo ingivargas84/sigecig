@@ -9,6 +9,7 @@ class Colaborador extends Model
     protected $table = 'sigecig_colaborador';
 
     protected $fillable = [
+        'id',
         'nombre',
         'dpi',
         'puesto',
