@@ -15,32 +15,48 @@ function obtenerDatosColegiado()
     type: 'GET',
     url:  '/colegiado/' + valor,
     success: function(response){
-        if(response != ""){
-            var D = new Date(response.f_ult_timbre);
+        if(response[0] != ""){
+            var D = new Date(response[0].f_ult_timbre);
             var d = D.getDate();
             var m = D.getMonth();
             var y = D.getFullYear();
-            response.f_ult_timbre = d + '/' + m + '/' + y;
+            response[0].f_ult_timbre = d + '/' + m + '/' + y;
 
-            var D = new Date(response.f_ult_pago);
+            var D = new Date(response[0].f_ult_pago);
             var d = D.getDate();
             var m = D.getMonth();
             var y = D.getFullYear();
-            response.f_ult_pago = d + '/' + m + '/' + y;
+            response[0].f_ult_pago = d + '/' + m + '/' + y;
 
-            if(response.estado == 'I'){
-                response.estado = 'Inactivo';
-            }else if(response.estado == 'A'){
-                response.estado = 'Activo';
+
+            if (response[0].fallecido == 'N'){
+                // if(response.estado == 'I'){
+                //     response.estado = 'Inactivo';
+                // }else if(response.estado == 'A'){
+                //     response.estado = 'Activo';
+                // }
+            } else if(response[0].fallecido == 'S'){
+                response[0].estado = 'Fallecido'
+                // if(response.estado == 'I'){
+                //     response.estado = 'Fallecido';
+                // }else if(response.estado == 'A'){
+                //     response.estado = 'Fallecido';
+                // }
             }
 
-            var monto_timbre = parseFloat(response.monto_timbre);
+            var monto_timbre = parseFloat(response[0].monto_timbre);
 
-            $("input[name='n_cliente']").val(response.n_cliente);
-            $("input[name='estado']").val(response.estado);
-            $("input[name='f_ult_timbre']").val(response.f_ult_timbre);
-            $("input[name='f_ult_pago']").val(response.f_ult_pago);
+            $("input[name='n_cliente']").val(response[0].n_cliente);
+            $("input[name='estado']").val(response[0].estado);
+            $("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
+            $("input[name='f_ult_pago']").val(response[0].f_ult_pago);
             $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
+
+            if ($('#estado').val()== 'Inactivo' || $('#estado').val()== 'Fallecido'){
+                $('#estado').css({'color':'red'});
+            }else{
+                $('#estado').css({'color':'green'});
+            }
         }else {
             alertify.warning('Numero de colegiado no exite');
             $("#ReciboForm")[0].reset();

@@ -359,11 +359,30 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre')
-            ->where('c_cliente', $colegiado)->get()->first();
+        // $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre', 'fallecido')
+        //     ->where('c_cliente', $colegiado)->get()->first();
 
-        return $consulta;
-        //dd($consulta);
+        $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                  WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
+        $result = DB::connection('sqlsrv')->select($query);
+
+        if (!empty($result)){
+            $result[0]->estado='Activo';
+            return $result;
+        }else {
+            $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                  WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
+            $resultado = DB::connection('sqlsrv')->select($query);
+            $resultado[0]->estado='Inactivo';
+
+            // $igual = [
+            //     0=>['n_cliente'=> $resultado[0]->n_cliente, 'estado' => 'Inactivo', 'f_ult_timbre'=> $resultado[0]->f_ult_timbre,
+            //         'f_ult_pago'=> $resultado[0]->f_ult_pago, 'monto_timbre'=> $resultado[0]->monto_timbre, 'fallecido'=> $resultado[0]->fallecido,]
+            // ];
+
+            return $resultado;
+
+        }
     }
 
     public function getDatosEmpresa($nit)

@@ -127,6 +127,14 @@ Route::group([
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
+        //crear solicitud de auxilio postumo
+        Route::get('auxiliopostumo/crea_solicitud','AuxilioPostumoController@nuevaSolicitud');
+        Route::get('auxilioPostumo/{no_colegiado}/getDatosColegiado','AuxilioPostumoController@getDatosColegiado');
+        Route::post('auxilioPostumo/save','AuxilioPostumoController@GuardarSolicitudAp');
+        Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
+        Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
+        Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
+        
         //Módulo Reporte Finalizadas
         Route::get('reporte/',  'ResolucionPagoController@reporte_ap' )->name('reporteap.reporte_ap');
 
