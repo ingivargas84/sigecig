@@ -36,7 +36,6 @@
                     <div class="col-sm-6">
                             <label for="puesto">Puesto:</label>
                             <select name="puesto" class="form-control">
-                            <option value="">-- Escoja el puesto --</option>
                                 @foreach ($puestos as $puesto)
                                     <option value="{{ $puesto['id'] }}">{{ $puesto['puesto'] }}</option>
                                 @endforeach
@@ -45,7 +44,6 @@
                         <div class="col-sm-6">
                             <label for="departamento">Departamento:</label>
                             <select name="departamento" class="form-control">
-                            <option value="">-- Escoja el departamento --</option>
                                 @foreach ($departamentos as $departamento)
                                     <option value="{{ $departamento['id'] }}">{{ $departamento['nombre_departamento'] }}</option>
                                 @endforeach
@@ -57,7 +55,6 @@
                             <div class="col-sm-4">
                                 <label for="subsede">Subsedes:</label>
                                 <select name="subsede" class="form-control">
-                                    <option value="">-- Escoja la subsedes del empleado --</option>
                                         @foreach ($sub as $su)
                                             <option value="{{ $su['id'] }}">{{ $su['nombre_sede'] }}</option>
                                         @endforeach
@@ -66,7 +63,6 @@
                             <div class="col-sm-4">
                                 <label for="usuario">Seleccione un Usuario:</label>
                                 <select name="usuario" class="form-control">
-                                    <option value="">-- Escoja un Usuario--</option>
                                         @foreach ($user as $users)
                                             <option value="{{ $users['id'] }}">{{ $users['username'] }}</option>
                                         @endforeach
