@@ -31,7 +31,7 @@
     @if ($solicitudAP['id_estado_solicitud']=='4')
         <h3><center>Estimado agremiado, le informamos que sus documentos han sido revisados</center></h3>
         <h3><center>y aprobados satisfactoriamente</center></h3> <br><br>
-        <h3> <center>A continuacion se detalla el proceso de su solicitud </center> </h3> <br><br>
+        <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br><br>
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
         <div class=" datos"><label class=""  for="">FECHA: {{$fecha_actual}}</label></div> 
         <div class="datos"> <label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
@@ -41,7 +41,7 @@
      @elseif($solicitudAP['id_estado_solicitud']=='5')
         <h3><center>Estimado agremiado, le informamos que sus solicitud han sido revisada</center></h3>
         <h3><center>y aprobados satisfactoriamente por Junta de Auxilio Póstumo</center></h3> <br><br>
-        <h3> <center>A continuacion se detalla el proceso de su solicitud </center> </h3> <br><br> 
+        <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
@@ -61,7 +61,7 @@
 
     @elseif($solicitudAP['id_estado_solicitud']=='12')
         <h3><center>Estimado agremiado, lamentamos informarle que su solicitud a sido rechazada por Junta de Auxilio Póstumo</center></h3>
-        <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
+        <h3> <center>A continuación se detalla la razon del rechazo</center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
@@ -79,7 +79,7 @@
 
     @elseif($solicitudAP['id_estado_solicitud']=='3')
         <h3><center>Estimado agremiado, lamentamos informarle que sus documentos han sido rechazadas por la Junta de Auxilio Póstumo</center></h3>
-        <h3> <center>A continuacion se detalla la razon del rechazo</center> </h3> <br><br> 
+        <h3> <center>A continuación se detalla la razon del rechazo</center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> </div> 
         <div class=" datos"><label class=""  for="">FECHA: {{$fecha_actual}}</label></div> <br><br>
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
