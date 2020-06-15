@@ -92,7 +92,7 @@
         </li>
         @endrole
 
-        @role("Super-Administrador|Contabilidad|JefeContabilidad")
+        @role("Super-Administrador|Contabilidad|JefeContabilidad|Administrador")
         <li class="treeview {{request()->is('contabilidad')? 'active': ''}}">
           <a href="#"><i class="fa fa-book"></i> <span>Admon de Contabilidad</span>
             <span class="pull-right-container">
@@ -100,10 +100,18 @@
             </span>
           </a>
           @endrole
-          @role("Super-Administrador|Contabilidad|JefeContabilidad")
+          @role("Super-Administrador|Contabilidad|JefeContabilidad|Administrador")
           <ul class="treeview-menu">
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
+            </li>
+          </ul>
+        @endrole
+
+        @role("Super-Administrador|Contabilidad|JefeContabilidad|Administrador")
+          <ul class="treeview-menu">
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('reporteap.reporte_ap')}}">
+              <i class="fa fa-eye"></i>Reporte de Solicitudes Finalizadas</a>
             </li>
           </ul>
         @endrole

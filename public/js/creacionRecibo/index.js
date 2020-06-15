@@ -15,34 +15,50 @@ function obtenerDatosColegiado()
     type: 'GET',
     url:  '/colegiado/' + valor,
     success: function(response){
-        if(response != ""){
-            var D = new Date(response.f_ult_timbre);
+        if(response[0] != ""){
+            var D = new Date(response[0].f_ult_timbre);
             var d = D.getDate();
             var m = D.getMonth();
             var y = D.getFullYear();
-            response.f_ult_timbre = d + '/' + m + '/' + y;
+            response[0].f_ult_timbre = d + '/' + m + '/' + y;
 
-            var D = new Date(response.f_ult_pago);
+            var D = new Date(response[0].f_ult_pago);
             var d = D.getDate();
             var m = D.getMonth();
             var y = D.getFullYear();
-            response.f_ult_pago = d + '/' + m + '/' + y;
+            response[0].f_ult_pago = d + '/' + m + '/' + y;
 
-            if(response.estado == 'I'){
-                response.estado = 'Inactivo';
-            }else if(response.estado == 'A'){
-                response.estado = 'Activo';
+
+            if (response[0].fallecido == 'N'){
+                // if(response.estado == 'I'){
+                //     response.estado = 'Inactivo';
+                // }else if(response.estado == 'A'){
+                //     response.estado = 'Activo';
+                // }
+            } else if(response[0].fallecido == 'S'){
+                response[0].estado = 'Fallecido'
+                // if(response.estado == 'I'){
+                //     response.estado = 'Fallecido';
+                // }else if(response.estado == 'A'){
+                //     response.estado = 'Fallecido';
+                // }
             }
 
-            var monto_timbre = parseFloat(response.monto_timbre);
+            var monto_timbre = parseFloat(response[0].monto_timbre);
 
-            $("input[name='n_cliente']").val(response.n_cliente);
-            $("input[name='estado']").val(response.estado);
-            $("input[name='f_ult_timbre']").val(response.f_ult_timbre);
-            $("input[name='f_ult_pago']").val(response.f_ult_pago);
+            $("input[name='n_cliente']").val(response[0].n_cliente);
+            $("input[name='estado']").val(response[0].estado);
+            $("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
+            $("input[name='f_ult_pago']").val(response[0].f_ult_pago);
             $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
+
+            if ($('#estado').val()== 'Inactivo' || $('#estado').val()== 'Fallecido'){
+                $('#estado').css({'color':'red'});
+            }else{
+                $('#estado').css({'color':'green'});
+            }
         }else {
-            alertify.error('Numero de colegiado no exite');
+            alertify.warning('Numero de colegiado no exite');
             $("#ReciboForm")[0].reset();
         }
     }
@@ -99,7 +115,7 @@ function obtenerDatosEmpresa()
         if(response != ""){
             $("input[name='empresa']").val(response.empresa);
         }else {
-            alertify.error('NIT no existe');
+            alertify.warning('NIT no existe');
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
         }
@@ -116,32 +132,105 @@ function obtenerDatosEmpresa()
     $("tbody").children().remove()
 }
 
-//Funcionamiento sobre colegiado
+$(document).ready(function () {
+    $("input[name$='serieRecibo']").click(function() {
+        limpiarFilaDetalle();
+        limpiarFilaDetalleE();
+        limpiarFilaDetalleP();
+    });
+});
+
+// inicia datos colegiado
+
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigo']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigo").empty();
+                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigo').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigo").empty();
+                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigo').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
+                }
+            });
+        }
+    });
+});
 
 $(document).ready(function () {
     $("#codigo").change (function () {
         var valor = $("#codigo").val();
-        $.ajax({
-            type: 'GET',
-            url: '/tipoPagoColegiado/' + valor,
-            success: function(response){
-                if($("#codigo").val() != ""){
-                    $("input[name='precioU']").val(response.precio_colegiado);
-                    $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                    $("input[name='subtotal']").val(response.precio_colegiado);
-                    $("input[name='categoria_id']").val(response.categoria_id);
+        if(document.getElementById("serieReciboA").checked == true){
+            //limpiarFilaDetalle();
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoA/' + valor,
+                success: function(response){
+                    if($("#codigo").val() != ""){
+                        $("input[name='precioU']").val(response.precio_colegiado);
+                        $("input[name='descTipoPago']").val(response.tipo_de_pago);
+                        $("input[name='subtotal']").val(response.precio_colegiado);
+                        $("input[name='categoria_id']").val(response.categoria_id);
 
-                    $("#cantidad").val(1);
+                        $("#cantidad").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidad']").val(1);
+                        $("input[name='precioU']").val('');
+                        $("input[name='descTipoPago']").val('');
+                        $("input[name='subtotal']").val('');
+                        $("input[name='categoria_id']").val('');
                 }
-            },
-            error: function() {
-                    $("input[name='cantidad']").val(1);
-                    $("input[name='precioU']").val('');
-                    $("input[name='descTipoPago']").val('');
-                    $("input[name='subtotal']").val('');
-                    $("input[name='categoria_id']").val('');
+            });
+        }else if(document.getElementById("serieReciboB").checked == true){
+            //limpiarFilaDetalle();
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoB/' + valor,
+                success: function(response){
+                    if($("#codigo").val() != ""){
+                        $("input[name='precioU']").val(response.precio_colegiado);
+                        $("input[name='descTipoPago']").val(response.tipo_de_pago);
+                        $("input[name='subtotal']").val(response.precio_colegiado);
+                        $("input[name='categoria_id']").val(response.categoria_id);
+
+                        $("#cantidad").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidad']").val(1);
+                        $("input[name='precioU']").val('');
+                        $("input[name='descTipoPago']").val('');
+                        $("input[name='subtotal']").val('');
+                        $("input[name='categoria_id']").val('');
                 }
-        });
+            });
+        }
     });
 });
 
@@ -163,7 +252,6 @@ $(document).ready(function(){
 function agregarproductof() {
     $("#codigo").change();
 
-    //llenarDatos();
     $("#cantidad").change();
     if($.isNumeric($("#cantidad").val()) && $.isNumeric($("#cantidad").val()) && $.isNumeric($("#subtotal").val())) {
 
@@ -175,7 +263,7 @@ function agregarproductof() {
 function validateRow(){
     $('#tablaDetalle').each(function(index, tr) {
         var nFilas = $("#tablaDetalle tr").length;
-        if((nFilas == 1) && ($('#codigo').val() != "")){
+        if((nFilas == 1) && ($('#codigo').val() != "") && ($('#precioU').val() != "")){
             addnewrow();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalle").find("tr");
@@ -221,9 +309,9 @@ function validateRow(){
                     });
 
                         if (arrayColCatId.includes($('#categoria_id').val()) && arrayColCodigo.includes($('#codigo').val())){
-                            alertify.error('/.tipo de pago ya ha sido ingresado./');
+                            alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if($('#codigo').val() != ""){
+                        }else if(($('#codigo').val() != "") && ($('#precioU').val() != "")){
                             addnewrow();
                             limpiarFilaDetalle();
                             finish();
@@ -341,53 +429,68 @@ function comprobarCheckTarjeta()
     if (document.getElementById("tipoDePagoTarjeta").checked){
         document.getElementById('montoTarjeta').readOnly = false;
         document.getElementById('tarjeta').style.display = "";
+        document.getElementById('pos').style.display = "";
     }
     else{
         document.getElementById('montoTarjeta').readOnly = true;
         document.getElementById('tarjeta').style.display = "none";
+        document.getElementById('pos').style.display = "none";
         $('input[name="tarjeta"]').val('');
         $('input[name="montoTarjeta"]').val('');
+        $('select[name="pos"]').val('');
     }
 }
 
 $("#guardarRecibo").click(function(e){
 
-    var efectivoCorrecto = 0;
+    var efectivoCorrecto = 0; //el 0 indica que no aplica y devuelve error
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
 
     if (document.getElementById("tipoDePagoEfectivo").checked){
         if ($('#montoefectivo').val() == 0){
-            alertify.error('el monto de efectivo no puede ser 0...');
+            alertify.warning('el monto de efectivo no puede ser 0...');
         } else {efectivoCorrecto = 1; $('#pagoEfectivo').val("si");}
     } else {efectivoCorrecto = 1; $('#pagoEfectivo').val("no");}
     if (document.getElementById("tipoDePagoCheque").checked){
         if ($('#cheque').val() == 0){
-            alertify.error('los datos de cheque no pueden ir vacios...');
+            alertify.warning('los datos de cheque no pueden ir vacios...');
         } else {chequeCorrecto = 1;}
         if ($('#montoCheque').val() == 0){
-            alertify.error('el monto del cheque no puede ser 0...');
+            alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoCheque').val("si");}
     } else {chequeCorrecto = 1; $('#pagoCheque').val("no");}
     if (document.getElementById("tipoDePagoTarjeta").checked){
         if ($('#tarjeta').val() == 0){
-            alertify.error('los datos de tarjeta no pueden ir vacios...');
+            alertify.warning('los datos de tarjeta no pueden ir vacios...');
         } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjeta').val() == 0){
-            alertify.error('el monto de tarjeta no puede ser 0...');
+            alertify.warning('el monto de tarjeta no puede ser 0...');
+            tarjetaCorrecta = 0;
+        } else {tarjetaCorrecta = 1;}
+        if ($('#pos').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
             tarjetaCorrecta = 0;
         } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivo").checked != true)  && (document.getElementById("tipoDePagoCheque").checked != true) && (document.getElementById("tipoDePagoTarjeta").checked != true)){
-        alertify.error('Seleccione un tipo de pago');
+        alertify.warning('Seleccione un tipo de pago');
     }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
         var totalEfectivo = $('#montoefectivo').val();
         var totalCheque = $('#montoCheque').val();
         var totalTarjeta = $('#montoTarjeta').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#total").val()){
+
+                if(document.getElementById("serieReciboA").checked == true){
+                    $('#tipoSerieRecibo').val('a');
+                }else if(document.getElementById("serieReciboB").checked == true){
+                    $('#tipoSerieRecibo').val('b');
+                }
+
+                var pos = $('#pos').val();
 
                 var config = {};
                 $('input').each(function () {
@@ -402,7 +505,7 @@ $("#guardarRecibo").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -412,46 +515,109 @@ $("#guardarRecibo").click(function(e){
                 },
                 error: function(){
                     $('.loader').fadeOut(1000);
-                    alertify.success('Dato aun no almacenado');
+                    alertify.warning('Dato aun no almacenado');
                 }
             });
         }else if(totalPago > $("#total").val()){
-            alertify.success('monto de pago es mayor al total');
+            alertify.warning('monto de pago es mayor al total');
         }
         else if(totalPago < $("#total").val()){
-            alertify.success('monto de pago es menor al total');
+            alertify.warning('monto de pago es menor al total');
         }
     }
 })
 
 //Funcionamiento sobre EMPRESA
 
-$(document).ready(function () {
-    $("#codigoE").change (function () {
-        var valor = $("#codigoE").val();
-        $.ajax({
-            type: 'GET',
-            url: '/tipoPagoColegiado/' + valor,
-            success: function(response){
-                if($("#codigoE").val() != ""){
-                    $("input[name='precioUE']").val(response.precio_colegiado);
-                    $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                    $("input[name='subtotalE']").val(response.precio_colegiado);
-                    $("input[name='categoria_idE']").val(response.categoria_id);
-
-                    $("#cantidadE").val(1);
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigoE']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoE").empty();
+                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
                 }
-            },
-            error: function() {
-                    $("input[name='precioUE']").val('');
-                    $("input[name='descTipoPagoE']").val('');
-                    $("input[name='subtotalE']").val('');
-                    $("input[name='categoria_idE']").val('');
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoE").empty();
+                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoE').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
                 }
-        });
+            });
+        }
     });
 });
 
+$(document).ready(function () {
+    $("#codigoE").change (function () {
+        var valor = $("#codigoE").val();
+        if(document.getElementById("serieReciboA").checked == true){
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoA/' + valor,
+                success: function(response){
+                    if($("#codigoE").val() != ""){
+                        $("input[name='precioUE']").val(response.precio_colegiado);
+                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                        $("input[name='subtotalE']").val(response.precio_colegiado);
+                        $("input[name='categoria_idE']").val(response.categoria_id);
+
+                        $("#cantidadE").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidadE']").val(1);
+                        $("input[name='precioUE']").val('');
+                        $("input[name='descTipoPagoE']").val('');
+                        $("input[name='subtotalE']").val('');
+                        $("input[name='categoria_idE']").val('');
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked == true){
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoB/' + valor,
+                success: function(response){
+                    if($("#codigoE").val() != ""){
+                        $("input[name='precioUE']").val(response.precio_colegiado);
+                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                        $("input[name='subtotalE']").val(response.precio_colegiado);
+                        $("input[name='categoria_idE']").val(response.categoria_id);
+
+                        $("#cantidadE").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidadE']").val(1);
+                        $("input[name='precioUE']").val('');
+                        $("input[name='descTipoPagoE']").val('');
+                        $("input[name='subtotalE']").val('');
+                        $("input[name='categoria_idE']").val('');
+                }
+            });
+        }
+    });
+});
 
 $(document).ready(function(){
     $("#cantidadE").change(function() {
@@ -481,7 +647,7 @@ $(document).ready(function(){
   function validateRowE(){
     $('#tablaDetalleE').each(function(index, tr) {
         var nFilas = $("#tablaDetalleE tr").length;
-        if((nFilas == 1) && ($('#codigoE').val() != "")){
+        if((nFilas == 1) && ($('#codigoE').val() != "") && ($('#precioUE').val() != "")){
             addnewrowE();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleE").find("tr");
@@ -527,9 +693,9 @@ $(document).ready(function(){
                     });
 
                         if (arrayColCatId.includes($('#categoria_idE').val()) && arrayColCodigo.includes($('#codigoE').val())){
-                            alertify.error('/.tipo de pago ya ha sido ingresado./');
+                            alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if($('#codigoE').val() != ""){
+                        }else if(($('#codigoE').val() != "") && ($('#precioUE').val() != "")){
                             addnewrowE();
                             limpiarFilaDetalleE();
                             finish();
@@ -647,12 +813,15 @@ function comprobarCheckTarjetaE()
     if (document.getElementById("tipoDePagoTarjetaE").checked){
         document.getElementById('montoTarjetaE').readOnly = false;
         document.getElementById('tarjetaE').style.display = "";
+        document.getElementById('posE').style.display = "";
     }
     else{
         document.getElementById('montoTarjetaE').readOnly = true;
         document.getElementById('tarjetaE').style.display = "none";
+        document.getElementById('posE').style.display = "none";
         $('input[name="tarjetaE"]').val('');
         $('input[name="montoTarjetaE"]').val('');
+        $('select[name="posE"]').val('');
     }
 }
 
@@ -664,36 +833,48 @@ $("#guardarReciboE").click(function(e){
 
     if (document.getElementById("tipoDePagoEfectivoE").checked){
         if ($('#montoefectivoE').val() == 0){
-            alertify.error('el monto de efectivo no puede ser 0...');
+            alertify.warning('el monto de efectivo no puede ser 0...');
         } else {efectivoCorrecto = 1; $('#pagoEfectivoE').val("si");}
     } else {efectivoCorrecto = 1; $('#pagoEfectivoE').val("no");}
     if (document.getElementById("tipoDePagoChequeE").checked){
         if ($('#chequeE').val() == 0){
-            alertify.error('los datos de cheque no pueden ir vacios...');
+            alertify.warning('los datos de cheque no pueden ir vacios...');
         } else {chequeCorrecto = 1;}
         if ($('#montoChequeE').val() == 0){
-            alertify.error('el monto del cheque no puede ser 0...');
+            alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeE').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeE').val("no");}
     if (document.getElementById("tipoDePagoTarjetaE").checked){
         if ($('#tarjetaE').val() == 0){
-            alertify.error('los datos de tarjeta no pueden ir vacios...');
+            alertify.warning('los datos de tarjeta no pueden ir vacios...');
         } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjetaE').val() == 0){
-            alertify.error('el monto de tarjeta no puede ser 0...');
+            alertify.warning('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
+        } else{tarjetaCorrecta = 1;}
+        if ($('#posE').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
+            tarjetaCorrecta = 0;
+        }else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true)){
-        alertify.error('Seleccione un tipo de pago');
+        alertify.warning('Seleccione un tipo de pago');
     }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
         var totalEfectivo = $('#montoefectivoE').val();
         var totalCheque = $('#montoChequeE').val();
         var totalTarjeta = $('#montoTarjetaE').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#totalE").val()){
+
+                if(document.getElementById("serieReciboA").checked == true){
+                    $('#tipoSerieReciboE').val('a');
+                }else if(document.getElementById("serieReciboB").checked == true){
+                    $('#tipoSerieReciboE').val('b');
+                }
+
+                var pos = $('#posE').val();
 
                 var config = {};
                 $('input').each(function () {
@@ -708,7 +889,7 @@ $("#guardarReciboE").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/empresa",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -718,14 +899,14 @@ $("#guardarReciboE").click(function(e){
                 },
                 error: function(){
                     $('.loader').fadeOut(1000);
-                    alertify.success('Dato aun no almacenado');
+                    alertify.warning('Dato aun no almacenado');
                 }
             });
         }else if(totalPago > $("#totalE").val()){
-            alertify.success('monto de pago es mayor al total');
+            alertify.warning('monto de pago es mayor al total');
         }
         else if(totalPago < $("#totalE").val()){
-            alertify.success('monto de pago es menor al total');
+            alertify.warning('monto de pago es menor al total');
         }
     }
 })
@@ -749,30 +930,93 @@ function limpiarPantallaE()
 
 //Funcionamiento sobre Particular
 
+$(document).ready(function(){
+    $("input[name$='serieRecibo']").change(function() {
+        $("input[name='codigoP']").empty();
+        var stateID = $("input[name$='serieRecibo']").val();
+        if(document.getElementById("serieReciboA").checked) {
+            $.ajax({
+                url: '/tipo/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoP").empty();
+                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    }
+                }
+            });
+        }else if(document.getElementById("serieReciboB").checked) {
+            $.ajax({
+                url: '/tipo/ajax/B/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $("#codigoP").empty();
+                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                    for (i = 0; i < data.length; i++)
+                    {
+                        $('#codigoP').append($('<option>', {
+                            value: data[i]["id"],
+                            text: data[i]["codigo"]
+                        }));
+                    }
+                }
+            });
+        }
+    });
+});
+
 $(document).ready(function () {
     $("#codigoP").change (function () {
         var valor = $("#codigoP").val();
-        $.ajax({
-            type: 'GET',
-            url: '/tipoPagoColegiado/' + valor,
-            success: function(response){
-                if($("#codigoP").val() != ""){
-                    $("input[name='precioUP']").val(response.precio_colegiado);
-                    $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                    $("input[name='subtotalP']").val(response.precio_colegiado);
-                    $("input[name='categoria_idP']").val(response.categoria_id);
+        if(document.getElementById("serieReciboA").checked == true){
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoA/' + valor,
+                success: function(response){
+                    if($("#codigoP").val() != ""){
+                        $("input[name='precioUP']").val(response.precio_colegiado);
+                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                        $("input[name='subtotalP']").val(response.precio_colegiado);
+                        $("input[name='categoria_idP']").val(response.categoria_id);
 
-                    $("#cantidadP").val(1);
+                        $("#cantidadP").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidadP']").val(1);
+                        $("input[name='precioUP']").val('');
+                        $("input[name='descTipoPagoP']").val('');
+                        $("input[name='subtotalP']").val('');
+                        $("input[name='categoria_idP']").val('');
                 }
-            },
-            error: function() {
-                    $("input[name='precioUP']").val('');
-                    $("input[name='descTipoPagoP']").val('');
-                    $("input[name='subtotalP']").val('');
-                    $("input[name='monto_timbreP']").val('');
-                    $("input[name='categoria_idP']").val('');
+            });
+        }else if(document.getElementById("serieReciboB").checked == true){
+            $.ajax({
+                type: 'GET',
+                url: '/tipoPagoColegiadoB/' + valor,
+                success: function(response){
+                    if($("#codigoP").val() != ""){
+                        $("input[name='precioUP']").val(response.precio_colegiado);
+                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                        $("input[name='subtotalP']").val(response.precio_colegiado);
+                        $("input[name='categoria_idP']").val(response.categoria_id);
+
+                        $("#cantidadP").val(1);
+                    }
+                },
+                error: function() {
+                        $("input[name='cantidadP']").val(1);
+                        $("input[name='precioUP']").val('');
+                        $("input[name='descTipoPagoP']").val('');
+                        $("input[name='subtotalP']").val('');
+                        $("input[name='categoria_idP']").val('');
                 }
-        });
+            });
+        }
     });
 });
 
@@ -805,7 +1049,7 @@ function agregarproductofP() {
   function validateRowP(){
     $('#tablaDetalleP').each(function(index, tr) {
         var nFilas = $("#tablaDetalleP tr").length;
-        if((nFilas == 1) && ($('#codigoP').val() != "")){
+        if((nFilas == 1) && ($('#codigoP').val() != "") && ($('#precioUP').val() != "")){
             addnewrowP();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleP").find("tr");
@@ -851,9 +1095,9 @@ function agregarproductofP() {
                     });
 
                         if (arrayColCatId.includes($('#categoria_idP').val()) && arrayColCodigo.includes($('#codigoP').val())){
-                            alertify.error('/.tipo de pago ya ha sido ingresado./');
+                            alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if($('#codigoP').val() != ""){
+                        }else if(($('#codigoP').val() != "") && ($('#precioUP').val() != "")){
                             addnewrowP();
                             limpiarFilaDetalleP();
                             finish();
@@ -971,12 +1215,15 @@ function comprobarCheckTarjetaP()
     if (document.getElementById("tipoDePagoTarjetaP").checked){
         document.getElementById('montoTarjetaP').readOnly = false;
         document.getElementById('tarjetaP').style.display = "";
+        document.getElementById('posP').style.display = "";
     }
     else{
         document.getElementById('montoTarjetaP').readOnly = true;
         document.getElementById('tarjetaP').style.display = "none";
+        document.getElementById('posP').style.display = "none";
         $('input[name="tarjetaP"]').val('');
         $('input[name="montoTarjetaP"]').val('');
+        $('select[name="posP"]').val('');
     }
 }
 
@@ -988,36 +1235,48 @@ $("#guardarReciboP").click(function(e){
 
     if (document.getElementById("tipoDePagoEfectivoP").checked){
         if ($('#montoefectivoP').val() == 0){
-            alertify.error('el monto de efectivo no puede ser 0...');
+            alertify.warning('el monto de efectivo no puede ser 0...');
         } else {efectivoCorrecto = 1; $('#pagoEfectivoP').val("si");}
     } else {efectivoCorrecto = 1; $('#pagoEfectivoP').val("no");}
     if (document.getElementById("tipoDePagoChequeP").checked){
         if ($('#chequeP').val() == 0){
-            alertify.error('los datos de cheque no pueden ir vacios...');
+            alertify.warning('los datos de cheque no pueden ir vacios...');
         } else {chequeCorrecto = 1;}
         if ($('#montoChequeP').val() == 0){
-            alertify.error('el monto del cheque no puede ser 0...');
+            alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeP').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeP').val("no");}
     if (document.getElementById("tipoDePagoTarjetaP").checked){
         if ($('#tarjetaP').val() == 0){
-            alertify.error('los datos de tarjeta no pueden ir vacios...');
+            alertify.warning('los datos de tarjeta no pueden ir vacios...');
         } else {tarjetaCorrecta = 1;}
         if ($('#montoTarjetaP').val() == 0){
-            alertify.error('el monto de tarjeta no puede ser 0...');
+            alertify.warning('el monto de tarjeta no puede ser 0...');
             tarjetaCorrecta = 0;
-        } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
+        } else {tarjetaCorrecta = 1}
+        if ($('#posP').val() == 0){
+            alertify.warning('Selector de POS no puede ser vacio...');
+            tarjetaCorrecta = 0;
+        }else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");}
 
     if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true)){
-        alertify.error('Seleccione un tipo de pago');
+        alertify.warning('Seleccione un tipo de pago');
     }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
         var totalEfectivo = $('#montoefectivoP').val();
         var totalCheque = $('#montoChequeP').val();
         var totalTarjeta = $('#montoTarjetaP').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
         if(totalPago == $("#totalP").val()){
+
+                if(document.getElementById("serieReciboA").checked == true){
+                    $('#tipoSerieReciboP').val('a');
+                }else if(document.getElementById("serieReciboB").checked == true){
+                    $('#tipoSerieReciboP').val('b');
+                }
+
+                var pos = $('#posP').val();
 
                 var config = {};
                 $('input').each(function () {
@@ -1032,7 +1291,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos},
+                data: {config, datos, pos},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -1042,14 +1301,14 @@ $("#guardarReciboP").click(function(e){
                 },
                 error: function(){
                     $('.loader').fadeOut(1000);
-                    alertify.success('Dato aun no almacenado');
+                    alertify.warning('Dato aun no almacenado');
                 }
             });
         }else if(totalPago > $("#totalP").val()){
-            alertify.success('monto de pago es mayor al total');
+            alertify.warning('monto de pago es mayor al total');
         }
         else if(totalPago < $("#totalP").val()){
-            alertify.success('monto de pago es menor al total');
+            alertify.warning('monto de pago es menor al total');
         }
     }
 })

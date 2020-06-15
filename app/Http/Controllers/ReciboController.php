@@ -19,6 +19,7 @@ use App\Recibo_Detalle;
 use App\SerieRecibo;
 use App\ReciboCheque;
 use App\ReciboTarjeta;
+use App\PosCobro;
 use Validator;
 
 class ReciboController extends Controller
@@ -34,8 +35,22 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
-        return view('admin.creacionRecibo.index', compact('tipo'));
+        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
+        // return view('admin.creacionRecibo.index', compact('tipo'));
+        $pos = PosCobro::all();
+        return view('admin.creacionRecibo.index', compact('pos'));
+    }
+
+    public function SerieDePagoA($id)
+    {
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->get();
+        return json_encode($tipo);
+    }
+
+    public function SerieDePagoB($id)
+    {
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get();
+        return json_encode($tipo);
     }
 
     /**
@@ -57,7 +72,8 @@ class ReciboController extends Controller
     public function store(Request $request)
     {
         // almacen de datos de COLEGIADO
-
+        //dd($request);
+        $serieRecibo        = $request->input("config.tipoSerieRecibo");
         $tipoDeCliente      = $request->input("config.tipoDeCliente");
         $colegiado          = $request->input("config.c_cliente");
         $nombreCliente      = $request->input("config.n_cliente");
@@ -75,17 +91,26 @@ class ReciboController extends Controller
         $pagoTarjeta        = $request->input("config.pagoTarjeta");
         $numeroTarjeta      = $request->input("config.tarjeta");
         $montoTarjeta       = $request->input("config.montoTarjeta");
+        $pos_id             = $request->input("pos");
 
             $tipoDeCliente = 1;
+            if($serieRecibo == 'a'){
+                $serieRecibo = 1;
+            }elseif($serieRecibo == 'b'){
+                $serieRecibo = 2;
+            }
 
+        //$lastValue = DB::table('sigecig_recibo_maestro')->orderBy('numero_recibo', 'desc')->first();
+        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestro = new Recibo_Maestro;
-        $reciboMaestro->serie_recibo_id = 1;
-        $reciboMaestro->numero_recibo = 374;
+        $reciboMaestro->serie_recibo_id = $serieRecibo;
+        //$reciboMaestro->numero_recibo =  $lastValue->numero_recibo + 1;
+        $reciboMaestro->numero_recibo =  $lastValue + 1;
         $reciboMaestro->numero_de_identificacion = $colegiado;
         $reciboMaestro->nombre = $nombreCliente;
         $reciboMaestro->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestro->complemento = 1;
+        $reciboMaestro->complemento = $complemento;
         $reciboMaestro->monto_efecectivo = $montoefectivo;
         $reciboMaestro->monto_tarjeta = $montoTarjeta;
         $reciboMaestro->monto_cheque = $montoCheque;
@@ -121,7 +146,7 @@ class ReciboController extends Controller
             $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
             $bdTarjeta->numero_voucher = $numeroTarjeta;
             $bdTarjeta->monto = $montoTarjeta;
-            $bdTarjeta->pos_cobro_id = 1;
+            $bdTarjeta->pos_cobro_id = $pos_id;
             $bdTarjeta->usuario_id = Auth::user()->id;
             $bdTarjeta->save();
         }
@@ -135,6 +160,7 @@ class ReciboController extends Controller
     {
         // almacen de datos de PARTICULAR
 
+        $serieReciboP        = $request->input("config.tipoSerieReciboP");
         $tipoDeCliente       = $request->input("config.tipoDeCliente");
         $dpi                 = $request->input("config.dpi");
         $nombreClienteP      = $request->input("config.nombreP");
@@ -147,16 +173,24 @@ class ReciboController extends Controller
         $pagoTarjetaP        = $request->input("config.pagoTarjetaP");
         $numeroTarjetaP      = $request->input("config.tarjetaP");
         $montoTarjetaP       = $request->input("config.montoTarjetaP");
+        $pos_idP             = $request->input("pos");
 
             $tipoDeCliente = 2;
+            if($serieReciboP == 'a'){
+                $serieReciboP = 1;
+            }elseif($serieReciboP == 'b'){
+                $serieReciboP = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroP = new Recibo_Maestro;
-        $reciboMaestroP->serie_recibo_id = 1;
-        $reciboMaestroP->numero_recibo = 481;
+        $reciboMaestroP->serie_recibo_id = $serieReciboP;
+        $reciboMaestroP->numero_recibo =  $lastValue + 1;
         $reciboMaestroP->numero_de_identificacion = $dpi;
         $reciboMaestroP->nombre = $nombreClienteP;
         $reciboMaestroP->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroP->complemento = 1;
+        $reciboMaestroP->complemento = " ";
         $reciboMaestroP->monto_efecectivo = $montoefectivoP;
         $reciboMaestroP->monto_tarjeta = $montoTarjetaP;
         $reciboMaestroP->monto_cheque = $montoChequeP;
@@ -192,7 +226,7 @@ class ReciboController extends Controller
             $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
             $bdTarjetaP->numero_voucher = $numeroTarjetaP;
             $bdTarjetaP->monto = $montoTarjetaP;
-            $bdTarjetaP->pos_cobro_id = 1;
+            $bdTarjetaP->pos_cobro_id = $pos_idP;
             $bdTarjetaP->usuario_id = Auth::user()->id;
             $bdTarjetaP->save();
         }
@@ -204,6 +238,7 @@ class ReciboController extends Controller
     {
         // almacen de datos de EMPRESA
 
+        $serieReciboE        = $request->input("config.tipoSerieReciboE");
         $tipoDeCliente       = $request->input("config.tipoDeCliente");
         $nit                 = $request->input("config.nit");
         $empresa             = $request->input("config.empresa");
@@ -216,16 +251,24 @@ class ReciboController extends Controller
         $pagoTarjetaE        = $request->input("config.pagoTarjetaE");
         $numeroTarjetaE      = $request->input("config.tarjetaE");
         $montoTarjetaE       = $request->input("config.montoTarjetaE");
+        $pos_idE             = $request->input("pos");
 
             $tipoDeCliente = 3;
+            if($serieReciboE == 'a'){
+                $serieReciboE = 1;
+            }elseif($serieReciboE == 'b'){
+                $serieReciboE = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroE = new Recibo_Maestro;
-        $reciboMaestroE->serie_recibo_id = 1;
-        $reciboMaestroE->numero_recibo = 126;
+        $reciboMaestroE->serie_recibo_id = $serieReciboE;
+        $reciboMaestroE->numero_recibo =  $lastValue + 1;
         $reciboMaestroE->numero_de_identificacion = $nit;
         $reciboMaestroE->nombre = $empresa;
         $reciboMaestroE->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroE->complemento = 1;
+        $reciboMaestroE->complemento = " ";
         $reciboMaestroE->monto_efecectivo = $montoefectivoE;
         $reciboMaestroE->monto_tarjeta = $montoTarjetaE;
         $reciboMaestroE->monto_cheque = $montoChequeE;
@@ -261,7 +304,7 @@ class ReciboController extends Controller
             $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
             $bdTarjetaE->numero_voucher = $numeroTarjetaE;
             $bdTarjetaE->monto = $montoTarjetaE;
-            $bdTarjetaE->pos_cobro_id = 1;
+            $bdTarjetaE->pos_cobro_id = $pos_idE;
             $bdTarjetaE->usuario_id = Auth::user()->id;
             $bdTarjetaE->save();
         }
@@ -316,11 +359,30 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre')
-            ->where('c_cliente', $colegiado)->get()->first();
+        // $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre', 'fallecido')
+        //     ->where('c_cliente', $colegiado)->get()->first();
 
-        return $consulta;
-        //dd($consulta);
+        $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                  WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
+        $result = DB::connection('sqlsrv')->select($query);
+
+        if (!empty($result)){
+            $result[0]->estado='Activo';
+            return $result;
+        }else {
+            $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                  WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
+            $resultado = DB::connection('sqlsrv')->select($query);
+            $resultado[0]->estado='Inactivo';
+
+            // $igual = [
+            //     0=>['n_cliente'=> $resultado[0]->n_cliente, 'estado' => 'Inactivo', 'f_ult_timbre'=> $resultado[0]->f_ult_timbre,
+            //         'f_ult_pago'=> $resultado[0]->f_ult_pago, 'monto_timbre'=> $resultado[0]->monto_timbre, 'fallecido'=> $resultado[0]->fallecido,]
+            // ];
+
+            return $resultado;
+
+        }
     }
 
     public function getDatosEmpresa($nit)
@@ -331,10 +393,18 @@ class ReciboController extends Controller
         return $consulta;
     }
 
-    public function getTipoDePago($tipo)
+    public function getTipoDePagoA($tipo)
     {
         $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
-            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '=', 3)->get()->first();
+
+            return $consulta;
+    }
+
+    public function getTipoDePagoB($tipo)
+    {
+        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
+            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '!=', 3)->get()->first();
 
             return $consulta;
     }
