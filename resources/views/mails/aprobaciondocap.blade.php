@@ -29,7 +29,7 @@
         <h3><center>La aprobación por Junta Directiva se estará llevando a cabo en los próximos 7 días hábiles.</center></h3>
      @elseif($solicitudAP['id_estado_solicitud']=='5')
         <h3><center>Estimado agremiado, le informamos que su solicitud han sido revisada</center></h3>
-        <h3><center>y aprobados satisfactoriamente por Junta Directiva</center></h3> <br><br>
+        <h3><center>y aprobados satisfactoriamente por la Junta de Auxilio Póstumo</center></h3> <br><br>
         <h3> <center>A continuación se detalla el proceso de su solicitud </center> </h3> <br><br> 
         <div class=" datos" ><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear" style="margin-right: 310px"  for="">FECHA: {{$fecha_actual}}</label></div><br><br>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> <label  class="alinear" for="">STATUS: PASO 05/08</label></div><br><br>
@@ -60,7 +60,7 @@
         <div style="text-align: center"><img src="{{ $message->embed(public_path().'/images/paso7.png') }}" alt="picsum" width="" /></div>
 
     @elseif($solicitudAP['id_estado_solicitud']=='3')
-        <h3><center>Estimado agremiado, lamentamos informarle que su ducomentación ha sido rechazadas por la Junta Directiva</center></h3>
+        <h3><center>Estimado agremiado, lamentamos informarle que su documentación ha sido rechazadas por la Junta Directiva</center></h3>
         <h3> <center>A continuación se detalla la razón del rechazo</center> </h3> <br><br> 
         <div class=" datos" style="margin-left: 200px"><label for="">INTERESADO: {{$colegiado->n_cliente}}</label> <label class="alinear" style="margin-right: 200px" for="">FECHA: {{$fecha_actual}}</label></div> <br><br><br>  
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>

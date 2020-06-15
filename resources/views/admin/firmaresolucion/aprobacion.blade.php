@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group col-md-9" >
-          <label for="Nombre1"> Agregar datos de acta para el colegiado: </label>
+          <label for="Nombre1"> Colegiado: </label>
           <input type="text" size="50" maxlength="50" class="form-control" name="Nombre1" readonly>
         </div>
         <div class="form-group col-md-3" >
