@@ -46,6 +46,7 @@ class ColaboradorController extends Controller
         $user = User::select('sigecig_users.id','sigecig_users.username')
         ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
         ->wherenull('sigecig_colaborador.usuario')
+        ->where('sigecig_users.id', '>=', '2')
         ->get();
         $sub = Subsedes::all();
 
@@ -106,8 +107,13 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
-        $user = User::all();
+        $user = User::select('sigecig_users.id','sigecig_users.username')
+        ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
+        ->wherenull('sigecig_colaborador.usuario')
+        ->where('sigecig_users.id', '>=', '2')
+        ->get();
         $sub = Subsedes::all();
+        
 
         return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
 
