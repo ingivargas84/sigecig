@@ -111,6 +111,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                 "width" : "15%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
+                                    var rol = $("input[name='rol_user']").val();
             if(data == 'Documentos Enviados'){  //Estado 2 de la solicitud
 
                 return "<div class='text-center'>" + 

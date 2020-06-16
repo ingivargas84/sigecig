@@ -85,6 +85,7 @@ class AuxilioPostumoController extends Controller
             $cuenta->id_banco = $request->banco;
             $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
             $cuenta->no_cuenta = $request->no_cuenta;
+            $cuenta->id_creacion=1;
            
             
             if ($solicitud==0) {
