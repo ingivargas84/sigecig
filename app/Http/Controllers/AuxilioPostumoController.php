@@ -27,7 +27,7 @@ class AuxilioPostumoController extends Controller
 
         $query="SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
-        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
+        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 6 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 6 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
         $result = DB::connection('sqlsrv')->select($query);
 
             $banco=PlataformaBanco::all();
@@ -98,7 +98,7 @@ class AuxilioPostumoController extends Controller
             $colegiado->telefono=$request->telefono;
             $colegiado->update();
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->no_solicitud, Now(), $cuenta->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
 
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         }
@@ -158,7 +158,8 @@ class AuxilioPostumoController extends Controller
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->no_solicitud, Now(), $solicitudAP->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
+        return response()->json(['success'=>'You have successfully upload file.']);
         }
 
     

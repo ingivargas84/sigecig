@@ -124,9 +124,13 @@ var resolucion_table = $('#resolucion-table').DataTable({
             }
             else if(data == 'Creada'){    //Estado 1 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
+                "<div class='float-center '>" + 
                 "<a href='auxilioPostumo/"+full.id+"/documentosap' class='autorizacion'   data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
                 "<i class='fa fa-paperclip' title='Adjuntar Documentos Auxilio Postumo'></i>" + 
+                "</a>" + "</div>"+
+                "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";   
             } 
             
@@ -153,7 +157,17 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
 
-            }   
+            }  
+            
+            else if(data == 'Rechazado por Junta'){  //Estado 6 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
+            }
+
             else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -478,7 +492,6 @@ function updateModalFecha(button) {
                     $('#modalAprobacionJunta').modal("hide");
                   },
                 success: function (data) {
-
                     limpiarCampos();
                 },
                 error: function (jqXHR, estado, error){
