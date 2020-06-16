@@ -42,5 +42,9 @@ class EstadoSolicitudApSeeder extends Seeder
         DB::table('sigecig_estado_solicitud_ap')->insert([
             'estado_solicitud_ap'=>'Finalizada'
         ]);
+        DB::table('sigecig_estado_solicitud_ap')->insert([
+            'estado_solicitud_ap'=>'Anulada'
+        ]);
+
     }
 }

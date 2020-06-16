@@ -20,11 +20,11 @@
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="precio_colegiado">Precio para Colegiados:</label>
-                        <input type="number" class="form-control" placeholder="Precio colegiados:" name="precio_colegiado">
+                        <input type="number" class="form-control" placeholder="Precio colegiados:" name="precio_colegiado" min="0">
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="precio_particular">Precio para Particulares:</label>
-                        <input type="number" class="form-control" placeholder="Precio Particular:" name="precio_particular">
+                        <input type="number" class="form-control" placeholder="Precio Particular:" name="precio_particular" min="0">
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="categoria_id">Categoría:</label>

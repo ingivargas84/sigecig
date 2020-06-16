@@ -29,38 +29,66 @@
                 <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{$adm_persona->Nombre1}}</b>
                 </div>   
                 @endif 
+
+                @if($cambio ["estado_solicitud"] == 3)
+                <div class="texto1">
+                    <h4> 3. Documentación Rechazada </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                </div>     
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label><b>Motivo del rechazo:</b></label>
+                                <p>{{$id->solicitud_rechazo_ap}}
+                            </div>
+
+                        </div>
+                @endif
                 
                 @if($cambio ["estado_solicitud"] == 4)
-            <div class="texto1">
-                <h4> 3. Autorización de Documentos </h4>
-                <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                <div class="texto1">
+                    <h4> 4. Autorización de Documentos </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>   
                 @endif 
               
                 @if($cambio ["estado_solicitud"] == 4)
             <div class="texto1">
-                <h4> 4. Solicitud de Aprobación a Junta Directiva  </h4>
+                <h4> 5. Solicitud de Aprobación de Junta Auxilio Póstumo  </h4>
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>   
                 @endif 
 
                 @if($cambio ["estado_solicitud"] == 5)
             <div class="texto1">
-                <h4> 5. Aprobación de Junta Directiva  </h4>
+                <h4> 6. Aprobación de Junta Auxilio Póstumo  </h4>
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                </div>   
                 @endif 
 
+                @if($cambio ["estado_solicitud"] == 6)
+                <div class="texto1">
+                    <h4> 7. Rechazado por Junta </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                </div>     
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label><b>Motivo del rechazo:</b></label>
+                                <p>{{$id->solicitud_rechazo_junta}}
+                            </div>
+
+                        </div>
+                @endif
+
             @if($cambio ["estado_solicitud"] == 8)
             <div class="texto1">
-                <h4> 6. Firma de Resolución </h4>
+                <h4> 7. Firma de Resolución </h4>
                 <p> Fecha de Configuración:<b> {{$cambio->fecha}} </b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>      
                 @endif 
 
             @if($cambio ["estado_solicitud"] == 9)
             <div class="texto1">
-                <h4> 7. Gestión de depósito - Configuración de Pago </h4>
+                <h4> 8. Gestión de depósito - Configuración de Pago </h4>
                 <p> Fecha de Configuración: <b>{{$cambio->fecha}}</b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 <p> Banco: <b>{{$banco->nombre_banco}} </b> 
                     Tipo de cuenta: <b>{{$tipocuenta->tipo_cuenta}} </b> 
@@ -70,7 +98,7 @@
 
             @if($cambio ["estado_solicitud"] == 10)
             <div class="texto1">
-                <h4> 8. Pago al Agremiado </h4>
+                <h4> 9. Pago al Agremiado </h4>
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 </div>    
                 @endif 

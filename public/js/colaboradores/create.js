@@ -143,13 +143,16 @@ var validator = $("#ColaboradorForm").validate({
 		departamento: {
 			required: true
         },
-        subsedes: {
+        subsede: {
 			required: true
 		},
 		telefono:{
             required: true,
             ntelc : true
 
+        },
+        usuario: {
+			required: true
 		},
 	},
 	messages: {
@@ -165,11 +168,14 @@ var validator = $("#ColaboradorForm").validate({
 		departamento: {
 			required: "Por favor, seleccione un departamento"
         },
-        subsedes: {
+        subsede: {
 			required: "Por favor, seleccione una subsede"
 		},
 		telefono: {
 			required: "Por favor, ingrese el telefono"
+        },
+        usuario: {
+			required: "Por favor, ingrese el usuario"
 		}
 	}
 });

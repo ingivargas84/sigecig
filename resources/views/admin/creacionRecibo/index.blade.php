@@ -16,8 +16,8 @@
                 <div class="box box-primary">
                     <div class="box-body"  id="app">
                         <br>
-                        <div class="row">
-                            <div class="col-md-offset-1 col-sm-3 col-lg-4">
+                        <div class="">
+                            <div class="col-md-offset-1 col-sm-3 col-md-3 col-lg-5">
                                 <div class="form-group">
                                     <label for="tipoCliente" class="control-label">TIPO DE CLIENTE</label>
                                     <div>
@@ -36,17 +36,34 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-offset-3 col-sm-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="serieRecibo" class="control-label">Serie de Recibo</label>
+                                    <div>
+                                        <label class="radio-inline">
+                                            <input name="serieRecibo" type="radio" id="serieReciboA" value="a">
+                                            A
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input name="serieRecibo" type="radio" id="serieReciboB" value="b">
+                                            B
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div id="c" class="desc col-md-offset-1 col-md-10"> <!-- Inicia vista Colegiado -->
                         <form method="POST" id="ReciboColegiadoForm"  action="{{route('guardarReciboColegiado.save')}}">
+                        <input name="tipoDeCliente" id="tipoDeCliente" value="c" style="display: none;">
+                        <input name="tipoSerieRecibo" id="tipoSerieRecibo" style="display: none;">
                         <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="c_cliente" class="control-label">Colegiado</label>
                                         <div>
-                                            <input type="number" id="c_cliente" name="c_cliente" required class="form-control">
+                                            <input type="number" id="c_cliente" name="c_cliente" required class="form-control" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -104,18 +121,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-2" id="divCdigo" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divCdigo" style="display: block;">
                                     <div class="form-group">
                                         <label for="codigo" class="control-label">Codigo</label>
-                                        <select name="codigo" class="form-control" id="codigo">
+                                        <select name="codigo" id="codigo" class="form-control" id="codigo">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divCantidad" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divCantidad" style="display: block;">
                                     <div class="form-group">
                                         <label for="cantidad" class="control-label">Cantidad</label>
                                         <div>
@@ -123,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1 col-lg-2" id="divprecioU" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divprecioU" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioU" class="control-label">Precio U.</label>
                                         <div>
@@ -131,7 +145,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divdescTipoPago" style="display: block;">
+                                <div class="col-sm-3 col-lg-3" id="divdescTipoPago" style="display: block;">
                                     <div class="form-group">
                                         <label for="descTipoPago" class="control-label">Descripción</label>
                                         <div>
@@ -139,7 +153,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divsubtotal" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divsubtotal" style="display: block;">
                                     <div class="form-group">
                                         <label for="subtotal" class="control-label">Subtotal</label>
                                         <div>
@@ -155,7 +169,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divButtonAgregar" style="display: block;">
+                                <div class="col-sm-1 col-lg-1" id="divButtonAgregar" style="display: block;">
                                     <div class="form-group">
                                         <label for="buttonAgregar" class="control-label"></label>
                                         <div>
@@ -212,17 +226,20 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivo" name="montoefectivo" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoefectivo" name="montoefectivo" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoEfectivo" id="pagoEfectivo" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoCheque" id="pagoCheque" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoTarjeta" id="pagoTarjeta" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -231,12 +248,22 @@
                                 <div class="">
                                     <div class="col-sm-offset-2 col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="cheque" name="cheque" class="form-control" placeholder="ingrese el número de cheque" min="0" style="display: none;">
+                                            <input type="number" id="cheque" name="cheque" class="form-control" placeholder="No. de cheque" min="0" style="display: none;">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 col-lg-3">
                                         <div class="form-group">
-                                            <input type="number" id="tarjeta" name="tarjeta" class="form-control" placeholder="ingrese el voucher" min="0" style="display: none;">
+                                            <input type="number" id="tarjeta" name="tarjeta" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="pos" class="form-control" id="pos" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -259,6 +286,9 @@
                         </div>
                         </form>
                         <div id="e" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista de Empresa -->
+                        <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="e" style="display: none;">
+                        <input name="tipoSerieReciboE" id="tipoSerieReciboE" style="display: none;">
+                        <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
@@ -278,18 +308,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-2" id="divColegioE" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divColegioE" style="display: block;">
                                     <div class="form-group">
                                         <label for="codigoE" class="control-label">Codigo</label>
                                         <select name="codigoE" class="form-control" id="codigoE">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divCantidadE" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divCantidadE" style="display: block;">
                                     <div class="form-group">
                                         <label for="cantidadE" class="control-label">Cantidad</label>
                                         <div>
@@ -297,7 +324,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1 col-lg-2" id="divprecioUE" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divprecioUE" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioUE" class="control-label">Precio U.</label>
                                         <div>
@@ -305,7 +332,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divdescTipoPagoE" style="display: block;">
+                                <div class="col-sm-3 col-lg-3" id="divdescTipoPagoE" style="display: block;">
                                     <div class="form-group">
                                         <label for="descTipoPagoE" class="control-label">Descripción</label>
                                         <div>
@@ -321,7 +348,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divcategoria_idE" style="display: none;">
+                                <div class="col-sm-1 col-lg-1" id="divcategoria_idE" style="display: none;">
                                     <div class="form-group">
                                         <label for="categoria_idE" class="control-label">categorida_id</label>
                                         <div>
@@ -341,7 +368,7 @@
                             </div>
                             <div class="row">
                                 <div style="padding: 0px 26px;" id="detalleE">
-                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
+                                    <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
                                         <tbody>
                                         @if(isset($detalleE))
                                             @foreach ($detalleE as $fila)
@@ -387,17 +414,20 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivoE" name="montoefectivoE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoefectivoE" name="montoefectivoE" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoEfectivoE" id="pagoEfectivoE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoChequeE" id="pagoChequeE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoTarjetaE" id="pagoTarjetaE" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -406,12 +436,22 @@
                                 <div class="">
                                     <div class="col-sm-offset-2 col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="chequeE" name="chequeE" class="form-control" placeholder="ingrese el número de cheque" min="0" style="display: none;">
+                                            <input type="number" id="chequeE" name="chequeE" class="form-control" placeholder="No. de cheque" min="0" style="display: none;">
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 col-lg-3">
                                         <div class="form-group">
-                                            <input type="number" id="tarjetaE" name="tarjetaE" class="form-control" placeholder="ingrese el voucher" min="0" style="display: none;">
+                                            <input type="number" id="tarjetaE" name="tarjetaE" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="posE" class="form-control" id="posE" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -432,6 +472,9 @@
                             </div>
                         </div>
                         <div id="p" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista Particular -->
+                        <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="p" style="display: none;">
+                        <input name="tipoSerieReciboP" id="tipoSerieReciboP" style="display: none;">
+                        <div class="loader loader-bar is-active"></div>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">
@@ -443,26 +486,23 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="nombre" class="control-label">Nombre</label>
+                                        <label for="nombreP" class="control-label">Nombre</label>
                                         <div>
-                                            <input type="text" id="nombre" name="nombre" required class="form-control">
+                                            <input type="text" id="nombreP" name="nombreP" required class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-2" id="divColegioP" style="display: block;">
+                                <div class="col-sm-2 col-lg 2" id="divColegioP" style="display: block;">
                                     <div class="form-group">
                                         <label for="codigoP" class="control-label">Codigo</label>
                                         <select name="codigoP" class="form-control" id="codigoP">
                                             <option value="">-- Escoja --</option>
-                                            @foreach ($tipo as $ti)
-                                                <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divCantidadP" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divCantidadP" style="display: block;">
                                     <div class="form-group">
                                         <label for="cantidadP" class="control-label">Cantidad</label>
                                         <div>
@@ -470,7 +510,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1 col-lg-2" id="divprecioUP" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divprecioUP" style="display: block;">
                                     <div class="form-group">
                                         <label for="precioUP" class="control-label">Precio U.</label>
                                         <div>
@@ -478,15 +518,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divdescTipoPagoP" style="display: block;">
+                                <div class="col-sm-3 col-lg-3" id="divdescTipoPagoP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="descTipoPagoP" class="control-label">Descripcion</label>
+                                        <label for="descTipoPagoP" class="control-label">Descripción</label>
                                         <div>
                                             <input id="descTipoPagoP" disabled type="text" class="form-control" name="descTipoPagoP">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divsubtotalP" style="display: block;">
+                                <div class="col-sm-2 col-lg-2" id="divsubtotalP" style="display: block;">
                                     <div class="form-group">
                                         <label for="subtotalP" class="control-label">Subtotal</label>
                                         <div>
@@ -494,7 +534,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-1" id="divcategoria_idP" style="display: none;">
+                                <div class="col-sm-1 col-lg-1" id="divcategoria_idP" style="display: none;">
                                     <div class="form-group">
                                         <label for="categoria_idP" class="control-label">categorida_id</label>
                                         <div>
@@ -514,7 +554,7 @@
                             </div>
                             <div class="row">
                                 <div style="padding: 0px 26px;" id="detalleP">
-                                    <table class="table table-striped table-hover" id="tablaDetalleP"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style="display: none;">categoria_idP</th><th>Eliminar</th></tr></thead>
+                                    <table class="table table-striped table-hover" id="tablaDetalleP"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_idP</th><th>Eliminar</th></tr></thead>
                                         <tbody>
                                         @if(isset($detalleP))
                                             @foreach ($detalleP as $fila)
@@ -560,17 +600,20 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivoP" name="montoefectivoP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoefectivoP" name="montoefectivoP" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoEfectivoP" id="pagoEfectivoP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoChequeP" id="pagoChequeP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" min="0" readOnly placeholder="Monto">
+                                            <input name="pagoTarjetaP" id="pagoTarjetaP" value="" style="display: none;">
                                         </div>
                                     </div>
                                 </div>
@@ -579,12 +622,22 @@
                                 <div class="">
                                     <div class="col-sm-offset-2 col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="chequeP" name="chequeP" class="form-control" placeholder="ingrese el número de cheque" min="0" style="display: none;">
+                                            <input type="number" id="chequeP" name="chequeP" class="form-control" placeholder="No. de cheque" min="0" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="tarjetaP" name="tarjetaP" class="form-control" placeholder="ingrese el voucher" min="0" style="display: none;">
+                                            <input type="number" id="tarjetaP" name="tarjetaP" class="form-control" placeholder="No. de voucher" min="0" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-3">
+                                        <div class="form-group">
+                                            <select name="posP" class="form-control" id="posP" style="display: none;">
+                                                <option value="">-- Escoja POS --</option>
+                                                @foreach ($pos as $po)
+                                                    <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

@@ -46,6 +46,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
         },
     },
+
     "order": [0, 'desc'],
     "columns": [ {
         "visible": false,
@@ -97,7 +98,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                         {
                             "title": "Estado Solicitud",
                             "data": "estado_solicitud_ap",
-                            "width" : "20%",
+                            "width" : "15%",
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
@@ -107,88 +108,61 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                 "title": "Acciones",
                                 "data": "estado_solicitud_ap",
                                 "orderable": false,
-                                "width" : "10%",
+                                "width" : "15%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
             if(data == 'Documentos Enviados'){  //Estado 2 de la solicitud
 
                 return "<div class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
+                "<div class='float-left col-lg-4'>" +
                 "<a href='/resolucion/asap/" + full.id + "' class='asap' >" + 
                 "<i class='fas fa-check-square' title='Autoriza Solicitud AP'></i>" + 
                 "</a>" + "</div>" +
-                "<div class='text-center col-lg-6'>" + 
+                "<div class='float-right col-lg-4'>" +
                 "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
             }
-
-            else if(data == 'Documentación Aprobada'){    //Estado 4 de la solicitud
+            else if(data == 'Creada'){    //Estado 1 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
-                "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
-                "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='text-center col-lg-6'>" + 
+                "<div class='float-center '>" + 
+                "<a href='auxilioPostumo/"+full.id+"/documentosap' class='autorizacion'   data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
+                "<i class='fa fa-paperclip' title='Adjuntar Documentos Auxilio Postumo'></i>" + 
+                "</a>" + "</div>"+
+                "<div class='text-center'>" + 
                 "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";   
             } 
+            
+
+            else if(data == 'Documentación Aprobada'){    //Estado 4 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-left col-lg-4'>" +
+                "<a href='#' class='autorizacion' data-toggle='modal' data-target='#modalAprobacionJunta' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"' data-no_solicitud='"+full.no_solicitud+"'>" + 
+                "<i class='fa fa-thumbs-up' title='Aprobacion por Junta'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + 
+                "</div>";   
+            } 
             else if(data == 'Aprobado por Junta'){  //Estado 5 de la solicitud
                 return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"'>" +                 
+                "<div class='float-left col-lg-4'>" +
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalIngresoActa' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +                 
                 "<i class='fas fa-address-card' title='Ingreso de Acta'></i>" + 
                 "</a>" + "</div>" +
-                "<div class='text-center col-lg-6'>" + 
+                "<div class='float-right col-lg-4'>" +
                 "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
-                "</a>" + "</div>";
+                "</a>" + 
+                "</div>";
 
-            }   
-            else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-4'>" + 
-                "<a href='/pdf/"+full.id+ " 'target='_blank'>" +
-                "<i class='fas fa-print' title='Imprimir'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='text-center col-lg-4'>" + 
-                "<div class='float-center'>" + 
-                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"'>" +
-                "<i class='fas fa-sync-alt' title='Cambiar estado'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='text-center col-lg-4'>" + 
-                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
-                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
-                "</a>" + "</div>";
-                
-            }
-            else if(data == 'Configuración de Pago'){  //Estado 9 de la solicitud
-
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
-                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' >"  +
-                "<i class='fas fa-university' title='Finalizar'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='text-center col-lg-6'>" + 
-                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
-                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
-                "</a>" + "</div>";
-            }
-            else if(data == 'Resolución Firmada'){   //Estado 8 de la solicitud
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-center col-lg-6'>" + 
-                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalConfiguraFecha' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
-                "<i class='fa fa-flag' title='Configurar fecha de pago'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='text-center col-lg-6'>" + 
-                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
-                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
-                "</a>" + "</div>";
-                ;
-            }
-
-            else if(data == 'Documentación Rechazada'){  //Estado 3 de la solicitud
+            }  
+            
+            else if(data == 'Rechazado por Junta'){  //Estado 6 de la solicitud
 
                 return "<div class='text-center'>" + 
                 "<div class='float-center'>" + 
@@ -196,6 +170,67 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + "</div>";
             }
+
+            else if(data == 'Ingreso de acta'){    //Estado 7 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-left col-lg-4'>" +
+                "<a href='/pdf/"+full.id+ " 'target='_blank'>" +
+                "<i class='fas fa-print' title='Imprimir'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-center col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
+                "<i class='fas fa-sync-alt' title='Cambiar estado'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" +
+                "</div>";
+            }
+
+            else if(data == 'Configuración de Pago'){  //Estado 9 de la solicitud
+                return "<div class='text-center'>" + 
+                "<div class='float-left col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/finalizaestado'  class='finalizar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>"  +
+                "<i class='fas fa-university' title='Finalizar'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>" +
+                "</div>";
+            }
+
+            else if(data == 'Resolución Firmada'){   //Estado 8 de la solicitud
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-left col-lg-4'>" +
+                "<a href='#' class='edit-user' data-toggle='modal' data-target='#modalConfiguraFecha' data-id='"+full.id+"' data-n_colegiado='"+full.n_colegiado+"' data-nombre1='"+full.Nombre1+"' data-estado_solicitud_ap='"+full.estado_solicitud_ap+"' data-nombre_banco='"+full.nombre_banco+"' data-tipo_cuenta='"+full.tipo_cuenta+"' data-no_cuenta='"+full.no_cuenta+"' data-fecha_pago_ap='"+full.fecha_pago_ap+"'>" + 
+                "<i class='fa fa-flag' title='Configurar fecha de pago'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + 
+                "</div>"
+                ;
+            }
+
+            else if(data == 'Rechazado por Junta'){  //Estado 6 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
+            }
+
+            else if(data == 'Documentación Rechazada'){  //Estado 3 de la solicitud
+
+                return "<div class='text-center'>" + 
+                "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
+                "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
+                "</a>" + "</div>";
+            }
+
             else if(data == 'Finalizada'){  //Estado 10 de la solicitud
 
                 return "<div class='text-center'>" + 
@@ -230,7 +265,6 @@ $('#modalConfiguraFecha').on('shown.bs.modal', function(event){
 
 });
 
-
 var validator = $("#FormFechaAp").validate({
     ignore: [],
     onkeyup:false,
@@ -251,10 +285,13 @@ var validator = $("#FormFechaAp").validate({
 $('#modalIngresoActa').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
     var id = button.data('id');
-    
+    var Nombre1 = button.data('nombre1');
+    var no_solicitud = button.data('no_solicitud');
 
     var modal = $(this);
     modal.find(".modal-body input[name='idSolicitud']").val(id);
+    modal.find(".modal-body input[name='Nombre1']").val(Nombre1);
+    modal.find(".modal-body input[name='no_solicitud']").val(no_solicitud);
 
 });
 
@@ -283,11 +320,13 @@ var validator = $("#ActaForm").validate({
 
 $(document).on('click', 'a.cambiar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-        
-        var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
+        var button = $(e.currentTarget);
+        var Nombre1 = button[0].dataset.nombre1;
+        var no_solicitud = button[0].dataset.no_solicitud;
+        var $this = $(this);
 
-        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado firmó su resolución?',
+        alertify.confirm('Cambiar Estado', 'Desea confirmar que el colegiado <strong>' + Nombre1 + '</strong> con número de solicitud: <strong>' + no_solicitud + '</strong> firmó su resolución? ' ,
             function(){
                 $('.loader').fadeIn();
                 $.post({
@@ -296,8 +335,8 @@ $(document).on('click', 'a.cambiar-estado', function(e) {
                 }).done(function (data) {
                     $('.loader').fadeOut(225);
                     resolucion_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Estado cambiado con exito');
+                        alertify.set('notifier','position', 'top-center');
+                        alertify.success('Estado cambiado con exito');
                 });
             }
             , function(){
@@ -308,22 +347,24 @@ $(document).on('click', 'a.cambiar-estado', function(e) {
 
 $(document).on('click', 'a.finalizar-estado', function(e) {
         e.preventDefault(); // does not go through with the link.
-        
-        var $this = $(this);
         alertify.defaults.theme.ok = "btn btn-confirm";
+        var button = $(e.currentTarget);
+        var Nombre1 = button[0].dataset.nombre1;
+        var no_solicitud = button[0].dataset.no_solicitud;
+        var $this = $(this);
 
-        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el proceso de anticipo de auxilio póstumo?',
-            function(){
-                $('.loader').fadeIn();
-                $.post({
-                    type: $this.data('method'),
-                    url: $this.attr('href')
-                }).done(function (data) {
-                    $('.loader').fadeOut(225);
-                    resolucion_table.ajax.reload();
+        alertify.confirm('Finalizar Estado', 'Está seguro de finalizar el proceso de anticipo de auxilio póstumo del colegiado <strong>' + Nombre1 + '</strong> con número de solicitud: <strong>' + no_solicitud + '</strong>?',
+        function(){
+            $('.loader').fadeIn();
+            $.post({
+                type: $this.data('method'),
+                url: $this.attr('href')
+            }).done(function (data) {
+                $('.loader').fadeOut(225);
+                resolucion_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Estado finalizado con exito');
-                });
+            });
             }
             , function(){
                 alertify.set('notifier','position', 'top-center');
@@ -340,8 +381,6 @@ $("#ButtonActaModal").click(function(event) {
     }
 });
 
-
-
 function updateModal(button) {
         var formData = $("#ActaForm").serialize();
         var id = $("input[name='idSolicitud']").val();
@@ -351,6 +390,9 @@ function updateModal(button) {
             url: "/auxiliopostumo/"+id+"/acta",
             data: formData,
             dataType: "json",
+            beforeSend:function () {
+                $('.loader').show();
+              },
             success: function(data) {
                 BorrarFormularioUpdate();
                 $('#modalIngresoActa').modal("hide");
@@ -358,6 +400,8 @@ function updateModal(button) {
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Datos de Acta agregados con Éxito!!');
             },
+        }).always(function () {
+            $('.loader').hide();
         });
 }
 
@@ -379,6 +423,7 @@ function updateModalFecha(button) {
         url: "/resolucion/"+id+"/fecha",
         data: formData,
         dataType: "json",
+        
         success: function(data) {
             $('#modalConfiguraFecha').modal("hide");
             resolucion_table.ajax.reload();
@@ -425,15 +470,18 @@ function updateModalFecha(button) {
             alertify.set('notifier','position', 'top-center');
             alertify.success('Resgistrado Correctamente');
         });
-
-
     });
 
     $('#modalAprobacionJunta').on('shown.bs.modal', function(event){
         var button = $(event.relatedTarget);
         var id = button.data('id');
+        var Nombre1 = button[0].dataset.nombre1;
+        var no_solicitud = button[0].dataset.no_solicitud;
         var modal = $(this);
         modal.find(".modal-body input[name='id_solicitud']").val(id);
+        modal.find(".modal-body input[name='Nombre1']").val(Nombre1);
+        modal.find(".modal-body input[name='no_solicitud']").val(no_solicitud);
+    
      });
 
         $('#enviarRechazo').click(function (e) { 
@@ -452,7 +500,6 @@ function updateModalFecha(button) {
                     $('#modalAprobacionJunta').modal("hide");
                   },
                 success: function (data) {
-
                     limpiarCampos();
                 },
                 error: function (jqXHR, estado, error){
@@ -477,8 +524,12 @@ function updateModalFecha(button) {
             url: "/resolucion/"+id+"/fecha",
             data: formData,
             dataType: "json",
+            beforeSend:function () {
+                $('.loader').show();
+              },
             success: function(data) {
                 $('#modalConfiguraFecha').modal("hide");
+                $('.loader').hide();
                 resolucion_table.ajax.reload();
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Fecha agregada con Éxito!');

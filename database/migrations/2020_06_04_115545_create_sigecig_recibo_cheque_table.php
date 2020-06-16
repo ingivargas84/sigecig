@@ -18,7 +18,7 @@ class CreateSigecigReciboChequeTable extends Migration
             $table->integer('numero_recibo');
             $table->integer('numero_cheque');
             $table->double('monto',10,2);
-            $table->string('nombre_banco');
+            $table->string('nombre_banco')->nullable();
             $table->integer('usuario_id');
             $table->timestamp('fecha_de_cheque');
             $table->timestamps();
