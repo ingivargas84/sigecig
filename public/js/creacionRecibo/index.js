@@ -57,6 +57,39 @@ function obtenerDatosColegiado()
             }else{
                 $('#estado').css({'color':'green'});
             }
+
+            var estado = $("#estado").val();
+            if (estado == 'Inactivo'){
+                var idusuario = $("#c_cliente").val();
+                var fechaHastaR = $("#f_ult_pago").val();
+                var fechaHasta = fechaHastaR.substring(3,10) ;//+ "-" + fechaHastaR.substring(0,2);
+                var invitacion = {
+                    'colegiado': idusuario,
+                    'fechaHasta': fechaHasta
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType:'JSON',
+                    url: "/Facturacion/getMontoInteresColegio",
+                    data: invitacion,
+                    success: function(data){
+                            if(data.retorno==0){
+                    $("#complemento").val(data.montoInteresAtrasado);
+                    // $("#preciou").val(data.montoInteresAtrasado);
+                    // $("#leyendad").val("INTERESES");
+                    // $("#cantidad").val("1");
+                    // $("#preciou").change();
+                            }
+                            //alert(data.n_cliente);
+                    },
+                    error: function(response) {
+                            $("#cleanButton").click();
+                            $("#status").css({'color':'red'});
+                            $("#mensajes").html("Error en el sistema.");
+                    }
+                });
+            }
+
         }else {
             alertify.warning('Numero de colegiado no exite');
             $("#ReciboForm")[0].reset();
@@ -141,6 +174,43 @@ $(document).ready(function () {
 });
 
 // inicia datos colegiado
+
+// $(document).ready(function(){
+//     $("#estado").change(function() {
+    $(document).on('change', '#estado', function(event){
+        var estado = $("#estado").val();
+        if (estado == 'Inactivo'){
+            var idusuario = $("#c_cliente").val();
+            var fechaHastaR = $("#f_ult_pago").val();
+            var fechaHasta = fechaHastaR.substring(3,7) + "-" + fechaHastaR.substring(0,2);
+            var invitacion = {
+                'colegiado': idusuario,
+            'fechaHasta': fechaHasta
+            };
+            $.ajax({
+                type: "POST",
+                dataType:'JSON',
+                url: "/Facturacion/getMontoInteresColegio",
+                data: invitacion,
+                success: function(data){
+                        if(data.retorno==0){
+                $("#complemento").val(data.montoInteresAtrasado);
+                // $("#preciou").val(data.montoInteresAtrasado);
+                // $("#leyendad").val("INTERESES");
+                // $("#cantidad").val("1");
+                // $("#preciou").change();
+                        }
+                        //alert(data.n_cliente);
+                },
+                error: function(response) {
+                        $("#cleanButton").click();
+                        $("#status").css({'color':'red'});
+                        $("#mensajes").html("Error en el sistema.");
+                }
+            });
+        }
+    });
+// });
 
 $(document).ready(function(){
     $("input[name$='serieRecibo']").change(function() {

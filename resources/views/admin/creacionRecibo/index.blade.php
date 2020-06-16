@@ -226,19 +226,19 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivo" name="montoefectivo" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoefectivo" name="montoefectivo" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoEfectivo" id="pagoEfectivo" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoCheque" name="montoCheque" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoCheque" id="pagoCheque" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" min="0" readOnly placeholder="digite la cantidad">
+                                            <input type="number" id="montoTarjeta" name="montoTarjeta" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoTarjeta" id="pagoTarjeta" value="" style="display: none;">
                                         </div>
                                     </div>
@@ -414,19 +414,19 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivoE" name="montoefectivoE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoefectivoE" name="montoefectivoE" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoEfectivoE" id="pagoEfectivoE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoChequeE" name="montoChequeE" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoChequeE" id="pagoChequeE" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoTarjetaE" name="montoTarjetaE" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoTarjetaE" id="pagoTarjetaE" value="" style="display: none;">
                                         </div>
                                     </div>
@@ -600,19 +600,19 @@
                                 <div class="">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <input type="number" id="montoefectivoP" name="montoefectivoP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoefectivoP" name="montoefectivoP" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoEfectivoP" id="pagoEfectivoP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoChequeP" name="montoChequeP" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoChequeP" id="pagoChequeP" value="" style="display: none;">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" min="0" readOnly placeholder="ingrese la cantidad">
+                                            <input type="number" id="montoTarjetaP" name="montoTarjetaP" class="form-control" min="0" readOnly placeholder="Monto">
                                             <input name="pagoTarjetaP" id="pagoTarjetaP" value="" style="display: none;">
                                         </div>
                                     </div>

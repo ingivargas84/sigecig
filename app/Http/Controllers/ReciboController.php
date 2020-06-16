@@ -408,4 +408,64 @@ class ReciboController extends Controller
 
             return $consulta;
     }
+
+    private function calculoInteresColegio($cuotasAtrasadas, $porcentajeInteres, $montoBase)
+  {
+    $suma = 0;
+    for ($i = 1; $i < $cuotasAtrasadas + 1; $i++) {
+      $suma += pow(1 + $porcentajeInteres / 1000, $i);
+    }
+    $suma = $montoBase * ($suma - $cuotasAtrasadas);
+    return $suma;
+  }
+
+  public function getInteresColegio()
+  {
+    // $rules = array(
+    //   'colegiado' => 'required|integer',
+    //   'fechaHasta' => 'required|date'
+    // );
+
+    // $validator = Validator::make(Input::all(), $rules);
+
+    // if ($validator->fails()) {
+    //   return json_encode(array('retorno' => 2, 'mensaje' => 'Datos inválidos'));
+    // }
+
+    $fechaHastaT = strtotime(Input::get('fechaHasta'));
+    $fechaFinMes = strtotime(Input::get('fechaHasta'));
+    $fechaTope = strtotime(Input::get('fechaHasta'));
+    $fechaFinMes = strtotime(Input::get('fechaHasta'));
+
+    // $fechaHastaT = Input::get('fechaHasta');
+    // $fechaFinMes = strtotime(date('Y-m-t'));
+    // $fechaFinMes = date('Y-m-t');
+    // dd($fechaHastaT);
+    // $fechaTope = $fechaHastaT;
+    // if ($fechaHastaT > $fechaFinMes) {
+    //   $fechaTope = $fechaFinMes;
+    // }
+
+    $consulta = "SELECT f_ult_pago fechaultimopagocolegio FROM cc00 WHERE c_cliente=:colegiado";
+    $parametros = array(':colegiado' => Input::get('colegiado'));
+    $resultado = DB::select($consulta, $parametros);
+    $fechaultimopagocolegio = null;
+    foreach ($resultado as $fila) {
+      $fechaultimopagocolegio = $fila->fechaultimopagocolegio;
+    }
+    $fechaDesdeT = strtotime($fechaultimopagocolegio);
+    $cuotas = date('Y', $fechaTope) * 12 + date('m', $fechaTope) - (date('Y', $fechaDesdeT) * 12 + date('m', $fechaDesdeT)) - 3;
+    $porcentajeInteres = 8.5;
+    $montoBase = 40.75;
+    $montoInteresAtrasado = 0;
+    if ($cuotas > 0) {
+      $montoInteresAtrasado = $this->calculoInteresColegio($cuotas, $porcentajeInteres, $montoBase);
+    }
+
+    return json_encode(array('retorno' => 0, 'mensaje' => 'Calculado', 'montoInteresAtrasado' => round($montoInteresAtrasado, 2), 'cuotas' => $cuotas));
+  }
 }
+
+
+
+

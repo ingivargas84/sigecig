@@ -20,10 +20,9 @@
                     <label for="Nombre1">Nombres</label>
                         <input type="text" size="50" maxlength="50" class="form-control" name="Nombre1" readonly>
                     </div>
-                    <div>
+                    <div class="form-group col-sm-6" >
                         <label>Fecha de pago de transferencia:</label>
-                        <input type="date" class="form-control col-sm-4" name="fecha_pago_ap">                        
-                        {!! $errors->first('fecha_pago_ap', '<span class="help-block">:message</span>') !!}
+                        <input type="date" class="form-control" name="fecha_pago_ap">                        
                     </div>
                     <div class="form-group col-sm-8" >
                         <label for="nombre_banco">Banco</label>
