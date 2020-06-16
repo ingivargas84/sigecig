@@ -27,7 +27,7 @@ class AuxilioPostumoController extends Controller
 
         $query="SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
-        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 6 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 6 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
+        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
         $result = DB::connection('sqlsrv')->select($query);
 
             $banco=PlataformaBanco::all();
