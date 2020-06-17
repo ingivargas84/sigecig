@@ -134,7 +134,7 @@ Route::group([
         Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
         Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
-        
+
         //Módulo Reporte Finalizadas
         Route::get('reporte/',  'ResolucionPagoController@reporte_ap' )->name('reporteap.reporte_ap');
 
@@ -197,6 +197,9 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
 
+        // Modulo de Calculo de Reactivacion
+        Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
+	    Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
     });
 
 
