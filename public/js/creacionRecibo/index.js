@@ -213,12 +213,68 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigo").val() != ""){
-                        $("input[name='precioU']").val(response.precio_colegiado);
-                        $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                        $("input[name='subtotal']").val(response.precio_colegiado);
-                        $("input[name='categoria_id']").val(response.categoria_id);
+                        if ($("#codigo").val() == 5){
+                            if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
+                                $("input[name='precioU']").val(response.precio_colegiado);
+                                $("input[name='descTipoPago']").val(response.tipo_de_pago);
+                                $("input[name='subtotal']").val(response.precio_colegiado);
+                                $("input[name='categoria_id']").val(response.categoria_id);
 
-                        $("#cantidad").val(1);
+                                $("#cantidad").val(1);
+                            }else if($('#estado').val() == 'Inactivo'){
+                                alertify.success("calculo de Interes");
+
+                                var invitacion = {
+                                    'colegiado': $("#c_cliente").val(),
+                                    'fecha_timbre': $("#f_ult_timbre").val(),
+                                    'fecha_colegio': $("#f_ult_pago").val(),
+                                    'fecha_hasta_donde_paga': $("#fecha_pago").val(),
+                                    'monto_timbre': $("#monto_timbre").val(),
+                                    //'exonerar_intereses_timbre': exonerarInteresesTimbre
+                                };
+                                $.ajax({
+                                    type: "POST",
+                                    dataType:'JSON',
+                                    url: "getMontoReactivacion",
+                                    data: invitacion,
+                                    success: function(data){
+                                        if(data.error==1){
+                                            $("#mensajes").html("Ningún dato encontrado.");
+                                            $("#mensajes").css({'color':'red'});
+                                        } else {
+                                            $("#codigo").val(7);
+                                            $("#cantidad").val(1);
+                                            $("#precioU").val(data.interesColegio);
+                                            $("#descTipoPago").val('pago de Interés de Colegiatura');
+                                            $("#subtotal").val(data.interesColegio);
+                                            addnewrow();
+
+                                            $("#codigo").val(6);
+                                            $("#cantidad").val(1);
+                                            $("#precioU").val(data.cuotasColegio);
+                                            $("#descTipoPago").val('pago de Capital de Colegiatura');
+                                            $("#subtotal").val(data.cuotasColegio);
+                                            addnewrow();
+
+                                            limpiarFilaDetalle();
+                                        }
+                                    },
+                                    error: function(response) {
+                                            $("#cleanButton").click();
+                                            $("#status").css({'color':'red'});
+                                            $("#mensajes").html("Error en el sistema.");
+                                    }
+                                });
+                            }
+                        }else {
+
+                            $("input[name='precioU']").val(response.precio_colegiado);
+                            $("input[name='descTipoPago']").val(response.tipo_de_pago);
+                            $("input[name='subtotal']").val(response.precio_colegiado);
+                            $("input[name='categoria_id']").val(response.categoria_id);
+
+                            $("#cantidad").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -265,18 +321,21 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
+                                            $("#codigo").val(4);
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.interesTimbre);
                                             $("#descTipoPago").val('pago de Interés de Timbre');
                                             $("#subtotal").val(data.interesTimbre);
                                             addnewrow();
 
+                                            $("#codigo").val(3);
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.moraTimbre);
                                             $("#descTipoPago").val('pago de Mora de Timbre');
                                             $("#subtotal").val(data.moraTimbre);
                                             addnewrow();
 
+                                            $("#codigo").val(2);
                                             $("#cantidad").val(data.cuotasTimbre);
                                             $("#precioU").val($('#monto_timbre').val());
                                             $("#descTipoPago").val('pago de Capital de Timbre');

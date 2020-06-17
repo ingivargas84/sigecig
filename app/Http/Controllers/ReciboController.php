@@ -44,7 +44,7 @@ class ReciboController extends Controller
 
     public function SerieDePagoA($id)
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->get();
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->orWhere('categoria_id', '=', 6)->get();
         return json_encode($tipo);
     }
 
@@ -397,7 +397,7 @@ class ReciboController extends Controller
     public function getTipoDePagoA($tipo)
     {
         $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
-            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '=', 3)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
             return $consulta;
     }
@@ -537,41 +537,34 @@ class ReciboController extends Controller
 
         }
 
-        // $query = "select importe from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo='INT'";
+        $query = "select importe from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo='INT'";
 
-        // $users = DB::select($query);
-        // $colegiadoR = null;
-        // foreach ($users as $colegiado1) {
-        //     $colegiadoR = $colegiado1;
-        // }
-        // $inte = 0;
-        // if($colegiadoR){
-        //     $inte = $colegiadoR->importe;
-	    // }
-
-
-        // $query = "select * from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo!='INT'";
-
-        // $users = DB::select($query);
-        // $colegiadoR1 = null;
-        // $detalleMontos = [];
-        // $capitalT = 0;
-        // foreach ($users as $colegiado2) {
-        //     $colegiadoR = $colegiado2;
-        // $detalleMontos[] = ['codigo' => $colegiado2->codigo, 'cuotas' => $colegiado2->cantidad, 'preciou' => $colegiado2->precio];
-        // $capitalT += $colegiado2->cantidad*$colegiado2->precio;
-        // }
-
-        $capitalT = $cuotasD * 115.75;
-
-        // $totalMontoColegio += ($mesesTemp - ($mesesDesdeTemp > 0 ? $mesesDesdeTemp : 0)) * 115.75;
-        // $total = $totalMontoColegio + $montoInteresAtrasado;
-        // $total = $capitalT + $inte;
+        $users = DB::connection('sqlsrv')->select($query);
+        $colegiadoR = null;
+        foreach ($users as $colegiado1) {
+            $colegiadoR = $colegiado1;
+        }
+        $inte = 0;
+        if($colegiadoR){
+            $inte = $colegiadoR->importe;
+	    }
 
 
-        $inte=0;
-        // $capitalT=0;
-        $total=$capitalT+$inte;
+        $query = "select * from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo!='INT'";
+
+        $users = DB::connection('sqlsrv')->select($query);
+        $colegiadoR1 = null;
+        $detalleMontos = [];
+        $capitalT = 0;
+        foreach ($users as $colegiado2) {
+            $colegiadoR = $colegiado2;
+        $detalleMontos[] = ['codigo' => $colegiado2->codigo, 'cuotas' => $colegiado2->cantidad, 'preciou' => $colegiado2->precio];
+        $capitalT += $colegiado2->cantidad*$colegiado2->precio;
+        }
+
+        $totalMontoColegio += ($mesesTemp - ($mesesDesdeTemp > 0 ? $mesesDesdeTemp : 0)) * 115.75;
+        $total = $totalMontoColegio + $montoInteresAtrasado;
+        $total = $capitalT + $inte;
 
         return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $capitalT, 'totalColegio' => round($total,2), 'detalleMontos' => $detalleMontos);
     //        return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $totalMontoColegio, 'totalColegio' => round($total,2), 'detalleMontos' => $detalleMontos);
