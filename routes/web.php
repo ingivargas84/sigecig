@@ -128,9 +128,9 @@ Route::group([
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
         //crear solicitud de auxilio postumo
-        Route::get('auxiliopostumo/crea_solicitud','AuxilioPostumoController@nuevaSolicitud');
-        Route::get('auxilioPostumo/{no_colegiado}/getDatosColegiado','AuxilioPostumoController@getDatosColegiado');
-        Route::post('auxilioPostumo/save','AuxilioPostumoController@GuardarSolicitudAp');
+        Route::get('/auxiliopostumo/crea_solicitud','AuxilioPostumoController@nuevaSolicitud');
+        Route::get('/auxilioPostumo/{no_colegiado}/getDatosColegiado','AuxilioPostumoController@getDatosColegiado');
+        Route::post('/auxilioPostumo/save','AuxilioPostumoController@GuardarSolicitudAp');
         Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
         Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
@@ -145,7 +145,7 @@ Route::group([
         //Módulo Auxilio Postumo-->Aprobacion de Documentos
         Route::post('/resolucion/aprdocumentosap','ResolucionPagoController@aprDocumentosAp')->name('doc.aprobacion');
         //envio de correo de aprobacion prueba
-        Route::get('resolucion/correo','ResolucionPagoController@correo');
+        Route::get('/resolucion/correo','ResolucionPagoController@correo');
         Route::post('/resolucion/rczdocumentosap','ResolucionPagoController@rczDocumentosAp')->name('doc.rechazado');
 
         //Módulo Auxilio Postumo-->Aprobacion o Rechazo por Junta

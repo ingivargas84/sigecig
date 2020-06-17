@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="form-group col-md-12" >
                                 <label><b>Motivo del rechazo:</b></label>
-                                <p>{{$id->solicitud_rechazo_junta}}
+                                <p>{{$id->solicitud_rechazo_ap}}
                             </div>
 
                         </div>
@@ -64,6 +64,20 @@
                 <p> Fecha de Configuración: <b> {{$cambio->fecha}}</b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                </div>   
                 @endif 
+
+                @if($cambio ["estado_solicitud"] == 6)
+                <div class="texto1">
+                    <h4> 7. Rechazado por Junta </h4>
+                    <p> Fecha de Configuración <b> {{$cambio->fecha}}</b> Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                </div>     
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label><b>Motivo del rechazo:</b></label>
+                                <p>{{$id->solicitud_rechazo_junta}}
+                            </div>
+
+                        </div>
+                @endif
 
             @if($cambio ["estado_solicitud"] == 8)
             <div class="texto1">
