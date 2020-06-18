@@ -41,6 +41,18 @@ class ReciboController extends Controller
         return view('admin.creacionRecibo.index', compact('pos'));
     }
 
+    public function pdfRecibo()
+    {
+        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
+        // return view('admin.creacionRecibo.index', compact('tipo'));
+        $pos = PosCobro::all();
+       // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
+
+         return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('pos'))
+        ->setPaper('legal', 'landscape')
+        ->stream('Recibo.pdf'); 
+    }
+
     public function SerieDePagoA($id)
     {
         $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->get();
