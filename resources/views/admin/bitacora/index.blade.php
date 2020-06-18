@@ -61,7 +61,13 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
+                                @if ($id->id_creacion==1)
+                                <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
+                                @endif
+                                @if ($id->id_creacion==0)
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
+                                @endif
+                                
                              
                             </div>
                         </div>
@@ -76,7 +82,12 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
+                                @if ($id->id_creacion==1)
+                                <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
+                                @endif
+                                @if ($id->id_creacion==0)
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
+                                @endif
                             </div>
                         </div>
                         @endif

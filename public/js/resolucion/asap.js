@@ -31,6 +31,7 @@ $('#enviar').click(function (e) {
 
     $.ajax({
         type: "POST",
+        headers: { 'X-CSRF-TOKEN': $("input[name=_token]").val()},
         url: "/resolucion/rczdocumentosap",
         data: {texto:texto, solicitud:solicitud},
         beforeSend:function () {
@@ -38,6 +39,8 @@ $('#enviar').click(function (e) {
             $('#ventana1').modal("hide");
           },
         success: function (data) {
+            alertify.set('notifier','position', 'top-center');
+            alertify.success('Resgistrado Correctamente');
             window.location.href = "/resolucion";
         },
         error: function (jqXHR, estado, error){
@@ -46,8 +49,7 @@ $('#enviar').click(function (e) {
         }
     }).always(function () {
         $('.loader').hide();
-        alertify.set('notifier','position', 'top-center');
-        alertify.success('Resgistrado Correctamente');
+
     });
     
 });
@@ -69,8 +71,9 @@ $('#ButtonAutorizar').click(function (e) {
         },
         
         success: function (data) {
-           mostrarMensajeAutorizacion(data.mensaje);
            limpiarCampos();
+           alertify.set('notifier','position', 'top-center');
+           alertify.success('Resgistrado Correctamente');
            window.location.href = "/resolucion";
         },
         error: function (jqXHR, estado, error){
@@ -78,10 +81,7 @@ $('#ButtonAutorizar').click(function (e) {
             console.log(error)
         }
     }).always(function (data) {
-        $('.loader').hide();
-        alertify.set('notifier','position', 'top-center');
-        alertify.success('Resgistrado Correctamente');
-        
+        $('.loader').hide();       
     });
     
 });

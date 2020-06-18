@@ -85,6 +85,7 @@ class AuxilioPostumoController extends Controller
             $cuenta->id_banco = $request->banco;
             $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
             $cuenta->no_cuenta = $request->no_cuenta;
+            $cuenta->id_creacion=1;
            
             
             if ($solicitud==0) {
@@ -98,7 +99,7 @@ class AuxilioPostumoController extends Controller
             $colegiado->telefono=$request->telefono;
             $colegiado->update();
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->no_solicitud, Now(), $cuenta->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
 
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         }
@@ -158,7 +159,8 @@ class AuxilioPostumoController extends Controller
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->no_solicitud, Now(), $solicitudAP->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
+        return response()->json(['success'=>'You have successfully upload file.']);
         }
 
     

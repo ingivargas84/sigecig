@@ -111,11 +111,19 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-11" id="divComplemento" style="display: block;">
+                                <div class="col-sm-8 col-lg-8" id="divComplemento" style="display: block;">
                                     <div class="form-group">
                                         <label for="complemento" class="control-label">Complemento</label>
                                         <div>
                                             <input id="complemento" type="text" class="form-control" name="complemento">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-lg-3" id="divFechaReactivacion" style="display: block;">
+                                    <div class="form-group">
+                                        <label for="fecha_pago" class="control-label">Fecha Reactivacion</label>
+                                        <div>
+                                            <input id="fecha_pago" disabled type="date" class="form-control" name="fecha_pago">
                                         </div>
                                     </div>
                                 </div>
@@ -678,6 +686,7 @@
             $("#" + test).show();
             $('input[type="text"]').val('');
             $('input[type="number"]').val('');
+            $('input[type="date"]').val('');
             $('select[name="codigo"]').val('');
             $('select[name="codigoE"]').val('');
             $('select[name="codigoP"]').val('');
