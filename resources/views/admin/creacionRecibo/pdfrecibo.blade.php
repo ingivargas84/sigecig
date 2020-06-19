@@ -21,7 +21,7 @@
 
         .contenedor1{
             font-family: "sans-serif";
-            background: repeating-linear-gradient(-45deg, 
+            background: repeating-linear-gradient(-45deg,
             #03306d 0,
             #03306d 55%,
             #858585 0,
@@ -50,7 +50,7 @@
             font-size:35px;
             font-weight: bold;
             color:black;
-            height: 50px; 
+            height: 50px;
             margin-right: 3rem;
             display: inline-block;
             vertical-align: top;
@@ -63,7 +63,7 @@
             margin-top: 1rem;
             font-weight: bold;
             color:black;
-            height: 50px; 
+            height: 50px;
             margin-right: 4rem;
 
         }
@@ -95,7 +95,7 @@
             float:right;
         }
 
-        .img1{  
+        .img1{
             display: flex;
             height: 60px;
             width: 50px;
@@ -110,7 +110,7 @@
             margin-left:  auto;
             margin-right: auto;
             margin-bottom: auto;
-            margin-top: auto;   
+            margin-top: auto;
         }
 
         .href{
@@ -118,7 +118,7 @@
         }
         a:link, a:visited, a:active,a:hover  {
             text-decoration:none;
-            cursor:pointer;  
+            cursor:pointer;
             color: white;
         }
 
@@ -130,7 +130,7 @@
         .mr{
             margin-top: 3%;
         }
-        
+
         table, td, th {
             border-collapse: collapse;
             border: 1px solid black;
@@ -144,6 +144,10 @@
         .odd th, .odd td {
    background: #eee;
 }
+        #qr{
+            position:center; /* absolute pin! */
+            left:820px;
+        }
 
     </style>
 
@@ -161,7 +165,7 @@
                         NIT: 299329-5</small></p>
 
         </div>
-        <div class="texto1"><h1> RECIBO </h1>     </div>
+        <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{{base64_encode(QrCode::format('png')->size(100)->generate('https://facebook.com')) }}"></h1></div>
 
     </div>
 </div>
@@ -171,7 +175,7 @@
 
     <div class="row colegiado ">
         <div class="">
-          <label for="" class="interesado">RECIBIMOS DE:  </label>   
+          <label for="" class="interesado">RECIBIMOS DE:  </label>
         </div>
         <div class="">
           <label for="" class="" >FECHA:  </label>
@@ -181,21 +185,21 @@
 
     <div class="row colegiado3">
         <div class="">
-          <label for="" class=" ">No. 00001  </label>  
+          <label for="" class=" ">No. 00001  </label>
         </div>
     </div>
 
     <div class="row colegiado2">
         <div class="">
-          <label for="" class=" ">COLEGIADO NO:  </label>  
+          <label for="" class=" ">COLEGIADO NO:  </label>
         </div>
         <div class="">
-          <label for="" >NIT:</label> 
+          <label for="" >NIT:</label>
         </div>
     </div>
 
       <br>
-      
+
         <table>
             <thead>
                 <tr>
@@ -205,7 +209,7 @@
                     <th>TOTAL</th>
                 </tr>
             </thead>
-          
+
             <tr class="odd">
                 <td>----</td>
                 <td>----</td>
@@ -222,7 +226,7 @@
                     <th>----</th>
                 </tr>
             </thead>
-          
+
             <tr class="odd">
                 <th colspan="4">CONCEPTO</th>
             </tr>
