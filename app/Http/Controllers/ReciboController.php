@@ -48,15 +48,18 @@ class ReciboController extends Controller
         //$recibo = Recibo_Maestro::where('numero_recibo', '=', 0)->get();
         // return view('admin.creacionRecibo.index', compact('tipo'));
        // $name = Recibo_Detalle::all();
-
        // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
+
         $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
         $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
+        $tipo = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
 
-       // $tipopago = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
+        /* $formatter = new NumeroALetras;
+        echo $formatter->toWords($number, $decimals);
+     */
        // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
 
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }

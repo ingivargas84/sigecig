@@ -62,8 +62,7 @@ class ResolucionPagoController extends Controller
                 ->get();  
 
         $pdf = \PDF::loadView('admin.firmaresolucion.reporteap', compact("cuenta1", "ap", 'base64', 'mytime', 'id'));
-        return $pdf->setPaper('legal', 'landscape')
-        ->stream('ReportePDF.pdf');
+        return $pdf->setPaper('legal', 'landscape')->stream('ReportePDF.pdf');
     }
 
     public function fechaconfig(PlataformaSolicitudAp $tipo, Request $request)

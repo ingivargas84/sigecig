@@ -14,9 +14,11 @@
         }
 
         .body{
-            background: white;
+            background: rgb(125, 178, 228);
             width: 90%;
             margin-left: 4rem;
+            height: 190px;
+
         }
 
         .contenedor1{
@@ -213,7 +215,7 @@
             @foreach($rdetalle1 as $co)
             <tr class="odd">
                 <td>{{$co->codigo_compra}}</td>
-                <td>---</td>
+                <td>{{$tipo->tipo_de_pago}}</td>
                 <td>{{$co->cantidad}}</td>
                 <td>Q.{{$co->total}}</td>
             </tr>
@@ -230,8 +232,16 @@
                 </tr>
             </thead>
 
-            <tr class="odd">
-                <th colspan="4">CONCEPTO:  </th>
+                 <tr class="odd">
+                    <th colspan="2">CONCEPTO: </th>
+                    <th colspan="2">    
+                        @if ($id->monto_efecectivo==true) Efectivo                       
+                        @endif
+                        @if ($id->monto_cheque==true) Cheque                                
+                        @endif
+                        @if ($id->monto_tarjeta==true) Tarjeta                                
+                        @endif
+                </th>
             </tr>
         </table>
 
