@@ -45,7 +45,7 @@ class ReciboController extends Controller
 
     public function pdfRecibo(Recibo_Maestro $id)
     {
-        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
+        //$recibo = Recibo_Maestro::where('numero_recibo', '=', 0)->get();
         // return view('admin.creacionRecibo.index', compact('tipo'));
        // $name = Recibo_Detalle::all();
 
@@ -58,7 +58,7 @@ class ReciboController extends Controller
 
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1'))
         ->setPaper('legal', 'landscape')
-        ->stream('Recibo.pdf'); 
+        ->stream('Recibo.pdf');
     }
 
     public function SerieDePagoA($id)
