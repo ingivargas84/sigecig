@@ -18,6 +18,8 @@ use App\AdmUsuario;
 use App\BitacoraAp;
 use Carbon\Carbon;
 use App\SQLSRV_Colegiado;
+use App\Recibo_Detalle;
+use App\TipoDePago;
 use App\SQLSRV_Profesion;
 use App\Events\ActualizacionBitacoraAp;
 use Illuminate\Support\Facades\Storage;
@@ -227,7 +229,6 @@ class ResolucionPagoController extends Controller
 
         $auxpost = SQLSRV_Colegiado::where("c_cliente",$solicitud->n_colegiado)->get()->first();
         $auxpost->auxpost='1';
-        $auxpost->paga_auxilio='1';
         $auxpost->update();
 
         return Response::json(['success' => 'Éxito']);
@@ -440,7 +441,17 @@ class ResolucionPagoController extends Controller
     }
 
     public function correo(){
-  
+        $id=1;
+        $rdetalle = Recibo_Detalle::where('id','=',$id)->get()->first();
+        $tipopago=TipoDePago::where("codigo",$rdetalle->codigo_compra)->get();
+        dd($tipopago);
+        //$query="update cc00 set auxpost='0' WHERE c_cliente IN (138,140,155,160);";
+        //$result = DB::connection('sqlsrv')->update("update cc00 set auxpost='0' WHERE c_cliente IN (138,140,155,160);");
+
+
+
+        //dd($query);
+        return 'preuba';
         $request = '15';
 
         $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request)->get()->first();
