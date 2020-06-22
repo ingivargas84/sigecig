@@ -165,7 +165,7 @@
                         NIT: 299329-5</small></p>
 
         </div>
-        <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{{base64_encode(QrCode::format('png')->size(100)->generate('https://facebook.com')) }}"></h1></div>
+        <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($qr) !!}"></h1></div>
 
     </div>
 </div>

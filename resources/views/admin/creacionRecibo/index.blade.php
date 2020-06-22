@@ -17,7 +17,7 @@
                     <div class="box-body"  id="app">
                         <br>
                         <div class="">
-                            <div class="col-md-offset-1 col-sm-3 col-md-3 col-lg-5">
+                            <div class="col-sm-3 col-md-3 col-lg-5">
                                 <div class="form-group">
                                     <label for="tipoCliente" class="control-label">TIPO DE CLIENTE</label>
                                     <div>
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-offset-3 col-sm-2 col-lg-2">
+                            <div class="col-md-offset-5 col-sm-2 col-lg-2">
                                 <div class="form-group">
                                     <label for="serieRecibo" class="control-label">Serie de Recibo</label>
                                     <div>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <br>
-                        <div id="c" class="desc col-md-offset-1 col-md-10"> <!-- Inicia vista Colegiado -->
+                        <div id="c" class="desc col-md-12 col-lg-12"> <!-- Inicia vista Colegiado -->
                         <form method="POST" id="ReciboColegiadoForm"  action="{{route('guardarReciboColegiado.save')}}">
                         <input name="tipoDeCliente" id="tipoDeCliente" value="c" style="display: none;">
                         <input name="tipoSerieRecibo" id="tipoSerieRecibo" style="display: none;">
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-7 col-md-7 col-lg-7">
                                     <div class="form-group">
                                         <label for="n_cliente" class="control-label">Nombres</label>
                                         <div>
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divStatus" style="display: block;">
+                                <div class="col-sm-3 col-md-3" id="divStatus" style="display: block;">
                                     <div class="form-group">
                                         <label for="estado" class="control-label">Status</label>
                                         <div>
@@ -101,7 +101,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-2" id="divmontoTimbre" style="display: block;">
+                                <div class="col-sm-3 col-md-3 col-lg-3" id="divmontoTimbre" style="display: block;">
                                     <div class="form-group">
                                         <label for="monto_timbre" class="control-label">Pago timbre</label>
                                         <div>
@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-8 col-lg-8" id="divComplemento" style="display: block;">
+                                <div class="col-sm-9 col-lg-9" id="divComplemento" style="display: block;">
                                     <div class="form-group">
                                         <label for="complemento" class="control-label">Complemento</label>
                                         <div>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="col-sm-3 col-lg-3" id="divFechaReactivacion" style="display: block;">
                                     <div class="form-group">
-                                        <label for="fecha_pago" class="control-label">Fecha Reactivacion</label>
+                                        <label for="fecha_pago" class="control-label">Fecha Reactivación</label>
                                         <div>
                                             <input id="fecha_pago" disabled type="date" class="form-control" name="fecha_pago">
                                         </div>
@@ -131,7 +131,7 @@
                             <div class="row">
                                 <div class="col-sm-2 col-lg-2" id="divCdigo" style="display: block;">
                                     <div class="form-group">
-                                        <label for="codigo" class="control-label">Codigo</label>
+                                        <label for="codigo" class="control-label">Código</label>
                                         <select name="codigo" id="codigo" class="form-control" id="codigo">
                                             <option value="">-- Escoja --</option>
                                         </select>
@@ -293,7 +293,7 @@
                             </div>
                         </div>
                         </form>
-                        <div id="e" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista de Empresa -->
+                        <div id="e" class="desc col-md-12 col-lg-12" style="display: none"> <!-- Inicia vista de Empresa -->
                         <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="e" style="display: none;">
                         <input name="tipoSerieReciboE" id="tipoSerieReciboE" style="display: none;">
                         <div class="loader loader-bar is-active"></div>
@@ -306,7 +306,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-7 col-md-7 col-lg-7">
                                     <div class="form-group">
                                         <label for="empresa" class="control-label">Empresa</label>
                                         <div>
@@ -479,7 +479,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="p" class="desc col-md-offset-1 col-md-10" style="display: none"> <!-- Inicia vista Particular -->
+                        <div id="p" class="desc col-md-12 col-lg-12" style="display: none"> <!-- Inicia vista Particular -->
                         <input name="tipoDeCliente" id="tipoDeCliente" type="radio" value="p" style="display: none;">
                         <input name="tipoSerieReciboP" id="tipoSerieReciboP" style="display: none;">
                         <div class="loader loader-bar is-active"></div>
