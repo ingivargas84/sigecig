@@ -171,26 +171,26 @@
 
     <div class="row colegiado ">
         <div class="">
-          <label for="" class="interesado">RECIBIMOS DE:  </label>   
+          <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>   
         </div>
         <div class="">
-          <label for="" class="" >FECHA:  </label>
+          <label for="" class="" >FECHA: {{$id->created_at}} </label>
         </div>
     </div>
 
 
     <div class="row colegiado3">
         <div class="">
-          <label for="" class=" ">No. 00001  </label>  
+          <label for="" class=" ">No. {{$id->numero_recibo}}  </label>  
         </div>
     </div>
 
     <div class="row colegiado2">
         <div class="">
-          <label for="" class=" ">COLEGIADO NO:  </label>  
+          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>  
         </div>
         <div class="">
-          <label for="" >NIT:</label> 
+          <label for="" >NIT: {{$nit_->nit}}</label> 
         </div>
     </div>
 
@@ -206,12 +206,15 @@
                 </tr>
             </thead>
           
+            @foreach($rdetalle1 as $co)
             <tr class="odd">
-                <td>----</td>
-                <td>----</td>
-                <td>----</td>
-                <td>----</td>
+                <td>{{$co->codigo_compra}}</td>
+                <td>---</td>
+                <td>{{$co->cantidad}}</td>
+                <td>Q.{{$co->total}}</td>
             </tr>
+            @endforeach
+
         </table>
 
         <table>
@@ -219,12 +222,12 @@
                 <tr>
                     <th colspan="2" >TOTAL EN LETRAS</th>
                     <th>TOTAL </th>
-                    <th>----</th>
+                    <th>Q.{{$id->monto_total}}</th>
                 </tr>
             </thead>
           
             <tr class="odd">
-                <th colspan="4">CONCEPTO</th>
+                <th colspan="4">CONCEPTO:  </th>
             </tr>
         </table>
 

@@ -22,6 +22,7 @@ use App\ReciboCheque;
 use App\ReciboTarjeta;
 use App\PosCobro;
 use Validator;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class ReciboController extends Controller
 {
@@ -42,14 +43,20 @@ class ReciboController extends Controller
         return view('admin.creacionRecibo.index', compact('pos'));
     }
 
-    public function pdfRecibo()
+    public function pdfRecibo(Recibo_Maestro $id)
     {
         // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
         // return view('admin.creacionRecibo.index', compact('tipo'));
-        $pos = PosCobro::all();
+       // $name = Recibo_Detalle::all();
+
+       // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
+        $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
+        $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
+
+       // $tipopago = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
        // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
 
-         return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('pos'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf'); 
     }
