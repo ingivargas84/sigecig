@@ -91,7 +91,7 @@ Route::group([
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
         Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
-        Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
+        Route::post('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
 
        // Módulo de Registro de Cajas
@@ -196,7 +196,7 @@ Route::group([
         Route::post('/creacionRecibo/save/particular', 'ReciboController@storeParticular')->name('guardarReciboParticular.save');
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
-        Route::get('/creacionRecibo/pdf/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');

@@ -23,6 +23,7 @@ use App\ReciboTarjeta;
 use App\PosCobro;
 use Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Luecano\NumeroALetras\NumeroALetras;
 
 class ReciboController extends Controller
 {
@@ -43,7 +44,7 @@ class ReciboController extends Controller
         return view('admin.creacionRecibo.index', compact('pos'));
     }
 
-    public function pdfRecibo()
+    public function pdfRecibo(Recibo_Maestro $id)
     {
         //$recibo = Recibo_Maestro::where('numero_recibo')->first();
         $query = "SELECT numero_recibo FROM sigecig_recibo_maestro ORDER BY numero_recibo desc ";
@@ -53,10 +54,19 @@ class ReciboController extends Controller
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$recibo);
 
         // return view('admin.creacionRecibo.index', compact('tipo'));
-        $pos = PosCobro::all();
+       // $name = Recibo_Detalle::all();
+       // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
+
+        $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
+        $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
+        $tipo = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
+
+        /* $formatter = new NumeroALetras;
+        echo $formatter->toWords($number, $decimals);
+     */
        // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
 
-         return \PDF::loadView('admin.creacionRecibo.pdfrecibo', [ "qr" => $codigoQR ],compact('pos','recibo'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }
