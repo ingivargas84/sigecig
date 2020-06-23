@@ -22,7 +22,7 @@ use App\ReciboCheque;
 use App\ReciboTarjeta;
 use App\PosCobro;
 use Validator;
-use Luecano\NumeroALetras\NumeroALetras;
+use NumeroALetras;
 
 class ReciboController extends Controller
 {
@@ -45,21 +45,15 @@ class ReciboController extends Controller
 
     public function pdfRecibo(Recibo_Maestro $id)
     {
-        //$recibo = Recibo_Maestro::where('numero_recibo', '=', 0)->get();
-        // return view('admin.creacionRecibo.index', compact('tipo'));
-       // $name = Recibo_Detalle::all();
-       // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
-
         $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
-        $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
-        $tipo = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
-
-        /* $formatter = new NumeroALetras;
-        echo $formatter->toWords($number, $decimals);
-     */
-       // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
-
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $query= "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd 
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $id->numero_recibo";
+        $datos = DB::select($query);
+    
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }
