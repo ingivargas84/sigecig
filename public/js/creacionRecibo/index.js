@@ -213,7 +213,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigo").val() != ""){
-                        if ($("#codigo").val() == 5){
+                        if ($("#codigo").val() == 5){ //el 5 representa el id de tipo de pago que realiza el calculo de colegiatura
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
                                 $("input[name='precioU']").val(response.precio_colegiado);
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
@@ -292,7 +292,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigo").val() != ""){
-                        if ($("#codigo").val() == 1){
+                        if ($("#codigo").val() == 1){ //el 1 representa el id de tipo de pago que realiza el calculo de interes
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
                                 $("input[name='precioU']").val(response.precio_colegiado);
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
@@ -718,7 +718,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val(response.precio_colegiado);
+                        $("input[name='precioUE']").val(response.precio_particular);
                         $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
                         $("input[name='subtotalE']").val(response.precio_colegiado);
                         $("input[name='categoria_idE']").val(response.categoria_id);
@@ -740,7 +740,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val(response.precio_colegiado);
+                        $("input[name='precioUE']").val(response.precio_particular);
                         $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
                         $("input[name='subtotalE']").val(response.precio_colegiado);
                         $("input[name='categoria_idE']").val(response.categoria_id);
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val(response.precio_colegiado);
+                        $("input[name='precioUP']").val(response.precio_particular);
                         $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
                         $("input[name='subtotalP']").val(response.precio_colegiado);
                         $("input[name='categoria_idP']").val(response.categoria_id);
@@ -1141,7 +1141,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val(response.precio_colegiado);
+                        $("input[name='precioUP']").val(response.precio_particular);
                         $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
                         $("input[name='subtotalP']").val(response.precio_colegiado);
                         $("input[name='categoria_idP']").val(response.categoria_id);

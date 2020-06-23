@@ -146,9 +146,8 @@
                             7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
                             PBX: 2218-2600 / www.cig.org.gt <br>
                             NIT: 299329-5</small></p>
-
             </div>
-            <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{{base64_encode(QrCode::format('png')->size(100)->generate('https://facebook.com')) }}"></h1></div>
+            <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
         </div>
     </div>
 </div>
