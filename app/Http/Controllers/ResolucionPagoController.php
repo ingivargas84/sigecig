@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Barryvdh\DomPDF\ServiceProvider;
 use App\PlataformaSolicitudAp;
 use App\AdmPersona;
+use App\Recibo_Maestro;
 use App\PlataformaBanco;
 use App\PlataformaTipoCuenta;
 use App\AdmUsuario;
@@ -440,37 +441,55 @@ class ResolucionPagoController extends Controller
     }
 
     public function correo(){
-        $id=1;
-        $rdetalle = Recibo_Detalle::where('id','=',$id)->get()->first();
-        $tipopago=TipoDePago::where("codigo",$rdetalle->codigo_compra)->get();
-        dd($tipopago);
-        //$query="update cc00 set auxpost='0' WHERE c_cliente IN (138,140,155,160);";
-        //$result = DB::connection('sqlsrv')->update("update cc00 set auxpost='0' WHERE c_cliente IN (138,140,155,160);");
 
 
+        $colegiado='11282';
+    //     $fecha_actual=date_format(Now(),'d-m-Y');
+        
+    //     $reciboMaestro = Recibo_Maestro::where("numero_recibo", '16')->get()->first();
 
-        //dd($query);
-        return 'preuba';
-        $request = '15';
-
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request)->get()->first();
-
-                //envio de Corroe Aprobacion Solicitud por Junta Directiva
-                $fecha_actual=date_format(Now(),'d-m-Y');
-                $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $request)->orderBy('id','DESC')->first();
        
-                $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-                $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
-                $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
-                //Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+    //     $datos_colegiado = SQLSRV_Colegiado::select('e_mail','n_cliente')->where('c_cliente', $colegiado)->get();
+       
 
-                return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado'));
+    //     $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+    //     $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
+    //     $nit_ = $nit[0];
+    //     $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+    //     $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
+    //     $tipo = $tipo_[0];
+
+    //      //return view ('mails.envioreciboelectronico',compact('fecha_actual','reciboMaestro','datos_colegiado'));
+    //    
+
+    //     $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
+    //     ->setPaper('legal', 'landscape');
+        
+    //     $fecha_actual=date_format(Now(),'d-m-Y');
+    //     $datos_colegiado = SQLSRV_Colegiado::select('e_mail','n_cliente')->where('c_cliente', $colegiado)->get();
+ 
+    //     //return view ('mails.envioreciboelectronico',compact('fecha_actual','reciboMaestro','datos_colegiado'));
+    //     $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro);    
+    //     $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);   
+    //     $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG'); 
+    //     $infoCorreoRecibo->attachData($pdf->output(), ''.$reciboMaestro['numero_recibo'].'Recibo.pdf',['mime' =>'application/pdf']);
+    
+    //     Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
+    //     return ("Enviado");
+    //     //return view ('mails.envioreciboelectronico',compact('fecha_actual','reciboMaestro','datos_colegiado'));
+    //     $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro);    
+    //     $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);       
+    //     Mail::to($datos_colegiado[0]->e_mail)->send($infoCororeoRecibo);
+    //    // return ('Enviado Correctamente');
+       
+  
         
         $fecha_actual=date_format(Now(),'d-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
         
-        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-        return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado'));
+        $colegiado = SQLSRV_Colegiado::select('c_cliente','n_cliente','telefono')->where("c_cliente",$colegiado)->get()->first();
+        $banco=PlataformaBanco::all();
+        return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado','banco'));
         $prueba = "Hola mundo ".$solicitudAP->no_solicitud;
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP); 
         $infoCorreoAp->subject('Rechazo de Documentos Auxilio Póstumo'.$solicitudAP->no_solicitud);

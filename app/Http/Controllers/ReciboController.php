@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use DB;
+use DB,Mail;
 use DB2;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -173,6 +173,24 @@ class ReciboController extends Controller
             $bdTarjeta->usuario_id = Auth::user()->id;
             $bdTarjeta->save();
         }
+
+        // //Envio de correo creacion de recibo colegiado
+        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+        $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
+        $nit_ = $nit[0];
+        $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+        $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
+        $tipo = $tipo_[0];
+        $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
+        ->setPaper('legal', 'landscape');
+        
+        $fecha_actual=date_format(Now(),'d-m-Y');
+        $datos_colegiado = SQLSRV_Colegiado::select('e_mail','n_cliente')->where('c_cliente', $colegiado)->get();
+        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro);    
+        $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);   
+        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');  
+        $infoCorreoRecibo->attachData($pdf->output(), ''.$reciboMaestro['numero_recibo'].'Recibo.pdf', ['mime' => 'application / pdf ']);  
+        Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
         return response()->json(['success' => 'Exito']);
 
