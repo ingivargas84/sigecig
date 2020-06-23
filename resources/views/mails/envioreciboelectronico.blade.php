@@ -18,11 +18,21 @@
     <img style="margin-left: 5%" src="/images/timbres.png" alt="picsum" width="120" />
 </div><br>
 
-<h3 class="justificar">Estimado agremiado: {{$datos_colegiado[0]->n_cliente}}</h3>
-<h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>
-<br><br>
-<h3 class="justificar">Gracias por utilizar nuestros servicios en línea</h3>
+    @if ($tipoDeCliente==1)
+    <h3 class="justificar">Estimado agremiado: {{$datos_colegiado[0]->n_cliente}}</h3>
+    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>
+    @elseif($tipoDeCliente==2)
+    <h3 class="justificar">Estimado cliente: {{$datos_colegiado[0]->n_cliente}}</h3>
+    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>  
+    @elseif($tipoDeCliente==3)
+    <h3 class="justificar">Estimado cliente: {{$datos_colegiado[0]->EMPRESA}}</h3>
+    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3> 
+    @endif
 
+<br><br>
+<footer>
+<h3 class="justificar">Gracias por utilizar nuestros servicios en línea</h3>
+</footer>
 </body>
 
 </html>

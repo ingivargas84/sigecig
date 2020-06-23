@@ -127,15 +127,9 @@
         
         <h3><center style="font-weight: bold; font-style: italic">Por un gremio moderno, innovador y competitivo</center></h3>
     </div><br><br>
-
-    @foreach ($banco as $bn)
-    @if ($bn->id%2==0)
-    <div style="background: green">{{$bn->nombre_banco}}</div>
-    @else
-    <div style="background: red">{{$bn->nombre_banco}}</div>
+    @if ($tipoDeCliente==1)
+        <h1>Colegiado</h1>
     @endif
-    
-    @endforeach
 
 </body>
 

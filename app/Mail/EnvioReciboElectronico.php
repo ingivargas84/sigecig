@@ -14,17 +14,19 @@ class EnvioReciboElectronico extends Mailable
     public $fecha_actual;
     public $datos_colegiado;
     public $reciboMaestro;
+    public $tipoDeCliente;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($fecha_actual, $datos_colegiado,$reciboMaestro)
+    public function __construct($fecha_actual, $datos_colegiado,$reciboMaestro, $tipoDeCliente)
     {
         $this->fecha_actual = $fecha_actual;
         $this->datos_colegiado = $datos_colegiado;
         $this->reciboMaestro = $reciboMaestro;
+        $this->tipoDeCliente =  $tipoDeCliente;
         
     }
 
