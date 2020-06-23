@@ -167,7 +167,7 @@
                         NIT: 299329-5</small></p>
 
         </div>
-        <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($qr) !!}"></h1></div>
+        <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
 
     </div>
 </div>
@@ -177,7 +177,7 @@
 
     <div class="row colegiado ">
         <div class="">
-          <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>   
+          <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>
         </div>
         <div class="">
           <label for="" class="" >FECHA: {{$id->created_at}} </label>
@@ -187,16 +187,16 @@
 
     <div class="row colegiado3">
         <div class="">
-          <label for="" class=" ">No. {{$id->numero_recibo}}  </label>  
+          <label for="" class=" ">No. {{$id->numero_recibo}}  </label>
         </div>
     </div>
 
     <div class="row colegiado2">
         <div class="">
-          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>  
+          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>
         </div>
         <div class="">
-          <label for="" >NIT: {{$nit_->nit}}</label> 
+          <label for="" >NIT: {{$nit_->nit}}</label>
         </div>
     </div>
 
@@ -211,7 +211,7 @@
                     <th>TOTAL</th>
                 </tr>
             </thead>
-          
+
             @foreach($rdetalle1 as $co)
             <tr class="odd">
                 <td>{{$co->codigo_compra}}</td>
@@ -234,12 +234,12 @@
 
                  <tr class="odd">
                     <th colspan="2">CONCEPTO: </th>
-                    <th colspan="2">    
-                        @if ($id->monto_efecectivo==true) Efectivo                       
+                    <th colspan="2">
+                        @if ($id->monto_efecectivo==true) Efectivo
                         @endif
-                        @if ($id->monto_cheque==true) Cheque                                
+                        @if ($id->monto_cheque==true) Cheque
                         @endif
-                        @if ($id->monto_tarjeta==true) Tarjeta                                
+                        @if ($id->monto_tarjeta==true) Tarjeta
                         @endif
                 </th>
             </tr>

@@ -59,6 +59,7 @@ class ReciboController extends Controller
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
         $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
+        //dd($id);
         $tipo = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
 
         /* $formatter = new NumeroALetras;
@@ -66,7 +67,7 @@ class ReciboController extends Controller
      */
        // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
 
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }
