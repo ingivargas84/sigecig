@@ -22,6 +22,7 @@ use App\ReciboCheque;
 use App\ReciboTarjeta;
 use App\PosCobro;
 use Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Luecano\NumeroALetras\NumeroALetras;
 
 class ReciboController extends Controller
@@ -45,7 +46,13 @@ class ReciboController extends Controller
 
     public function pdfRecibo(Recibo_Maestro $id)
     {
-        //$recibo = Recibo_Maestro::where('numero_recibo', '=', 0)->get();
+        //$recibo = Recibo_Maestro::where('numero_recibo')->first();
+        $query = "SELECT numero_recibo FROM sigecig_recibo_maestro ORDER BY numero_recibo desc ";
+        $result = DB::select($query);
+        $recibo = $result[0]->numero_recibo;
+
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$recibo);
+
         // return view('admin.creacionRecibo.index', compact('tipo'));
        // $name = Recibo_Detalle::all();
        // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
