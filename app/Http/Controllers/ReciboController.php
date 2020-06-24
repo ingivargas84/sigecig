@@ -62,6 +62,7 @@ class ReciboController extends Controller
         $datos = DB::select($query1);
 
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
+        $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }
@@ -381,7 +382,8 @@ class ReciboController extends Controller
                         $tipo = $tipo_[0];
 
                         $qr = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro['numero_recibo']);
-
+                              
+                            
                         $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
                         ->setPaper('legal', 'landscape');
                         $fecha_actual=date_format(Now(),'d-m-Y');

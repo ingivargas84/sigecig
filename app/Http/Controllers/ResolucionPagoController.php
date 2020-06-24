@@ -27,6 +27,7 @@ use App\Events\ActualizacionBitacoraAp;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\AprobacionDocAp;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use NumeroALetras;
 
 
 
@@ -455,8 +456,16 @@ class ResolucionPagoController extends Controller
                 $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
                 $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
                 $tipo = $tipo_[0];
-                $qr = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro->numero_recibo);
-                $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
+
+                $query1= "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+                FROM sigecig_recibo_detalle rd
+                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+                $datos = DB::select($query1);
+                
+                $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+                $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro->numero_recibo);
+                $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','codigoQR','letras'))
                 ->setPaper('legal', 'landscape');
                 $fecha_actual=date_format(Now(),'d-m-Y');
                 $datos_colegiado = $id;
