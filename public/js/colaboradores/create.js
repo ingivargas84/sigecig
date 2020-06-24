@@ -149,11 +149,7 @@ var validator = $("#ColaboradorForm").validate({
 		telefono:{
             required: true,
             ntelc : true
-
-        },
-        usuario: {
-			required: true
-		},
+        }
 	},
 	messages: {
 		nombre: {
@@ -173,10 +169,7 @@ var validator = $("#ColaboradorForm").validate({
 		},
 		telefono: {
 			required: "Por favor, ingrese el telefono"
-        },
-        usuario: {
-			required: "Por favor, ingrese el usuario"
-		}
+        }
 	}
 });
 
