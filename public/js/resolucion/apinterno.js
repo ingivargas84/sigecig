@@ -5,14 +5,21 @@ $(document).on('change', '#colegiado', function(event) {
         $.ajax({
             type: "get",
             url: "/auxilioPostumo/"+no_colegiado+"/getDatosColegiado",
+            beforeSend:function(){
+                $('#crearUsuario').hide();
+            },
             success: function (response) {
-                $("input[name=n_cliente]").val(response[0].n_cliente);
-                $("input[name=c_cliente]").val(response[0].c_cliente);
-                $("input[name=fecha_nac]").val(response[0].fecha_nac);
-                $("input[name=registro]").val(response[0].registro);
-                $("input[name=telefono]").val(response[0].telefono); 
-                $("input[name=n_profesion]").val(response[0].n_profesion);
+                $("input[name=n_cliente]").val(response[0][0].n_cliente);
+                $("input[name=c_cliente]").val(response[0][0].c_cliente);
+                $("input[name=fecha_nac]").val(response[0][0].fecha_nac);
+                $("input[name=registro]").val(response[0][0].registro);
+                $("input[name=telefono]").val(response[0][0].telefono); 
+                $("input[name=n_profesion]").val(response[0][0].n_profesion);
                 $('#miForumulario').show();
+                if (response[1]==0) {
+                    $('#crearUsuario').show();
+                }
+
             },
             error: function (jqXHR, estado, error){
                 console.log(estado)

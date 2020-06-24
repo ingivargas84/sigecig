@@ -22,7 +22,8 @@ class AuxilioPostumoController extends Controller
 {
     //crear una nueva solicitud de auxilio postumo
     public function nuevaSolicitud()
-    {       
+    {
+
         $query = "SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 6 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 6 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
@@ -39,14 +40,15 @@ class AuxilioPostumoController extends Controller
             ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
             ->where('cc00.c_cliente', $no_colegiado)
             ->get();
-        
+
         $admin_usuario = AdmUsuario::Where("Usuario", $no_colegiado)->get()->first();
-        if(empty($admin_usuario){
-            $usuario=0;
-        }else{
-            
+        if (empty($admin_usuario)) {
+            $usuario = '0';
+        } else {
+            $usuario = '1';
         }
-        return Response::json($consulta);
+
+        return Response::json(array($consulta, $usuario));
     }
 
     public function GuardarSolicitudAp(Request $request)
@@ -64,7 +66,7 @@ class AuxilioPostumoController extends Controller
             $usuario->idIdentidad = 1;
             $usuario->idRol = 4;
             $usuario->TipoInternoExterno = 2;
-            $usuario->contrasenna = 'Guatemala.2020';
+            $usuario->contrasenna = bcrypt('Guatemala.2020');
             $usuario->idRecordatorio = '0';
             $usuario->palabraclave = 'Guatemala.2020';
             $usuario->idPersona = $persona->id;
