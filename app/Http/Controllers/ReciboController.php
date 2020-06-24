@@ -51,7 +51,9 @@ class ReciboController extends Controller
         $result = DB::select($query);
         $recibo = $result[0]->numero_recibo;
 
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/'.$id->numero_recibo); //link para colegiados
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboEmpresa/'.$id->numero_recibo); //link para Empresa
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
