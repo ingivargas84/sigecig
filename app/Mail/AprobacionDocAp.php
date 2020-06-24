@@ -11,13 +11,13 @@ class AprobacionDocAp extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject='Aprobacion de Documentos Auxilio Póstumo';
+    public $subject = 'Aprobacion de Documentos Auxilio Póstumo';
 
-   
+
     public $fecha_actual;
     public $solicitudAP;
     public $colegiado;
-   
+
 
     /**
      * Create a new message instance.
@@ -26,12 +26,10 @@ class AprobacionDocAp extends Mailable
      */
     public function __construct($fecha_actual, $solicitudAP, $colegiado)
     {
-      
+
         $this->fecha_actual = $fecha_actual;
         $this->solicitudAP = $solicitudAP;
         $this->colegiado = $colegiado;
-       
-      
     }
 
     /**

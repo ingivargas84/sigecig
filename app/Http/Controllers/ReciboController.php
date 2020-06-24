@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use DB,Mail;
+use DB, Mail;
 use DB2;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -51,22 +51,22 @@ class ReciboController extends Controller
         $result = DB::select($query);
         $recibo = $result[0]->numero_recibo;
 
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/'.$id->numero_recibo); //link para colegiados
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboEmpresa/'.$id->numero_recibo); //link para Empresa
 
-        $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
+        $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $query1= "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
 
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
-        $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
-        ->setPaper('legal', 'landscape')
-        ->stream('Recibo.pdf');
+        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
+        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo', 'qr'))
+            ->setPaper('legal', 'landscape')
+            ->stream('Recibo.pdf');
     }
 
     public function SerieDePagoA($id)
@@ -121,12 +121,12 @@ class ReciboController extends Controller
         $montoTarjeta       = $request->input("config.montoTarjeta");
         $pos_id             = $request->input("pos");
 
-            $tipoDeCliente = 1;
-            if($serieRecibo == 'a'){
-                $serieRecibo = 1;
-            }elseif($serieRecibo == 'b'){
-                $serieRecibo = 2;
-            }
+        $tipoDeCliente = 1;
+        if ($serieRecibo == 'a') {
+            $serieRecibo = 1;
+        } elseif ($serieRecibo == 'b') {
+            $serieRecibo = 2;
+        }
 
         //$lastValue = DB::table('sigecig_recibo_maestro')->orderBy('numero_recibo', 'desc')->first();
         $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
@@ -148,7 +148,7 @@ class ReciboController extends Controller
 
         $array = $request->input("datos");
 
-        for ($i = 1; $i < sizeof($array); $i++){
+        for ($i = 1; $i < sizeof($array); $i++) {
             $reciboDetalle = Recibo_Detalle::create([
                 'numero_recibo'     => $reciboMaestro->numero_recibo,
                 'codigo_compra'     => $array[$i][1],
@@ -158,7 +158,7 @@ class ReciboController extends Controller
             ]);
         }
 
-        if ($pagoCheque == 'si'){
+        if ($pagoCheque == 'si') {
             $bdCheque = new ReciboCheque;
             $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
             $bdCheque->numero_cheque = $numeroCheque;
@@ -169,7 +169,7 @@ class ReciboController extends Controller
             $bdCheque->save();
         }
 
-        if ($pagoTarjeta == 'si'){
+        if ($pagoTarjeta == 'si') {
             $bdTarjeta = new ReciboTarjeta;
             $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
             $bdTarjeta->numero_voucher = $numeroTarjeta;
@@ -180,26 +180,28 @@ class ReciboController extends Controller
         }
 
         //Envio de correo creacion de recibo colegiado
+        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $datos = DB::select($query1);
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
         $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
         $nit_ = $nit[0];
-        $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
-        $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
-        $tipo = $tipo_[0];
-        $qr = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro->numero_recibo);
-        $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
-        ->setPaper('legal', 'landscape');
-        $fecha_actual=date_format(Now(),'d-m-Y');
-        $datos_colegiado = SQLSRV_Colegiado::select('e_mail','n_cliente')->where('c_cliente', $colegiado)->get();
-        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro, $tipoDeCliente);    
-        $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);   
-        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');  
-        $infoCorreoRecibo->attachData($pdf->output(), ''.$reciboMaestro['numero_recibo'].'Recibo.pdf', ['mime' => 'application / pdf ']);  
+        $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+            ->setPaper('legal', 'landscape');
+        $fecha_actual = date_format(Now(), 'd-m-Y');
+        $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
+        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
         Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
         return response()->json(['success' => 'Exito']);
-
-
     }
 
     public function storeParticular(Request $request)
@@ -221,14 +223,14 @@ class ReciboController extends Controller
         $montoTarjetaP       = $request->input("config.montoTarjetaP");
         $pos_idP             = $request->input("pos");
 
-            $tipoDeCliente = 2;
-            if($serieReciboP == 'a'){
-                $serieReciboP = 1;
-            }elseif($serieReciboP == 'b'){
-                $serieReciboP = 2;
-            }
+        $tipoDeCliente = 2;
+        if ($serieReciboP == 'a') {
+            $serieReciboP = 1;
+        } elseif ($serieReciboP == 'b') {
+            $serieReciboP = 2;
+        }
 
-            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
+        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroP = new Recibo_Maestro;
         $reciboMaestroP->serie_recibo_id = $serieReciboP;
@@ -247,7 +249,7 @@ class ReciboController extends Controller
 
         $array = $request->input("datos");
 
-        for ($i = 1; $i < sizeof($array); $i++){
+        for ($i = 1; $i < sizeof($array); $i++) {
             $reciboDetalleP = Recibo_Detalle::create([
                 'numero_recibo'     => $reciboMaestroP->numero_recibo,
                 'codigo_compra'     => $array[$i][1],
@@ -257,7 +259,7 @@ class ReciboController extends Controller
             ]);
         }
 
-        if ($pagoChequeP == 'si'){
+        if ($pagoChequeP == 'si') {
             $bdChequeP = new ReciboCheque;
             $bdChequeP->numero_recibo = $reciboMaestroP->numero_recibo;
             $bdChequeP->numero_cheque = $numeroChequeP;
@@ -268,7 +270,7 @@ class ReciboController extends Controller
             $bdChequeP->save();
         }
 
-        if ($pagoTarjetaP == 'si'){
+        if ($pagoTarjetaP == 'si') {
             $bdTarjetaP = new ReciboTarjeta;
             $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
             $bdTarjetaP->numero_voucher = $numeroTarjetaP;
@@ -279,22 +281,25 @@ class ReciboController extends Controller
         }
 
         $reciboMaestro = $reciboMaestroP;
-                //Envio de correo creacion de recibo Particular
-                $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-                $nit_ = $id;
-                $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
-                $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
-                $tipo = $tipo_[0];
-                $qr = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro->numero_recibo);
-                $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
-                ->setPaper('legal', 'landscape');
-                $fecha_actual=date_format(Now(),'d-m-Y');
-                $datos_colegiado = $id;
-                $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro, $tipoDeCliente);    
-                $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);   
-                $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');  
-                $infoCorreoRecibo->attachData($pdf->output(), ''.$reciboMaestro['numero_recibo'].'Recibo.pdf', ['mime' => 'application / pdf ']);  
-                Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
+        //Envio de correo creacion de recibo Particular
+        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+                FROM sigecig_recibo_detalle rd
+                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+        $datos = DB::select($query1);
+        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+        $nit_ = $id;
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+            ->setPaper('legal', 'landscape');
+        $fecha_actual = date_format(Now(), 'd-m-Y');
+        $datos_colegiado = $id;
+        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
+        Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
 
         return response()->json(['success' => 'Exito']);
     }
@@ -318,14 +323,14 @@ class ReciboController extends Controller
         $montoTarjetaE       = $request->input("config.montoTarjetaE");
         $pos_idE             = $request->input("pos");
 
-            $tipoDeCliente = 3;
-            if($serieReciboE == 'a'){
-                $serieReciboE = 1;
-            }elseif($serieReciboE == 'b'){
-                $serieReciboE = 2;
-            }
+        $tipoDeCliente = 3;
+        if ($serieReciboE == 'a') {
+            $serieReciboE = 1;
+        } elseif ($serieReciboE == 'b') {
+            $serieReciboE = 2;
+        }
 
-            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
+        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
 
         $reciboMaestroE = new Recibo_Maestro;
         $reciboMaestroE->serie_recibo_id = $serieReciboE;
@@ -343,7 +348,7 @@ class ReciboController extends Controller
 
         $array = $request->input("datos");
 
-        for ($i = 1; $i < sizeof($array); $i++){
+        for ($i = 1; $i < sizeof($array); $i++) {
             $reciboDetalleE = Recibo_Detalle::create([
                 'numero_recibo'     => $reciboMaestroE->numero_recibo,
                 'codigo_compra'     => $array[$i][1],
@@ -353,7 +358,7 @@ class ReciboController extends Controller
             ]);
         }
 
-        if ($pagoChequeE == 'si'){
+        if ($pagoChequeE == 'si') {
             $bdChequeE = new ReciboCheque;
             $bdChequeE->numero_recibo = $reciboMaestroE->numero_recibo;
             $bdChequeE->numero_cheque = $numeroChequeE;
@@ -364,7 +369,7 @@ class ReciboController extends Controller
             $bdChequeE->save();
         }
 
-        if ($pagoTarjetaE == 'si'){
+        if ($pagoTarjetaE == 'si') {
             $bdTarjetaE = new ReciboTarjeta;
             $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
             $bdTarjetaE->numero_voucher = $numeroTarjetaE;
@@ -374,28 +379,33 @@ class ReciboController extends Controller
             $bdTarjetaE->save();
         }
 
-                //Envio de correo creacion de recibo Empresa
-                        $reciboMaestro =  $reciboMaestroE;
-                        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-                        $nit= SQLSRV_Empresa::select('e_mail','EMPRESA')->where('CODIGO', $nit)->get();
-                        $nit_ = $nit[0];
-                        $rdetalle1= Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
-                        $tipo_ = TipoDePago::where("codigo", '=', $rdetalle1[0]->codigo_compra)->get();
-                        $tipo = $tipo_[0];
+        //Envio de correo creacion de recibo Empresa
 
-                        $qr = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$reciboMaestro['numero_recibo']);
-                              
-                            
-                        $pdf= \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo','qr'))
-                        ->setPaper('legal', 'landscape');
-                        $fecha_actual=date_format(Now(),'d-m-Y');
-                        $datos_colegiado= $nit;
-                        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado,$reciboMaestro, $tipoDeCliente);    
-                        $infoCorreoRecibo->subject('Recibo Electrónico No.'.$reciboMaestro['numero_recibo']);   
-                        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');  
-                        $infoCorreoRecibo->attachData($pdf->output(), ''.$reciboMaestro['numero_recibo'].'Recibo.pdf', ['mime' => 'application / pdf ']);  
-                        Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-              
+
+        $reciboMaestro =  $reciboMaestroE;
+        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+                FROM sigecig_recibo_detalle rd
+                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+        $datos = DB::select($query1);
+
+
+        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+        $nit = SQLSRV_Empresa::select('e_mail', 'EMPRESA')->where('CODIGO', $nit)->get();
+        $nit_ = $nit[0];
+
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+            ->setPaper('legal', 'landscape');
+        $fecha_actual = date_format(Now(), 'd-m-Y');
+        $datos_colegiado = $nit;
+        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
+        Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
+
         return response()->json(['success' => 'Exito']);
     }
 
@@ -453,14 +463,14 @@ class ReciboController extends Controller
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
         $result = DB::connection('sqlsrv')->select($query);
 
-        if (!empty($result)){
-            $result[0]->estado='Activo';
+        if (!empty($result)) {
+            $result[0]->estado = 'Activo';
             return $result;
-        }else {
+        } else {
             $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
             $resultado = DB::connection('sqlsrv')->select($query);
-            $resultado[0]->estado='Inactivo';
+            $resultado[0]->estado = 'Inactivo';
 
             // $igual = [
             //     0=>['n_cliente'=> $resultado[0]->n_cliente, 'estado' => 'Inactivo', 'f_ult_timbre'=> $resultado[0]->f_ult_timbre,
@@ -468,13 +478,12 @@ class ReciboController extends Controller
             // ];
 
             return $resultado;
-
         }
     }
 
     public function getDatosEmpresa($nit)
     {
-        $consulta= SQLSRV_Empresa::select('empresa')
+        $consulta = SQLSRV_Empresa::select('empresa')
             ->where('nit', $nit)->get()->first();
 
         return $consulta;
@@ -482,18 +491,18 @@ class ReciboController extends Controller
 
     public function getTipoDePagoA($tipo)
     {
-        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
+        $consulta = TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
             ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
-            return $consulta;
+        return $consulta;
     }
 
     public function getTipoDePagoB($tipo)
     {
-        $consulta= TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
+        $consulta = TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
             ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '!=', 3)->get()->first();
 
-            return $consulta;
+        return $consulta;
     }
 
     public function getDatosReactivacion()
@@ -512,7 +521,7 @@ class ReciboController extends Controller
             return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
         }
         $reactivacion = [];
-        $reactivacionColegio = $this->getMontoReactivacionColegio($fecha_colegio,$fecha_hasta_donde_paga, $colegiado);
+        $reactivacionColegio = $this->getMontoReactivacionColegio($fecha_colegio, $fecha_hasta_donde_paga, $colegiado);
         $reactivacionTimbre = $this->getMontoReactivacionTimbre($fecha_timbre, $fecha_hasta_donde_paga, $monto_timbre, Input::get('exonerar_intereses_timbre'));
         $reactivacion['capitalTimbre'] = $reactivacionTimbre['capital'];
         $reactivacion['moraTimbre'] = $reactivacionTimbre['mora'];
@@ -531,7 +540,7 @@ class ReciboController extends Controller
     {
         //dd($fecha_timbre);
         //$mes_origen = date("m", strtotime($fecha_timbre));
-        $mes_origen = substr($fecha_timbre, -7,2);
+        $mes_origen = substr($fecha_timbre, -7, 2);
         //$anio_origen = date("Y", strtotime($fecha_timbre));
         $anio_origen = substr($fecha_timbre, -4);
         //dd($mes_origen);
@@ -561,10 +570,10 @@ class ReciboController extends Controller
             $monto_extra = $fecha_fin_meses - $fecha_actual_meses;
         }
 
-        $capital = round($monto_timbre * ($anio_fin*12+$mes_fin - ($anio_origen*12 + $mes_origen)));
+        $capital = round($monto_timbre * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)));
         $mora = round($monto_timbre * 0.18 / 12 * $diferencia * ($diferencia - 1) / 2);
         $intereses = round($monto_timbre * 0.128 / 12 * $diferencia * ($diferencia - 1) / 2);
-        if($exonerar_intereses_timbre == 1) {
+        if ($exonerar_intereses_timbre == 1) {
             $mora = 0;
             $intereses = 0;
         }
@@ -577,7 +586,7 @@ class ReciboController extends Controller
     {
         $fechaHasta = $fecha_hasta_donde_paga ? $fecha_hasta_donde_paga : date('Y-m-d');
         $fechaHastaT = strtotime($fechaHasta);
-        $fechaFinMes = strtotime(date('Y-m-t',strtotime(date('Y') . '-' . (date('m')-3) . '-01')));
+        $fechaFinMes = strtotime(date('Y-m-t', strtotime(date('Y') . '-' . (date('m') - 3) . '-01')));
         $fechaTope = $fechaHastaT;
         if ($fechaHastaT > $fechaFinMes) {
             $fechaTope = $fechaFinMes;
@@ -588,7 +597,7 @@ class ReciboController extends Controller
         $fechaDesdeT = strtotime($fechaultimopagocolegio);
         $cuotas = date('Y', $fechaTope) * 12 + date('m', $fechaTope) - (date('Y', $fechaDesdeT) * 12 + date('m', $fechaDesdeT));
         $cuotasD = date('Y', $fechaHastaT) * 12 + date('m', $fechaHastaT) - (date('Y', $fechaDesdeT) * 12 + date('m', $fechaDesdeT));
-        $d =$cuotasD-$cuotas;
+        $d = $cuotasD - $cuotas;
         $porcentajeInteres = 8.5;
         $montoBase = 40.75;
         $montoInteresAtrasado = 0;
@@ -599,19 +608,21 @@ class ReciboController extends Controller
         $mesesTemp = date('Y', $fechaHastaT) * 12 + date('m', $fechaHastaT);
         $mesesDesdeTemp = date('Y', $fechaDesdeT) * 12 + date('m', $fechaDesdeT);
         $cuotasTemp = $mesesDesdeTemp - $mesesTemp;
-        $mesesAnterior = 1983*12+2;
+        $mesesAnterior = 1983 * 12 + 2;
         $montoAnterior = 6;
         $totalMontoColegio = 0;
 
-        $montosPago = [['meses' => 1983*12+2, 'monto' => 6, 'codigo' => 'COL01', 'auxilio' => 0], ['meses' => 1989*12+12, 'monto' => 12, 'codigo' => 'COL02', 'auxilio' => 6],['meses' => 1990*12+12, 'monto' => 23.25, 'codigo' => 'COL03', 'auxilio' => 12.75], ['meses' => 1991*12+9, 'monto' => 30, 'codigo' => 'COL04', 'auxilio' => 12.75], ['meses' => 2001*12 + 9, 'monto' => 39, 'codigo' => 'COL05', 'auxilio' => 12.75], ['meses' => 2001*12 + 12, 'monto' => 60, 'codigo' => 'COL06', 'auxilio' => 22.75], ['meses' => 2010*12 + 10, 'monto' => 65, 'codigo' => 'COL07', 'auxilio' => 22.75], ['meses' => 2011*12 + 8, 'monto' => 78.5, 'codigo' => 'COL08', 'auxilio' => 22.75], ['meses' => 2013*12 + 1, 'monto' => 98.5, 'codigo' => 'COL091', 'auxilio' => 22.75], ['meses' => date('Y')*12 + date('m'), 'monto' => 115.75, 'codigo' => 'COL092', 'auxilio' => 40.75]];
+        $montosPago = [['meses' => 1983 * 12 + 2, 'monto' => 6, 'codigo' => 'COL01', 'auxilio' => 0], ['meses' => 1989 * 12 + 12, 'monto' => 12, 'codigo' => 'COL02', 'auxilio' => 6], ['meses' => 1990 * 12 + 12, 'monto' => 23.25, 'codigo' => 'COL03', 'auxilio' => 12.75], ['meses' => 1991 * 12 + 9, 'monto' => 30, 'codigo' => 'COL04', 'auxilio' => 12.75], ['meses' => 2001 * 12 + 9, 'monto' => 39, 'codigo' => 'COL05', 'auxilio' => 12.75], ['meses' => 2001 * 12 + 12, 'monto' => 60, 'codigo' => 'COL06', 'auxilio' => 22.75], ['meses' => 2010 * 12 + 10, 'monto' => 65, 'codigo' => 'COL07', 'auxilio' => 22.75], ['meses' => 2011 * 12 + 8, 'monto' => 78.5, 'codigo' => 'COL08', 'auxilio' => 22.75], ['meses' => 2013 * 12 + 1, 'monto' => 98.5, 'codigo' => 'COL091', 'auxilio' => 22.75], ['meses' => date('Y') * 12 + date('m'), 'monto' => 115.75, 'codigo' => 'COL092', 'auxilio' => 40.75]];
         $detalleMontos = [];
         $montoInteresAtrasado = 0;
-        foreach($montosPago as $montoPago) {
+        foreach ($montosPago as $montoPago) {
 
-            if($mesesDesdeTemp <= $montoPago['meses']) {
+            if ($mesesDesdeTemp <= $montoPago['meses']) {
                 $diferencia = $montoPago['meses'] - $mesesDesdeTemp >= 0 ? $montoPago['meses'] - $mesesDesdeTemp : 0;
                 $dif2 = $mesesTemp - $mesesDesdeTemp;
-                if($montoPago['monto']==115.75){$diferencia+=$d;}
+                if ($montoPago['monto'] == 115.75) {
+                    $diferencia += $d;
+                }
 
 
                 $totalMontoColegio += $diferencia * $montoPago['monto'];
@@ -620,10 +631,9 @@ class ReciboController extends Controller
                 $detalleMontos[] = ['codigo' => $montoPago['codigo'], 'cuotas' => $diferencia, 'preciou' => $montoPago['monto']];
                 $montoInteresAtrasado += $this->calculoPotenciaColegio($diferencia, $porcentajeInteres, $montoPago['auxilio'], $dif2);
             }
-
         }
 
-        $query = "select importe from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo='INT'";
+        $query = "select importe from calculo_colegiado(" . $colegiado . ", '" . $fecha_hasta_donde_paga . "','02', '" . date('Y-m-d') . "') WHERE codigo='INT'";
 
         $users = DB::connection('sqlsrv')->select($query);
         $colegiadoR = null;
@@ -631,12 +641,12 @@ class ReciboController extends Controller
             $colegiadoR = $colegiado1;
         }
         $inte = 0;
-        if($colegiadoR){
+        if ($colegiadoR) {
             $inte = $colegiadoR->importe;
-	    }
+        }
 
 
-        $query = "select * from calculo_colegiado(".$colegiado.", '".$fecha_hasta_donde_paga."','02', '".date('Y-m-d')."') WHERE codigo!='INT'";
+        $query = "select * from calculo_colegiado(" . $colegiado . ", '" . $fecha_hasta_donde_paga . "','02', '" . date('Y-m-d') . "') WHERE codigo!='INT'";
 
         $users = DB::connection('sqlsrv')->select($query);
         $colegiadoR1 = null;
@@ -644,29 +654,25 @@ class ReciboController extends Controller
         $capitalT = 0;
         foreach ($users as $colegiado2) {
             $colegiadoR = $colegiado2;
-        $detalleMontos[] = ['codigo' => $colegiado2->codigo, 'cuotas' => $colegiado2->cantidad, 'preciou' => $colegiado2->precio];
-        $capitalT += $colegiado2->cantidad*$colegiado2->precio;
+            $detalleMontos[] = ['codigo' => $colegiado2->codigo, 'cuotas' => $colegiado2->cantidad, 'preciou' => $colegiado2->precio];
+            $capitalT += $colegiado2->cantidad * $colegiado2->precio;
         }
 
         $totalMontoColegio += ($mesesTemp - ($mesesDesdeTemp > 0 ? $mesesDesdeTemp : 0)) * 115.75;
         $total = $totalMontoColegio + $montoInteresAtrasado;
         $total = $capitalT + $inte;
 
-        return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $capitalT, 'totalColegio' => round($total,2), 'detalleMontos' => $detalleMontos);
-    //        return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $totalMontoColegio, 'totalColegio' => round($total,2), 'detalleMontos' => $detalleMontos);
+        return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $capitalT, 'totalColegio' => round($total, 2), 'detalleMontos' => $detalleMontos);
+        //        return array("montoInteres" => round($inte, 2), "cuotas" => $cuotasD, 'capitalColegio' => $totalMontoColegio, 'totalColegio' => round($total,2), 'detalleMontos' => $detalleMontos);
     }
 
     private function calculoPotenciaColegio($cuotasAtrasadas, $porcentajeInteres, $montoBase, $dif2)
     {
         $suma = 0;
         for ($i = 1; $i < $cuotasAtrasadas + 1; $i++) {
-            $suma += pow(1 + $porcentajeInteres / 1000, $dif2-$i);
+            $suma += pow(1 + $porcentajeInteres / 1000, $dif2 - $i);
         }
         $suma = $montoBase * ($suma - $cuotasAtrasadas);
         return $suma;
     }
 }
-
-
-
-
