@@ -27,7 +27,6 @@ class EnvioReciboElectronico extends Mailable
         $this->datos_colegiado = $datos_colegiado;
         $this->reciboMaestro = $reciboMaestro;
         $this->tipoDeCliente =  $tipoDeCliente;
-        
     }
 
     /**

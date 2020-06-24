@@ -20,6 +20,7 @@ class Recibo_Maestro extends Model
         'monto_tarjeta',
         'monto_cheque',
         'usuario',
-        'monto_total'
+        'monto_total',
+        'e_mail'
     ];
 }
