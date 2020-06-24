@@ -4,6 +4,11 @@
     <section class="content-header">
         <h1><center>RECIBOS CIG</center></h1>
   </section>
+  <style>
+    table tbody tr:nth-child(even){
+        background: white;
+    }
+  </style>
 
   @endsection
 

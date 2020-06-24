@@ -22,8 +22,8 @@ use App\ReciboCheque;
 use App\ReciboTarjeta;
 use App\PosCobro;
 use Validator;
+use NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Luecano\NumeroALetras\NumeroALetras;
 
 class ReciboController extends Controller
 {
@@ -53,20 +53,15 @@ class ReciboController extends Controller
 
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/'.$recibo);
 
-        // return view('admin.creacionRecibo.index', compact('tipo'));
-       // $name = Recibo_Detalle::all();
-       // $rdetalle = Recibo_Detalle::where('numero', '=', $id->id)->get()->first();
-
         $nit_ = SQLSRV_Colegiado::where("c_cliente",$id->numero_de_identificacion)->get()->first();
-        $rdetalle1 = Recibo_Detalle::where('numero_recibo', '=', $id->numero_recibo)->get();
-        $tipo = TipoDePago::where("codigo", '=', $rdetalle1->codigo_compra)->get();
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $query1= "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $id->numero_recibo";
+        $datos = DB::select($query1);
 
-        /* $formatter = new NumeroALetras;
-        echo $formatter->toWords($number, $decimals);
-     */
-       // return view('admin.creacionRecibo.pdfrecibo', compact('pos'));
-
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }

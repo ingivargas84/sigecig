@@ -61,7 +61,7 @@ class TipoDePagoSeeder extends Seeder
             'estado'=>'0'
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
-            'codigo'=>'React-CUOTA-COL',
+            'codigo'=>'React-INT-COL',
             'tipo_de_pago'=>'pago total de interes de colegiatura',
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
