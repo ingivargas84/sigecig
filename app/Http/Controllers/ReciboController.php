@@ -52,21 +52,22 @@ class ReciboController extends Controller
         $recibo = $result[0]->numero_recibo;
 
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
-        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares
-        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboEmpresa/'.$id->numero_recibo); //link para Empresa
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd 
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
+    
+       // return view('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
 
-        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
-        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'rdetalle1', 'tipo', 'qr'))
-            ->setPaper('legal', 'landscape')
-            ->stream('Recibo.pdf');
+
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
+        ->setPaper('legal', 'landscape')
+        ->stream('Recibo.pdf');
     }
 
     public function SerieDePagoA($id)
@@ -184,7 +185,7 @@ class ReciboController extends Controller
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
         $datos = DB::select($query1);
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
@@ -290,7 +291,7 @@ class ReciboController extends Controller
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
         $nit_ = $id;
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
         $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
             ->setPaper('legal', 'landscape');
         $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -395,7 +396,7 @@ class ReciboController extends Controller
         $nit_ = $nit[0];
 
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
         $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
             ->setPaper('legal', 'landscape');
         $fecha_actual = date_format(Now(), 'd-m-Y');

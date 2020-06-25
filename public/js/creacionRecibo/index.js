@@ -213,7 +213,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigo").val() != ""){
-                        if ($("#codigo").val() == 5){ //el 5 representa el id de tipo de pago que realiza el calculo de colegiatura
+                        if ($("#codigo").val() == 57){ //el 57 representa el id de tipo de pago que realiza el calculo de colegiatura
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
                                 $("input[name='precioU']").val(response.precio_colegiado);
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
@@ -242,14 +242,14 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(7);
+                                            $("#codigo").val(47); //el 47 es el codigo de interes del colegiado
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.interesColegio);
                                             $("#descTipoPago").val('pago de Interés de Colegiatura');
                                             $("#subtotal").val(data.interesColegio);
                                             addnewrow();
 
-                                            $("#codigo").val(6);
+                                            $("#codigo").val(11); //el 11 es el codigo de cuotas a pagar del colegiado
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.cuotasColegio);
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
@@ -292,7 +292,7 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigo").val() != ""){
-                        if ($("#codigo").val() == 1){ //el 1 representa el id de tipo de pago que realiza el calculo de interes
+                        if ($("#codigo").val() == 56){ //el 56 representa el id de tipo de pago que realiza el calculo de interes
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
                                 $("input[name='precioU']").val(response.precio_colegiado);
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
@@ -321,21 +321,21 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(4);
+                                            $("#codigo").val(47); //el 47 es el codigo de interes del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.interesTimbre);
                                             $("#descTipoPago").val('pago de Interés de Timbre');
                                             $("#subtotal").val(data.interesTimbre);
                                             addnewrow();
 
-                                            $("#codigo").val(3);
+                                            $("#codigo").val(48); //el 48 es el codigo dla mora del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val(data.moraTimbre);
                                             $("#descTipoPago").val('pago de Mora de Timbre');
                                             $("#subtotal").val(data.moraTimbre);
                                             addnewrow();
 
-                                            $("#codigo").val(2);
+                                            $("#codigo").val(58); //el 58 es el codigo de cuotas a pagar del timbre
                                             $("#cantidad").val(data.cuotasTimbre);
                                             $("#precioU").val($('#monto_timbre').val());
                                             $("#descTipoPago").val('pago de Capital de Timbre');

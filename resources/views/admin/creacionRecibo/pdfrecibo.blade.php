@@ -12,13 +12,16 @@
             margin-left: 4rem;
             margin-right: 4rem;
         }
-        .body{
+        tr:nth-child(even){
+            background-color: #eee;
+        }
+       /*  .body{
             background: rgb(125, 178, 228);
             width: 90%;
             margin-left: 4rem;
             height: 190px;
 
-        }
+        } */
         .contenedor1{
             font-family: "sans-serif";
             background: repeating-linear-gradient(-45deg,
@@ -50,6 +53,10 @@
             display: inline-block;
             vertical-align: top;
             margin-top: 1rem;
+        }
+
+        .texto3 {
+            background: #D2D2D2;
         }
         .baner{
             text-align: right;
@@ -117,14 +124,20 @@
         .mr{
             margin-top: 3%;
         }
-        table, td, th {
+        table {
+            width: 90%;
+            margin: 20 auto;
+            font-family: "sans-serif";
+
+        }
+      /*   table, td, th {
             border-collapse: collapse;
             border: 1px solid black;
             margin: 20 auto;
             text-align: center;
             width: 90%;
             font-family: "sans-serif";
-            height: 30px;
+            height: 30px; */
 
         }
         .odd th, .odd td {
@@ -138,8 +151,7 @@
 </head>
 <body>
 <div class="container body" style="margin-bottom: 15px;">
-    <div class="row contenedor1">
-        <div>
+    <div class="row" style="font-family: sans-serif; background: #03306d;margin-bottom:3rem; height: 190px; width: 90%; margin-left: 4rem;">
             <img class="lg" src="images/logo.png"  height="190"  alt="">
             <div class="texto">
             <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
@@ -147,7 +159,7 @@
                             PBX: 2218-2600 / www.cig.org.gt <br>
                             NIT: 299329-5</small></p>
             </div>
-            <div class="texto1"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
+            <div class="texto1" style="color: white;"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
         </div>
     </div>
 </div>
@@ -176,32 +188,41 @@
         <table>
             <thead>
                 <tr>
-                    <th>CODIGO</th>
-                    <th>DESCRIPCION</th>
-                    <th>CANTIDAD </th>
-                    <th>TOTAL</th>
+                    <th width="20%" style="background: repeating-linear-gradient(-45deg,white 0, white 12%, #d2d2d2 0, #d2d2d2);text-align:center;padding: 6px;">CODIGO</th>
+                    <th width="50%" style="background: repeating-linear-gradient(-45deg,#d2d2d2 0, #d2d2d2 7%, white 0, white);text-align:center;">DESCRIPCION</th>
+                    <th width="15%" style="background: #D2D2D2;text-align:center;">CANTIDAD </th>
+                    <th width="15%" style="background: repeating-linear-gradient(-45deg,#03306D 0, #03306D 83%, #d2d2d2 0, #d2d2d2);color: white;text-align:center;">TOTAL</th>
                 </tr>
             </thead>
             @foreach($datos as $co)
-            <tr class="odd">
-                <td>{{$co->codigo_compra}}</td>
-                <td>{{$co->tipo_de_pago}}</td>
-                <td>{{$co->cantidad}}</td>
-                <td>Q.{{$co->total}}</td>
+            @if($co->id%2==0)
+            <tr>
+                <td style="background:white;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
+                <td style="background:white;text-align:center;">{{$co->tipo_de_pago}}</td>
+                <td style="background:white;text-align:center;">{{$co->cantidad}}</td>
+                <td style="background:white;text-align:center;">Q.{{$co->total}}</td>
             </tr>
+            @else
+            <tr>
+                <td style="background:#eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
+                <td style="background:#eee;text-align:center;">{{$co->tipo_de_pago}}</td>
+                <td style="background:#eee;text-align:center;">{{$co->cantidad}}</td>
+                <td style="background:#eee;text-align:center;">Q.{{$co->total}}</td>
+            </tr>
+            @endif
             @endforeach
         </table>
         <table>
             <thead>
                 <tr>
-                    <th colspan="2" >TOTAL EN LETRAS: {{$letras}}</th>
-                    <th colspan="2">TOTAL Q.{{$id->monto_total}} </th>
+                    <th colspan="2" style="border-top: 5px solid #03306D;text-align:left;background: repeating-linear-gradient(-45deg,#d2d2d2 0, #d2d2d2 7%, white 0, white); font-weight:normal;padding: 7px" >TOTAL EN LETRAS: {{$letras}}</th>
+                    <th width="15%" style="border-top: 5px solid #03306D;background: #D2D2D2;text-align:center;">TOTAL </th>
+                    <th width="15%" style="border-top: 5px solid #03306D;background: repeating-linear-gradient(-45deg,#03306D 0, #03306D 83%, #d2d2d2 0, #d2d2d2);color: black;text-align:center;">Q.{{$id->monto_total}}</th>
                 </tr>
             </thead>
                  <tr class="odd">
-                    <th colspan="2">CONCEPTO: </th>
-                    <th colspan="2">
-                        @if ($id->monto_efecectivo==true) EFECTIVO
+                    <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO: 
+                        @if ($id->monto_efecectivo==true) EFECTIVO                       
                         @endif
                         @if ($id->monto_cheque==true) CHEQUE
                         @endif
@@ -210,7 +231,7 @@
                     </th>
             </tr>
         </table>
-        <p><small>Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
+        <p class="texto3"><small>Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
             según Numeral 10, Artículo 7, Decreto 27-92, Ley del Impuesto al Valor Agregado. Los cheques se reciben bajo reserva usual de cobro, si el cheque
         es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
     administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
