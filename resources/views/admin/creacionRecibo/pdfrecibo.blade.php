@@ -165,7 +165,7 @@
 </div>
     <div class="row colegiado ">
         <div class="">
-          <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>   
+          <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>
         </div>
         <div class="">
           <label for="" class="" >FECHA: {{$id->created_at}} </label>
@@ -173,15 +173,15 @@
     </div>
     <div class="row colegiado3">
         <div class="">
-          <label for="" class=" ">No. {{$id->numero_recibo}}  </label>  
+          <label for="" class=" ">No. {{$id->numero_recibo}}  </label>
         </div>
     </div>
     <div class="row colegiado2">
         <div class="">
-          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>  
+          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>
         </div>
         <div class="">
-          <label for="" >NIT: {{$nit_->nit}}</label> 
+          <label for="" >NIT: {{$nit_->nit}}</label>
         </div>
     </div>
       <br>
@@ -224,9 +224,9 @@
                     <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO: 
                         @if ($id->monto_efecectivo==true) EFECTIVO                       
                         @endif
-                        @if ($id->monto_cheque==true) CHEQUE                                
+                        @if ($id->monto_cheque==true) CHEQUE
                         @endif
-                        @if ($id->monto_tarjeta==true) TARJETA DE CREDITO                                
+                        @if ($id->monto_tarjeta==true) TARJETA DE CREDITO
                         @endif
                     </th>
             </tr>

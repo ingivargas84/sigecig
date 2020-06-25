@@ -505,6 +505,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-3">
+                                    <label for="emailp" class="control-label">Email</label>
+                                    <input type="text" id="emailp" name="emailp" required class="form-control">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-2 col-lg 2" id="divColegioP" style="display: block;">
