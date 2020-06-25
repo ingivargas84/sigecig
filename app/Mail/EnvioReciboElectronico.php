@@ -7,29 +7,26 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AprobacionDocAp extends Mailable
+class EnvioReciboElectronico extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = 'Aprobacion de Documentos Auxilio Póstumo';
-
-
     public $fecha_actual;
-    public $solicitudAP;
-    public $colegiado;
-
+    public $datos_colegiado;
+    public $reciboMaestro;
+    public $tipoDeCliente;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($fecha_actual, $solicitudAP, $colegiado)
+    public function __construct($fecha_actual, $datos_colegiado,$reciboMaestro, $tipoDeCliente)
     {
-
         $this->fecha_actual = $fecha_actual;
-        $this->solicitudAP = $solicitudAP;
-        $this->colegiado = $colegiado;
+        $this->datos_colegiado = $datos_colegiado;
+        $this->reciboMaestro = $reciboMaestro;
+        $this->tipoDeCliente =  $tipoDeCliente;
     }
 
     /**
@@ -39,6 +36,6 @@ class AprobacionDocAp extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.aprobaciondocap');
+        return $this->view('mails.envioreciboelectronico');
     }
 }
