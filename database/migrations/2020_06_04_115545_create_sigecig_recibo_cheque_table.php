@@ -16,7 +16,7 @@ class CreateSigecigReciboChequeTable extends Migration
         Schema::create('sigecig_recibo_cheque', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('numero_recibo');
-            $table->bigInteger('numero_cheque');
+            $table->integer('numero_cheque');
             $table->double('monto',10,2);
             $table->string('nombre_banco')->nullable();
             $table->integer('usuario_id');

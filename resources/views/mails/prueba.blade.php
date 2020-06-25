@@ -127,9 +127,6 @@
         
         <h3><center style="font-weight: bold; font-style: italic">Por un gremio moderno, innovador y competitivo</center></h3>
     </div><br><br>
-    @if ($tipoDeCliente==1)
-        <h1>Colegiado</h1>
-    @endif
 
 </body>
 
