@@ -470,7 +470,7 @@ class ResolucionPagoController extends Controller
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
         $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
             ->setPaper('legal', 'landscape');
-
+            return $pdf->stream();
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $datos_colegiado = $id;
         $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);

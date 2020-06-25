@@ -181,10 +181,11 @@ class ReciboController extends Controller
         }
 
         //Envio de correo creacion de recibo colegiado
-        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd 
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
         $datos = DB::select($query1);
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
@@ -283,10 +284,10 @@ class ReciboController extends Controller
 
         $reciboMaestro = $reciboMaestroP;
         //Envio de correo creacion de recibo Particular
-        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-                FROM sigecig_recibo_detalle rd
-                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd 
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
         $datos = DB::select($query1);
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
         $nit_ = $id;
@@ -384,10 +385,10 @@ class ReciboController extends Controller
 
 
         $reciboMaestro =  $reciboMaestroE;
-        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-                FROM sigecig_recibo_detalle rd
-                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        FROM sigecig_recibo_detalle rd 
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
         $datos = DB::select($query1);
 
 
