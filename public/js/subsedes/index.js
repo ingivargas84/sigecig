@@ -131,7 +131,7 @@ var subsedes_table = $('#subsedes-table').DataTable({
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
                 "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-sede' >" +
-                "<i class='fa fa-btn fa-edit' title='Actualizar'></i>" +
+                "<i class='fa fa-btn fa-edit' title='Editar sede'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-sede'"+ "data-method='post' data-id='"+full.id+"' data-nombre_sede='" + full.nombre_sede +"'>" +

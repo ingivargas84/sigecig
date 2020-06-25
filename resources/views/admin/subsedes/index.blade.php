@@ -8,7 +8,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Subsedes</li>
+      <li class="active">subsedes</li>
     </ol>
   </section>
 

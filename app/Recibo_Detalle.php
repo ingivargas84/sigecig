@@ -9,7 +9,6 @@ class Recibo_Detalle extends Model
     protected $table = 'sigecig_recibo_detalle';
 
     protected $fillable = [
-        'id',
         'numero_recibo',
         'codigo_compra',
         'cantidad',
