@@ -52,8 +52,7 @@ class ReciboController extends Controller
         $recibo = $result[0]->numero_recibo;
 
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
-        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares
-        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboEmpresa/'.$id->numero_recibo); //link para Empresa
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
@@ -184,7 +183,7 @@ class ReciboController extends Controller
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
         $datos = DB::select($query1);
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
@@ -290,7 +289,7 @@ class ReciboController extends Controller
         $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
         $nit_ = $id;
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
         $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
             ->setPaper('legal', 'landscape');
         $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -395,7 +394,7 @@ class ReciboController extends Controller
         $nit_ = $nit[0];
 
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
+        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
         $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
             ->setPaper('legal', 'landscape');
         $fecha_actual = date_format(Now(), 'd-m-Y');
