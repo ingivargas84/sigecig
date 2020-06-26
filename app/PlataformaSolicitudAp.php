@@ -23,8 +23,7 @@ class PlataformaSolicitudAp extends Model
         'pdf_solicitud_ap',
         'fecha_pago_ap',
         'solicitud_rechazo_ap' ,
-        'solicitud_rechazo_junta',
-        'id_creacion'
+        'solicitud_rechazo_junta' 
     ];
 
 }
