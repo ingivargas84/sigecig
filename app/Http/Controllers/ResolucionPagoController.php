@@ -447,38 +447,5 @@ class ResolucionPagoController extends Controller
         return $response;
     }
 
-    public function correo()
-    {
-        $colegiado = '11282';
-        //$nit='2413155-5';
-        $reciboMaestro = Recibo_Maestro::where("numero_recibo", '17')->get()->first();
-        $tipoDeCliente = 2;
 
-
-        //Envio de correo creacion de recibo Particular
-        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-        $nit_ = $id;
-
-
-        $query1 = "SELECT rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-                FROM sigecig_recibo_detalle rd
-                INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-                WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-        $datos = DB::select($query1);
-
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/recibo/' . $reciboMaestro->numero_recibo);
-        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-            ->setPaper('legal', 'landscape');
-            return $pdf->stream();
-        $fecha_actual = date_format(Now(), 'd-m-Y');
-        $datos_colegiado = $id;
-        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
-        Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
-
-        return 'Enviado';
-    }
 }
