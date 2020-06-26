@@ -439,37 +439,6 @@ class ResolucionPagoController extends Controller
         return $response;
     }
 
-    public function correo(){
   
-        $request = '15';
-
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request)->get()->first();
-
-                //envio de Corroe Aprobacion Solicitud por Junta Directiva
-                $fecha_actual=date_format(Now(),'d-m-Y');
-                $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $request)->orderBy('id','DESC')->first();
-       
-                $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-                $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);    
-                $infoCorreoAp->subject('Solicitud de Auxilio Póstumo '.$solicitudAP->no_solicitud);     
-                //Mail::to($colegiado->e_mail)->send($infoCorreoAp);
-
-                return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado'));
-        
-        $fecha_actual=date_format(Now(),'d-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $colegiado)->orderBy('id','DESC')->first();
-        
-        $colegiado = SQLSRV_Colegiado::where("c_cliente",$solicitudAP->n_colegiado)->get()->first();
-        return view ('mails.prueba',compact('fecha_actual','solicitudAP','colegiado'));
-        $prueba = "Hola mundo ".$solicitudAP->no_solicitud;
-        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP); 
-        $infoCorreoAp->subject('Rechazo de Documentos Auxilio Póstumo'.$solicitudAP->no_solicitud);
-        dd($infoCorreoAp->subject());
-
-        Mail::to('daeliasc@gmail.com')->send($infoCorreoAp);
-
-    }
-
-
 
 }
