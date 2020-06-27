@@ -19,7 +19,7 @@ class TipoDePago extends Model
         'precio_colegiado',
         'precio_particular',
         'categoria_id',
-        'estado' //este estado es el que nos indica si se encuentra activado (0) o desactivado (1).
+        'estado' //este estado es el que nos indica si se encuentra activado (0) o sdesaactivado (1).
     ];
 
 }

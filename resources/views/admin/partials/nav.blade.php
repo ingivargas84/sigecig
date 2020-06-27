@@ -110,7 +110,7 @@
 
         @role("Super-Administrador|Contabilidad|JefeContabilidad|Administrador")
           <ul class="treeview-menu">
-            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('reporteap.reporte_ap')}}" target="_blank">
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('reporteap.reporte_ap')}}">
               <i class="fa fa-eye"></i>Reporte de Solicitudes Finalizadas</a>
             </li>
           </ul>

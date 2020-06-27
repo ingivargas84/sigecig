@@ -63,29 +63,7 @@
 
             </div>
         </div>
-        <div style="display: none" id="crearUsuario">
-            <div>
-                <h5 style="color:red">El cliente no posee una cuenta de usuario, se creará una cuenta con los siguientes parámetros</h5>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <label for="">Usuario</label>
-                        <input type="text" readonly class="form-control" placeholder="Nombre:" name="c_cliente" value="" >
-                    </div>
-                    <div class="col-sm-7">
-                        <label for="">Nombre Colegiado</label>
-                        <input type="text" readonly class="form-control" placeholder="Nombre:" name="n_cliente" value="" >
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">Contraseña</label>
-                        <input type="text" readonly class="form-control" placeholder=":" name="" value="Guatemala.2020" >
-                    </div>
-    
-                </div>
-            </div>
-        </div><br>
         <button class="btn btn-primary  pull-right" type="submit" id="enviar">Crear</button>
-        <div class="loader loader-bar is-active" style="display: none "></div><br><br>
+        <div class="loader loader-bar is-active" style="display: none "></div>
     </div>
-   
-
 </form>

@@ -33,8 +33,5 @@ class CategoriaTipoPagoSeeder extends Seeder
         DB::table('sigecig_categoria_tipo_pago')->insert([
             'categoria'=>'Mora'
         ]);
-        DB::table('sigecig_categoria_tipo_pago')->insert([
-            'categoria'=>'Otros'
-        ]);
     }
 }
