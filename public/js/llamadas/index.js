@@ -9,7 +9,7 @@ var llamadas_table = $('#llamadas-table').DataTable({
         [ 10, 25, 50, -1 ],
         [ '10 filas', '25 filas', '50 filas', 'Mostrar todo' ]
     ],
-    
+
     "buttons": [
     'pageLength',
     'excelHtml5',
@@ -52,8 +52,8 @@ var llamadas_table = $('#llamadas-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
-    
+    },
+
     {
         "title": "Fecha creacion Informe",
         "data": "created_at",
@@ -61,8 +61,8 @@ var llamadas_table = $('#llamadas-table').DataTable({
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
-    
+    },
+
     {
         "title": "No. colegiado",
         "data": "colegiado",
@@ -70,7 +70,7 @@ var llamadas_table = $('#llamadas-table').DataTable({
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
+    },
 
     {
         "title": "Telefono",
@@ -79,8 +79,8 @@ var llamadas_table = $('#llamadas-table').DataTable({
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
             return (data);},
-    }, 
-     
+    },
+
     {
         "title": "Observaciones",
         "data": "observaciones",
@@ -99,30 +99,30 @@ var llamadas_table = $('#llamadas-table').DataTable({
             var urlActual = $("input[name='urlActual']").val();
 
             if(full.deleted_at != 1){
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left col-lg-6'>" + 
-                "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-informe' >" + 
-                "<i class='fa fa-btn fa-edit' title='Editar informe'></i>" + 
+                return "<div id='" + full.id + "' class='text-center'>" +
+                "<div class='float-left col-lg-6'>" +
+                "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-informe' >" +
+                "<i class='fa fa-btn fa-edit' title='Editar informe'></i>" +
                 "</a>" + "</div>" +
-                "<div class='float-right col-lg-6'>" + 
-                "<a href='"+urlActual+"/"+full.id+"/delete' class='delete-informe'"+ "data-method='post' data-id='"+full.id+"' >" + 
-                "<i class='fa fa-trash' title='Eliminar Informe'></i>" + 
+                "<div class='float-right col-lg-6'>" +
+                "<a href='"+urlActual+"/"+full.id+"/delete' class='delete-informe'"+ "data-method='post' data-id='"+full.id+"' >" +
+                "<i class='fa fa-trash' title='Eliminar Informe'></i>" +
                 "</a>" + "</div>";
-    
+
             } else{
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
-                    return "<div id='" + full.id + "' class='text-center'>" + 
-                    "<div class='float-right col-lg-6'>" + 
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-boleta'"+ "data-method='post' data-id='"+full.id+"' >" + 
-                    "<i class='fa fa-thumbs-up' title='Aprobar Boleta'></i>" + 
+                    return "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-right col-lg-6'>" +
+                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-boleta'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-thumbs-up' title='Aprobar Boleta'></i>" +
                     "</a>" + "</div>";
                 }else{
                     return "<div id='" + full.id + "' class='text-center'>" + "</div>";
                 }
-    
-            }    
-             
-            
+
+            }
+
+
         },
         "responsivePriority": 5
     }]
@@ -142,8 +142,8 @@ $("#btnConfirmarAccion").click(function(event) {
 $(document).on('click', 'a.delete-informe', function(e) {
     e.preventDefault(); // does not go through with the link.
 
-    var $this = $(this);    
-    alertify.confirm('Eliminar Informe', 'Esta seguro de eliminar el informe', 
+    var $this = $(this);
+    alertify.confirm('Eliminar Informe', 'Esta seguro de eliminar el informe',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -154,11 +154,11 @@ $(document).on('click', 'a.delete-informe', function(e) {
                 llamadas_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
                     alertify.success('Informe eliminada con Éxito!!');
-            }); 
+            });
          }
         , function(){
-            alertify.set('notifier','position', 'top-center'); 
+            alertify.set('notifier','position', 'top-center');
             alertify.error('Cancelar')
-        });   
+        });
 });
 
