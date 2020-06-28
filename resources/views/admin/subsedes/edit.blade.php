@@ -51,7 +51,7 @@
                         <div class="text-right m-t-15">
 
                             <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
-                                <button class="btn btn-success form-button" id="ButtonSubsedes">Guardar</button>
+                                <button class="btn btn-success form-button" id="ButtonSubsedes" >Actualizar</button>
                         </div>
 
                     </div>

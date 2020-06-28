@@ -28,7 +28,7 @@ class InformeLlamadasController extends Controller
      */
     public function index()
     {
-        return view('admin.llamada.index');
+        return view('gerencia.llamada.index');
     }
 
     /**
@@ -38,7 +38,7 @@ class InformeLlamadasController extends Controller
      */
     public function create()
     {
-        return view('admin.llamada.create');
+        return view('gerencia.llamada.create');
     }
 
     /**
@@ -79,7 +79,7 @@ class InformeLlamadasController extends Controller
      */
     public function edit(InformeLlamada $informe)
     {
-        return view('admin.llamada.edit', compact('informe'));
+        return view('gerencia.llamada.edit', compact('informe'));
     }
 
     /**
@@ -100,7 +100,7 @@ class InformeLlamadasController extends Controller
         $json = json_encode($nuevos_datos);
 
         $informe->update($request->all());
-
+      
         return redirect()->route('llamada.index', $informe)->with('flash','El informe ha sido actualizado!');
     }
 
@@ -120,7 +120,7 @@ class InformeLlamadasController extends Controller
 
     public function getJson(Request $params)
      {
-         $api_Result['data'] = InformeLlamada::all();
+         $api_Result['data'] = InformeLlamada::all(); 
          return Response::json( $api_Result );
      }
 }

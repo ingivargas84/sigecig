@@ -9,6 +9,7 @@ class Recibo_Maestro extends Model
     protected $table = 'sigecig_recibo_maestro';
 
     protected $fillable = [
+        'id',
         'serie_recibo_id',
         'numero_recibo',
         'numero_de_identificacion', //este dato puede ser #coleigado, nit o dpi
@@ -19,6 +20,7 @@ class Recibo_Maestro extends Model
         'monto_tarjeta',
         'monto_cheque',
         'usuario',
-        'monto_total'
+        'monto_total',
+        'e_mail'
     ];
 }

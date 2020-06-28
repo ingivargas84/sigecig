@@ -1,4 +1,4 @@
-@extends('admin.layoutadmin')
+@extends('gerencia.layoutgerencia')
 
 @section('header')
     <section class="content-header">
@@ -54,9 +54,9 @@
                             <a class='btn btn-primary form-button' href="{{ route('llamada.index') }}">Regresar</a>
                             <button class="btn btn-success form-button">Guardar</button>
                         </div>
-
+                                    
                     </div>
-                </div>
+                </div>                
             </div>
     </form>
     <div class="loader loader-bar"></div>

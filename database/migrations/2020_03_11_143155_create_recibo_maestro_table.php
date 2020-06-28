@@ -26,6 +26,7 @@ class CreateReciboMaestroTable extends Migration
             $table->double('monto_cheque',10,2)->nullable();
             $table->integer('usuario');
             $table->double('monto_total',10,2);
+            $table->string('e_mail')->nullable();
             $table->timestamps();
         });
     }
