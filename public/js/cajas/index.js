@@ -1,5 +1,5 @@
 var cajas_table = $('#cajas-table').DataTable({
-    //"ajax": "/cajas/getJson",
+    "ajax": "/cajas/getJson",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -45,33 +45,41 @@ var cajas_table = $('#cajas-table').DataTable({
         },
     },
     "order": [0, 'desc'],
-    "columns": [ {
-        "title": "Nombre Caja",
-        "data": "nombre_caja",
-        "width" : "30%",
-        "responsivePriority": 1,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    },
-    {
-        "title": "Nombre de cajas",
-        "data": "no_boleta",
-        "width" : "15%",
-        "responsivePriority": 2,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    },
+    "columns": [ 
+        {
+            "title": "id",
+            "data": "id",
+            "width" : "10%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
+            "title": "Nombre Caja",
+            "data": "nombre_caja",
+            "width" : "30%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
+            "title": "Subsede",
+            "data": "subsede",
+            "width" : "30%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
+            "title": "Cajero",
+            "data": "cajero",
+            "width" : "25%",
+            "responsivePriority": 2,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
 
-    {
-        "title": "Nombre de usuario",
-        "data": "nombre_usuario",
-        "width" : "15%",
-        "responsivePriority": 2,
-        "render": function( data, type, full, meta ) {
-            return (data);},
-    },
-
-    {
+    /* {
         "title": "Estado",
         "data": "estado_boleta",
         "width" : "10%",
@@ -113,7 +121,7 @@ var cajas_table = $('#cajas-table').DataTable({
             }
 
         },
-    },
+    }, */
 
     {
         "title": "Acciones",

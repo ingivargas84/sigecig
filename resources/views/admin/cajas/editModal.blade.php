@@ -32,9 +32,9 @@
                         <label for="categoria_id">Categoria:</label>
                         <select name="categoria_id" class="form-control" id="categoria_id">
                             <option value="">-- Escoja la categoria --</option>
-                            @foreach ($cat as $cate)
+                           {{--  @foreach ($cat as $cate)
                                 <option value="{{ $cate->id }}">{{ $cate->categoria }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </div>
                 </div>

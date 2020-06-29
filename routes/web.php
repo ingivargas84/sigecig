@@ -104,7 +104,7 @@ Route::group([
        Route::get('/cajas/edit/{cajas}', 'CajasController@edit')->name('cajas.edit');
        Route::put('/cajas/{cajas}/update', 'CajasController@update')->name('cajas.update');
        Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
-
+       Route::get('/cajas/nombreDisponible/', 'CajasController@nombreDisponible');
 
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');

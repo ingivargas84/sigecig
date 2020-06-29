@@ -12,6 +12,8 @@ use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
 use App\Cajasbsedes;
 use App\User;
+use App\Cajas;
+use App\Subsedes;
 use Validator;
 
 class CajasController extends Controller
@@ -29,7 +31,8 @@ class CajasController extends Controller
      */
     public function index()
     {
-        return view('admin.cajas.index');
+        $subsede = Subsedes::all();
+        return view('admin.cajas.index', compact( 'subsede'));
 
     }
 
@@ -60,7 +63,7 @@ class CajasController extends Controller
 
         event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $Cajas, 'cajas' ));
 
-        return redirect()->route('cajas.index')->with('flash','La Cajas ha sido creada correctamente');
+        return redirect()->route('cajas.index')->with('flash','La Caja ha sido creada correctamente');
     }
 
     /**
