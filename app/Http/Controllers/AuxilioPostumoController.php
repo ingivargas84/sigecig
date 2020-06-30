@@ -14,6 +14,7 @@ use DB;
 use Image, File, Mail;
 use App\Mail\AprobacionDocAp;
 use App\AdmUsuario;
+use App\AdmColegiado;
 use App\AdmPersona;
 use App\Events\ActualizacionBitacoraAp;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,6 @@ class AuxilioPostumoController extends Controller
     //crear una nueva solicitud de auxilio postumo
     public function nuevaSolicitud()
     {
-
         $query = "SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
@@ -60,20 +60,32 @@ class AuxilioPostumoController extends Controller
         if (empty($admin_usuario)) {
             $persona = new AdmPersona;
             $persona->Nombre1 = $colegiado->n_cliente;
+            $persona->Email = $colegiado->e_mail;
             $persona->save();
+
             $usuario = new AdmUsuario;
             $usuario->Usuario = $colegiado->c_cliente;
             $usuario->idIdentidad = 1;
             $usuario->idRol = 4;
             $usuario->TipoInternoExterno = 2;
-            $usuario->contrasenna = bcrypt('Guatemala.2020');
+            $usuario->contrasenna = 'RwB1AGEAdABlAG0AYQBsAGEALgAyADAAMgAwAA==';
             $usuario->idRecordatorio = '0';
-            $usuario->palabraclave = 'Guatemala.2020';
+            $usuario->palabraclave = 'Respuesta';
             $usuario->idPersona = $persona->id;
-            $usuario->primerIngreso = 0;
-            $usuario->UltimaSesion = Now();
+            $usuario->primerIngreso = 1;
+            $usuario->UltimaSesion = DB::raw('NOW()');
             $usuario->sesion = 0;
+            $usuario->remember_token = str_random(32);
+            $usuario->estado = 1;
             $usuario->save();
+
+            $adm_colegiado = new AdmColegiado;
+            $adm_colegiado->idUsuario = $usuario->id;
+            $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
+            $adm_colegiado->fechacreacion = DB::raw('NOW()');
+            $adm_colegiado->estado = 1;
+            $adm_colegiado->save();
+
         }
 
         $solicitud = DB::table('sigecig_solicitudes_ap')->max('no_solicitud');
