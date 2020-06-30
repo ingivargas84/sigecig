@@ -38,10 +38,9 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
-        // return view('admin.creacionRecibo.index', compact('tipo'));
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
-        return view('admin.creacionRecibo.index', compact('pos'));
+        return view('admin.creacionRecibo.index', compact('pos', 'tipo'));
     }
 
     public function pdfRecibo(Recibo_Maestro $id)
@@ -57,11 +56,11 @@ class ReciboController extends Controller
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
+        FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
-    
+
        // return view('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
 
 
@@ -182,7 +181,7 @@ class ReciboController extends Controller
 
         //Envio de correo creacion de recibo colegiado
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
+        FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
 
@@ -285,7 +284,7 @@ class ReciboController extends Controller
         $reciboMaestro = $reciboMaestroP;
         //Envio de correo creacion de recibo Particular
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
+        FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
         $datos = DB::select($query1);
@@ -386,7 +385,7 @@ class ReciboController extends Controller
 
         $reciboMaestro =  $reciboMaestroE;
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
+        FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
         $datos = DB::select($query1);
