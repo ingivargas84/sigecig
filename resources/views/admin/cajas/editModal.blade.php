@@ -26,7 +26,12 @@
                     </div>
                     <div class="form-group col-sm-12" >
                         <label for="cajero">Cajero:</label>
-                        <input type="text" class="form-control" name="cajero">
+                        <select name="cajero" class="form-control" id="cajero">
+                          <option value="">-- Escoja el cajero --</option>
+                          @foreach ($datos as $us)
+                              <option value="{{ $us->id }}">{{ $us->name }}</option>
+                          @endforeach
+                      </select>     
                     </div>
                 </div>
               <br>

@@ -2065,7 +2065,7 @@ class CreacionSolicitudSeeder extends Seeder
              //Junta 2017/2019
             //acta005
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1883',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2078,7 +2078,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
             //acta007
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'717',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2091,7 +2091,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
             //acta010
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1115',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2104,7 +2104,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta012
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'715',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2116,7 +2116,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'4144',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2129,7 +2129,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
               //acta021
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1033',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2142,7 +2142,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta025
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1588',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2155,7 +2155,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta035
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1341',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2167,7 +2167,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'2777',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2180,7 +2180,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta037
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'847',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2193,7 +2193,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta039
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1103',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2206,7 +2206,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta041
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'803',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2219,7 +2219,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta042
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1470',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2232,7 +2232,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta045
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1197',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2245,7 +2245,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta051
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'972',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2258,7 +2258,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta055
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'753',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2270,7 +2270,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'954',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2282,7 +2282,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1853',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2295,7 +2295,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta056
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'1386',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2307,7 +2307,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'337',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2320,7 +2320,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta069
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'916',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2333,7 +2333,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta073
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'829',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2346,7 +2346,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
                 //acta078
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'656',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2359,7 +2359,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta088
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'622',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2371,7 +2371,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2017-2019'
             ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2017-01-01 00:12:00',
             'n_colegiado'=>'687',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2385,7 +2385,7 @@ class CreacionSolicitudSeeder extends Seeder
                 //Junta 2019/2021
             //acta006
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-01-06 00:12:00',
             'n_colegiado'=>'792',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2398,7 +2398,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta008
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-01-20 00:12:00',
             'n_colegiado'=>'2675',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2411,7 +2411,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta011
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-02-10 00:12:00',
             'n_colegiado'=>'734',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2424,7 +2424,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta016
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-05-07 00:12:00',
             'n_colegiado'=>'1016',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2436,7 +2436,7 @@ class CreacionSolicitudSeeder extends Seeder
             'junta'=>'2019-2021'
         ]);  
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-05-07 00:12:00',
             'n_colegiado'=>'1374',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2449,7 +2449,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta021
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-06-19 00:12:00',
             'n_colegiado'=>'1117',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
@@ -2462,7 +2462,7 @@ class CreacionSolicitudSeeder extends Seeder
             ]);  
              //acta001
         DB::table('sigecig_solicitudes_ap')->insert([
-            'fecha_solicitud'=>'2013-01-01 00:12:00',
+            'fecha_solicitud'=>'2020-04-19 00:12:00',
             'n_colegiado'=>'761',
             'id_estado_solicitud'=>'10',
             'id_banco'=>'1',
