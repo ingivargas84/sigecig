@@ -72,7 +72,7 @@ var cajas_table = $('#cajas-table').DataTable({
         },
         {
             "title": "Cajero",
-            "data": "cajero",
+            "data": "name",
             "width" : "25%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {

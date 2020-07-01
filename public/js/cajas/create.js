@@ -25,8 +25,17 @@ var validator = $("#CajasForm").validate({
 	}
 });
 
+$("#ButtonTipoModal1").click(function(event) {
+	event.preventDefault();
+	if ($("#CajasForm").valid()) {
+		saveModal();
+	} else {
+		validator.focusInvalid();
+	}
+});
+
 $("#ButtonBoleta").click(function(event) {
-	if ($('#BoletaForm').valid()) {
+	if ($('#CajasForm').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
@@ -49,14 +58,6 @@ $.validator.addMethod("nombreunico", function(value, element){
     return valid;
 	}, "La caja ya está registrada en el sistema");
 	
-	$("#ButtonTipoModal1").click(function(event) {
-		event.preventDefault();
-		if ($("#CajasForm").valid()) {
-			saveModal();
-		} else {
-			validator.focusInvalid();
-		}
-	});
 
 	function saveModal(button) {
 		var formData = $("#CajasForm").serialize();
@@ -72,7 +73,7 @@ $.validator.addMethod("nombreunico", function(value, element){
 				$('#ingresoModal').modal("hide");
 				cajas_table.ajax.reload();
 				alertify.set('notifier','position', 'top-center');
-				alertify.success('Tipo de Pago Creado con Éxito!!');
+				alertify.success('Caja creada con Éxito!!');
 			},
 			error: function(errors) {
 				var errors = JSON.parse(errors.responseText);
