@@ -52,6 +52,8 @@ $('#enviar').click(function (e) {
             error: function (jqXHR, estado, error){
                 console.log(estado)
                 console.log(error)
+                alertify.set('notifier','position', 'top-center');  
+                alertify.error('No se registro correctamente');
             }
     
         }).always(function () {
