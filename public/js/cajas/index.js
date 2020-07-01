@@ -47,7 +47,7 @@ var cajas_table = $('#cajas-table').DataTable({
     "order": [0, 'desc'],
     "columns": [ 
         {
-            "title": "id",
+            "title": "Id",
             "data": "id",
             "width" : "10%",
             "responsivePriority": 1,
@@ -64,8 +64,8 @@ var cajas_table = $('#cajas-table').DataTable({
         },
         {
             "title": "Subsede",
-            "data": "subsede",
-            "width" : "30%",
+            "data": "nombre_sede",
+            "width" : "25%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -78,90 +78,34 @@ var cajas_table = $('#cajas-table').DataTable({
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
-
-    /* {
-        "title": "Estado",
-        "data": "estado_boleta",
-        "width" : "10%",
-        "responsivePriority": 4,
-        "render": function( data, type, full, meta ) {
-            if(data == 1){
-                return ('Activa')
-            }else if(data == 2){
-                return ('Inactiva')
-            }else if(data == 3){
-                return ('Eliminada')
-            }
-
-        },
-    },
-
-    {
-        "title": "Proceso de Boleta",
-        "data": "estado_proceso",
-        "width" : "10%",
-        "responsivePriority": 4,
-        "render": function( data, type, full, meta ) {
-            if(data == 1){
-                return ('Lista')
-            }else if(data == 2){
-                return ('Entregada')
-            }else if(data == 3){
-                return ('Usada')
-            }else if(data == 4){
-                return ('Regresado')
-            }else if(data == 5){
-                return ('Liquidado')
-            }else if(data == 6){
-                return ('perdido')
-            }else if(data == 7){
-                return ('Anulada')
-            }else if(data == 8){
-                return ('Eliminada')
-            }
-
-        },
-    }, */
-
     {
         "title": "Acciones",
         "orderable": false,
-        "width" : "10%",
+        "width" : "15%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
 
-            if(full.estado_boleta == 1){
+            if(full.estado == 1){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-boleta' >" +
-                "<i class='fa fa-btn fa-edit' title='Editar boleta'></i>" +
+                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-codigo='" + full.codigo + "' data-tipo_de_pago='"+full.tipo_de_pago+"' data-precio_colegiado='"+full.precio_colegiado+"' data-precio_particular='"+full.precio_particular+"' data-categoria_id='"+full.categoria_id+"'>" +
+                "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                 "</a>" + "</div>" +
+                "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-boleta'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-thumbs-down' title='Rechazar Boleta'></i>" +
-                "</a>" + "</div>" +
-                "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/delete' class='delete-boleta'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-trash' title='Eliminar Boleta'></i>" +
+                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-cajas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                "<i class='fa fa-thumbs-down' title='Desactivar Caja'></i>" +
                 "</a>" + "</div>";
-
-            } else{
-                if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
+                }else{
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-boleta'"+ "data-method='post' data-id='"+full.id+"' >" +
-                    "<i class='fa fa-thumbs-up' title='Aprobar Boleta'></i>" +
-                    "</a>" + "</div>";
-                }else{
-                    return "<div id='" + full.id + "' class='text-center'>" + "</div>";
+                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-cajas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-thumbs-up' title='Activar Caja'></i>" +
+                    "</a>" + "</div>" 
                 }
-
-            }
-
-
         },
-        "responsivePriority": 5
+        "responsivePriority": 1
     }]
 
 });
@@ -178,9 +122,10 @@ $("#btnConfirmarAccion").click(function(event) {
 
 $(document).on('click', 'a.destroy-cajas', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-error";
+    var button = $(e.currentTarget);
     var $this = $(this);
-    alertify.confirm('Desactivar boleta', 'Esta seguro de Rechazar la boleta',
+    alertify.confirm('Desactivar Caja', 'Esta seguro de desactivar la caja?',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -190,7 +135,7 @@ $(document).on('click', 'a.destroy-cajas', function(e) {
                 $('.loader').fadeOut(225);
                 cajas_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success('Boleta desactivada con Éxito!!');
+                    alertify.success('Caja desactivada con Éxito!');
             });
          }
         , function(){
@@ -199,11 +144,12 @@ $(document).on('click', 'a.destroy-cajas', function(e) {
         });
 });
 
-$(document).on('click', 'a.activar-boleta', function(e) {
+$(document).on('click', 'a.activar-cajas', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-confirm";
+    var button = $(e.currentTarget);
     var $this = $(this);
-    alertify.confirm('Aprobar boleta', 'Esta seguro de aprobar la Boleta',
+    alertify.confirm('Activar caja', 'Esta seguro de activar la caja?',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -213,7 +159,7 @@ $(document).on('click', 'a.activar-boleta', function(e) {
                 $('.loader').fadeOut(225);
                 cajas_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success('Boleta aprobada con Éxito!!');
+                    alertify.success('Caja activada con Éxito!');
             });
          }
         , function(){

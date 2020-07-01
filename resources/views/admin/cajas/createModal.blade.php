@@ -9,7 +9,7 @@
             <div class="modal-body">
 
                 <div class="row">
-                    <div class="form-group col-sm-12 {{ $errors->has('cajas') ? 'has-error': '' }}" >
+                    <div class="form-group col-sm-12 {{ $errors->has('nombre_caja') ? 'has-error': '' }}" >
                         <label for="nombre_caja">Nombre de Caja:</label>
                         <input type="text" class="form-control" placeholder="Ingrese caja" name="nombre_caja">
                         {!! $errors->first('nombre_caja', '<span class="help-block">:message</span>') !!}
@@ -19,12 +19,18 @@
                         <select name="subsede" class="form-control" id="subsede">
                           <option value="">-- Escoja la subsede --</option>
                           @foreach ($subsede as $su)
-                              <option value="">{{ $su->nombre_sede }}</option>
+                              <option value="{{ $su->id }}">{{ $su->nombre_sede }}</option>
                           @endforeach
-                      </select>                    </div>
+                      </select>                    
+                    </div>
                     <div class="form-group col-sm-12" >
                         <label for="cajero">Cajero:</label>
-                        <input type="text" class="form-control" placeholder="Ingrese el cajero" name="cajero">
+                        <select name="cajero" class="form-control" id="cajero">
+                          <option value="">-- Escoja el cajero --</option>
+                          @foreach ($user as $us)
+                              <option value="{{ $us->id }}">{{ $us->name }}</option>
+                          @endforeach
+                      </select>     
                     </div>
                 </div>
               <br>

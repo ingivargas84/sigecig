@@ -14,13 +14,13 @@ var validator = $("#CajasForm").validate({
 	},
 	messages: {
 		nombre_caja: {
-			required: "Por favor, ingrese el numero de boleta"
+			required: "Por favor, ingrese el numero de caja"
 		},
 		subsede: {
-			required: "Por favor, ingrese su nombre de usuario"
+			required: "Por favor, ingrese su nombre de subsede"
 		},
 		cajero: {
-			required: "por favor, ingrese el numero de solicitud de Boleta"
+			required: "Por favor, ingrese el cajero"
 		}
 	}
 });
@@ -47,7 +47,7 @@ $.validator.addMethod("nombreunico", function(value, element){
         }
     });
     return valid;
-	}, "La subsede ya está registrada en el sistema");
+	}, "La caja ya está registrada en el sistema");
 	
 	$("#ButtonTipoModal1").click(function(event) {
 		event.preventDefault();
@@ -59,7 +59,7 @@ $.validator.addMethod("nombreunico", function(value, element){
 	});
 
 	function saveModal(button) {
-		var formData = $("#TipoPagoForm").serialize();
+		var formData = $("#CajasForm").serialize();
 		var urlActual =  $("input[name='urlActual']").val();
 		$.ajax({
 			type: "POST",
@@ -70,7 +70,7 @@ $.validator.addMethod("nombreunico", function(value, element){
 			success: function(data) {
 				$('.loader').fadeOut(225);
 				$('#ingresoModal').modal("hide");
-				tipodepago_table.ajax.reload();
+				cajas_table.ajax.reload();
 				alertify.set('notifier','position', 'top-center');
 				alertify.success('Tipo de Pago Creado con Éxito!!');
 			},
