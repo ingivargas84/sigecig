@@ -98,7 +98,7 @@ class AuxilioPostumoController extends Controller
         $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
         $cuenta->no_cuenta = $request->no_cuenta;
         $cuenta->id_creacion = 1;
-        $cuenta->junta='2017-2019';
+        $cuenta->junta='2019-2021';
 
         if ($solicitud == 0) {
             $cuenta->no_solicitud = 15;
