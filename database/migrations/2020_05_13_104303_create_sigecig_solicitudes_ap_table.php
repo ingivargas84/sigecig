@@ -30,6 +30,7 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->string('solicitud_rechazo_ap', 500)->nullable();
             $table->string('solicitud_rechazo_junta', 500)->nullable();
             $table->Integer('id_creacion')->nullable();
+            $table->string('junta', 100)->nullable();
             $table->timestamps();
         });
     }
