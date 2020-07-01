@@ -20,7 +20,6 @@
             width: 90%;
             margin-left: 4rem;
             height: 190px;
-
         } */
         .contenedor1{
             font-family: "sans-serif";
@@ -49,12 +48,10 @@
             font-weight: bold;
             color:black;
             height: 50px;
-            margin-right: 3rem;
             display: inline-block;
             vertical-align: top;
             margin-top: 1rem;
         }
-
         .texto3 {
             background: #D2D2D2;
         }
@@ -63,8 +60,7 @@
             font-size: 35px;
             margin-top: 1rem;
             font-weight: bold;
-            color:black;
-            height: 50px;
+            height: 190px;
             margin-right: 4rem;
         }
         .baner1{
@@ -91,7 +87,6 @@
             margin-right: 5rem;
             float:right;
         }
-
         .img1{
             display: flex;
             height: 60px;
@@ -128,7 +123,6 @@
             width: 90%;
             margin: 20 auto;
             font-family: "sans-serif";
-
         }
       /*   table, td, th {
             border-collapse: collapse;
@@ -138,7 +132,6 @@
             width: 90%;
             font-family: "sans-serif";
             height: 30px; */
-
         }
         .odd th, .odd td {
             background: #eee;
@@ -151,7 +144,7 @@
 </head>
 <body>
 <div class="container body" style="margin-bottom: 15px;">
-    <div class="row" style="font-family: sans-serif; background: #03306d;margin-bottom:3rem; height: 190px; width: 90%; margin-left: 4rem;">
+    <div class="row" style="font-family: sans-serif; margin-bottom:3rem; height: 190px; margin-left: 4rem;">
             <img class="lg" src="images/logo.png"  height="190"  alt="">
             <div class="texto">
             <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
@@ -159,7 +152,7 @@
                             PBX: 2218-2600 / www.cig.org.gt <br>
                             NIT: 299329-5</small></p>
             </div>
-            <div class="texto1" style="color: white;"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
+            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
         </div>
     </div>
 </div>
@@ -188,10 +181,10 @@
         <table>
             <thead>
                 <tr>
-                    <th width="20%" style="background: repeating-linear-gradient(-45deg,white 0, white 12%, #d2d2d2 0, #d2d2d2);text-align:center;padding: 6px;">CODIGO</th>
-                    <th width="50%" style="background: repeating-linear-gradient(-45deg,#d2d2d2 0, #d2d2d2 7%, white 0, white);text-align:center;">DESCRIPCION</th>
+                    <th width="20%" style="background: #D2D2D2;text-align:center;">CODIGO</th>
+                    <th width="50%" style="background: #D2D2D2;text-align:center;">DESCRIPCION</th>
                     <th width="15%" style="background: #D2D2D2;text-align:center;">CANTIDAD </th>
-                    <th width="15%" style="background: repeating-linear-gradient(-45deg,#03306D 0, #03306D 83%, #d2d2d2 0, #d2d2d2);color: white;text-align:center;">TOTAL</th>
+                    <th width="15%" style="background: #D2D2D2;text-align:center;">TOTAL</th>
                 </tr>
             </thead>
             @foreach($datos as $co)

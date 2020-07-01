@@ -40,6 +40,12 @@
       </li>
       @endrole
 
+      @role("Administrador")
+      <li class="{{request()->is('cajas')? 'active': ''}}"><a href="{{route('cajas.index')}}">
+        <i class="fa fa-eye"></i>Cajas</a>
+      </li>
+      @endrole
+
     </ul>
   </li>
   @endrole
