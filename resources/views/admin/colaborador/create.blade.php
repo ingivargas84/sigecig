@@ -57,7 +57,7 @@
                             <div class="col-sm-4">
                                 <label for="subsede">Subsedes:</label>
                                 <select name="subsede" class="form-control">
-                                    <option value="">-- Escoja la subsedes del empleado --</option>
+                                    <option value="">-- Escoja la subsede del empleado --</option>
                                         @foreach ($sub as $su)
                                             <option value="{{ $su['id'] }}">{{ $su['nombre_sede'] }}</option>
                                         @endforeach
@@ -80,7 +80,7 @@
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-primary form-button' href="{{ route('colaborador.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonColaborador" >Guardar</button>
+                            <button class="btn btn-primary form-button" id="ButtonColaborador" >Guardar</button>
                         </div>
 
                     </div>

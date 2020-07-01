@@ -50,7 +50,7 @@
                                             A
                                         </label>
                                         <label class="radio-inline">
-                                            <input name="serieRecibo" type="radio" id="serieReciboB" value="b">
+                                            <input name="serieRecibo" checked="checked" type="radio" id="serieReciboB" value="b">
                                             B
                                         </label>
                                     </div>
@@ -139,6 +139,9 @@
                                         <label for="codigo" class="control-label">Código</label>
                                         <select name="codigo" id="codigo" class="form-control" id="codigo">
                                             <option value="">-- Escoja --</option>
+                                            @foreach ($tipo as $ti)
+                                                    <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -323,7 +326,7 @@
                             <div class="row">
                                 <div class="col-sm-2 col-lg-2" id="divColegioE" style="display: block;">
                                     <div class="form-group">
-                                        <label for="codigoE" class="control-label">Codigo</label>
+                                        <label for="codigoE" class="control-label">Código</label>
                                         <select name="codigoE" class="form-control" id="codigoE">
                                             <option value="">-- Escoja --</option>
                                         </select>
@@ -513,7 +516,7 @@
                             <div class="row">
                                 <div class="col-sm-2 col-lg 2" id="divColegioP" style="display: block;">
                                     <div class="form-group">
-                                        <label for="codigoP" class="control-label">Codigo</label>
+                                        <label for="codigoP" class="control-label">Código</label>
                                         <select name="codigoP" class="form-control" id="codigoP">
                                             <option value="">-- Escoja --</option>
                                         </select>

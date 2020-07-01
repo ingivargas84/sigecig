@@ -102,9 +102,10 @@ Route::group([
        Route::get('/cajas/dpiDisponible/', 'CajasController@dpiDisponible');
        Route::get('/cajas/dpiDisponibleEdit/', 'CajasController@dpiEdit');
        Route::get('/cajas/edit/{cajas}', 'CajasController@edit')->name('cajas.edit');
-       Route::put('/cajas/{cajas}/update', 'CajasController@update')->name('cajas.update');
+       Route::post('/cajas/{cajas}/update', 'CajasController@update');
        Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
-
+       Route::post('/cajas/{cajas}/activar', 'CajasController@activar')->name('cajas.activar');
+       Route::get('/cajas/nombreDisponible/', 'CajasController@nombreDisponible');
 
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
