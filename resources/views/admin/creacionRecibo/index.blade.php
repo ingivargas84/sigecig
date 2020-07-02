@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <label for="c_cliente" class="control-label">Colegiado</label>
                             <div>
-                                <input type="number" id="c_cliente" name="c_cliente" required class="form-control" min="1">
+                                <input type="number" id="c_cliente" name="c_cliente" class="form-control" min="1">
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label for="n_cliente" class="control-label">Nombres</label>
                             <div>
-                                <input type="text" disabled id="n_cliente" name="n_cliente" required class="form-control">
+                                <input type="text" disabled id="n_cliente" name="n_cliente" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -290,9 +290,9 @@
                 <div class="row">
                     <div class="">
                         <div class="col-md-3">
-                            <button class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarRecibo" name="guardarRecibo">
+                            <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarRecibo" name="guardarRecibo">
                                 GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
-                            </button>
+                            </a>
                         </div>
                         <div class="col-md-3">
                             <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
