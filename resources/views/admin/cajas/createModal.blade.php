@@ -27,7 +27,7 @@
                         <label for="cajero">Cajero:</label>
                         <select name="cajero" class="form-control" id="cajero">
                           <option value="">-- Escoja el cajero --</option>
-                          @foreach ($user as $us)
+                          @foreach ($datos as $us)
                               <option value="{{ $us->id }}">{{ $us->name }}</option>
                           @endforeach
                       </select>     

@@ -35,8 +35,19 @@ class CajasController extends Controller
     {
         $subsede = Subsedes::all();
         $caja = Cajas::all();
-        $user = User::all();
-        return view('admin.cajas.index', compact( 'subsede', 'caja', 'user'));
+       // $user = User::all();
+
+        $query= "SELECT U.name, U.id
+        FROM sigecig_users U
+        INNER JOIN model_has_roles MR ON MR.model_id = U.id
+        WHERE MR.role_id = '18'";
+         
+        $datos = DB::select($query);
+
+        //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
+       // $user =User::where('id', '=',  $modelrol->model_id)->get();
+       
+        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos'));
 
     }
 
@@ -183,9 +194,10 @@ class CajasController extends Controller
      {
          //$api_Recajaslt['data'] = Cajas::where('estado','=',1)->get();
 
-        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.cajero, C.estado
+        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name
         FROM sigecig_cajas C
-        INNER JOIN sigecig_subsedes S ON C.id = S.id";
+        INNER JOIN sigecig_subsedes S ON C.id = S.id
+        INNER JOIN sigecig_users U ON C.cajero = U.id";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
