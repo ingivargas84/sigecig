@@ -42,14 +42,15 @@
 			<th>Fecha de transacción</th>
 		</tr>
 
-		@foreach($cuenta1 as $a1)
+		@foreach($datos as $a1)
 		<tr>
-			<td>{{  $a1->c_cliente }}</td>
-            <td>{{  $a1->n_cliente }}</td>
-            <td>{{  ($ap[$loop->iteration-1]->no_solicitud) }} </td>
-            <td>{{  ($ap[$loop->iteration-1]->no_cuenta) }}</td>
-            <td>{{  \Carbon\Carbon::parse($ap[$loop->iteration-1]->fecha_pago_ap)->format('d-m-Y') }}</td>
-
+			<td>{{  $a1->n_colegiado }}</td>
+			<td>{{  $a1->Nombre1 }}</td>
+ 			<td>{{  $a1->no_solicitud }} </td>
+           	<td>{{  $a1->no_cuenta }}</td> 
+        	@if($a1->fecha_pago_ap==true)    <td>{{  \Carbon\Carbon::parse($a1->fecha_pago_ap)->format('d-m-Y') }}</td> 
+			@else<td></td>
+			@endif 
 		</tr>
 		@endforeach
 
