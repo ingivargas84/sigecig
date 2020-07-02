@@ -16,36 +16,18 @@ function obtenerDatosColegiado()
     url:  '/colegiado/' + valor,
     success: function(response){
         if(response[0] != ""){
-            var D = new Date(response[0].f_ult_timbre);
-            var d = D.getDate();
-            var m = D.getMonth();
-            var y = D.getFullYear();
-            if(d<10){d='0'+d;}
-            if(m<10){m='0'+m;}
-            response[0].f_ult_timbre = d + '/' + m + '/' + y;
+            var D = response[0].f_ult_timbre;
+            var nueva=D.split(" ")[0].split("-").reverse().join("/");
+            response[0].f_ult_timbre = nueva;
 
-            var D = new Date(response[0].f_ult_pago);
-            var d = D.getDate();
-            var m = D.getMonth();
-            var y = D.getFullYear();
-            if(d<10){d='0'+d;}
-            if(m<10){m='0'+m;}
-            response[0].f_ult_pago = d + '/' + m + '/' + y;
+            var D = response[0].f_ult_pago;
+            var nueva=D.split(" ")[0].split("-").reverse().join("/");
+            response[0].f_ult_pago = nueva;
 
 
             if (response[0].fallecido == 'N'){
-                // if(response.estado == 'I'){
-                //     response.estado = 'Inactivo';
-                // }else if(response.estado == 'A'){
-                //     response.estado = 'Activo';
-                // }
             } else if(response[0].fallecido == 'S'){
                 response[0].estado = 'Fallecido'
-                // if(response.estado == 'I'){
-                //     response.estado = 'Fallecido';
-                // }else if(response.estado == 'A'){
-                //     response.estado = 'Fallecido';
-                // }
             }
 
             var monto_timbre = parseFloat(response[0].monto_timbre);
@@ -54,7 +36,7 @@ function obtenerDatosColegiado()
             $("input[name='estado']").val(response[0].estado);
             $("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
             $("input[name='f_ult_pago']").val(response[0].f_ult_pago);
-            $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
+            $("input[name='monto_timbre']").val('Q.'+monto_timbre.toFixed(2));
 
             if ($('#estado').val()== 'Inactivo' || $('#estado').val()== 'Fallecido'){
                 $('#estado').css({'color':'red'});
@@ -215,9 +197,9 @@ $(document).ready(function () {
                     if($("#codigo").val() != ""){
                         if ($("#codigo").val() == 57){ //el 57 representa el id de tipo de pago que realiza el calculo de colegiatura
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
-                                $("input[name='precioU']").val(response.precio_colegiado);
+                                $("input[name='precioU']").val('Q.'+response.precio_colegiado.toFixed(2));
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                                $("input[name='subtotal']").val(response.precio_colegiado);
+                                $("input[name='subtotal']").val('Q.'+response.precio_colegiado.toFixed(2));
                                 $("input[name='categoria_id']").val(response.categoria_id);
 
                                 $("#cantidad").val(1);
@@ -230,7 +212,6 @@ $(document).ready(function () {
                                     'fecha_colegio': $("#f_ult_pago").val(),
                                     'fecha_hasta_donde_paga': $("#fecha_pago").val(),
                                     'monto_timbre': $("#monto_timbre").val(),
-                                    //'exonerar_intereses_timbre': exonerarInteresesTimbre
                                 };
                                 $.ajax({
                                     type: "POST",
@@ -244,16 +225,16 @@ $(document).ready(function () {
                                         } else {
                                             $("#codigo").val(47); //el 47 es el codigo de interes del colegiado
                                             $("#cantidad").val(1);
-                                            $("#precioU").val(data.interesColegio);
+                                            $("#precioU").val('Q.'+data.interesColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Colegiatura');
-                                            $("#subtotal").val(data.interesColegio);
+                                            $("#subtotal").val('Q.'+data.interesColegio.toFixed(2));
                                             addnewrow();
 
                                             $("#codigo").val(11); //el 11 es el codigo de cuotas a pagar del colegiado
                                             $("#cantidad").val(1);
-                                            $("#precioU").val(data.cuotasColegio);
+                                            $("#precioU").val('Q.'+data.cuotasColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
-                                            $("#subtotal").val(data.cuotasColegio);
+                                            $("#subtotal").val('Q.'+data.cuotasColegio.toFixed(2));
                                             addnewrow();
 
                                             limpiarFilaDetalle();
@@ -268,9 +249,9 @@ $(document).ready(function () {
                             }
                         }else {
 
-                            $("input[name='precioU']").val(response.precio_colegiado);
+                            $("input[name='precioU']").val('Q.'+response.precio_colegiado.toFixed(2));
                             $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                            $("input[name='subtotal']").val(response.precio_colegiado);
+                            $("input[name='subtotal']").val('Q.'+response.precio_colegiado.toFixed(2));
                             $("input[name='categoria_id']").val(response.categoria_id);
 
                             $("#cantidad").val(1);
@@ -294,9 +275,9 @@ $(document).ready(function () {
                     if($("#codigo").val() != ""){
                         if ($("#codigo").val() == 56){ //el 56 representa el id de tipo de pago que realiza el calculo de interes
                             if ($('#estado').val() == 'Activo' || $('#estado').val() == 'Fallecido'){
-                                $("input[name='precioU']").val(response.precio_colegiado);
+                                $("input[name='precioU']").val('Q.'+response.precio_colegiado.toFixed(2));
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                                $("input[name='subtotal']").val(response.precio_colegiado);
+                                $("input[name='subtotal']").val('Q.'+response.precio_colegiado.toFixed(2));
                                 $("input[name='categoria_id']").val(response.categoria_id);
 
                                 $("#cantidad").val(1);
@@ -323,23 +304,23 @@ $(document).ready(function () {
                                         } else {
                                             $("#codigo").val(47); //el 47 es el codigo de interes del timbre
                                             $("#cantidad").val(1);
-                                            $("#precioU").val(data.interesTimbre);
+                                            $("#precioU").val('Q.'+data.interesTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Timbre');
-                                            $("#subtotal").val(data.interesTimbre);
+                                            $("#subtotal").val('Q.'+data.interesTimbre.toFixed(2));
                                             addnewrow();
 
                                             $("#codigo").val(48); //el 48 es el codigo dla mora del timbre
                                             $("#cantidad").val(1);
-                                            $("#precioU").val(data.moraTimbre);
+                                            $("#precioU").val('Q.'+data.moraTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Mora de Timbre');
-                                            $("#subtotal").val(data.moraTimbre);
+                                            $("#subtotal").val('Q.'+data.moraTimbre.toFixed(2));
                                             addnewrow();
 
                                             $("#codigo").val(58); //el 58 es el codigo de cuotas a pagar del timbre
                                             $("#cantidad").val(data.cuotasTimbre);
                                             $("#precioU").val($('#monto_timbre').val());
                                             $("#descTipoPago").val('pago de Capital de Timbre');
-                                            $("#subtotal").val(data.capitalTimbre);
+                                            $("#subtotal").val('Q.'+data.capitalTimbre.toFixed(2));
                                             addnewrow();
 
                                             limpiarFilaDetalle();
@@ -354,9 +335,9 @@ $(document).ready(function () {
                             }
                         }else{
 
-                            $("input[name='precioU']").val(response.precio_colegiado);
+                            $("input[name='precioU']").val('Q.'+response.precio_colegiado.toFixed(2));
                             $("input[name='descTipoPago']").val(response.tipo_de_pago);
-                            $("input[name='subtotal']").val(response.precio_colegiado);
+                            $("input[name='subtotal']").val('Q.'+response.precio_colegiado.toFixed(2));
                             $("input[name='categoria_id']").val(response.categoria_id);
 
                             $("#cantidad").val(1);
@@ -381,12 +362,12 @@ $(document).ready(function(){
 
         var subTotal = 0;
 
-        var precioU = $("#precioU").val(); // Convertir el valor a un entero (número).
+        var precioU = $("#precioU").val().substring(2); // Convertir el valor a un entero (número).
         var cantidad = $("#cantidad").val();
 
             subTotal = cantidad * precioU;
 
-            $("#subtotal").val(subTotal);
+            $("#subtotal").val('Q.'+subTotal.toFixed(2));
     });
 });
 
@@ -394,7 +375,7 @@ function agregarproductof() {
     $("#codigo").change();
 
     $("#cantidad").change();
-    if($.isNumeric($("#cantidad").val()) && $.isNumeric($("#cantidad").val()) && $.isNumeric($("#subtotal").val())) {
+    if($.isNumeric($("#cantidad").val()) && $("#subtotal").val().substring(2) != 0) {
 
         validateRow();
       limpiarFilaDetalle();
@@ -404,7 +385,7 @@ function agregarproductof() {
 function validateRow(){
     $('#tablaDetalle').each(function(index, tr) {
         var nFilas = $("#tablaDetalle tr").length;
-        if((nFilas == 1) && ($('#codigo').val() != "") && ($('#precioU').val() != "")){
+        if((nFilas == 1) && ($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
             addnewrow();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalle").find("tr");
@@ -416,8 +397,8 @@ function validateRow(){
                         var celdas = $(filas[i]).find("td");
 
                         var nuevoSubTotal = 0;
-                        var subTotalColeNue = $('#subtotal').val();
-                        var subTotalColeAnt = $($(celdas[5])).text();
+                        var subTotalColeNue = $('#subtotal').val().substring(2);
+                        var subTotalColeAnt = $($(celdas[5])).text().substring(2);
 
                         var codigoAnt = $($(celdas[0])).text();
 
@@ -430,7 +411,7 @@ function validateRow(){
                             nuevoSubTotal = Number(subTotalColeAnt) + Number(subTotalColeNue);
 
                             celdas[2].innerHTML = totalCant;
-                            celdas[5].innerHTML = nuevoSubTotal;
+                            celdas[5].innerHTML = 'Q.'+nuevoSubTotal.toFixed(2);
 
                             getTotal();
                             limpiarFilaDetalle();
@@ -452,7 +433,7 @@ function validateRow(){
                         if (arrayColCatId.includes($('#categoria_id').val()) && arrayColCodigo.includes($('#codigo').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigo').val() != "") && ($('#precioU').val() != "")){
+                        }else if(($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
                             addnewrow();
                             limpiarFilaDetalle();
                             finish();
@@ -516,10 +497,10 @@ function validateRow(){
 function getTotal() {
     var total = 0;
     $("#tablaDetalle .subtotal").each(function (index, element) {
-      total += parseFloat($(this).html(),10);
+      total += parseInt($(this).html().substring(2));
     });
 
-    $("#total").val(total.toFixed(2));
+    $("#total").val('Q.'+total.toFixed(2));
 }
 
   function limpiarFilaDetalle() {
@@ -582,8 +563,29 @@ function comprobarCheckTarjeta()
     }
 }
 
+$(document).ready(function(){
+    var validator = $('#colegiadoForm').validate({
+        ignore: [],
+        onkeyup:false,
+        rules: {
+            c_cliente:{
+                required: true
+            }
+        },
+        messages: {
+            c_cliente: {
+                required: "ingrese el colegiado"
+            }
+        }
+    });
+});
+
 $("#guardarRecibo").click(function(e){
 
+    if ($('#colegiadoForm').valid()) {
+
+    $('#emisionDeRecibo').val('colegiado');
+    $('#tipoDeCliente').val('c');
     var efectivoCorrecto = 0; //el 0 indica que no aplica y devuelve error
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
@@ -623,7 +625,7 @@ $("#guardarRecibo").click(function(e){
         var totalCheque = $('#montoCheque').val();
         var totalTarjeta = $('#montoTarjeta').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
-        if(totalPago == $("#total").val()){
+        if(totalPago == $("#total").val().substring(2)){
 
                 if(document.getElementById("serieReciboA").checked == true){
                     $('#tipoSerieRecibo').val('a');
@@ -659,12 +661,16 @@ $("#guardarRecibo").click(function(e){
                     alertify.warning('Dato aun no almacenado');
                 }
             });
-        }else if(totalPago > $("#total").val()){
+        }else if(totalPago > $("#total").val().substring(2)){
             alertify.warning('monto de pago es mayor al total');
         }
-        else if(totalPago < $("#total").val()){
+        else if(totalPago < $("#total").val().substring(2)){
             alertify.warning('monto de pago es menor al total');
         }
+    }
+
+    } else {
+        validator.focusInvalid();
     }
 })
 
@@ -718,9 +724,9 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val(response.precio_particular);
+                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val(response.precio_colegiado);
+                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idE']").val(response.categoria_id);
 
                         $("#cantidadE").val(1);
@@ -740,9 +746,9 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val(response.precio_particular);
+                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val(response.precio_colegiado);
+                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idE']").val(response.categoria_id);
 
                         $("#cantidadE").val(1);
@@ -765,12 +771,12 @@ $(document).ready(function(){
 
         var subTotalE = 0;
 
-        var precioUE = $("#precioUE").val(); // Convertir el valor a un entero (número).
+        var precioUE = $("#precioUE").val().substring(2); // Convertir el valor a un entero (número).
         var cantidadE = $("#cantidadE").val();
 
             subTotalE = cantidadE * precioUE;
 
-            $("#subtotalE").val(subTotalE);
+            $("#subtotalE").val('Q.'+subTotalE);
     });
 });
 
@@ -778,7 +784,7 @@ $(document).ready(function(){
     $("#codigoE").change();
 
     $("#cantidadE").change();
-    if($.isNumeric($("#cantidadE").val()) && $.isNumeric($("#cantidadE").val()) && $.isNumeric($("#subtotalE").val())) {
+    if($.isNumeric($("#cantidadE").val()) && $("#subtotalE").val().substring(2) != 0) {
 
         validateRowE();
       limpiarFilaDetalleE();
@@ -788,7 +794,7 @@ $(document).ready(function(){
   function validateRowE(){
     $('#tablaDetalleE').each(function(index, tr) {
         var nFilas = $("#tablaDetalleE tr").length;
-        if((nFilas == 1) && ($('#codigoE').val() != "") && ($('#precioUE').val() != "")){
+        if((nFilas == 1) && ($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
             addnewrowE();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleE").find("tr");
@@ -800,8 +806,8 @@ $(document).ready(function(){
                         var celdas = $(filas[i]).find("td");
 
                         var nuevoSubTotal = 0;
-                        var subTotalColeNue = $('#subtotalE').val();
-                        var subTotalColeAnt = $($(celdas[5])).text();
+                        var subTotalColeNue = $('#subtotalE').val().substring(2);
+                        var subTotalColeAnt = $($(celdas[5])).text().substring(2);
 
                         var codigoAnt = $($(celdas[0])).text();
 
@@ -814,7 +820,7 @@ $(document).ready(function(){
                             nuevoSubTotal = Number(subTotalColeAnt) + Number(subTotalColeNue);
 
                             celdas[2].innerHTML = totalCant;
-                            celdas[5].innerHTML = nuevoSubTotal;
+                            celdas[5].innerHTML = 'Q.'+nuevoSubTotal.toFixed(2);
 
                             getTotalE();
                             limpiarFilaDetalleE();
@@ -836,7 +842,7 @@ $(document).ready(function(){
                         if (arrayColCatId.includes($('#categoria_idE').val()) && arrayColCodigo.includes($('#codigoE').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoE').val() != "") && ($('#precioUE').val() != "")){
+                        }else if(($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
                             addnewrowE();
                             limpiarFilaDetalleE();
                             finish();
@@ -900,10 +906,10 @@ $(document).ready(function(){
 function getTotalE() {
     var totalE = 0;
     $("#tablaDetalleE .subtotalE").each(function (index, element) {
-      totalE += parseFloat($(this).html(),10);
+      totalE += parseInt($(this).html().substring(2));
     });
 
-    $("#totalE").val(totalE.toFixed(2));
+    $("#totalE").val('Q.'+totalE.toFixed(2));
 }
 
   function limpiarFilaDetalleE() {
@@ -966,8 +972,29 @@ function comprobarCheckTarjetaE()
     }
 }
 
+$(document).ready(function(){
+    var validatorE = $('#empresaForm').validate({
+        ignore: [],
+        onkeyup:false,
+        rules: {
+            nit:{
+                required: true
+            }
+        },
+        messages: {
+            nit: {
+                required: "ingrese el NIT"
+            }
+        }
+    });
+});
+
 $("#guardarReciboE").click(function(e){
-    // ValidarElementos();
+
+    if ($('#empresaForm').valid()) {
+
+    $('#emisionDeRecibo').val('empresa');
+    $('#tipoDeCliente').val('e');
     var efectivoCorrecto = 0;
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
@@ -1007,7 +1034,7 @@ $("#guardarReciboE").click(function(e){
         var totalCheque = $('#montoChequeE').val();
         var totalTarjeta = $('#montoTarjetaE').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
-        if(totalPago == $("#totalE").val()){
+        if(totalPago == $("#totalE").val().substring(2)){
 
                 if(document.getElementById("serieReciboA").checked == true){
                     $('#tipoSerieReciboE').val('a');
@@ -1043,12 +1070,16 @@ $("#guardarReciboE").click(function(e){
                     alertify.warning('Dato aun no almacenado');
                 }
             });
-        }else if(totalPago > $("#totalE").val()){
+        }else if(totalPago > $("#totalE").val().substring(2)){
             alertify.warning('monto de pago es mayor al total');
         }
-        else if(totalPago < $("#totalE").val()){
+        else if(totalPago < $("#totalE").val().substring(2)){
             alertify.warning('monto de pago es menor al total');
         }
+    }
+
+    } else {
+        validatorE.focusInvalid();
     }
 })
 
@@ -1119,9 +1150,9 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val(response.precio_particular);
+                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val(response.precio_colegiado);
+                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idP']").val(response.categoria_id);
 
                         $("#cantidadP").val(1);
@@ -1141,9 +1172,9 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val(response.precio_particular);
+                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val(response.precio_colegiado);
+                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idP']").val(response.categoria_id);
 
                         $("#cantidadP").val(1);
@@ -1167,12 +1198,12 @@ $(document).ready(function(){
 
         var subTotal = 0;
 
-        var precioU = $("#precioUP").val(); // Convertir el valor a un entero (número).
+        var precioU = $("#precioUP").val().substring(2); // Convertir el valor a un entero (número).
         var cantidad = $("#cantidadP").val();
 
             subTotal = cantidad * precioU;
 
-            $("#subtotalP").val(subTotal);
+            $("#subtotalP").val('Q.'+subTotal);
     });
 });
 
@@ -1180,7 +1211,7 @@ function agregarproductofP() {
     $("#codigoP").change();
 
     $("#cantidadP").change();
-    if($.isNumeric($("#cantidadP").val()) && $.isNumeric($("#cantidadP").val()) && $.isNumeric($("#subtotalP").val())) {
+    if($.isNumeric($("#cantidadP").val()) && $("#subtotalP").val().substring(2) != 0) {
 
         validateRowP();
       limpiarFilaDetalleP();
@@ -1190,7 +1221,7 @@ function agregarproductofP() {
   function validateRowP(){
     $('#tablaDetalleP').each(function(index, tr) {
         var nFilas = $("#tablaDetalleP tr").length;
-        if((nFilas == 1) && ($('#codigoP').val() != "") && ($('#precioUP').val() != "")){
+        if((nFilas == 1) && ($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
             addnewrowP();
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleP").find("tr");
@@ -1202,8 +1233,8 @@ function agregarproductofP() {
                         var celdas = $(filas[i]).find("td");
 
                         var nuevoSubTotal = 0;
-                        var subTotalColeNue = $('#subtotalP').val();
-                        var subTotalColeAnt = $($(celdas[5])).text();
+                        var subTotalColeNue = $('#subtotalP').val().substring(2);
+                        var subTotalColeAnt = $($(celdas[5])).text().substring(2);
 
                         var codigoAnt = $($(celdas[0])).text();
 
@@ -1216,7 +1247,7 @@ function agregarproductofP() {
                             nuevoSubTotal = Number(subTotalColeAnt) + Number(subTotalColeNue);
 
                             celdas[2].innerHTML = totalCant;
-                            celdas[5].innerHTML = nuevoSubTotal;
+                            celdas[5].innerHTML = 'Q.'+nuevoSubTotal.toFixed(2);
 
                             getTotalP();
                             limpiarFilaDetalleP();
@@ -1238,7 +1269,7 @@ function agregarproductofP() {
                         if (arrayColCatId.includes($('#categoria_idP').val()) && arrayColCodigo.includes($('#codigoP').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoP').val() != "") && ($('#precioUP').val() != "")){
+                        }else if(($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
                             addnewrowP();
                             limpiarFilaDetalleP();
                             finish();
@@ -1302,10 +1333,10 @@ function agregarproductofP() {
 function getTotalP() {
     var total = 0;
     $("#tablaDetalleP .subtotalP").each(function (index, element) {
-      total += parseFloat($(this).html(),10);
+      total += parseInt($(this).html().substring(2));
     });
 
-    $("#totalP").val(total.toFixed(2));
+    $("#totalP").val('Q.'+total.toFixed(2));
 }
 
   function limpiarFilaDetalleP() {
@@ -1368,8 +1399,41 @@ function comprobarCheckTarjetaP()
     }
 }
 
+$(document).ready(function(){
+    var validatorP = $('#particularForm').validate({
+        ignore: [],
+        onkeyup:false,
+        rules: {
+            dpi:{
+                required: true
+            },
+            nombreP:{
+                required: true
+            },
+            emailP:{
+                required: true
+            }
+        },
+        messages: {
+            dpi:{
+                required: "ingrese el DPI"
+            },
+            nombreP:{
+                required: "ingrese el Nombre"
+            },
+            emailP:{
+                required: "ingrese el Email"
+            }
+        }
+    });
+});
+
 $("#guardarReciboP").click(function(e){
-    // ValidarElementos();
+
+    if ($('#particularForm').valid()) {
+
+    $('#emisionDeRecibo').val('particular');
+    $('#tipoDeCliente').val('p');
     var efectivoCorrecto = 0;
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
@@ -1409,7 +1473,7 @@ $("#guardarReciboP").click(function(e){
         var totalCheque = $('#montoChequeP').val();
         var totalTarjeta = $('#montoTarjetaP').val();
         var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
-        if(totalPago == $("#totalP").val()){
+        if(totalPago == $("#totalP").val().substring(2)){
 
                 if(document.getElementById("serieReciboA").checked == true){
                     $('#tipoSerieReciboP').val('a');
@@ -1445,12 +1509,16 @@ $("#guardarReciboP").click(function(e){
                     alertify.warning('Dato aun no almacenado');
                 }
             });
-        }else if(totalPago > $("#totalP").val()){
+        }else if(totalPago > $("#totalP").val().substring(2)){
             alertify.warning('monto de pago es mayor al total');
         }
-        else if(totalPago < $("#totalP").val()){
+        else if(totalPago < $("#totalP").val().substring(2)){
             alertify.warning('monto de pago es menor al total');
         }
+    }
+
+    } else {
+        validatorP.focusInvalid();
     }
 })
 

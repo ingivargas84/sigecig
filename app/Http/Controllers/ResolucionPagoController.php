@@ -341,7 +341,8 @@ class ResolucionPagoController extends Controller
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         INNER JOIN sigecig_bancos B ON B.id=U.id_banco
         INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
-        WHERE U.id_estado_solicitud >=1";
+        WHERE U.id_estado_solicitud >=1
+        ORDER BY U.id DESC";
         } else {
             $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
         FROM sigecig_solicitudes_ap U
@@ -350,12 +351,13 @@ class ResolucionPagoController extends Controller
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         INNER JOIN sigecig_bancos B ON B.id=U.id_banco
         INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
-        WHERE U.id_estado_solicitud >=8";
+        WHERE U.id_estado_solicitud >=8
+        ORDER BY U.id DESC";
         }
 
         $result = DB::select($query);
+      
         $api_Result['data'] = $result;
-
         return Response::json($api_Result);
     }
 
