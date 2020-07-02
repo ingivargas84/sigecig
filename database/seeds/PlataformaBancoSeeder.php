@@ -21,7 +21,7 @@ class PlataformaBancoSeeder extends Seeder
         $bco->save();
 
         $bco=new PlataformaBanco();
-        $bco->nombre_banco="Credito Hipotecario Nacional CHN";
+        $bco->nombre_banco="Crédito Hipotecario Nacional CHN";
         $bco->save();
 
         $bco=new PlataformaBanco();
@@ -38,6 +38,46 @@ class PlataformaBancoSeeder extends Seeder
 
         $bco=new PlataformaBanco();
         $bco->nombre_banco="Banco de los Trabajadores BANTRAB";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco Azteca";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco de Antigua";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco de Guatemala";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco INV,S.A.";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco Promerica";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="CITIBANK N.A.";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco de Crédito";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco Inmobiliaro";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="Banco Internacional";
+        $bco->save();
+
+        $bco=new PlataformaBanco();
+        $bco->nombre_banco="VIVIBANCO";
         $bco->save();
     
     }
