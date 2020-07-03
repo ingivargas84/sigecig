@@ -15,7 +15,7 @@
             font-size: 17px;
         }
         .firma{
-            text-indent: 100px;
+            text-indent: 150px;
         }
 
     </style>
@@ -41,7 +41,7 @@
 
                     <div>
                         Yo, <b>{{ $colegiado->n_cliente}} </b><b> {{  $profesion->n_profesion}}</b>                                                  
-                        Con número de colegiado  <b>{{  $colegiado->c_cliente}}</b>  ,fecha de nacimiento,  {{  $fecha}}</b>
+                        Con número de colegiado  <b>{{  $colegiado->c_cliente}}</b>  ,fecha de nacimiento,  {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y')}}</b>
                         No. de Documento personal de Identificacion (DPI) <b>{{  $colegiado->registro}}</b> y
                         con número de telefono <b>{{ $colegiado->telefono}}</b>. <br>
                     </div>
@@ -59,7 +59,7 @@
                     <br>
         
                     <div>
-                        FIRMA
+                        FIRMA Y SELLO
                     </div>
                     <div class="firma">
                         ______________________________
@@ -68,7 +68,7 @@
                     <br>
                     <br>
                     <div>
-                    Guatemala,  <b>{{$fecha_actual}}</b>
+                    Guatemala,  <b>{{ \Carbon\Carbon::parse($fecha_actual)->format('d/m/Y')}}</b>
                     </div>
         
                   
