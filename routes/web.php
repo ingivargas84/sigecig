@@ -213,8 +213,12 @@ Route::group([
         return view('welcome', compact('negocio'));
     });
 
-    Route::get('pdf', function(){
-        $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+    Route::get('/pdf/{id}', function($id){
+        $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
+        $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
+        $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
+        $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
         return $pdf->stream('archivo.pdf');
     });
 

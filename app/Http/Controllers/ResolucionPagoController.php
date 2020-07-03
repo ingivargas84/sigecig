@@ -57,17 +57,19 @@ class ResolucionPagoController extends Controller
         $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
         $mytime = Carbon::now();
         $adm_usuario = AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
-        $ap = PlataformaSolicitudAp::where("id_estado_solicitud", 10)->orderBy("n_colegiado", "asc")->get();
 
-        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud", 10)->pluck('n_colegiado');
+        $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, U.no_cuenta, U.fecha_pago_ap
+            FROM sigecig_solicitudes_ap U
+            INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+            INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
+            INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
+            INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
+            WHERE U.id_estado_solicitud =10
+            ORDER BY n_colegiado ASC;";
 
-        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.f_ult_pago')
-            ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
-            ->whereIn('cc00.c_cliente', $cuenta)
-            ->orderBy('cc00.c_cliente', 'asc')
-            ->get();
+        $datos = DB::select($query);
 
-        $pdf = \PDF::loadView('admin.firmaresolucion.reporteap', compact("cuenta1", "ap", 'base64', 'mytime', 'id'));
+        $pdf = \PDF::loadView('admin.firmaresolucion.reporteap', compact('base64', 'mytime', 'id', 'datos'));
         return $pdf->setPaper('legal', 'landscape')->stream('ReportePDF.pdf');
     }
 
@@ -85,7 +87,7 @@ class ResolucionPagoController extends Controller
 
         //envio de correo Finalizar estado
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $tipo->no_solicitud)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $tipo->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -225,7 +227,7 @@ class ResolucionPagoController extends Controller
 
         //envio de correo Finalizar estado
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $solicitud->no_solicitud)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $solicitud->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -255,14 +257,14 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 8,
+            'id_estado_solicitud' => 7,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
 
         //envio de correo Firma de Resolucion
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $solicitud->no_solicitud)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $solicitud->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -348,15 +350,15 @@ class ResolucionPagoController extends Controller
     public function aprDocumentosAp(Request $request)
     {
         $fecha = date("Y/m/d h:m:s");
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud = '4';
         $estado_solicitud->update();
         //envio de Corroe Aprobacion Documentacion
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $estado_solicitud->n_colegiado)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
-        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
 
@@ -370,14 +372,14 @@ class ResolucionPagoController extends Controller
     {
 
         $fecha = date("Y/m/d h:m:s");
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $estado_solicitud->solicitud_rechazo_ap = $request->texto;
         $estado_solicitud->id_estado_solicitud = '3';
         $estado_solicitud->update();
 
         //envio de Corroe Aprobacion Documentacion
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("no_solicitud", $request->solicitud)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -398,7 +400,7 @@ class ResolucionPagoController extends Controller
 
         //envio de Corroe Aprobacion Solicitud por Junta Directiva
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("id",  $request->id_solicitud)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id",  $request->id_solicitud)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -419,7 +421,7 @@ class ResolucionPagoController extends Controller
         event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
 
         $fecha_actual = date_format(Now(), 'd-m-Y');
-        $solicitudAP = PlataformaSolicitudAp::Where("n_colegiado", $estado_solicitud->n_colegiado)->orderBy('id', 'DESC')->first();
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -430,7 +432,7 @@ class ResolucionPagoController extends Controller
 
     public function verSolicitudAp($solicitud)
     {
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
         $path = $estado_solicitud->pdf_solicitud_ap;
         $file = File::get($path);
         $type = File::mimeType($path);
@@ -440,7 +442,7 @@ class ResolucionPagoController extends Controller
     }
     public function verDpiAp($solicitud)
     {
-        $estado_solicitud = PlataformaSolicitudAp::Where("no_solicitud", $solicitud)->get()->first();
+        $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
         $path = $estado_solicitud->pdf_dpi_ap;
         $file = File::get($path);
         $type = File::mimeType($path);
@@ -448,7 +450,4 @@ class ResolucionPagoController extends Controller
         $response->header("Content-Type", $type);
         return $response;
     }
-
-
-
 }
