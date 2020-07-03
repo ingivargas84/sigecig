@@ -1,4 +1,4 @@
-@extends('gerencia.layoutgerencia')
+@extends('admin.layoutadmin')
 
 @section('header')
 <section class="content-header">
@@ -25,20 +25,20 @@
     <!-- /.box-header -->
     <div class="box-body">
         <input type="hidden" name="rol_user" value="{{auth()->user()->roles[0]->name}}">
-        <table id="llamadas-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">            
+        <table id="llamadas-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
         </table>
-        <input type="hidden" name="urlActual" value="{{url()->current()}}"> 
+        <input type="hidden" name="urlActual" value="{{url()->current()}}">
     </div>
     <!-- /.box-body -->
   </div>
-  <!-- /.box --> 
+  <!-- /.box -->
 
 @endsection
 
 
 @push('styles')
- 
- 
+
+
 @endpush
 
 @push('scripts')
@@ -50,4 +50,4 @@
 
   </script>
   <script src="{{asset('js/llamadas/index.js')}}"></script>
-@endpush 
+@endpush
