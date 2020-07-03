@@ -25,7 +25,7 @@ $('#enviar').click(function (e) {
     e.preventDefault();
 
     var texto = $("textarea[name=mensaje]").val();
-    var solicitud = $("input[name=no_solicitud]").val();
+    var solicitud = $("input[name=id_solicitud]").val();
     
 
 
@@ -57,7 +57,7 @@ $('#enviar').click(function (e) {
 $('#ButtonAutorizar').click(function (e) { 
     e.preventDefault();
 
-    var solicitud = $("input[name=no_solicitud]").val();
+    var solicitud = $("input[name=id_solicitud]").val();
     
     $.ajax({
 

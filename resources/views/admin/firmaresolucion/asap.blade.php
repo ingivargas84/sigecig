@@ -71,7 +71,7 @@
 
                         <div class="col-sm-12">
                             <div class="col-sm-6">
-                                <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$solicitud->no_solicitud}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$solicitud->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
                             
                 
                                <div class="" id="solicitudpdf" style="display: none">
@@ -80,7 +80,7 @@
                             </div>
                             
                             <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$solicitud->no_solicitud}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
+                                    <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$solicitud->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
         
                                 <div class="" id="dpipdf"  style="display: none">
                                     <embed  src="{{ asset('/documentos/ap/solicitudap.pdf') }}" type="application/pdf" width="100%" height="400px" />
@@ -118,7 +118,7 @@
 
                     </div>
                 </div>
-                <input type="hidden" id="no_solicitud" name="no_solicitud" value="{{$solicitud->no_solicitud}}" style="display: none">
+                <input type="" id="id_solicitud" name="id_solicitud" value="{{$solicitud->id}}" style="display:none ">
           
             </div>
     </form>
