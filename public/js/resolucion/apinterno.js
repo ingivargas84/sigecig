@@ -13,7 +13,7 @@ $(document).on('change', '#colegiado', function(event) {
                 var d = D.getDay()+'-'+D.getMonth()+'-'+D.getFullYear();
                 $("input[name=n_cliente]").val(response[0][0].n_cliente);
                 $("input[name=c_cliente]").val(response[0][0].c_cliente);
-                $("input[name=fecha_nac]").val(d);
+                $("input[name=fecha_nac]").val(response[0][0].fecha_nac); //val(d);
                 $("input[name=registro]").val(response[0][0].registro);
                 $("input[name=telefono]").val(response[0][0].telefono); 
                 $("input[name=n_profesion]").val(response[0][0].n_profesion);
