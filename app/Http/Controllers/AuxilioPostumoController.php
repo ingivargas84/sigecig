@@ -28,7 +28,18 @@ class AuxilioPostumoController extends Controller
         FROM cc00
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(month,fecha_nac,GetDate()) >= 900";
         $result = DB::connection('sqlsrv')->select($query);
-
+        $array=[];
+        
+        foreach ($result as $colegiado => $valor){
+            $solicitud=PlataformaSolicitudAp::Where('n_colegiado',$valor->c_cliente)->get()->last();
+            if (empty($solicitud)){
+              $array[]= $valor;
+            }elseif($solicitud->id_estado_solicitud ==11 || $solicitud->id_estado_solicitud ==6 ){
+                $array[]=$valor;
+            }
+        }
+        $result=$array;
+        
         $banco = PlataformaBanco::all();
         $tipo_cuenta = PlataformaTipoCuenta::all();
         return view('admin.auxilioPostumo.nueva_solicitud', compact('result', 'banco', 'tipo_cuenta'));
