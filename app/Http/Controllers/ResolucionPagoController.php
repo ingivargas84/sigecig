@@ -85,7 +85,7 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
 
-        //envio de correo Finalizar estado 
+        //envio de correo Finalizar estado
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $tipo->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
@@ -225,7 +225,7 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
 
-        //envio de correo Finalizar estado 
+        //envio de correo Finalizar estado
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $solicitud->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
@@ -322,7 +322,7 @@ class ResolucionPagoController extends Controller
         if (auth()->user()->hasRole('Administrador|Super-Administrador|Timbre|JefeTimbres')) {
             $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
         FROM sigecig_solicitudes_ap U
-        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         INNER JOIN sigecig_bancos B ON B.id=U.id_banco
@@ -332,7 +332,7 @@ class ResolucionPagoController extends Controller
         } else {
             $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
         FROM sigecig_solicitudes_ap U
-        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
         INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
         INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
         INNER JOIN sigecig_bancos B ON B.id=U.id_banco
