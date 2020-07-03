@@ -159,7 +159,12 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<a href='resolucion/"+full.id+"/bitacora' class='asap' 'target='_blank'>" + 
                 "<i class='fa fa-bookmark' title='Bitácora'></i>" + 
                 "</a>" + 
-                "</div>";
+                "</div>"+
+                "<div class='text-center'>" +
+                "<div class='float-center'>" +
+                "<a target='_blank' href='pdf/"+full.id+"'>" +
+                "<i class='fas fa-print' title='Imprimir'></i>" +
+                "</a>" + "</div>";
 
             }  
             
