@@ -4,6 +4,11 @@
 <section class="content-header">
     <h1><center>Crear nueva solicitud de Auxilio Póstumo</center>
     </h1>
+    <ol class="breadcrumb">
+        <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
+        <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Resolución</a></li>
+        <li class="active">Crear</li>
+    </ol>
 </section>
 @section('content')
 <div class="box-header">
@@ -16,7 +21,7 @@
         </select>
   </div>
 
-  
+
 </div><br><br>
 @include('admin.auxilioPostumo.solicitud')
 @endsection
