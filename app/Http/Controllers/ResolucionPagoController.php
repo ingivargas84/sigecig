@@ -257,7 +257,7 @@ class ResolucionPagoController extends Controller
         $nuevos_datos = array(
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
-            'id_estado_solicitud' => 8,
+            'id_estado_solicitud' => 7,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
@@ -358,7 +358,7 @@ class ResolucionPagoController extends Controller
         $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
-        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
 
