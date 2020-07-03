@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Fecha de nacimiento</label>
-                                <input type="text" class="form-control" value="{{date('d-m-Y', strtotime($fecha_Nac->fecha_nac))}}" readonly>
+                                <input type="text" class="form-control" value="{{date('d/m/Y', strtotime($fecha_Nac->fecha_nac))}}" readonly>
                             </div>
                         </div>
                         <br>
@@ -56,8 +56,8 @@
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
-                                <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>  
+                                <label>Fecha de Configuración</label>  
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>  
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -98,7 +98,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -120,7 +120,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -135,7 +135,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -150,7 +150,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -165,7 +165,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -187,7 +187,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -202,7 +202,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -230,7 +230,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{$cambio->fecha}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -243,7 +243,7 @@
                             <br>
                             
                             <div class="text-center m-t-15">
-                                <a class='btn btn-primary form-button' href="{{ route('bitacora.pdfbitacora', $id) }}">Generar PDF</a>
+                                <a target="_blank" class='btn btn-primary form-button' href="{{ route('bitacora.pdfbitacora', $id) }}">Generar PDF</a>
                             </div>
                     </div> 
                 </div>

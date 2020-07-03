@@ -24,6 +24,8 @@ class AuxilioPostumoController extends Controller
     //crear una nueva solicitud de auxilio postumo
     public function nuevaSolicitud()
     {
+
+
         $query = "SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(month,fecha_nac,GetDate()) >= 900";
@@ -176,8 +178,8 @@ class AuxilioPostumoController extends Controller
         $solicitudAP->pdf_dpi_ap = $pdfDpidb;
         $solicitudAP->id_estado_solicitud = '2';
         $solicitudAP->update();
-
-        //envio de correo para confirmar recepcion de Documentos
+        try {
+                   //envio de correo para confirmar recepcion de Documentos
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -185,6 +187,12 @@ class AuxilioPostumoController extends Controller
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
         return response()->json(['success' => 'You have successfully upload file.']);
+        } catch (\Throwable $th) {
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
+            return response()->json(['success' => 'You have successfully upload file.']);
+        }
+
+
     }
     public function crearUsuario(){
         return view ('admin.auxilioPostumo.crea_usuario');
