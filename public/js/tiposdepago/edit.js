@@ -115,12 +115,13 @@
 
     $.validator.addMethod("nombreunicoedit", function(value, element){
         var valid = false;
+        var id = $("input[name='test']").val();
         var urlActual = $("input[name='urlActual']").val();
         $.ajax({
             type: "GET",
             async: false,
             url: "/tipoDePago/nombreDisponibleEdit/",
-            data:"codigo=" + value,
+            data: {value, id},
             dataType: "json",
             success: function (msg) {
                 valid=!msg;
