@@ -74,7 +74,9 @@
     <nav class="navbar navbar-static-top" role="navigation">
 
     <!-- Sidebar toggle button-->
-
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas">
+        <span class="sr-only">Toggle navigation</span>
+    </a>
 
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">

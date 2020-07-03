@@ -1,5 +1,4 @@
-@extends('gerencia.layoutgerencia')
-
+@extends('admin.layoutadmin')
 @section('header')
     <section class="content-header">
         <h1>
@@ -46,9 +45,9 @@
                             <a class='btn btn-primary form-button' href="{{ route('llamada.index') }}">Regresar</a>
                             <button class="btn btn-success form-button" id="ButtonLlamadaUpdate">Guardar</button>
                         </div>
-                                    
+
                     </div>
-                </div>                
+                </div>
             </div>
     </form>
     <div class="loader loader-bar"></div>
@@ -63,3 +62,4 @@
 @push('scripts')
 <script src="{{asset('js/llamadas/edit.js')}}"></script>
 @endpush
+
