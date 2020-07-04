@@ -163,11 +163,13 @@ class TipoDePagoController extends Controller
         }
     }
 
-    public function nombreDisponibleEdit(){
-        $dato = Input::get("codigo");
-        $id = Input::get('id');
+    public function nombreDisponibleEdit(Request $request){
+        $dato = $request->value;
+        $id = $request->id;
+
         $query = TipoDePago::where("codigo",$dato)->where('id','!=', $id)->get();
         $contador = count($query);
+
         if ($contador == 0 )
         {
             return 'false';
@@ -180,7 +182,7 @@ class TipoDePagoController extends Controller
 
     public function getJson(Request $params)
      {
-        $query = "SELECT T.id, T.codigo, t.tipo_de_pago, T.precio_colegiado, T.precio_particular, C.categoria, T.estado
+        $query = "SELECT T.id, T.codigo, t.tipo_de_pago, T.precio_colegiado, T.precio_particular, T.categoria_id, C.categoria, T.estado
         FROM sigecig_tipo_de_pago T
         INNER JOIN sigecig_categoria_tipo_pago C ON T.categoria_id = C.id";
 
