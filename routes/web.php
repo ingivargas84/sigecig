@@ -102,9 +102,10 @@ Route::group([
        Route::get('/cajas/dpiDisponible/', 'CajasController@dpiDisponible');
        Route::get('/cajas/dpiDisponibleEdit/', 'CajasController@dpiEdit');
        Route::get('/cajas/edit/{cajas}', 'CajasController@edit')->name('cajas.edit');
-       Route::put('/cajas/{cajas}/update', 'CajasController@update')->name('cajas.update');
+       Route::post('/cajas/{cajas}/update', 'CajasController@update');
        Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
-
+       Route::post('/cajas/{cajas}/activar', 'CajasController@activar')->name('cajas.activar');
+       Route::get('/cajas/nombreDisponible/', 'CajasController@nombreDisponible');
 
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
@@ -134,6 +135,9 @@ Route::group([
         Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
         Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
+        Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
+        Route::post('/auxiliopostumo/save','AuxilioPostumoController@saveUsuario');
+
 
         //Módulo Reporte Finalizadas
         Route::get('reporte/',  'ResolucionPagoController@reporte_ap' )->name('reporteap.reporte_ap');
@@ -193,8 +197,8 @@ Route::group([
         Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
         Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
-        Route::post('/creacionRecibo/save/particular', 'ReciboController@storeParticular')->name('guardarReciboParticular.save');
-        Route::post('/creacionRecibo/save/empresa', 'ReciboController@storeEmpresa')->name('guardarReciboEmpresa.save');
+        Route::post('/creacionRecibo/save/particular', 'ReciboController@store')->name('guardarReciboParticular.save');
+        Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
 
@@ -209,8 +213,12 @@ Route::group([
         return view('welcome', compact('negocio'));
     });
 
-    Route::get('pdf', function(){
-        $pdf = PDF::loadView('timbreingenieria.firmaresolucion.pdf');
+    Route::get('/pdf/{id}', function($id){
+        $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
+        $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
+        $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
+        $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
         return $pdf->stream('archivo.pdf');
     });
 

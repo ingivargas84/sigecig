@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Editar Tipo de Pago</h4>
+              <h4 class="modal-title text-center" id="myModalLabel">Editar Tipo de Pago</h4>
             </div>
             <div class="modal-body">
 
@@ -43,7 +43,7 @@
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success edit" id="ButtonTipoModalUpdate" style="padding: 6px 46px">Actualizar</button>
+                <button type="submit" class="btn btn-primary edit" id="ButtonTipoModalUpdate" style="padding: 6px 46px;">Actualizar</button>
             </div>
           </div>
     </div>

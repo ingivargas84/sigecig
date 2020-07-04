@@ -38,10 +38,9 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        // $tipo = TipoDePago::where('estado', '=', 0)->get(); //el estado "0" son los tipo de pago activos
-        // return view('admin.creacionRecibo.index', compact('tipo'));
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
-        return view('admin.creacionRecibo.index', compact('pos'));
+        return view('admin.creacionRecibo.index', compact('pos', 'tipo'));
     }
 
     public function pdfRecibo(Recibo_Maestro $id)
@@ -57,11 +56,11 @@ class ReciboController extends Controller
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
+        FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
-    
+
        // return view('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
 
 
@@ -83,16 +82,6 @@ class ReciboController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -101,359 +90,318 @@ class ReciboController extends Controller
     public function store(Request $request)
     {
         // almacen de datos de COLEGIADO
-        //dd($request);
-        $serieRecibo        = $request->input("config.tipoSerieRecibo");
-        $tipoDeCliente      = $request->input("config.tipoDeCliente");
-        $colegiado          = $request->input("config.c_cliente");
-        $nombreCliente      = $request->input("config.n_cliente");
-        $estado             = $request->input("config.estado");
-        $complemento        = $request->input("config.complemento");
-        $ultPagoTimbre      = $request->input("config.f_ult_timbre");
-        $ulPagoColegio      = $request->input("config.f_ult_pago");
-        $montoTimbre        = $request->input("config.monto_timbre");
-        $totalAPagar        = $request->input("config.total");
-        $pagoEnEfectivo     = $request->input("config.pagoEfectivo");
-        $montoefectivo      = $request->input("config.montoefectivo");
-        $pagoCheque         = $request->input("config.pagoCheque");
-        $numeroCheque       = $request->input("config.cheque");
-        $montoCheque        = $request->input("config.montoCheque");
-        $pagoTarjeta        = $request->input("config.pagoTarjeta");
-        $numeroTarjeta      = $request->input("config.tarjeta");
-        $montoTarjeta       = $request->input("config.montoTarjeta");
-        $pos_id             = $request->input("pos");
+        $emisionDeRecibo    = $request->input("config.emisionDeRecibo");
 
-        $tipoDeCliente = 1;
-        if ($serieRecibo == 'a') {
-            $serieRecibo = 1;
-        } elseif ($serieRecibo == 'b') {
-            $serieRecibo = 2;
+        if($emisionDeRecibo == 'colegiado'){
+
+            $serieRecibo        = $request->input("config.tipoSerieRecibo");
+            $tipoDeCliente      = $request->input("config.tipoDeCliente");
+            $colegiado          = $request->input("config.c_cliente");
+            $nombreCliente      = $request->input("config.n_cliente");
+            $estado             = $request->input("config.estado");
+            $complemento        = $request->input("config.complemento");
+            $ultPagoTimbre      = $request->input("config.f_ult_timbre");
+            $ulPagoColegio      = $request->input("config.f_ult_pago");
+            $montoTimbre        = $request->input("config.monto_timbre");
+            $montoTimbre        = substr($montoTimbre,2);
+            $totalAPagar        = $request->input("config.total");
+            $totalAPagar        = substr($totalAPagar,2);
+            $pagoEnEfectivo     = $request->input("config.pagoEfectivo");
+            $montoefectivo      = $request->input("config.montoefectivo");
+            $pagoCheque         = $request->input("config.pagoCheque");
+            $numeroCheque       = $request->input("config.cheque");
+            $montoCheque        = $request->input("config.montoCheque");
+            $pagoTarjeta        = $request->input("config.pagoTarjeta");
+            $numeroTarjeta      = $request->input("config.tarjeta");
+            $montoTarjeta       = $request->input("config.montoTarjeta");
+            $pos_id             = $request->input("pos");
+
+            $tipoDeCliente = 1;
+            if ($serieRecibo == 'a') {
+                $serieRecibo = 1;
+            } elseif ($serieRecibo == 'b') {
+                $serieRecibo = 2;
+            }
+
+            //$lastValue = DB::table('sigecig_recibo_maestro')->orderBy('numero_recibo', 'desc')->first();
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
+
+            $reciboMaestro = new Recibo_Maestro;
+            $reciboMaestro->serie_recibo_id = $serieRecibo;
+            //$reciboMaestro->numero_recibo =  $lastValue->numero_recibo + 1;
+            $reciboMaestro->numero_recibo =  $lastValue + 1;
+            $reciboMaestro->numero_de_identificacion = $colegiado;
+            $reciboMaestro->nombre = $nombreCliente;
+            $reciboMaestro->tipo_de_cliente_id = $tipoDeCliente;
+            $reciboMaestro->complemento = $complemento;
+            $reciboMaestro->monto_efecectivo = $montoefectivo;
+            $reciboMaestro->monto_tarjeta = $montoTarjeta;
+            $reciboMaestro->monto_cheque = $montoCheque;
+            $reciboMaestro->usuario = Auth::user()->id;
+            $reciboMaestro->monto_total = $totalAPagar;
+            $reciboMaestro->save();
+
+            $array = $request->input("datos");
+
+            for ($i = 1; $i < sizeof($array); $i++) {
+                $reciboDetalle = Recibo_Detalle::create([
+                    'numero_recibo'     => $reciboMaestro->numero_recibo,
+                    'codigo_compra'     => $array[$i][1],
+                    'cantidad'          => $array[$i][2],
+                    'precio_unitario'   => substr($array[$i][3],2),
+                    'total'             => substr($array[$i][5],2),
+                ]);
+            }
+
+            if ($pagoCheque == 'si') {
+                $bdCheque = new ReciboCheque;
+                $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
+                $bdCheque->numero_cheque = $numeroCheque;
+                $bdCheque->monto = $montoCheque;
+                $bdCheque->nombre_banco = "";
+                $bdCheque->usuario_id = Auth::user()->id;
+                $bdCheque->fecha_de_cheque = now();
+                $bdCheque->save();
+            }
+
+            if ($pagoTarjeta == 'si') {
+                $bdTarjeta = new ReciboTarjeta;
+                $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
+                $bdTarjeta->numero_voucher = $numeroTarjeta;
+                $bdTarjeta->monto = $montoTarjeta;
+                $bdTarjeta->pos_cobro_id = $pos_id;
+                $bdTarjeta->usuario_id = Auth::user()->id;
+                $bdTarjeta->save();
+            }
+
+            //Envio de correo creacion de recibo colegiado
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            FROM sigecig_recibo_detalle rd
+            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+
+            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
+            $datos = DB::select($query1);
+            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
+            $nit_ = $nit[0];
+            $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+                ->setPaper('legal', 'landscape');
+            $fecha_actual = date_format(Now(), 'd-m-Y');
+            $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
+            $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+            $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+            $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+            $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
+            Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
+
+            return response()->json(['success' => 'Exito']);
+
+        } elseif ($emisionDeRecibo == 'particular'){
+                // almacen de datos de PARTICULAR
+
+            $serieReciboP        = $request->input("config.tipoSerieReciboP");
+            $tipoDeCliente       = $request->input("config.tipoDeCliente");
+            $dpi                 = $request->input("config.dpi");
+            $nombreClienteP      = $request->input("config.nombreP");
+            $totalAPagarP        = $request->input("config.totalP");
+            $totalAPagarP        = substr($totalAPagarP,2);
+            $pagoEnEfectivoP     = $request->input("config.pagoEfectivoP");
+            $montoefectivoP      = $request->input("config.montoefectivoP");
+            $pagoChequeP         = $request->input("config.pagoChequeP");
+            $numeroChequeP       = $request->input("config.chequeP");
+            $montoChequeP        = $request->input("config.montoChequeP");
+            $pagoTarjetaP        = $request->input("config.pagoTarjetaP");
+            $numeroTarjetaP      = $request->input("config.tarjetaP");
+            $montoTarjetaP       = $request->input("config.montoTarjetaP");
+            $pos_idP             = $request->input("pos");
+
+            $tipoDeCliente = 2;
+            if ($serieReciboP == 'a') {
+                $serieReciboP = 1;
+            } elseif ($serieReciboP == 'b') {
+                $serieReciboP = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
+
+            $reciboMaestroP = new Recibo_Maestro;
+            $reciboMaestroP->serie_recibo_id = $serieReciboP;
+            $reciboMaestroP->numero_recibo =  $lastValue + 1;
+            $reciboMaestroP->numero_de_identificacion = $dpi;
+            $reciboMaestroP->nombre = $nombreClienteP;
+            $reciboMaestroP->tipo_de_cliente_id = $tipoDeCliente;
+            $reciboMaestroP->complemento = " ";
+            $reciboMaestroP->monto_efecectivo = $montoefectivoP;
+            $reciboMaestroP->monto_tarjeta = $montoTarjetaP;
+            $reciboMaestroP->monto_cheque = $montoChequeP;
+            $reciboMaestroP->usuario = Auth::user()->id;
+            $reciboMaestroP->monto_total = $totalAPagarP;
+            $reciboMaestroP->e_mail = $request->input("config.emailp");
+            $reciboMaestroP->save();
+
+            $array = $request->input("datos");
+
+            for ($i = 1; $i < sizeof($array); $i++) {
+                $reciboDetalleP = Recibo_Detalle::create([
+                    'numero_recibo'     => $reciboMaestroP->numero_recibo,
+                    'codigo_compra'     => $array[$i][1],
+                    'cantidad'          => $array[$i][2],
+                    'precio_unitario'   => substr($array[$i][3],2),
+                    'total'             => substr($array[$i][5],2),
+                ]);
+            }
+
+            if ($pagoChequeP == 'si') {
+                $bdChequeP = new ReciboCheque;
+                $bdChequeP->numero_recibo = $reciboMaestroP->numero_recibo;
+                $bdChequeP->numero_cheque = $numeroChequeP;
+                $bdChequeP->monto = $montoChequeP;
+                $bdChequeP->nombre_banco = "";
+                $bdChequeP->usuario_id = Auth::user()->id;
+                $bdChequeP->fecha_de_cheque = now();
+                $bdChequeP->save();
+            }
+
+            if ($pagoTarjetaP == 'si') {
+                $bdTarjetaP = new ReciboTarjeta;
+                $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
+                $bdTarjetaP->numero_voucher = $numeroTarjetaP;
+                $bdTarjetaP->monto = $montoTarjetaP;
+                $bdTarjetaP->pos_cobro_id = $pos_idP;
+                $bdTarjetaP->usuario_id = Auth::user()->id;
+                $bdTarjetaP->save();
+            }
+
+            $reciboMaestro = $reciboMaestroP;
+
+            //Envio de correo creacion de recibo Particular
+
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            FROM sigecig_recibo_detalle rd
+            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+            $datos = DB::select($query1);
+            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+            $nit_ = $id;
+            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+                ->setPaper('legal', 'landscape');
+            $fecha_actual = date_format(Now(), 'd-m-Y');
+            $datos_colegiado = $id;
+            $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+            $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+            $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+            $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
+            Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
+
+            return response()->json(['success' => 'Exito']);
+
+        } elseif ($emisionDeRecibo == 'empresa'){
+                // almacen de datos de EMPRESA
+
+            $serieReciboE        = $request->input("config.tipoSerieReciboE");
+            $tipoDeCliente       = $request->input("config.tipoDeCliente");
+            $nit                 = $request->input("config.nit");
+            $empresa             = $request->input("config.empresa");
+            $totalAPagarE        = $request->input("config.totalE");
+            $totalAPagarE        = substr($totalAPagarE,2);
+            $pagoEnEfectivoE     = $request->input("config.pagoEfectivoE");
+            $montoefectivoE      = $request->input("config.montoefectivoE");
+            $pagoChequeE         = $request->input("config.pagoChequeE");
+            $numeroChequeE       = $request->input("config.chequeE");
+            $montoChequeE        = $request->input("config.montoChequeE");
+            $pagoTarjetaE        = $request->input("config.pagoTarjetaE");
+            $numeroTarjetaE      = $request->input("config.tarjetaE");
+            $montoTarjetaE       = $request->input("config.montoTarjetaE");
+            $pos_idE             = $request->input("pos");
+
+            $tipoDeCliente = 3;
+            if ($serieReciboE == 'a') {
+                $serieReciboE = 1;
+            } elseif ($serieReciboE == 'b') {
+                $serieReciboE = 2;
+            }
+
+            $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
+
+            $reciboMaestroE = new Recibo_Maestro;
+            $reciboMaestroE->serie_recibo_id = $serieReciboE;
+            $reciboMaestroE->numero_recibo =  $lastValue + 1;
+            $reciboMaestroE->numero_de_identificacion = $nit;
+            $reciboMaestroE->nombre = $empresa;
+            $reciboMaestroE->tipo_de_cliente_id = $tipoDeCliente;
+            $reciboMaestroE->complemento = " ";
+            $reciboMaestroE->monto_efecectivo = $montoefectivoE;
+            $reciboMaestroE->monto_tarjeta = $montoTarjetaE;
+            $reciboMaestroE->monto_cheque = $montoChequeE;
+            $reciboMaestroE->usuario = Auth::user()->id;
+            $reciboMaestroE->monto_total = $totalAPagarE;
+            $reciboMaestroE->save();
+
+            $array = $request->input("datos");
+
+            for ($i = 1; $i < sizeof($array); $i++) {
+                $reciboDetalleE = Recibo_Detalle::create([
+                    'numero_recibo'     => $reciboMaestroE->numero_recibo,
+                    'codigo_compra'     => $array[$i][1],
+                    'cantidad'          => $array[$i][2],
+                    'precio_unitario'   => substr($array[$i][3],2),
+                    'total'             => substr($array[$i][5],2),
+                ]);
+            }
+
+            if ($pagoChequeE == 'si') {
+                $bdChequeE = new ReciboCheque;
+                $bdChequeE->numero_recibo = $reciboMaestroE->numero_recibo;
+                $bdChequeE->numero_cheque = $numeroChequeE;
+                $bdChequeE->monto = $montoChequeE;
+                $bdChequeE->nombre_banco = "";
+                $bdChequeE->usuario_id = Auth::user()->id;
+                $bdChequeE->fecha_de_cheque = now();
+                $bdChequeE->save();
+            }
+
+            if ($pagoTarjetaE == 'si') {
+                $bdTarjetaE = new ReciboTarjeta;
+                $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
+                $bdTarjetaE->numero_voucher = $numeroTarjetaE;
+                $bdTarjetaE->monto = $montoTarjetaE;
+                $bdTarjetaE->pos_cobro_id = $pos_idE;
+                $bdTarjetaE->usuario_id = Auth::user()->id;
+                $bdTarjetaE->save();
+            }
+
+            //Envio de correo creacion de recibo Empresa
+
+            $reciboMaestro =  $reciboMaestroE;
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            FROM sigecig_recibo_detalle rd
+            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
+            $datos = DB::select($query1);
+
+            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
+            $nit = SQLSRV_Empresa::select('e_mail', 'EMPRESA')->where('CODIGO', $nit)->get();
+            $nit_ = $nit[0];
+
+            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
+                ->setPaper('legal', 'landscape');
+            $fecha_actual = date_format(Now(), 'd-m-Y');
+            $datos_colegiado = $nit;
+            $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
+            $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
+            $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+            $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
+            Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
+
+            return response()->json(['success' => 'Exito']);
         }
-
-        //$lastValue = DB::table('sigecig_recibo_maestro')->orderBy('numero_recibo', 'desc')->first();
-        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
-
-        $reciboMaestro = new Recibo_Maestro;
-        $reciboMaestro->serie_recibo_id = $serieRecibo;
-        //$reciboMaestro->numero_recibo =  $lastValue->numero_recibo + 1;
-        $reciboMaestro->numero_recibo =  $lastValue + 1;
-        $reciboMaestro->numero_de_identificacion = $colegiado;
-        $reciboMaestro->nombre = $nombreCliente;
-        $reciboMaestro->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestro->complemento = $complemento;
-        $reciboMaestro->monto_efecectivo = $montoefectivo;
-        $reciboMaestro->monto_tarjeta = $montoTarjeta;
-        $reciboMaestro->monto_cheque = $montoCheque;
-        $reciboMaestro->usuario = Auth::user()->id;
-        $reciboMaestro->monto_total = $totalAPagar;
-        $reciboMaestro->save();
-
-        $array = $request->input("datos");
-
-        for ($i = 1; $i < sizeof($array); $i++) {
-            $reciboDetalle = Recibo_Detalle::create([
-                'numero_recibo'     => $reciboMaestro->numero_recibo,
-                'codigo_compra'     => $array[$i][1],
-                'cantidad'          => $array[$i][2],
-                'precio_unitario'   => $array[$i][3],
-                'total'             => $array[$i][5],
-            ]);
-        }
-
-        if ($pagoCheque == 'si') {
-            $bdCheque = new ReciboCheque;
-            $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
-            $bdCheque->numero_cheque = $numeroCheque;
-            $bdCheque->monto = $montoCheque;
-            $bdCheque->nombre_banco = "";
-            $bdCheque->usuario_id = Auth::user()->id;
-            $bdCheque->fecha_de_cheque = now();
-            $bdCheque->save();
-        }
-
-        if ($pagoTarjeta == 'si') {
-            $bdTarjeta = new ReciboTarjeta;
-            $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
-            $bdTarjeta->numero_voucher = $numeroTarjeta;
-            $bdTarjeta->monto = $montoTarjeta;
-            $bdTarjeta->pos_cobro_id = $pos_id;
-            $bdTarjeta->usuario_id = Auth::user()->id;
-            $bdTarjeta->save();
-        }
-
-        //Envio de correo creacion de recibo colegiado
-        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
-        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
-        $datos = DB::select($query1);
-        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
-        $nit_ = $nit[0];
-        $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
-        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-            ->setPaper('legal', 'landscape');
-        $fecha_actual = date_format(Now(), 'd-m-Y');
-        $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
-        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
-        Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-
-        return response()->json(['success' => 'Exito']);
-    }
-
-    public function storeParticular(Request $request)
-    {
-        // almacen de datos de PARTICULAR
-
-        $serieReciboP        = $request->input("config.tipoSerieReciboP");
-        $tipoDeCliente       = $request->input("config.tipoDeCliente");
-        $dpi                 = $request->input("config.dpi");
-        $nombreClienteP      = $request->input("config.nombreP");
-        $totalAPagarP        = $request->input("config.totalP");
-        $pagoEnEfectivoP     = $request->input("config.pagoEfectivoP");
-        $montoefectivoP      = $request->input("config.montoefectivoP");
-        $pagoChequeP         = $request->input("config.pagoChequeP");
-        $numeroChequeP       = $request->input("config.chequeP");
-        $montoChequeP        = $request->input("config.montoChequeP");
-        $pagoTarjetaP        = $request->input("config.pagoTarjetaP");
-        $numeroTarjetaP      = $request->input("config.tarjetaP");
-        $montoTarjetaP       = $request->input("config.montoTarjetaP");
-        $pos_idP             = $request->input("pos");
-
-        $tipoDeCliente = 2;
-        if ($serieReciboP == 'a') {
-            $serieReciboP = 1;
-        } elseif ($serieReciboP == 'b') {
-            $serieReciboP = 2;
-        }
-
-        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
-
-        $reciboMaestroP = new Recibo_Maestro;
-        $reciboMaestroP->serie_recibo_id = $serieReciboP;
-        $reciboMaestroP->numero_recibo =  $lastValue + 1;
-        $reciboMaestroP->numero_de_identificacion = $dpi;
-        $reciboMaestroP->nombre = $nombreClienteP;
-        $reciboMaestroP->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroP->complemento = " ";
-        $reciboMaestroP->monto_efecectivo = $montoefectivoP;
-        $reciboMaestroP->monto_tarjeta = $montoTarjetaP;
-        $reciboMaestroP->monto_cheque = $montoChequeP;
-        $reciboMaestroP->usuario = Auth::user()->id;
-        $reciboMaestroP->monto_total = $totalAPagarP;
-        $reciboMaestroP->e_mail = $request->input("config.emailp");
-        $reciboMaestroP->save();
-
-        $array = $request->input("datos");
-
-        for ($i = 1; $i < sizeof($array); $i++) {
-            $reciboDetalleP = Recibo_Detalle::create([
-                'numero_recibo'     => $reciboMaestroP->numero_recibo,
-                'codigo_compra'     => $array[$i][1],
-                'cantidad'          => $array[$i][2],
-                'precio_unitario'   => $array[$i][3],
-                'total'             => $array[$i][5],
-            ]);
-        }
-
-        if ($pagoChequeP == 'si') {
-            $bdChequeP = new ReciboCheque;
-            $bdChequeP->numero_recibo = $reciboMaestroP->numero_recibo;
-            $bdChequeP->numero_cheque = $numeroChequeP;
-            $bdChequeP->monto = $montoChequeP;
-            $bdChequeP->nombre_banco = "";
-            $bdChequeP->usuario_id = Auth::user()->id;
-            $bdChequeP->fecha_de_cheque = now();
-            $bdChequeP->save();
-        }
-
-        if ($pagoTarjetaP == 'si') {
-            $bdTarjetaP = new ReciboTarjeta;
-            $bdTarjetaP->numero_recibo = $reciboMaestroP->numero_recibo;
-            $bdTarjetaP->numero_voucher = $numeroTarjetaP;
-            $bdTarjetaP->monto = $montoTarjetaP;
-            $bdTarjetaP->pos_cobro_id = $pos_idP;
-            $bdTarjetaP->usuario_id = Auth::user()->id;
-            $bdTarjetaP->save();
-        }
-
-        $reciboMaestro = $reciboMaestroP;
-        //Envio de correo creacion de recibo Particular
-        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
-        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-        $datos = DB::select($query1);
-        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-        $nit_ = $id;
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
-        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-            ->setPaper('legal', 'landscape');
-        $fecha_actual = date_format(Now(), 'd-m-Y');
-        $datos_colegiado = $id;
-        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
-        Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
-
-        return response()->json(['success' => 'Exito']);
-    }
-
-    public function storeEmpresa(Request $request)
-    {
-        // almacen de datos de EMPRESA
-
-        $serieReciboE        = $request->input("config.tipoSerieReciboE");
-        $tipoDeCliente       = $request->input("config.tipoDeCliente");
-        $nit                 = $request->input("config.nit");
-        $empresa             = $request->input("config.empresa");
-        $totalAPagarE        = $request->input("config.totalE");
-        $pagoEnEfectivoE     = $request->input("config.pagoEfectivoE");
-        $montoefectivoE      = $request->input("config.montoefectivoE");
-        $pagoChequeE         = $request->input("config.pagoChequeE");
-        $numeroChequeE       = $request->input("config.chequeE");
-        $montoChequeE        = $request->input("config.montoChequeE");
-        $pagoTarjetaE        = $request->input("config.pagoTarjetaE");
-        $numeroTarjetaE      = $request->input("config.tarjetaE");
-        $montoTarjetaE       = $request->input("config.montoTarjetaE");
-        $pos_idE             = $request->input("pos");
-
-        $tipoDeCliente = 3;
-        if ($serieReciboE == 'a') {
-            $serieReciboE = 1;
-        } elseif ($serieReciboE == 'b') {
-            $serieReciboE = 2;
-        }
-
-        $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
-
-        $reciboMaestroE = new Recibo_Maestro;
-        $reciboMaestroE->serie_recibo_id = $serieReciboE;
-        $reciboMaestroE->numero_recibo =  $lastValue + 1;
-        $reciboMaestroE->numero_de_identificacion = $nit;
-        $reciboMaestroE->nombre = $empresa;
-        $reciboMaestroE->tipo_de_cliente_id = $tipoDeCliente;
-        $reciboMaestroE->complemento = " ";
-        $reciboMaestroE->monto_efecectivo = $montoefectivoE;
-        $reciboMaestroE->monto_tarjeta = $montoTarjetaE;
-        $reciboMaestroE->monto_cheque = $montoChequeE;
-        $reciboMaestroE->usuario = Auth::user()->id;
-        $reciboMaestroE->monto_total = $totalAPagarE;
-        $reciboMaestroE->save();
-
-        $array = $request->input("datos");
-
-        for ($i = 1; $i < sizeof($array); $i++) {
-            $reciboDetalleE = Recibo_Detalle::create([
-                'numero_recibo'     => $reciboMaestroE->numero_recibo,
-                'codigo_compra'     => $array[$i][1],
-                'cantidad'          => $array[$i][2],
-                'precio_unitario'   => $array[$i][3],
-                'total'             => $array[$i][5],
-            ]);
-        }
-
-        if ($pagoChequeE == 'si') {
-            $bdChequeE = new ReciboCheque;
-            $bdChequeE->numero_recibo = $reciboMaestroE->numero_recibo;
-            $bdChequeE->numero_cheque = $numeroChequeE;
-            $bdChequeE->monto = $montoChequeE;
-            $bdChequeE->nombre_banco = "";
-            $bdChequeE->usuario_id = Auth::user()->id;
-            $bdChequeE->fecha_de_cheque = now();
-            $bdChequeE->save();
-        }
-
-        if ($pagoTarjetaE == 'si') {
-            $bdTarjetaE = new ReciboTarjeta;
-            $bdTarjetaE->numero_recibo = $reciboMaestroE->numero_recibo;
-            $bdTarjetaE->numero_voucher = $numeroTarjetaE;
-            $bdTarjetaE->monto = $montoTarjetaE;
-            $bdTarjetaE->pos_cobro_id = $pos_idE;
-            $bdTarjetaE->usuario_id = Auth::user()->id;
-            $bdTarjetaE->save();
-        }
-
-        //Envio de correo creacion de recibo Empresa
-
-
-        $reciboMaestro =  $reciboMaestroE;
-        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
-        FROM sigecig_recibo_detalle rd 
-        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-        WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-        $datos = DB::select($query1);
-
-
-        $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-        $nit = SQLSRV_Empresa::select('e_mail', 'EMPRESA')->where('CODIGO', $nit)->get();
-        $nit_ = $nit[0];
-
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
-        $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-            ->setPaper('legal', 'landscape');
-        $fecha_actual = date_format(Now(), 'd-m-Y');
-        $datos_colegiado = $nit;
-        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-        $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        $infoCorreoRecibo->attachData($pdf->output(), '' . $reciboMaestro['numero_recibo'] . 'Recibo.pdf', ['mime' => 'application / pdf ']);
-        Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-
-        return response()->json(['success' => 'Exito']);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function getDatosColegiado($colegiado)
@@ -519,6 +467,8 @@ class ReciboController extends Controller
         $colegiado = Input::get('colegiado');
         $fecha_hasta_donde_paga = Input::get('fecha_hasta_donde_paga', date("Y-m-t"));
         $monto_timbre = Input::get('monto_timbre', 0);
+        $monto_timbre = substr($monto_timbre, 2);
+
         if (!$fecha_timbre || !$fecha_hasta_donde_paga || !$monto_timbre) {
             return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
         }

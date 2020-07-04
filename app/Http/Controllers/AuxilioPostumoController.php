@@ -14,6 +14,7 @@ use DB;
 use Image, File, Mail;
 use App\Mail\AprobacionDocAp;
 use App\AdmUsuario;
+use App\AdmColegiado;
 use App\AdmPersona;
 use App\Events\ActualizacionBitacoraAp;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +25,23 @@ class AuxilioPostumoController extends Controller
     public function nuevaSolicitud()
     {
 
+
         $query = "SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
-        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(YEAR,fecha_nac,GetDate()) > 75";
+        WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(month,fecha_nac,GetDate()) >= 900";
         $result = DB::connection('sqlsrv')->select($query);
-
+        $array=[];
+        
+        foreach ($result as $colegiado => $valor){
+            $solicitud=PlataformaSolicitudAp::Where('n_colegiado',$valor->c_cliente)->get()->last();
+            if (empty($solicitud)){
+              $array[]= $valor;
+            }elseif($solicitud->id_estado_solicitud ==11 || $solicitud->id_estado_solicitud ==6 ){
+                $array[]=$valor;
+            }
+        }
+        $result=$array;
+        
         $banco = PlataformaBanco::all();
         $tipo_cuenta = PlataformaTipoCuenta::all();
         return view('admin.auxilioPostumo.nueva_solicitud', compact('result', 'banco', 'tipo_cuenta'));
@@ -60,23 +73,35 @@ class AuxilioPostumoController extends Controller
         if (empty($admin_usuario)) {
             $persona = new AdmPersona;
             $persona->Nombre1 = $colegiado->n_cliente;
+            $persona->Email = $colegiado->e_mail;
             $persona->save();
+
             $usuario = new AdmUsuario;
             $usuario->Usuario = $colegiado->c_cliente;
             $usuario->idIdentidad = 1;
             $usuario->idRol = 4;
             $usuario->TipoInternoExterno = 2;
-            $usuario->contrasenna = bcrypt('Guatemala.2020');
+            $usuario->contrasenna = 'RwB1AGEAdABlAG0AYQBsAGEALgAyADAAMgAwAA==';
             $usuario->idRecordatorio = '0';
-            $usuario->palabraclave = 'Guatemala.2020';
+            $usuario->palabraclave = 'Respuesta';
             $usuario->idPersona = $persona->id;
-            $usuario->primerIngreso = 0;
-            $usuario->UltimaSesion = Now();
+            $usuario->primerIngreso = 1;
+            $usuario->UltimaSesion = DB::raw('NOW()');
             $usuario->sesion = 0;
+            $usuario->remember_token = str_random(32);
+            $usuario->estado = 1;
             $usuario->save();
+
+            $adm_colegiado = new AdmColegiado;
+            $adm_colegiado->idUsuario = $usuario->id;
+            $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
+            $adm_colegiado->fechacreacion = DB::raw('NOW()');
+            $adm_colegiado->estado = 1;
+            $adm_colegiado->save();
+
         }
 
-        $solicitud = DB::table('sigecig_solicitudes_ap')->max('no_solicitud');
+        $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
         $cuenta = new PlataformaSolicitudAp;
 
         $cuenta->fecha_solicitud = Now();
@@ -86,7 +111,7 @@ class AuxilioPostumoController extends Controller
         $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
         $cuenta->no_cuenta = $request->no_cuenta;
         $cuenta->id_creacion = 1;
-
+        $cuenta->junta='2019-2021';
 
         if ($solicitud == 0) {
             $cuenta->no_solicitud = 15;
@@ -153,8 +178,8 @@ class AuxilioPostumoController extends Controller
         $solicitudAP->pdf_dpi_ap = $pdfDpidb;
         $solicitudAP->id_estado_solicitud = '2';
         $solicitudAP->update();
-
-        //envio de correo para confirmar recepcion de Documentos
+        try {
+                   //envio de correo para confirmar recepcion de Documentos
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
@@ -162,5 +187,58 @@ class AuxilioPostumoController extends Controller
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
         return response()->json(['success' => 'You have successfully upload file.']);
+        } catch (\Throwable $th) {
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
+            return response()->json(['success' => 'You have successfully upload file.']);
+        }
+
+
+    }
+    public function crearUsuario(){
+        return view ('admin.auxilioPostumo.crea_usuario');
+    }
+
+    public function saveUsuario(Request $request){
+        $colegiado = SQLSRV_Colegiado::where("c_cliente", $request->c_cliente)->get()->first();
+        $admin_usuario = AdmUsuario::Where("Usuario", $colegiado->c_cliente)->get()->first();
+
+        if (empty($admin_usuario)) {
+            $persona = new AdmPersona;
+            $persona->Nombre1 = $colegiado->n_cliente;
+            $persona->Email = $colegiado->e_mail;
+            $persona->save();
+
+            $usuario = new AdmUsuario;
+            $usuario->Usuario = $colegiado->c_cliente;
+            $usuario->idIdentidad = 1;
+            $usuario->idRol = 4;
+            $usuario->TipoInternoExterno = 2;
+            $usuario->contrasenna = 'RwB1AGEAdABlAG0AYQBsAGEALgAyADAAMgAwAA==';
+            $usuario->idRecordatorio = '0';
+            $usuario->palabraclave = 'Respuesta';
+            $usuario->idPersona = $persona->id;
+            $usuario->primerIngreso = 1;
+            $usuario->UltimaSesion = DB::raw('NOW()');
+            $usuario->sesion = 0;
+            $usuario->remember_token = str_random(32);
+            $usuario->estado = 1;
+            $usuario->save();
+
+            $adm_colegiado = new AdmColegiado;
+            $adm_colegiado->idUsuario = $usuario->id;
+            $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
+            $adm_colegiado->fechacreacion = DB::raw('NOW()');
+            $adm_colegiado->estado = 1;
+            $adm_colegiado->save();
+            return ('Usuario Creado');
+            return redirect()->route('crearUsuario.index')->withFlash('UsuarioCrado');
+
+        }else{
+            return ('Usuario ya existe');
+            return redirect()->route('crearUsuario.index')->withFlash('Usuario ya existe');
+        }
+   
+        dd($admin_usuario);
+        return ('save');
     }
 }

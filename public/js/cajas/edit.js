@@ -1,34 +1,104 @@
-var validator = $("#BoletaUpdateForm").validate({
+var validator = $("#FormcajasUpdate").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
-		no_boleta:{
+		nombre_caja:{
 			required: true
 		},
-		nombre_usuario: {
+		subsede: {
 			required : true
 		},
-		solicitud_boleta_id: {
+		cajero: {
 			required : true
 		}
 	},
 	messages: {
-		no_boleta: {
-			required: "Por favor, ingrese el numero de boleta"
+		nombre_caja: {
+			required: "Por favor, ingrese el numero de caja"
 		},
-		nombre_usuario: {
-			required: "Por favor, ingrese su nombre de usuario"
+		subsede: {
+			required: "Por favor, ingrese su nombre de subsede"
 		},
-		solicitud_boleta_id: {
-			required: "por favor, ingrese el numero de solicitud de Boleta"
+		cajero: {
+			required: "por favor, ingrese el cajero"
 		}
 	}
 });
 
+
+
+$('#editUpdateModal1').on('shown.bs.modal', function(event){
+	var button = $(event.relatedTarget);
+	var id = button.data('id');
+	var nombre_caja = button.data('nombre_caja');
+	var subsede = button.data('subsede');
+	var cajero = button.data('cajero');
+	
+
+	var modal = $(this);
+	modal.find(".modal-body input[name='test']").val(id);
+	modal.find(".modal-body input[name='nombre_caja']").val(nombre_caja);
+	modal.find(".modal-body input[name='subsede']").val(subsede);
+	modal.find(".modal-body input[name='cajero']").val(cajero);
+	
+ });
+
+ function BorrarFormularioUpdate() {
+	$("#FormcajasUpdate :input").each(function () {
+		$(this).val('');
+	});
+};
+
 $("#ButtonBoletaUpdate").click(function(event) {
-	if ($('#BoletaUpdateForm').valid()) {
+	if ($('#FormcajasUpdate').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
 	}
 });
+
+
+$("#ButtonTipoModalUpdate").click(function(event) {
+	event.preventDefault();
+	if ($('#FormcajasUpdate').valid()) {
+		updateModal();
+	} else {
+		validator.focusInvalid();
+	}
+});
+
+function updateModal(button) {
+	var formData = $("#FormcajasUpdate").serialize();
+	var id = $("input[name='test']").val();
+	var urlActual =  $("input[name='urlActual']").val();
+	$.ajax({
+		type: "POST",
+		headers: {'X-CSRF-TOKEN': $('#cajasToken').val()},
+		url: "/cajas/"+id+"/update",
+		data: formData,
+		dataType: "json",
+		success: function(data) {
+			BorrarFormularioUpdate();
+			$('#editUpdateModal1').modal("hide");
+			cajas_table.ajax.reload();
+			alertify.set('notifier','position', 'top-center');
+			alertify.success('Caja editada con Éxito!!');
+		},
+	});
+}
+
+if(window.location.hash === '#edit')
+		{
+			$('#editUpdateModal1').modal('show');
+		}
+
+		$('#editUpdateModal1').on('hide.bs.modal', function(){
+			$("#FormcajasUpdate").validate().resetForm();
+			document.getElementById("FormcajasUpdate").reset();
+			window.location.hash = '#';
+		});
+
+		$('#editUpdateModal1').on('shown.bs.modal', function(){
+			window.location.hash = '#edit';
+
+	});

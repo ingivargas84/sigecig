@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use DB;
-use Illuminate\Cajaspport\Facades\Redirect;
-use Illuminate\Cajaspport\Facades\Response;
-use Illuminate\Cajaspport\Facades\Auth;
-use Illuminate\Cajaspport\Facades\Input;
-use Illuminate\Cajaspport\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
 use App\Cajasbsedes;
 use App\User;
+use App\Cajas;
+use App\Subsedes;
 use Validator;
 
 class CajasController extends Controller
@@ -29,7 +33,21 @@ class CajasController extends Controller
      */
     public function index()
     {
-        return view('admin.cajas.index');
+        $subsede = Subsedes::all();
+        $caja = Cajas::all();
+       // $user = User::all();
+
+        $query= "SELECT U.name, U.id
+        FROM sigecig_users U
+        INNER JOIN model_has_roles MR ON MR.model_id = U.id
+        WHERE MR.role_id = '18'";
+         
+        $datos = DB::select($query);
+
+        //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
+       // $user =User::where('id', '=',  $modelrol->model_id)->get();
+       
+        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos'));
 
     }
 
@@ -58,9 +76,10 @@ class CajasController extends Controller
         $cajas->estado=1; // estado uno representa como activo
         $cajas->save();
 
-        event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $Cajas, 'cajas' ));
+        event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $cajas, 'Cajas' ));
+        return response()->json(['success' => 'Exito']);
 
-        return redirect()->route('cajas.index')->with('flash','La Cajas ha sido creada correctamente');
+      //  return redirect()->route('cajas.index')->with('flash','La Caja ha sido creada correctamente');
     }
 
     /**
@@ -89,20 +108,18 @@ class CajasController extends Controller
      * @param  \App\Cajas  $cajas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cajas $Cajas)
+    public function update(Request $request, Cajas $cajas)
     {
         $nuevos_datos = array(
-            'nombre_caja' => $request->nombre_sede,
+            'nombre_caja' => $request->nombre_caja,
             'cajero' => $request->cajero,
             'subsede' => $request->subsede,
-
-
         );
         $json = json_encode($nuevos_datos);
 
-        event(new ActualizacionBitacora(1, Auth::user()->id,'edicion', $cajas, $json, 'cajas' ));
+        event(new ActualizacionBitacora(1, Auth::user()->id,'Edicion', $cajas, $json, 'cajas' ));
         $cajas->update($request->all());
-        return redirect()->route('cajas.index', $cajas)->with('flash','la cajasbsede ha sido actualizada');
+        return Response::json(['success' => 'Éxito']);
 
     }
 
@@ -114,7 +131,7 @@ class CajasController extends Controller
      */
     public function destroy(Request $request, Cajas $cajas )
     {
-        $cajas->estado=0;
+        $cajas->estado=0; //estado 0 = desactivado
         $cajas->save();
         event(new ActualizacionBitacora(1, Auth::user()->id,'desactivacion', '', $cajas, 'cajas' ));
         return Response::json(['cajasccess' => 'exito']);
@@ -134,8 +151,8 @@ class CajasController extends Controller
     {
         $cajas->estado=1;
         $cajas->save();
-        event(new ActualizacionBitacora(1, Auth::user()->id,'activo', '', $cajas, 'cajas' ));
-        return Response::json(['cajasccess' => 'activado con exito']);
+        event(new ActualizacionBitacora(1, Auth::user()->id,'activacion', '', $cajas, 'cajas' ));
+        return Response::json(['success' => 'activado con exito']);
 
     }
 
@@ -176,8 +193,14 @@ class CajasController extends Controller
     public function getJson(Request $params)
      {
          //$api_Recajaslt['data'] = Cajas::where('estado','=',1)->get();
-         $api_Recajaslt['data'] = Cajas::all();
-         return Response::json( $api_Recajaslt );
+
+        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name
+        FROM sigecig_cajas C
+        INNER JOIN sigecig_subsedes S ON C.id = S.id
+        INNER JOIN sigecig_users U ON C.cajero = U.id";
+
+        $api_Result['data'] = DB::select($query);
+        return Response::json( $api_Result );
      }
 
 }

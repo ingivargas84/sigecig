@@ -3,13 +3,13 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-      Tipos de Pago - Recibo Electrónico
+      Cajas
       </center>
     </h1>
-    <!-- <ol class="breadcrumb">
+    <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Tipos de Pago</li>
-    </ol> -->
+      <li class="active">Cajas</li>
+    </ol>
   </section>
 
   @endsection
@@ -24,7 +24,7 @@
 <div class="box">
     <div class="box-header">
         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#ingresoModal">
-         Ingresar Tipo de Pago  <i class="fa fa-plus"></i></a>
+         Agregar <i class="fa fa-plus"></i></a>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
