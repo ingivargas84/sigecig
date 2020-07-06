@@ -149,6 +149,8 @@ $(document).ready(function () {
 $(document).ready(function(){
     $("input[name$='serieRecibo']").change(function() {
         $("input[name='codigo']").empty();
+        $("tbody").children().remove();
+        getTotal();
         var stateID = $("input[name$='serieRecibo']").val();
         if(document.getElementById("serieReciboA").checked) {
             $.ajax({
@@ -497,7 +499,7 @@ function validateRow(){
 function getTotal() {
     var total = 0;
     $("#tablaDetalle .subtotal").each(function (index, element) {
-      total += parseInt($(this).html().substring(2));
+      total += parseFloat($(this).html().substring(2));
     });
 
     $("#total").val('Q.'+total.toFixed(2));
