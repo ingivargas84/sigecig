@@ -9,6 +9,7 @@
               <h4 class="modal-title text-center" id="myModalLabel">Editar Caja</h4>
             </div>
             <div class="modal-body">
+                
                 <div class="row">
                     <div class="form-group col-sm-12 {{ $errors->has('nombre_caja') ? 'has-error': '' }}" >
                         <label for="nombre_caja">Nombre de Caja:</label>
@@ -39,7 +40,7 @@
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="ButtonTipoModalUpdate" >Actualizar</button>
+                <button type="submit" class="btn btn-primary edit" id="ButtonTipoModalUpdate" >Actualizar</button>
             </div>
           </div>
     </div>

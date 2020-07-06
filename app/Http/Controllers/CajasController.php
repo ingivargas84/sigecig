@@ -78,8 +78,6 @@ class CajasController extends Controller
 
         event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $cajas, 'Cajas' ));
         return response()->json(['success' => 'Exito']);
-
-      //  return redirect()->route('cajas.index')->with('flash','La Caja ha sido creada correctamente');
     }
 
     /**
@@ -108,12 +106,12 @@ class CajasController extends Controller
      * @param  \App\Cajas  $cajas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cajas $cajas)
+    public function update(Request $request, Cajas $cajas, Subsedes $subsede)
     {
         $nuevos_datos = array(
             'nombre_caja' => $request->nombre_caja,
-            'cajero' => $request->cajero,
             'subsede' => $request->subsede,
+            'cajero' => $request->cajero,
         );
         $json = json_encode($nuevos_datos);
 
@@ -192,16 +190,13 @@ class CajasController extends Controller
 
     public function getJson(Request $params)
      {
-         //$api_Recajaslt['data'] = Cajas::where('estado','=',1)->get();
-
         $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name
         FROM sigecig_cajas C
-        INNER JOIN sigecig_subsedes S ON C.id = S.id
+        INNER JOIN sigecig_subsedes S ON C.subsede = S.id
         INNER JOIN sigecig_users U ON C.cajero = U.id";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
      }
-
 }
 
