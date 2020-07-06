@@ -24,8 +24,7 @@ class AuxilioPostumoController extends Controller
     //crear una nueva solicitud de auxilio postumo
     public function nuevaSolicitud()
     {
-
-
+        $user = Auth::User();
         $query = "SELECT c_cliente, n_cliente, estado, DATEDIFF(YEAR,fecha_nac,GetDate()) as edad
         FROM cc00
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(month,fecha_nac,GetDate()) >= 900";
@@ -44,11 +43,18 @@ class AuxilioPostumoController extends Controller
         
         $banco = PlataformaBanco::all();
         $tipo_cuenta = PlataformaTipoCuenta::all();
-        return view('admin.auxilioPostumo.nueva_solicitud', compact('result', 'banco', 'tipo_cuenta'));
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
+            return view('admin.auxilioPostumo.nueva_solicitud', compact('result', 'banco', 'tipo_cuenta'));
+        }else{
+            return redirect()->route('resolucion.index');
+        }
+        
     }
 
     public function getDatosColegiado($no_colegiado)
     {
+        $user = Auth::User();
+
         $consulta = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac')
             ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
             ->where('cc00.c_cliente', $no_colegiado)
@@ -60,8 +66,8 @@ class AuxilioPostumoController extends Controller
         } else {
             $usuario = '1';
         }
-
-        return Response::json(array($consulta, $usuario));
+            return Response::json(array($consulta, $usuario));
+      
     }
 
     public function GuardarSolicitudAp(Request $request)
@@ -69,69 +75,76 @@ class AuxilioPostumoController extends Controller
 
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $request->no_colegiado)->get()->first();
         $admin_usuario = AdmUsuario::Where("Usuario", $colegiado->c_cliente)->get()->first();
+            if (empty($admin_usuario)) {
+                $persona = new AdmPersona;
+                $persona->Nombre1 = $colegiado->n_cliente;
+                $persona->Email = $colegiado->e_mail;
+                $persona->save();
+    
+                $usuario = new AdmUsuario;
+                $usuario->Usuario = $colegiado->c_cliente;
+                $usuario->idIdentidad = 1;
+                $usuario->idRol = 4;
+                $usuario->TipoInternoExterno = 2;
+                $usuario->contrasenna = 'RwB1AGEAdABlAG0AYQBsAGEALgAyADAAMgAwAA==';
+                $usuario->idRecordatorio = '0';
+                $usuario->palabraclave = 'Respuesta';
+                $usuario->idPersona = $persona->id;
+                $usuario->primerIngreso = 1;
+                $usuario->UltimaSesion = DB::raw('NOW()');
+                $usuario->sesion = 0;
+                $usuario->remember_token = str_random(32);
+                $usuario->estado = 1;
+                $usuario->save();
+    
+                $adm_colegiado = new AdmColegiado;
+                $adm_colegiado->idUsuario = $usuario->id;
+                $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
+                $adm_colegiado->fechacreacion = DB::raw('NOW()');
+                $adm_colegiado->estado = 1;
+                $adm_colegiado->save();
+    
+            }
+    
+            $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
+            $cuenta = new PlataformaSolicitudAp;
+    
+            $cuenta->fecha_solicitud = Now();
+            $cuenta->n_colegiado = $request->no_colegiado;
+            $cuenta->id_estado_solicitud = '1';
+            $cuenta->id_banco = $request->banco;
+            $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
+            $cuenta->no_cuenta = $request->no_cuenta;
+            $cuenta->id_creacion = 1;
+            $cuenta->junta='2019-2021';
+    
+            if ($solicitud == 0) {
+                $cuenta->no_solicitud = 15;
+            } else {
+                $cuenta->no_solicitud = $solicitud + 1;
+            }
+    
+            $cuenta->save();
+    
+            $colegiado->telefono = $request->telefono;
+            $colegiado->update();
+    
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
+    
+            return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+       
 
-        if (empty($admin_usuario)) {
-            $persona = new AdmPersona;
-            $persona->Nombre1 = $colegiado->n_cliente;
-            $persona->Email = $colegiado->e_mail;
-            $persona->save();
-
-            $usuario = new AdmUsuario;
-            $usuario->Usuario = $colegiado->c_cliente;
-            $usuario->idIdentidad = 1;
-            $usuario->idRol = 4;
-            $usuario->TipoInternoExterno = 2;
-            $usuario->contrasenna = 'RwB1AGEAdABlAG0AYQBsAGEALgAyADAAMgAwAA==';
-            $usuario->idRecordatorio = '0';
-            $usuario->palabraclave = 'Respuesta';
-            $usuario->idPersona = $persona->id;
-            $usuario->primerIngreso = 1;
-            $usuario->UltimaSesion = DB::raw('NOW()');
-            $usuario->sesion = 0;
-            $usuario->remember_token = str_random(32);
-            $usuario->estado = 1;
-            $usuario->save();
-
-            $adm_colegiado = new AdmColegiado;
-            $adm_colegiado->idUsuario = $usuario->id;
-            $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
-            $adm_colegiado->fechacreacion = DB::raw('NOW()');
-            $adm_colegiado->estado = 1;
-            $adm_colegiado->save();
-
-        }
-
-        $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
-        $cuenta = new PlataformaSolicitudAp;
-
-        $cuenta->fecha_solicitud = Now();
-        $cuenta->n_colegiado = $request->no_colegiado;
-        $cuenta->id_estado_solicitud = '1';
-        $cuenta->id_banco = $request->banco;
-        $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
-        $cuenta->no_cuenta = $request->no_cuenta;
-        $cuenta->id_creacion = 1;
-        $cuenta->junta='2019-2021';
-
-        if ($solicitud == 0) {
-            $cuenta->no_solicitud = 15;
-        } else {
-            $cuenta->no_solicitud = $solicitud + 1;
-        }
-
-        $cuenta->save();
-
-        $colegiado->telefono = $request->telefono;
-        $colegiado->update();
-
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
-
-        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
     }
 
     public function DocumentosAp($id)
     {
-        return view('admin.auxilioPostumo.subir_documentos', compact('id'));
+        $user = Auth::User();
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
+            return view('admin.auxilioPostumo.subir_documentos', compact('id')); 
+        }else{
+            return redirect()->route('resolucion.index');
+        }
+        
     }
 
     public function imprimirSolicitud($id)
@@ -152,7 +165,7 @@ class AuxilioPostumoController extends Controller
     public function guardarDocumentosAp(Request $request, $id)
     {
 
-
+        
         $fecha = date("Y/m/d h:m:s");
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
