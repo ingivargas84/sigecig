@@ -3,7 +3,8 @@ var validator = $("#FormcajasUpdate").validate({
 	onkeyup:false,
 	rules: {
 		nombre_caja:{
-			required: true
+			required: true,
+			nombreunicoedit : true
 		},
 		subsede: {
 			required : true
@@ -38,8 +39,8 @@ $('#editUpdateModal1').on('shown.bs.modal', function(event){
 	var modal = $(this);
 	modal.find(".modal-body input[name='test']").val(id);
 	modal.find(".modal-body input[name='nombre_caja']").val(nombre_caja);
-	modal.find(".modal-body input[name='subsede']").val(subsede);
-	modal.find(".modal-body input[name='cajero']").val(cajero);
+	modal.find(".modal-body select[name='subsede']").val(subsede);
+	modal.find(".modal-body select[name='cajero']").val(cajero);
 	
  });
 
@@ -100,5 +101,21 @@ if(window.location.hash === '#edit')
 
 		$('#editUpdateModal1').on('shown.bs.modal', function(){
 			window.location.hash = '#edit';
-
 	});
+
+	$.validator.addMethod("nombreunicoedit", function(value, element){
+        var valid = false;
+        var id = $("input[name='test']").val();
+        var urlActual = $("input[name='urlActual']").val();
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/cajas/nombreDisponibleEdit/",
+            data: {value, id},
+            dataType: "json",
+            success: function (msg) {
+                valid=!msg;
+            }
+        });
+        return valid;
+        }, "La caja ya está registrada en el sistema");

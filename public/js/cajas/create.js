@@ -49,7 +49,7 @@ $.validator.addMethod("nombreunico", function(value, element){
         type: "GET",
         async: false,
         url: "/cajas/nombreDisponible/",
-        data:"nombre_sede=" + value,
+        data:"nombre_caja=" + value,
         dataType: "json",
         success: function (msg) {
             valid=!msg;

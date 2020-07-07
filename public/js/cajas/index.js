@@ -89,7 +89,7 @@ var cajas_table = $('#cajas-table').DataTable({
             if(full.estado == 1){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-codigo='" + full.codigo + "' data-tipo_de_pago='"+full.tipo_de_pago+"' data-precio_colegiado='"+full.precio_colegiado+"' data-precio_particular='"+full.precio_particular+"' data-categoria_id='"+full.categoria_id+"'>" +
+                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_caja='" + full.nombre_caja + "' data-subsede='"+full.subsede+"' data-cajero='"+full.cajero+"'>" +
                 "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                 "</a>" + "</div>" +
                 "<div id='" + full.id + "' class='text-center'>" +
