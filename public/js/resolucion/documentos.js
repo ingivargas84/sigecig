@@ -2,9 +2,9 @@
 function validarSolciditud(){
     var archivoInput = document.getElementById('solicitud').files;
     var archivoRuta = solicitud.value;
-    var extPermitidas = /(.pdf)$/i;
+    var extPermitidas = /(.pdf|.png|.jpg|.PNG|.JPG)$/i;
     if(!extPermitidas.exec(archivoRuta)){
-        alertify.error("Asegurate de subir un PDF");
+        alertify.error("Asegurate de subir un documento en Formato 'PDF,PNG o JPG'");
         alertify.set('notifier','position','top-center');
         $('#solicitud').val('');
         $('#msj1').html('');
@@ -17,9 +17,9 @@ function validarSolciditud(){
 function validarDpi(){
     var archivoInput = document.getElementById('dpi').files;
     var archivoRuta = dpi.value;
-    var extPermitidas = /(.pdf)$/i;
+    var extPermitidas = /(.pdf|.png|.jpg|.PNG|.JPG)$/i;
     if(!extPermitidas.exec(archivoRuta)){
-        alertify.error("Asegurate de subir un PDF");
+        alertify.error("Asegurate de subir un documento en Formato 'PDF,PNG o JPG'");
         alertify.set('notifier','position','top-center');
         $('#dpi').val('');
         $('#msj2').html('');
@@ -37,7 +37,7 @@ function validarDpi(){
         }else{
             var solicitud = document.getElementById('solicitud');
             var archivoRuta = solicitud.value;
-            var extPermitida = /(.pdf)$/i;
+            var extPermitida = /(.pdf|.png|.jpg|.PNG|.JPG)$/i;
             if(!extPermitida.exec(archivoRuta)){
                 alertify.error("Subir la solicitud en formato PDF");
                 alertify.set('notifier','position','bottom-center');
@@ -61,7 +61,7 @@ function validarDpi(){
         }else{
             var dpi = document.getElementById('dpi');
             var archivoRuta = dpi.value;
-            var extPermitida = /(.pdf)$/i;
+            var extPermitida = /(.pdf|.png|.jpg|.PNG|.JPG)$/i;
             if(!extPermitida.exec(archivoRuta)){
                 alertify.error("Subir DPI en formato PDF");
                 
