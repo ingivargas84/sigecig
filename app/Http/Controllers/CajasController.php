@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
-use App\Cajasbsedes;
 use App\User;
 use App\Cajas;
 use App\Subsedes;
@@ -155,8 +154,8 @@ class CajasController extends Controller
     }
 
     public function nombreDisponible(){
-        $dato = Input::get("nombre_sede");
-        $query = Cajas::where("nombre_sede",$dato)->where('estado', 1)->get();
+        $dato = Input::get("nombre_caja");
+        $query = Cajas::where("nombre_caja",$dato)->where('estado', 1)->get();
              $contador = count($query);
 
         if ($contador == 0 )
@@ -169,12 +168,12 @@ class CajasController extends Controller
         }
     }
 
-    public function nombreDisponibleEdit(){
+    public function nombreDisponibleEdit(Request $request){
 
-        $dato = Input::get("nombre_sede");
-        $id = Input::get("num");
+        $dato = $request->value;
+        $id = $request->id;
 
-        $query = Cajas::where("nombre_sede",$dato)->where("estado", 1)->where("id","!=",$id)->get();
+        $query = Cajas::where("nombre_caja",$dato)->where("id","!=",$id)->get();
 
         $contador = count($query);
         if ($contador == 0 )
