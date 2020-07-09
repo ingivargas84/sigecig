@@ -36,7 +36,7 @@
                     </div>
                 </div>
               <br>
-              <input type="hidden" name="_token" id="cajasToken" value="{{ csrf_token() }}">
+              <input type="hidden" name="_token" id="bodegasToken" value="{{ csrf_token() }}">
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
