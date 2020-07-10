@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Cajas;
 use App\Subsedes;
+use App\Bodegas;
 use Validator;
 
 class CajasController extends Controller
@@ -34,6 +35,7 @@ class CajasController extends Controller
     {
         $subsede = Subsedes::all();
         $caja = Cajas::all();
+        $bodega = Bodegas::all();
        // $user = User::all();
 
         $query= "SELECT U.name, U.id
@@ -46,7 +48,7 @@ class CajasController extends Controller
         //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
        // $user =User::where('id', '=',  $modelrol->model_id)->get();
        
-        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos'));
+        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos', 'bodega'));
 
     }
 
@@ -72,6 +74,7 @@ class CajasController extends Controller
         $cajas->nombre_caja=$request->get('nombre_caja');
         $cajas->cajero=$request->get('cajero');
         $cajas->subsede=$request->get('subsede');
+        $cajas->bodega=$request->get('bodega');
         $cajas->estado=1; // estado uno representa como activo
         $cajas->save();
 
@@ -111,6 +114,7 @@ class CajasController extends Controller
             'nombre_caja' => $request->nombre_caja,
             'subsede' => $request->subsede,
             'cajero' => $request->cajero,
+            'bodega' => $request->bodega,
         );
         $json = json_encode($nuevos_datos);
 
@@ -186,13 +190,13 @@ class CajasController extends Controller
         }
     }
 
-
     public function getJson(Request $params)
      {
-        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name
+        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name, B.nombre_bodega
         FROM sigecig_cajas C
         INNER JOIN sigecig_subsedes S ON C.subsede = S.id
-        INNER JOIN sigecig_users U ON C.cajero = U.id";
+        INNER JOIN sigecig_users U ON C.cajero = U.id
+        INNER JOIN sigecig_bodega B ON B.id = C.bodega";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );

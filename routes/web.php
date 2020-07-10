@@ -214,7 +214,8 @@ Route::group([
         Route::post('/bodegas/save/', 'BodegasController@store')->name('bodegas.save');
         Route::post('/bodegas/{bodegas}/update', 'BodegasController@update');
         Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
-
+        Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
+        Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
     });
 
 

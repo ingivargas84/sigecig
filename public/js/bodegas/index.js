@@ -81,13 +81,13 @@ var bodegas_table = $('#bodegas-table').DataTable({
             if(full.estado == 1){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-bodegas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_bodega='" + full.nombre_bodega + "' data-descripcion='"+full.descripcion+"' data-estado='"+full.estado+"'>" +
+                "<a href='#' class='edit-bodegas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_bodega='" + full.nombre_bodega + "' data-descripcion='"+full.descripcion+"'>" +
                 "<i class='fa fa-btn fa-edit' title='Editar Bodega'></i>" +
                 "</a>" + "</div>" +
                 "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-trash' title='Desactivar Caja'></i>" +
+                "<i class='fa fa-trash' title='Eliminar Bodega'></i>" +
                 "</a>" + "</div>";
                 }else{
                     return "<div id='" + full.id + "' class='text-center'>" +
@@ -162,7 +162,7 @@ $(document).on('click', 'a.activar-cajas', function(e) {
 
 $(document).on('click', 'a.destroy-bodegas', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-error";
     var $this = $(this);
     alertify.confirm('Eliminar Bodega', 'Esta seguro de eliminar la Bodega?',
         function(){
