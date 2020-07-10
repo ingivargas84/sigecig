@@ -13,6 +13,7 @@ class Cajas extends Model
         'nombre_caja',
         'cajero',
         'subsede',
+        'bodega',
         'estado' //este estado es el que nos indica si se encuentra activado (0) o desactivado (1).
 
     ];

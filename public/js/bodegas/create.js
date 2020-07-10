@@ -3,7 +3,8 @@ var validator = $("#BodegaForm").validate({
 	onkeyup:false,
 	rules: {
 		nombre_bodega:{
-			required: true
+			required: true,
+			nombreunico: true
         },
         descripcion: {
 			required : true
@@ -78,6 +79,23 @@ $.validator.addMethod("nombreunico", function(value, element){
 		});
 	}
 	
+
+	$.validator.addMethod("nombreunico", function(value, element){
+		var valid = false;
+		var urlActual = $("input[name='urlActual']").val();
+		$.ajax({
+			type: "GET",
+			async: false,
+			url: "/bodegas/nombreDisponible/",
+			data:"nombre_bodega=" + value,
+			dataType: "json",
+			success: function (msg) {
+				valid=!msg;
+			}
+		});
+		return valid;
+		}, "La bodega ya está registrada en el sistema");
+
 	//Mostrar y ocultar formulario
 	if (window.location.hash === '#create') {
 		$('#ingresoModal').modal('show');

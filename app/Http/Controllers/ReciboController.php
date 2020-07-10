@@ -37,7 +37,7 @@ class ReciboController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
         return view('admin.creacionRecibo.index', compact('pos', 'tipo'));
@@ -55,7 +55,7 @@ class ReciboController extends Controller
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
- 
+
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
@@ -93,7 +93,9 @@ class ReciboController extends Controller
             $estado             = $request->input("config.estado");
             $complemento        = $request->input("config.complemento");
             $ultPagoTimbre      = $request->input("config.f_ult_timbre");
-            $ulPagoColegio      = $request->input("config.f_ult_pago");
+            $fechaPagoTimbre    = $request->input("config.fechaTimbre");
+            $ultPagoColegio     = $request->input("config.f_ult_pago");
+            $fechaPagoColegio   = $request->input("config.fechaColegio");
             $montoTimbre        = $request->input("config.monto_timbre");
             $montoTimbre        = substr($montoTimbre,2);
             $totalAPagar        = $request->input("config.total");
@@ -107,6 +109,8 @@ class ReciboController extends Controller
             $numeroTarjeta      = $request->input("config.tarjeta");
             $montoTarjeta       = $request->input("config.montoTarjeta");
             $pos_id             = $request->input("pos");
+            $mesesASumar        = $request->input("nuevaFechaColegio");
+            $totalPrecioTimbre  = $request->totalPrecioTimbre;
 
             $tipoDeCliente = 1;
             if ($serieRecibo == 'a') {
@@ -156,7 +160,7 @@ class ReciboController extends Controller
                 $bdCheque->save();
             }
 
-            if ($pagoTarjeta == 'si') {
+            if ($pagoTarjeta == 'si'){
                 $bdTarjeta = new ReciboTarjeta;
                 $bdTarjeta->numero_recibo = $reciboMaestro->numero_recibo;
                 $bdTarjeta->numero_voucher = $numeroTarjeta;
@@ -164,6 +168,29 @@ class ReciboController extends Controller
                 $bdTarjeta->pos_cobro_id = $pos_id;
                 $bdTarjeta->usuario_id = Auth::user()->id;
                 $bdTarjeta->save();
+            }
+
+            if($mesesASumar != null){
+                $fechaPagoColegio = new Carbon($fechaPagoColegio);
+                $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($mesesASumar+1)->subSeconds(1)->toDateTimeString();
+                $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
+                $query = "UPDATE cc00 SET f_ult_pago = :nuevaFecha WHERE c_cliente = :colegiado";
+                $parametros = array(
+                    ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
+                );
+                $result = DB::connection('sqlsrv')->update($query, $parametros);
+            }
+
+            if($totalPrecioTimbre != null){
+                $cantMensualidades = $totalPrecioTimbre / $montoTimbre;
+                $fechaPagoTimbre = new Carbon($fechaPagoTimbre);
+                $nuevaFecha = $fechaPagoTimbre->startofMonth()->addMonths($cantMensualidades+1)->subSeconds(1)->toDateTimeString();
+                $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
+                $query = "UPDATE cc00 SET f_ult_timbre = :nuevaFecha WHERE c_cliente = :colegiado";
+                $parametros = array(
+                    ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
+                );
+                $result = DB::connection('sqlsrv')->update($query, $parametros);
             }
 
             //Envio de correo creacion de recibo colegiado
@@ -189,7 +216,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$colegiado.'.pdf', ['mime' => 'application / pdf ']);
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-    
+
                 return response()->json(['success' => 'Exito']);
             } catch (\Throwable $th) {
                 return response()->json(['success' => 'Exito']);
@@ -296,7 +323,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
-    
+
                 return response()->json(['success' => 'Exito']);
             } catch (\Throwable $th) {
                 return response()->json(['success' => 'Exito']);
@@ -404,7 +431,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-    
+
             } catch (\Throwable $th) {
                 return response()->json(['success' => 'Exito']);
             }
@@ -414,27 +441,38 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        // $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre', 'fallecido')
-        //     ->where('c_cliente', $colegiado)->get()->first();
-
         $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
         $result = DB::connection('sqlsrv')->select($query);
 
         if (!empty($result)) {
             $result[0]->estado = 'Activo';
+
             return $result;
         } else {
             $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
-                  WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
+                      WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
             $resultado = DB::connection('sqlsrv')->select($query);
+
+            if (empty($resultado)) {
+                $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                          WHERE c_cliente = $colegiado and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
+                $resultado1 = DB::connection('sqlsrv')->select($query);
+
+                if (empty($resultado1)) {
+                    $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                              WHERE c_cliente = $colegiado and DATEDIFF(month, f_ult_pago, GETDATE()) > 3";
+                    $resultado2 = DB::connection('sqlsrv')->select($query);
+                    $resultado2[0]->estado = 'Inactivo';
+
+                    return $resultado2;
+                }
+
+                $resultado1[0]->estado = 'Inactivo';
+                return $resultado1;
+            }
+
             $resultado[0]->estado = 'Inactivo';
-
-            // $igual = [
-            //     0=>['n_cliente'=> $resultado[0]->n_cliente, 'estado' => 'Inactivo', 'f_ult_timbre'=> $resultado[0]->f_ult_timbre,
-            //         'f_ult_pago'=> $resultado[0]->f_ult_pago, 'monto_timbre'=> $resultado[0]->monto_timbre, 'fallecido'=> $resultado[0]->fallecido,]
-            // ];
-
             return $resultado;
         }
     }

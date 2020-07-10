@@ -34,9 +34,18 @@
                           @endforeach
                       </select>     
                     </div>
+                    <div class="form-group col-sm-12" >
+                        <label for="bodega">Bodega:</label>
+                        <select name="bodega" class="form-control" id="bodega">
+                          <option value="">-- Escoja la bodega --</option>
+                          @foreach ($bodega as $bo)
+                              <option value="{{ $bo->id }}">{{ $bo->nombre_bodega }}</option>
+                          @endforeach
+                      </select>     
+                    </div>
                 </div>
               <br>
-              <input type="hidden" name="_token" id="bodegasToken" value="{{ csrf_token() }}">
+              <input type="hidden" name="_token" id="cajasToken" value="{{ csrf_token() }}">
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">
