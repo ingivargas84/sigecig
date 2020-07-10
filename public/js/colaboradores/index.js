@@ -155,7 +155,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
 
 $(document).on('click', 'a.destroy-colaborador', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-error";
     var $this = $(this);
     alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro del  Colaborador',
         function(){

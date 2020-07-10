@@ -3,7 +3,8 @@ var validator = $("#BodegaUpdate").validate({
 	onkeyup:false,
 	rules: {
 		nombre_bodega:{
-			required: true
+			required: true,
+			nombreunicoedit: true
         },
         descripcion: {
 			required : true
@@ -19,19 +20,16 @@ var validator = $("#BodegaUpdate").validate({
 	}
 });
 
-
-
 $('#editUpdateModal1').on('shown.bs.modal', function(event){
 	var button = $(event.relatedTarget);
 	var id = button.data('id');
 	var nombre_bodega = button.data('nombre_bodega');
 	var descripcion = button.data('descripcion');
 	
-
 	var modal = $(this);
 	modal.find(".modal-body input[name='test']").val(id);
 	modal.find(".modal-body input[name='nombre_bodega']").val(nombre_bodega);
-	modal.find(".modal-body select[name='descripcion']").val(descripcion);
+	modal.find(".modal-body input[name='descripcion']").val(descripcion);
 	
  });
 
@@ -101,7 +99,7 @@ if(window.location.hash === '#edit')
         $.ajax({
             type: "GET",
             async: false,
-            url: "/cajas/nombreDisponibleEdit/",
+            url: "/bodegas/nombreDisponibleEdit/",
             data: {value, id},
             dataType: "json",
             success: function (msg) {
@@ -109,4 +107,4 @@ if(window.location.hash === '#edit')
             }
         });
         return valid;
-        }, "La caja ya está registrada en el sistema");
+        }, "La bodega ya está registrada en el sistema");
