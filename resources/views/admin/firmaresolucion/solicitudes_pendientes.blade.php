@@ -50,9 +50,9 @@
 
 		</tr>
 
-		@foreach($cuenta1 as $a1)
+		@foreach($result as $a1)
 		<tr>
-			<td>{{  $a1->c_cliente }}</td>
+			<td>{{  $a1->cliente }}</td>
 			<td>{{  $a1->n_cliente }}</td>
 			<td>{{  $a1->registro }}</td>
 			<td>{{  $a1->n_profesion }}</td>

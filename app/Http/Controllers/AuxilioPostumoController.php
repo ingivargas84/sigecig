@@ -149,7 +149,7 @@ class AuxilioPostumoController extends Controller
 
     public function imprimirSolicitud($id)
     {
-        $solicitud = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
+        $solicitud = PlataformaSolicitudAp::Where("id", $id)->get()->first();
         $profesion = SQLSRV_Profesion::Where("c_cliente", $solicitud->n_colegiado)->get()->first();
         $colegiado = SQLSRV_Colegiado::Where("c_cliente", $solicitud->n_colegiado)->get()->first();
         $fecha_actual = date_format(Now(), 'd-m-Y');
