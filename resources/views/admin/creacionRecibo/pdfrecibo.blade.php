@@ -50,7 +50,6 @@
             height: 50px;
             display: inline-block;
             vertical-align: top;
-            margin-top: 1rem;
         }
         .texto3 {
             background: #D2D2D2;
@@ -131,8 +130,8 @@
             text-align: center;
             width: 90%;
             font-family: "sans-serif";
-            height: 30px; */
-        }
+            height: 30px;
+        }*/
         .odd th, .odd td {
             background: #eee;
         }
@@ -152,7 +151,7 @@
                             PBX: 2218-2600 / www.cig.org.gt <br>
                             NIT: 299329-5</small></p>
             </div>
-            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
+            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" style="margin-top:1rem;" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
         </div>
     </div>
 </div>
@@ -214,8 +213,8 @@
                 </tr>
             </thead>
                  <tr class="odd">
-                    <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO: 
-                        @if ($id->monto_efecectivo==true) EFECTIVO                       
+                    <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO:
+                        @if ($id->monto_efecectivo==true) EFECTIVO
                         @endif
                         @if ($id->monto_cheque==true) CHEQUE
                         @endif

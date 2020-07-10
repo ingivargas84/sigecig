@@ -101,7 +101,8 @@ class ReciboController extends Controller
             $estado             = $request->input("config.estado");
             $complemento        = $request->input("config.complemento");
             $ultPagoTimbre      = $request->input("config.f_ult_timbre");
-            $ulPagoColegio      = $request->input("config.f_ult_pago");
+            $ultPagoColegio     = $request->input("config.f_ult_pago");
+            $fechaPagoColegio   = $request->input("config.fechaColegio");
             $montoTimbre        = $request->input("config.monto_timbre");
             $montoTimbre        = substr($montoTimbre,2);
             $totalAPagar        = $request->input("config.total");
@@ -115,6 +116,7 @@ class ReciboController extends Controller
             $numeroTarjeta      = $request->input("config.tarjeta");
             $montoTarjeta       = $request->input("config.montoTarjeta");
             $pos_id             = $request->input("pos");
+            $mesesASumar        = $request->input("nuevaFechaColegio");
 
             $tipoDeCliente = 1;
             if ($serieRecibo == 'a') {
@@ -174,13 +176,24 @@ class ReciboController extends Controller
                 $bdTarjeta->save();
             }
 
+            if($mesesASumar != null){
+                $fechaPagoColegio = new Carbon($fechaPagoColegio);
+                $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($mesesASumar+1)->subSeconds(1)->toDateTimeString();
+                $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
+                $query = "UPDATE cc00 SET f_ult_pago = :nuevaFecha WHERE c_cliente = :colegiado";
+                $parametros = array(
+                    ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
+                );
+                $result = DB::connection('sqlsrv')->update($query, $parametros);
+            }
+
             //Envio de correo creacion de recibo colegiado
             $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
 
-            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
+            $codigoQR = QrCode::format('png')->size(250)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
@@ -406,9 +419,6 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        // $consulta= SQLSRV_Colegiado::select('n_cliente', 'estado', 'f_ult_timbre', 'f_ult_pago', 'monto_timbre', 'fallecido')
-        //     ->where('c_cliente', $colegiado)->get()->first();
-
         $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
         $result = DB::connection('sqlsrv')->select($query);
@@ -420,13 +430,16 @@ class ReciboController extends Controller
             $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
             $resultado = DB::connection('sqlsrv')->select($query);
+
+            if (empty($resultado)) {
+                $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                  WHERE c_cliente = $colegiado and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
+                $resultado = DB::connection('sqlsrv')->select($query);
+                $resultado[0]->estado = 'Inactivo';
+                return $resultado;
+            }
+
             $resultado[0]->estado = 'Inactivo';
-
-            // $igual = [
-            //     0=>['n_cliente'=> $resultado[0]->n_cliente, 'estado' => 'Inactivo', 'f_ult_timbre'=> $resultado[0]->f_ult_timbre,
-            //         'f_ult_pago'=> $resultado[0]->f_ult_pago, 'monto_timbre'=> $resultado[0]->monto_timbre, 'fallecido'=> $resultado[0]->fallecido,]
-            // ];
-
             return $resultado;
         }
     }
