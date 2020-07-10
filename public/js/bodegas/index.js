@@ -1,5 +1,5 @@
-var cajas_table = $('#cajas-table').DataTable({
-    "ajax": "/cajas/getJson",
+var bodegas_table = $('#bodegas-table').DataTable({
+    "ajax": "/bodegas/getJson",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -55,33 +55,25 @@ var cajas_table = $('#cajas-table').DataTable({
                 return (data);},
         },
         {
-            "title": "Nombre Caja",
-            "data": "nombre_caja",
+            "title": "Bodegas",
+            "data": "nombre_bodega",
             "width" : "30%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
-            "title": "Subsede",
-            "data": "nombre_sede",
-            "width" : "25%",
+            "title": "Descripción",
+            "data": "descripcion",
+            "width" : "50%",
             "responsivePriority": 1,
-            "render": function( data, type, full, meta ) {
-                return (data);},
-        },
-        {
-            "title": "Cajero",
-            "data": "name",
-            "width" : "25%",
-            "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
     {
         "title": "Acciones",
         "orderable": false,
-        "width" : "15%",
+        "width" : "10%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
@@ -89,18 +81,18 @@ var cajas_table = $('#cajas-table').DataTable({
             if(full.estado == 1){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_caja='" + full.nombre_caja + "' data-nombre_sede='"+full.nombre_sede+"' data-name='"+full.name+"'>" +
-                "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
+                "<a href='#' class='edit-bodegas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_bodega='" + full.nombre_bodega + "' data-descripcion='"+full.descripcion+"' data-estado='"+full.estado+"'>" +
+                "<i class='fa fa-btn fa-edit' title='Editar Bodega'></i>" +
                 "</a>" + "</div>" +
                 "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-cajas'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-thumbs-down' title='Desactivar Caja'></i>" +
+                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                "<i class='fa fa-trash' title='Desactivar Caja'></i>" +
                 "</a>" + "</div>";
                 }else{
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-cajas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
                     "<i class='fa fa-thumbs-up' title='Activar Caja'></i>" +
                     "</a>" + "</div>" 
                 }
@@ -168,11 +160,11 @@ $(document).on('click', 'a.activar-cajas', function(e) {
         });
 });
 
-$(document).on('click', 'a.delete-Cajas', function(e) {
+$(document).on('click', 'a.destroy-bodegas', function(e) {
     e.preventDefault(); // does not go through with the link.
 
     var $this = $(this);
-    alertify.confirm('Eliminar Cajas', 'Esta seguro de eliminar la Boleta',
+    alertify.confirm('Eliminar Bodega', 'Esta seguro de eliminar la Bodega?',
         function(){
             $('.loader').fadeIn();
             $.post({
@@ -180,9 +172,9 @@ $(document).on('click', 'a.delete-Cajas', function(e) {
                 url: $this.attr('href')
             }).done(function (data) {
                 $('.loader').fadeOut(225);
-                cajas_table.ajax.reload();
+                bodegas_table.ajax.reload();
                     alertify.set('notifier','position', 'top-center');
-                    alertify.success('Boleta Cajas con Éxito!!');
+                    alertify.success('Bodega eliminada con Éxito!!');
             });
          }
         , function(){

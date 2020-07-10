@@ -45,11 +45,6 @@ class ReciboController extends Controller
 
     public function pdfRecibo(Recibo_Maestro $id)
     {
-        //$recibo = Recibo_Maestro::where('numero_recibo')->first();
-        $query = "SELECT numero_recibo FROM sigecig_recibo_maestro ORDER BY numero_recibo desc ";
-        $result = DB::select($query);
-        $recibo = $result[0]->numero_recibo;
-
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
 
@@ -60,9 +55,7 @@ class ReciboController extends Controller
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
-       // return view('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'));
-
-          
+ 
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');

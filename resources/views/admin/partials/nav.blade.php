@@ -7,7 +7,7 @@
   <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> <span>Inicio</span></a>
   </li>
 
-  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Compras|JefeRRHH")
+  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Contabilidad|Compras|JefeRRHH")
   <li class="treeview {{request()->is('colaboradores*')? 'active': ''}}">
     <a href="#"><i class="fa fa-book"></i> <span>Catálogos Generales</span>
         <span class="pull-right-container">
@@ -43,6 +43,12 @@
       @role("Administrador")
       <li class="{{request()->is('cajas')? 'active': ''}}"><a href="{{route('cajas.index')}}">
         <i class="fa fa-eye"></i>Cajas</a>
+      </li>
+      @endrole
+
+      @role("Administrador|JefeContabilidad|Contabilidad")
+      <li class="{{request()->is('bodegas')? 'active': ''}}"><a href="{{route('bodegas.index')}}">
+        <i class="fa fa-eye"></i>Bodegas</a>
       </li>
       @endrole
 

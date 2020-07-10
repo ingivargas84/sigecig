@@ -66,8 +66,8 @@
                         </div>
                         <br>
                         <div class="text-right m-t-15">
-                            <a class='btn btn-primary form-button' href="{{ route('proveedores.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonProveedorUpdate">Guardar</button>
+                            <a class='btn btn-danger form-button' href="{{ route('proveedores.index') }}">Regresar</a>
+                            <button class="btn btn-primary form-button" id="ButtonProveedorUpdate">Guardar</button>
                         </div>
                                     
                     </div>

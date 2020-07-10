@@ -51,7 +51,7 @@
                         </div>
                         <br>
                         <div class="text-right m-t-15">
-                            <a class='btn btn-primary form-button' href="{{ route('subsedes.index') }}">Regresar</a>
+                            <a class='btn btn-danger form-button' href="{{ route('subsedes.index') }}">Regresar</a>
 
                             <button id = "subsedes"  class="btn btn-primary form-button">Guardar</button>
 
