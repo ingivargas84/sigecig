@@ -52,6 +52,7 @@ class ResolucionPagoController extends Controller
 
     public function reporte_ap(PlataformaSolicitudAp $id)
     {
+        
         $path = 'images/timbre.png';
         $data = file_get_contents($path);
         $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
@@ -320,16 +321,23 @@ class ResolucionPagoController extends Controller
 
         $mytime = Carbon::now();
         $ap = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->get();
-
-        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->pluck('n_colegiado');
-
+        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->pluck('n_colegiado')->toArray();
         $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
             ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
-            ->whereIn('cc00.c_cliente', $cuenta)
-            ->orderBy('cc00.c_cliente', 'asc')
+            ->whereIn('cc00.c_cliente', $cuenta)->orderBy('c_cliente','asc')
             ->get();
+       
+        $List = implode(', ', $cuenta); 
+        
+        //cuery de prueba
+        $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
+        FROM cc00 U
+        INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente 
+        WHERE  U.c_cliente IN ($List)
+        ORDER BY cliente asc;";
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64"))
+        $result = DB::connection('sqlsrv')->select($query);
+        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64","result"))
             ->setPaper('legal', 'landscape')
             ->stream('archivo.pdf');
     }
