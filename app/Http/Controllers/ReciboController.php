@@ -187,7 +187,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$colegiado.'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
     
                 return response()->json(['success' => 'Exito']);
@@ -293,7 +293,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
     
@@ -401,7 +401,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
     
