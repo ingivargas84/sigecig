@@ -199,7 +199,7 @@ class ReciboController extends Controller
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
 
-            $codigoQR = QrCode::format('png')->size(250)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
+            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
