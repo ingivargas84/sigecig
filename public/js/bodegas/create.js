@@ -1,33 +1,27 @@
-var validator = $("#CajasForm").validate({
+var validator = $("#BodegaForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
-		nombre_caja:{
+		nombre_bodega:{
 			required: true
-		},
-		subsede: {
-			required : true
-		},
-		cajero: {
+        },
+        descripcion: {
 			required : true
 		}
 	},
 	messages: {
-		nombre_caja: {
-			required: "Por favor, ingrese el numero de caja"
-		},
-		subsede: {
-			required: "Por favor, ingrese su nombre de subsede"
-		},
-		cajero: {
-			required: "Por favor, ingrese el cajero"
+		nombre_bodega: {
+			required: "Por favor, ingrese el nombre de la bodega"
+        },
+        descripcion: {
+			required: "Por favor, ingrese la descripción"
 		}
 	}
 });
 
 $("#ButtonTipoModal1").click(function(event) {
 	event.preventDefault();
-	if ($("#CajasForm").valid()) {
+	if ($("#BodegaForm").valid()) {
 		saveModal();
 	} else {
 		validator.focusInvalid();
@@ -35,7 +29,7 @@ $("#ButtonTipoModal1").click(function(event) {
 });
 
 $("#ButtonBoleta").click(function(event) {
-	if ($('#CajasForm').valid()) {
+	if ($('#BodegaForm').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
@@ -48,37 +42,37 @@ $.validator.addMethod("nombreunico", function(value, element){
     $.ajax({
         type: "GET",
         async: false,
-        url: "/cajas/nombreDisponible/",
-        data:"nombre_caja=" + value,
+        url: "/bodegas/nombreDisponible/",
+        data:"nombre_bodega=" + value,
         dataType: "json",
         success: function (msg) {
             valid=!msg;
         }
     });
     return valid;
-	}, "La caja ya está registrada en el sistema");
+	}, "La bodega ya está registrada en el sistema");
 	
 
 	function saveModal(button) {
-		var formData = $("#CajasForm").serialize();
+		var formData = $("#BodegaForm").serialize();
 		var urlActual =  $("input[name='urlActual']").val();
 		$.ajax({
 			type: "POST",
 			headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-			url: "/cajas/save",
+			url: "/bodegas/save",
 			data: formData,
 			dataType: "json",
 			success: function(data) {
 				$('.loader').fadeOut(225);
 				$('#ingresoModal').modal("hide");
-				cajas_table.ajax.reload();
+				bodegas_table.ajax.reload();
 				alertify.set('notifier','position', 'top-center');
-				alertify.success('Caja creada con Éxito!!');
+				alertify.success('Bodega creada con Éxito!!');
 			},
 			error: function(errors) {
 				var errors = JSON.parse(errors.responseText);
 				if (errors.codigo != null) {
-					$("#CajasForm input[name='codigo'] ").after("<label class='error' id='Errorcodigo'>"+errors.codigo+"</label>");
+					$("#BodegaForm input[name='codigo'] ").after("<label class='error' id='Errorcodigo'>"+errors.codigo+"</label>");
 				}
 			}
 		});
@@ -89,8 +83,8 @@ $.validator.addMethod("nombreunico", function(value, element){
 		$('#ingresoModal').modal('show');
 	}
 	$('#ingresoModal').on('hide.bs.modal', function () {
-		$("#CajasForm").validate().resetForm();
-		document.getElementById("CajasForm").reset();
+		$("#BodegaForm").validate().resetForm();
+		document.getElementById("BodegaForm").reset();
 		window.location.hash = '#';
 	});
 	$('#ingresoModal').on('shown.bs.modal', function () {

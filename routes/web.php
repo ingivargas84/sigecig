@@ -106,6 +106,7 @@ Route::group([
        Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
        Route::post('/cajas/{cajas}/activar', 'CajasController@activar')->name('cajas.activar');
        Route::get('/cajas/nombreDisponible/', 'CajasController@nombreDisponible');
+       Route::get('/cajas/nombreDisponibleEdit/', 'CajasController@nombreDisponibleEdit');
 
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
@@ -204,7 +205,16 @@ Route::group([
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
-	    Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
+        Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
+        
+        // Modulo de Bodegas
+        Route::get( '/bodegas' , 'BodegasController@index')->name('bodegas.index');
+        Route::get('/bodegas/getJson/', 'BodegasController@getJson')->name('bodegas.getJson');
+        Route::get('/bodegas/new', 'BodegasController@create')->name('bodegas.new');
+        Route::post('/bodegas/save/', 'BodegasController@store')->name('bodegas.save');
+        Route::post('/bodegas/{bodegas}/update', 'BodegasController@update');
+        Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
+
     });
 
 

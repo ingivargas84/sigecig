@@ -85,7 +85,7 @@
 
                         <br>
                         <div class="text-right m-t-15">
-                            <button class="btn btn-success form-button">Guardar</button>
+                            <button class="btn btn-primary form-button">Guardar</button>
                         </div>
                                     
                     </div>
