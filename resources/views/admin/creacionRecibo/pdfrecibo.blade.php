@@ -15,12 +15,6 @@
         tr:nth-child(even){
             background-color: #eee;
         }
-       /*  .body{
-            background: rgb(125, 178, 228);
-            width: 90%;
-            margin-left: 4rem;
-            height: 190px;
-        } */
         .contenedor1{
             font-family: "sans-serif";
             background: repeating-linear-gradient(-45deg,
@@ -188,21 +182,12 @@
                 </tr>
             </thead>
             @foreach($datos as $co)
-            @if($co->id%2==0)
-            <tr>
-                <td style="background:white;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
-                <td style="background:white;text-align:center;">{{$co->tipo_de_pago}}</td>
-                <td style="background:white;text-align:center;">{{$co->cantidad}}</td>
-                <td style="background:white;text-align:center;">Q.{{number_format($co->total, 2)}}</td>
+            <tr >
+                <td style="background:eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
+                <td style="background:eee;text-align:center;">{{$co->tipo_de_pago}}</td>
+                <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
+                <td style="background:eee;text-align:center;">Q.{{number_format($co->total, 2)}}</td>
             </tr>
-            @else
-            <tr>
-                <td style="background:#eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
-                <td style="background:#eee;text-align:center;">{{$co->tipo_de_pago}}</td>
-                <td style="background:#eee;text-align:center;">{{$co->cantidad}}</td>
-                <td style="background:#eee;text-align:center;">Q.{{number_format($co->total, 2)}}</td>
-            </tr>
-            @endif
             @endforeach
         </table>
         <table>
@@ -226,7 +211,7 @@
         </table>
         <p class="texto3"><small>Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
             según Numeral 10, Artículo 7, Decreto 27-92, Ley del Impuesto al Valor Agregado. Los cheques se reciben bajo reserva usual de cobro, si el cheque
-        es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
-    administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
+            es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
+            administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
 </body>
 </html>
