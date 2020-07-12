@@ -49,7 +49,7 @@ class ReciboController extends Controller
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS', true);
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo

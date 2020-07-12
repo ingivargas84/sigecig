@@ -49,7 +49,7 @@
 @push('scripts')
     <script src="{{asset('js/bodegas/index.js')}}"></script>
     <script src="{{asset('js/bodegas/create.js')}}"></script>
-    <script src="{{asset('js/bodegas/edit.js')}}"></script>
+      <script src="{{asset('js/bodegas/edit.js')}}"></script>
  
   <script>
     $(document).ready(function() {

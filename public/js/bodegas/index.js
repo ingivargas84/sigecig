@@ -112,54 +112,6 @@ $("#btnConfirmarAccion").click(function(event) {
     }
 });
 
-$(document).on('click', 'a.destroy-cajas', function(e) {
-    e.preventDefault(); // does not go through with the link.
-    alertify.defaults.theme.ok = "btn btn-error";
-    var button = $(e.currentTarget);
-    var $this = $(this);
-    alertify.confirm('Desactivar Caja', 'Esta seguro de desactivar la caja?',
-        function(){
-            $('.loader').fadeIn();
-            $.post({
-                type: $this.data('method'),
-                url: $this.attr('href')
-            }).done(function (data) {
-                $('.loader').fadeOut(225);
-                cajas_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Caja desactivada con Éxito!');
-            });
-         }
-        , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
-        });
-});
-
-$(document).on('click', 'a.activar-cajas', function(e) {
-    e.preventDefault(); // does not go through with the link.
-    alertify.defaults.theme.ok = "btn btn-confirm";
-    var button = $(e.currentTarget);
-    var $this = $(this);
-    alertify.confirm('Activar caja', 'Esta seguro de activar la caja?',
-        function(){
-            $('.loader').fadeIn();
-            $.post({
-                type: $this.data('method'),
-                url: $this.attr('href')
-            }).done(function (data) {
-                $('.loader').fadeOut(225);
-                cajas_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Caja activada con Éxito!');
-            });
-         }
-        , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
-        });
-});
-
 $(document).on('click', 'a.destroy-bodegas', function(e) {
     e.preventDefault(); // does not go through with the link.
     alertify.defaults.theme.ok = "btn btn-error";
