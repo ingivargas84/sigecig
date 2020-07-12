@@ -648,6 +648,15 @@ $("#guardarRecibo").click(function(e){
                         }
                     }
 
+                    var totalPrecioTimbre = 0;
+                    var filas = $("#tablaDetalle").find("tr");
+                    for(var i= 0; i < filas.length; i++){
+                        var celdas = $(filas[i]).find("td");
+                        if($($(celdas[1])).text().substring(0,2) == "TC"){
+                            totalPrecioTimbre += parseFloat($($(celdas[5])).html().substring(2));
+                        }
+                    }
+
                     var pos = $('#pos').val();
 
                     var config = {};
@@ -663,7 +672,7 @@ $("#guardarRecibo").click(function(e){
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                     url: "/creacionRecibo/save",
-                    data: {config, datos, pos, nuevaFechaColegio},
+                    data: {config, datos, pos, nuevaFechaColegio, totalPrecioTimbre},
                     datatype: "json",
                     success: function() {
                         $('.loader').fadeOut(1000);
