@@ -17,12 +17,20 @@ function obtenerDatosColegiado()
     success: function(response){
         if(response[0] != ""){
             var D = response[0].f_ult_timbre;
-            var nuevaC=D.split(" ")[0].split("-").reverse().join("/");
+            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
             // response[0].f_ult_timbre = nueva;
 
             var D = response[0].f_ult_pago;
-            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
+            var nuevaC=D.split(" ")[0].split("-").reverse().join("/");
             // response[0].f_ult_pago = nueva;
+
+            var D = new Date(response[0].f_ult_pago);
+            var d = D.getDate();
+            var m = D.getMonth()+1;
+            var y = D.getFullYear();
+            if(d<10){d='0'+d;}
+            if(m<10){m='0'+m;}
+            response[0].f_ult_pago = y + '/' + m + '/' + d;
 
             if (response[0].fallecido == 'N'){
             } else if(response[0].fallecido == 'S'){
@@ -237,7 +245,7 @@ $(document).ready(function () {
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.cuotasColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
-                                            $("#subtotal").val('Q.'+data.cuotasColegio.toFixed(2));
+                                            $("#subtotal").val('Q.'+data.capitalColegio.toFixed(2));
                                             addnewrow();
 
                                             limpiarFilaDetalle();
@@ -639,11 +647,12 @@ $("#guardarRecibo").click(function(e){
                     var fechaColegio = new Date($('#fechaColegio').val());
                     fechaColegio = fechaColegio.getFullYear() + "/" + Number(fechaColegio.getMonth())+Number(1);
 
+                    var nuevaFechaColegio = 0;
                     var filas = $("#tablaDetalle").find("tr");
                     for(var i= 0; i < filas.length; i++){
                         var celdas = $(filas[i]).find("td");
                         if($($(celdas[1])).text() == "COL092"){
-                            var nuevaFechaColegio = parseInt($($(celdas[2])).text());
+                            nuevaFechaColegio += parseFloat($($(celdas[5])).html().substring(2));
                             break;
                         }
                     }
@@ -652,7 +661,7 @@ $("#guardarRecibo").click(function(e){
                     var filas = $("#tablaDetalle").find("tr");
                     for(var i= 0; i < filas.length; i++){
                         var celdas = $(filas[i]).find("td");
-                        if($($(celdas[1])).text().substring(0,2) == "TC"){
+                        if($($(celdas[1])).text().substring(0,2) == "TC" || $($(celdas[1])).text() == "TIM-CUOTA"){
                             totalPrecioTimbre += parseFloat($($(celdas[5])).html().substring(2));
                         }
                     }

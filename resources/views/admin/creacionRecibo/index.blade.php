@@ -288,6 +288,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="banco" class="form-control" id="banco" style="display: none;">
+                                    <option value="">-- Escoja POS --</option>
+                                    @foreach ($pos as $po)
+                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
                 <div class="row">
                     <div class="">

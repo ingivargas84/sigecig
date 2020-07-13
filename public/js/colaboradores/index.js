@@ -114,7 +114,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
             else if(data == 6){return ('Contabilidad')}
             else if(data == 7){return ('Cajeros')}
             else if(data == 8){return ('Mensajeria')}
-            else if(data == 8){return ('Mantenimiento')}
+            else if(data == 9){return ('Mantenimiento')}
         },
     },
 

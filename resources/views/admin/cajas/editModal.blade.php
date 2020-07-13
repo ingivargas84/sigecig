@@ -38,7 +38,7 @@
                         <label for="bodega">Bodega:</label>
                         <select name="bodega" class="form-control" id="bodega">
                           <option value="">-- Escoja la bodega --</option>
-                          @foreach ($bodega as $bo)
+                          @foreach ($datos1 as $bo)
                               <option value="{{ $bo->id }}">{{ $bo->nombre_bodega }}</option>
                           @endforeach
                       </select>     

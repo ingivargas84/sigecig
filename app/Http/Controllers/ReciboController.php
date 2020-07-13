@@ -49,7 +49,7 @@ class ReciboController extends Controller
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
 
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS', true);
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
@@ -171,8 +171,9 @@ class ReciboController extends Controller
             }
 
             if($mesesASumar != null){
+                $valMesesASumar = $mesesASumar / 115.75;
                 $fechaPagoColegio = new Carbon($fechaPagoColegio);
-                $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($mesesASumar+1)->subSeconds(1)->toDateTimeString();
+                $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($valMesesASumar+1)->subSeconds(1)->toDateTimeString();
                 $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
                 $query = "UPDATE cc00 SET f_ult_pago = :nuevaFecha WHERE c_cliente = :colegiado";
                 $parametros = array(
@@ -214,7 +215,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$colegiado.'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
                 return response()->json(['success' => 'Exito']);
@@ -320,7 +321,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
 
@@ -428,7 +429,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo'.$reciboMaestro['numero_recibo'].$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
+                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
 
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
