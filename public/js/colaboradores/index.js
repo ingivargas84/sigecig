@@ -114,7 +114,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
             else if(data == 6){return ('Contabilidad')}
             else if(data == 7){return ('Cajeros')}
             else if(data == 8){return ('Mensajeria')}
-            else if(data == 8){return ('Mantenimiento')}
+            else if(data == 9){return ('Mantenimiento')}
         },
     },
 
@@ -155,7 +155,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
 
 $(document).on('click', 'a.destroy-colaborador', function(e) {
     e.preventDefault(); // does not go through with the link.
-
+    alertify.defaults.theme.ok = "btn btn-error";
     var $this = $(this);
     alertify.confirm('Eliminar Resgistro', 'Esta seguro de Eliminar el registro del  Colaborador',
         function(){

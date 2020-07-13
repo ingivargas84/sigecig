@@ -51,15 +51,49 @@ class BodegasController extends Controller
 
     public function destroy(Bodegas $bodegas, Request $request)
     {
-        $bodeas->estado=0;
-        $bodeas->save();
+        $bodegas->estado=0;
+        $bodegas->save();
         return Response::json(['success' => 'Éxito']);
+    }
+
+    public function nombreDisponible(){
+        $dato = Input::get("nombre_bodega");
+        $query = Bodegas::where("nombre_bodega",$dato)->where('estado', 1)->get();
+             $contador = count($query);
+
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
+    }
+
+    public function nombreDisponibleEdit(Request $request){
+
+        $dato = $request->value;
+        $id = $request->id;
+
+        $query = Bodegas::where("nombre_bodega",$dato)->where("id","!=",$id)->get();
+
+        $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
     }
 
     public function getJson(Request $params)
      {
         $query = "SELECT B.id, B.nombre_bodega, B.descripcion, B.estado
-        FROM sigecig_bodega B";
+        FROM sigecig_bodega B
+        WHERE B.estado != 0";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );

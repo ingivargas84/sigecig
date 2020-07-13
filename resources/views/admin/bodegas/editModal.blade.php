@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title text-center" id="myModalLabel">Editar Caja</h4>
+              <h4 class="modal-title text-center" id="myModalLabel">Editar Bodega</h4>
             </div>
             <div class="modal-body">
                 
@@ -22,7 +22,7 @@
                     </div>
                 </div>
               <br>
-              <input type="hidden" name="_token" id="cajasToken" value="{{ csrf_token() }}">
+              <input type="hidden" name="_token" id="bodegasToken" value="{{ csrf_token() }}">
               <input type="hidden" name="test">
             </div>
             <div class="modal-footer">

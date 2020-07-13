@@ -97,6 +97,7 @@
                             <label for="f_ult_timbre" class="control-label">Fecha de último pago de timbre</label>
                             <div>
                                 <input id="f_ult_timbre" disabled type="text" class="form-control" name="f_ult_timbre" style="color: rgb(0, 128, 0)">
+                                <input name="fechaTimbre" id="fechaTimbre" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -105,6 +106,7 @@
                             <label for="f_ult_pago" class="control-label">Fecha de último pago de colegio</label>
                             <div>
                                 <input id="f_ult_pago" disabled type="text" class="form-control" name="f_ult_pago" style="color: rgb(0, 128, 0)">
+                                <input name="fechaColegio" id="fechaColegio" style="display: none;">
                             </div>
                         </div>
                     </div>
