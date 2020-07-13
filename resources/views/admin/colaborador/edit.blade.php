@@ -77,7 +77,7 @@
                 <br>
                 <div class="text-right m-t-15">
                     <a class='btn btn-danger form-button' href="{{ route('colaborador.index') }}">Regresar</a>
-                    <button class="btn btn-primary form-button" id="ButtonColaboradorUpdate">Guardar</button>
+                    <button class="btn btn-primary edit" id="ButtonColaboradorUpdate">Actualizar</button>
                 </div>
 
             </div>

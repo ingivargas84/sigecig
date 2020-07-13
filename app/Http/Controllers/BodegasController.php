@@ -92,7 +92,8 @@ class BodegasController extends Controller
     public function getJson(Request $params)
      {
         $query = "SELECT B.id, B.nombre_bodega, B.descripcion, B.estado
-        FROM sigecig_bodega B";
+        FROM sigecig_bodega B
+        WHERE B.estado != 0";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );

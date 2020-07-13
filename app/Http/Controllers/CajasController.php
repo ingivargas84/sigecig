@@ -35,7 +35,7 @@ class CajasController extends Controller
     {
         $subsede = Subsedes::all();
         $caja = Cajas::all();
-        $bodega = Bodegas::all();
+        //$bodega = Bodegas::all();
        // $user = User::all();
 
         $query= "SELECT U.name, U.id
@@ -45,10 +45,16 @@ class CajasController extends Controller
          
         $datos = DB::select($query);
 
+        $querybodega = "SELECT B.id, B.nombre_bodega
+        FROM sigecig_bodega B
+        WHERE B.id NOT IN (SELECT bodega FROM sigecig_cajas)";
+         
+        $datos1 = DB::select($querybodega);
+
         //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
        // $user =User::where('id', '=',  $modelrol->model_id)->get();
        
-        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos', 'bodega'));
+        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos', 'datos1'));
 
     }
 
@@ -192,7 +198,7 @@ class CajasController extends Controller
 
     public function getJson(Request $params)
      {
-        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name, B.nombre_bodega
+        $query = "SELECT C.id, C.nombre_caja, C.cajero, C.bodega, C.subsede, S.nombre_sede, C.estado, U.name, B.nombre_bodega
         FROM sigecig_cajas C
         INNER JOIN sigecig_subsedes S ON C.subsede = S.id
         INNER JOIN sigecig_users U ON C.cajero = U.id
