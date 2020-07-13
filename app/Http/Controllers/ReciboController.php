@@ -21,6 +21,7 @@ use App\SerieRecibo;
 use App\ReciboCheque;
 use App\ReciboTarjeta;
 use App\PosCobro;
+use App\Banco;
 use Validator;
 use NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -40,7 +41,8 @@ class ReciboController extends Controller
     {
         $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
-        return view('admin.creacionRecibo.index', compact('pos', 'tipo'));
+        $banco = Banco::all();
+        return view('admin.creacionRecibo.index', compact('pos', 'tipo', 'banco'));
     }
 
     public function pdfRecibo(Recibo_Maestro $id)
@@ -111,6 +113,7 @@ class ReciboController extends Controller
             $pos_id             = $request->input("pos");
             $mesesASumar        = $request->input("nuevaFechaColegio");
             $totalPrecioTimbre  = $request->totalPrecioTimbre;
+            $banco_id           = $request->banco;
 
             $tipoDeCliente = 1;
             if ($serieRecibo == 'a') {
@@ -150,11 +153,13 @@ class ReciboController extends Controller
             }
 
             if ($pagoCheque == 'si') {
+                $banco = Banco::where('id', '=', $banco_id)->get()->first();
+
                 $bdCheque = new ReciboCheque;
                 $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
                 $bdCheque->numero_cheque = $numeroCheque;
                 $bdCheque->monto = $montoCheque;
-                $bdCheque->nombre_banco = "";
+                $bdCheque->nombre_banco = $banco->nombre_banco;
                 $bdCheque->usuario_id = Auth::user()->id;
                 $bdCheque->fecha_de_cheque = now();
                 $bdCheque->save();
@@ -242,6 +247,7 @@ class ReciboController extends Controller
             $numeroTarjetaP      = $request->input("config.tarjetaP");
             $montoTarjetaP       = $request->input("config.montoTarjetaP");
             $pos_idP             = $request->input("pos");
+            $banco_id            = $request->banco;
 
             $tipoDeCliente = 2;
             if ($serieReciboP == 'a') {
@@ -280,11 +286,13 @@ class ReciboController extends Controller
             }
 
             if ($pagoChequeP == 'si') {
+                $banco = Banco::where('id', '=', $banco_id)->get()->first();
+
                 $bdChequeP = new ReciboCheque;
                 $bdChequeP->numero_recibo = $reciboMaestroP->numero_recibo;
                 $bdChequeP->numero_cheque = $numeroChequeP;
                 $bdChequeP->monto = $montoChequeP;
-                $bdChequeP->nombre_banco = "";
+                $bdChequeP->nombre_banco = $banco->nombre_banco;
                 $bdChequeP->usuario_id = Auth::user()->id;
                 $bdChequeP->fecha_de_cheque = now();
                 $bdChequeP->save();
@@ -349,6 +357,7 @@ class ReciboController extends Controller
             $numeroTarjetaE      = $request->input("config.tarjetaE");
             $montoTarjetaE       = $request->input("config.montoTarjetaE");
             $pos_idE             = $request->input("pos");
+            $banco_id            = $request->banco;
 
             $tipoDeCliente = 3;
             if ($serieReciboE == 'a') {
@@ -386,11 +395,13 @@ class ReciboController extends Controller
             }
 
             if ($pagoChequeE == 'si') {
+                $banco = Banco::where('id', '=', $banco_id)->get()->first();
+
                 $bdChequeE = new ReciboCheque;
                 $bdChequeE->numero_recibo = $reciboMaestroE->numero_recibo;
                 $bdChequeE->numero_cheque = $numeroChequeE;
                 $bdChequeE->monto = $montoChequeE;
-                $bdChequeE->nombre_banco = "";
+                $bdChequeE->nombre_banco = $banco->nombre_banco;
                 $bdChequeE->usuario_id = Auth::user()->id;
                 $bdChequeE->fecha_de_cheque = now();
                 $bdChequeE->save();
