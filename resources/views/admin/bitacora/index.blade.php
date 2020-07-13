@@ -241,6 +241,24 @@
                         @endforeach
                         
                             <br>
+                            <div class="col-sm-12 ">
+                                @if ($id->id_estado_solicitud>=2 && $id->pdf_solicitud_ap != null && $id->pdf_dpi_ap != null)
+                                <div class="col-sm-6">
+                                    <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$id->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                </div>
+                                <div class="col-sm-6">
+                                        <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$id->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
+                                </div>
+                                @endif
+                                @if ($id->id_estado_solicitud >=7)
+                                <div class="col-sm-6">
+                                    <h4  style="padding: 10px">Imprimir Resolución<a target="_blank" href="/pdf/{{$id->id}}" id="" ><i style="float: right" class='fas fa-print' title='Imprimir' ></i></a></h4>
+                                </div><br><br><br><br>
+    
+                                @endif
+                            </div><br>
+
+ 
                             
                             <div class="text-center m-t-15">
                                 <a target="_blank" class='btn btn-primary form-button' href="{{ route('bitacora.pdfbitacora', $id) }}">Generar PDF</a>
@@ -249,6 +267,7 @@
                 </div>
             </div>             
   </form>
+
   <div class="loader loader-bar"></div>
 
 @endsection
