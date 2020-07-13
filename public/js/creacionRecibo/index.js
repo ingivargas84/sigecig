@@ -548,12 +548,15 @@ function comprobarCheckCheque()
     if (document.getElementById("tipoDePagoCheque").checked){
         document.getElementById('montoCheque').readOnly = false;
         document.getElementById('cheque').style.display = "";
+        document.getElementById('banco').style.display = "";
     }
     else{
         document.getElementById('montoCheque').readOnly = true;
         document.getElementById('cheque').style.display = "none";
+        document.getElementById('banco').style.display = "none";
         $('input[name="cheque"]').val('');
         $('input[name="montoCheque"]').val('');
+        $('select[name="banco"]').val('');
     }
 }
 
@@ -613,6 +616,10 @@ $("#guardarRecibo").click(function(e){
             if ($('#montoCheque').val() == 0){
                 alertify.warning('el monto del cheque no puede ser 0...');
                 chequeCorrecto = 0;
+            } else {chequeCorrecto = 1;}
+            if ($('#banco').val() == 0){
+                alertify.warning('opción de banco no puede estar vacio...');
+                chequeCorrecto = 0;
             } else {chequeCorrecto = 1; $('#pagoCheque').val("si");}
         } else {chequeCorrecto = 1; $('#pagoCheque').val("no");}
         if (document.getElementById("tipoDePagoTarjeta").checked){
@@ -667,6 +674,7 @@ $("#guardarRecibo").click(function(e){
                     }
 
                     var pos = $('#pos').val();
+                    var banco = $('#banco').val();
 
                     var config = {};
                     $('input').each(function () {
@@ -681,7 +689,7 @@ $("#guardarRecibo").click(function(e){
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                     url: "/creacionRecibo/save",
-                    data: {config, datos, pos, nuevaFechaColegio, totalPrecioTimbre},
+                    data: {config, datos, pos, banco, nuevaFechaColegio, totalPrecioTimbre},
                     datatype: "json",
                     success: function() {
                         $('.loader').fadeOut(1000);
@@ -979,12 +987,15 @@ function comprobarCheckChequeE()
     if (document.getElementById("tipoDePagoChequeE").checked){
         document.getElementById('montoChequeE').readOnly = false;
         document.getElementById('chequeE').style.display = "";
+        document.getElementById('bancoE').style.display = "";
     }
     else{
         document.getElementById('montoChequeE').readOnly = true;
         document.getElementById('chequeE').style.display = "none";
+        document.getElementById('bancoE').style.display = "none";
         $('input[name="chequeE"]').val('');
         $('input[name="montoChequeE"]').val('');
+        $('select[name="bancoE"]').val('');
     }
 }
 
@@ -1044,6 +1055,10 @@ $("#guardarReciboE").click(function(e){
         if ($('#montoChequeE').val() == 0){
             alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
+        } else {chequeCorrecto = 1;}
+        if ($('#bancoE').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeE').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeE').val("no");}
     if (document.getElementById("tipoDePagoTarjetaE").checked){
@@ -1075,6 +1090,7 @@ $("#guardarReciboE").click(function(e){
                     $('#tipoSerieReciboE').val('b');
                 }
 
+                var banco = $('#bancoE').val();
                 var pos = $('#posE').val();
 
                 var config = {};
@@ -1090,7 +1106,7 @@ $("#guardarReciboE").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/empresa",
-                data: {config, datos, pos},
+                data: {config, datos, pos, banco},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -1406,12 +1422,15 @@ function comprobarCheckChequeP()
     if (document.getElementById("tipoDePagoChequeP").checked){
         document.getElementById('montoChequeP').readOnly = false;
         document.getElementById('chequeP').style.display = "";
+        document.getElementById('bancoP').style.display = "";
     }
     else{
         document.getElementById('montoChequeP').readOnly = true;
         document.getElementById('chequeP').style.display = "none";
+        document.getElementById('bancoP').style.display = "none";
         $('input[name="chequeP"]').val('');
         $('input[name="montoChequeP"]').val('');
+        $('select[name="bancoP"]').val('');
     }
 }
 
@@ -1483,6 +1502,10 @@ $("#guardarReciboP").click(function(e){
         if ($('#montoChequeP').val() == 0){
             alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
+        } else {chequeCorrecto = 1}
+        if ($('#bancoP').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeP').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeP').val("no");}
     if (document.getElementById("tipoDePagoTarjetaP").checked){
@@ -1514,6 +1537,7 @@ $("#guardarReciboP").click(function(e){
                     $('#tipoSerieReciboP').val('b');
                 }
 
+                var banco = $('#bancoP').val();
                 var pos = $('#posP').val();
 
                 var config = {};
@@ -1529,7 +1553,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos, pos},
+                data: {config, datos, pos, banco},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
