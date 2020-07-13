@@ -7,10 +7,7 @@
 
     <style>
         .baner{ background:#03306d; text-align: center; height: 175px; padding-top:30px; }
-        .justificar{margin-left: 20%}
-        @media (max-width: 800px) {
-            .justificar{margin-left: 5%}
-            }
+
     </style>
     <title ></title>
 </head>
@@ -18,23 +15,22 @@
    
 <div class="baner">
     <img src="{{ $message->embed(public_path().'/images/logo.png') }}" alt="picsum" width="150" /> 
-    <img style="margin-left: 5%" src="{{ $message->embed(public_path().'/images/timbres.png') }}" alt="picsum" width="120" />
 </div><br>
 
     @if ($tipoDeCliente==1)
-    <h3 class="justificar">Estimado agremiado: {{$datos_colegiado[0]->n_cliente}}</h3>
-    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>
+    <h3 class="">Estimado agremiado: {{$datos_colegiado[0]->n_cliente}}</h3>
+    <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>
     @elseif($tipoDeCliente==2)
-    <h3 class="justificar">Estimado cliente: {{$datos_colegiado->nombre}}</h3>
-    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>  
+    <h3 class="">Estimado cliente: {{$datos_colegiado->nombre}}</h3>
+    <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>  
     @elseif($tipoDeCliente==3)
-    <h3 class="justificar">Estimado cliente: {{$datos_colegiado[0]->EMPRESA}}</h3>
-    <h3 class="justificar">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3> 
+    <h3 class="">Estimado cliente: {{$datos_colegiado[0]->EMPRESA}}</h3>
+    <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3> 
     @endif
 
 <br><br>
 <footer>
-<h3 class="justificar">Gracias por utilizar nuestros servicios en línea</h3>
+<h3 class="">Gracias por utilizar nuestros servicios en línea</h3>
 </footer>
 </body>
 
