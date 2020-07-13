@@ -44,7 +44,7 @@ function obtenerDatosColegiado()
 
             $("input[name='n_cliente']").val(response[0].n_cliente);
             $("input[name='estado']").val(response[0].estado);
-            $("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
+            //$("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
             //$("input[name='f_ult_pago']").val(response[0].f_ult_pago);
             $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
 
