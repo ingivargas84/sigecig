@@ -17,12 +17,20 @@ function obtenerDatosColegiado()
     success: function(response){
         if(response[0] != ""){
             var D = response[0].f_ult_timbre;
-            var nuevaC=D.split(" ")[0].split("-").reverse().join("/");
+            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
             // response[0].f_ult_timbre = nueva;
 
             var D = response[0].f_ult_pago;
-            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
+            var nuevaC=D.split(" ")[0].split("-").reverse().join("/");
             // response[0].f_ult_pago = nueva;
+
+            var D = new Date(response[0].f_ult_pago);
+            var d = D.getDate();
+            var m = D.getMonth()+1;
+            var y = D.getFullYear();
+            if(d<10){d='0'+d;}
+            if(m<10){m='0'+m;}
+            response[0].f_ult_pago = y + '/' + m + '/' + d;
 
             if (response[0].fallecido == 'N'){
             } else if(response[0].fallecido == 'S'){
@@ -237,7 +245,7 @@ $(document).ready(function () {
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.cuotasColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
-                                            $("#subtotal").val('Q.'+data.cuotasColegio.toFixed(2));
+                                            $("#subtotal").val('Q.'+data.capitalColegio.toFixed(2));
                                             addnewrow();
 
                                             limpiarFilaDetalle();
@@ -540,12 +548,15 @@ function comprobarCheckCheque()
     if (document.getElementById("tipoDePagoCheque").checked){
         document.getElementById('montoCheque').readOnly = false;
         document.getElementById('cheque').style.display = "";
+        document.getElementById('banco').style.display = "";
     }
     else{
         document.getElementById('montoCheque').readOnly = true;
         document.getElementById('cheque').style.display = "none";
+        document.getElementById('banco').style.display = "none";
         $('input[name="cheque"]').val('');
         $('input[name="montoCheque"]').val('');
+        $('select[name="banco"]').val('');
     }
 }
 
@@ -605,6 +616,10 @@ $("#guardarRecibo").click(function(e){
             if ($('#montoCheque').val() == 0){
                 alertify.warning('el monto del cheque no puede ser 0...');
                 chequeCorrecto = 0;
+            } else {chequeCorrecto = 1;}
+            if ($('#banco').val() == 0){
+                alertify.warning('opción de banco no puede estar vacio...');
+                chequeCorrecto = 0;
             } else {chequeCorrecto = 1; $('#pagoCheque').val("si");}
         } else {chequeCorrecto = 1; $('#pagoCheque').val("no");}
         if (document.getElementById("tipoDePagoTarjeta").checked){
@@ -639,11 +654,12 @@ $("#guardarRecibo").click(function(e){
                     var fechaColegio = new Date($('#fechaColegio').val());
                     fechaColegio = fechaColegio.getFullYear() + "/" + Number(fechaColegio.getMonth())+Number(1);
 
+                    var nuevaFechaColegio = 0;
                     var filas = $("#tablaDetalle").find("tr");
                     for(var i= 0; i < filas.length; i++){
                         var celdas = $(filas[i]).find("td");
                         if($($(celdas[1])).text() == "COL092"){
-                            var nuevaFechaColegio = parseInt($($(celdas[2])).text());
+                            nuevaFechaColegio += parseFloat($($(celdas[5])).html().substring(2));
                             break;
                         }
                     }
@@ -652,12 +668,13 @@ $("#guardarRecibo").click(function(e){
                     var filas = $("#tablaDetalle").find("tr");
                     for(var i= 0; i < filas.length; i++){
                         var celdas = $(filas[i]).find("td");
-                        if($($(celdas[1])).text().substring(0,2) == "TC"){
+                        if($($(celdas[1])).text().substring(0,2) == "TC" || $($(celdas[1])).text() == "TIM-CUOTA"){
                             totalPrecioTimbre += parseFloat($($(celdas[5])).html().substring(2));
                         }
                     }
 
                     var pos = $('#pos').val();
+                    var banco = $('#banco').val();
 
                     var config = {};
                     $('input').each(function () {
@@ -672,7 +689,7 @@ $("#guardarRecibo").click(function(e){
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                     url: "/creacionRecibo/save",
-                    data: {config, datos, pos, nuevaFechaColegio, totalPrecioTimbre},
+                    data: {config, datos, pos, banco, nuevaFechaColegio, totalPrecioTimbre},
                     datatype: "json",
                     success: function() {
                         $('.loader').fadeOut(1000);
@@ -970,12 +987,15 @@ function comprobarCheckChequeE()
     if (document.getElementById("tipoDePagoChequeE").checked){
         document.getElementById('montoChequeE').readOnly = false;
         document.getElementById('chequeE').style.display = "";
+        document.getElementById('bancoE').style.display = "";
     }
     else{
         document.getElementById('montoChequeE').readOnly = true;
         document.getElementById('chequeE').style.display = "none";
+        document.getElementById('bancoE').style.display = "none";
         $('input[name="chequeE"]').val('');
         $('input[name="montoChequeE"]').val('');
+        $('select[name="bancoE"]').val('');
     }
 }
 
@@ -1035,6 +1055,10 @@ $("#guardarReciboE").click(function(e){
         if ($('#montoChequeE').val() == 0){
             alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
+        } else {chequeCorrecto = 1;}
+        if ($('#bancoE').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeE').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeE').val("no");}
     if (document.getElementById("tipoDePagoTarjetaE").checked){
@@ -1066,6 +1090,7 @@ $("#guardarReciboE").click(function(e){
                     $('#tipoSerieReciboE').val('b');
                 }
 
+                var banco = $('#bancoE').val();
                 var pos = $('#posE').val();
 
                 var config = {};
@@ -1081,7 +1106,7 @@ $("#guardarReciboE").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/empresa",
-                data: {config, datos, pos},
+                data: {config, datos, pos, banco},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -1397,12 +1422,15 @@ function comprobarCheckChequeP()
     if (document.getElementById("tipoDePagoChequeP").checked){
         document.getElementById('montoChequeP').readOnly = false;
         document.getElementById('chequeP').style.display = "";
+        document.getElementById('bancoP').style.display = "";
     }
     else{
         document.getElementById('montoChequeP').readOnly = true;
         document.getElementById('chequeP').style.display = "none";
+        document.getElementById('bancoP').style.display = "none";
         $('input[name="chequeP"]').val('');
         $('input[name="montoChequeP"]').val('');
+        $('select[name="bancoP"]').val('');
     }
 }
 
@@ -1474,6 +1502,10 @@ $("#guardarReciboP").click(function(e){
         if ($('#montoChequeP').val() == 0){
             alertify.warning('el monto del cheque no puede ser 0...');
             chequeCorrecto = 0;
+        } else {chequeCorrecto = 1}
+        if ($('#bancoP').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            chequeCorrecto = 0;
         } else {chequeCorrecto = 1; $('#pagoChequeP').val("si");}
     } else {chequeCorrecto = 1; $('#pagoChequeP').val("no");}
     if (document.getElementById("tipoDePagoTarjetaP").checked){
@@ -1505,6 +1537,7 @@ $("#guardarReciboP").click(function(e){
                     $('#tipoSerieReciboP').val('b');
                 }
 
+                var banco = $('#bancoP').val();
                 var pos = $('#posP').val();
 
                 var config = {};
@@ -1520,7 +1553,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos, pos},
+                data: {config, datos, pos, banco},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);

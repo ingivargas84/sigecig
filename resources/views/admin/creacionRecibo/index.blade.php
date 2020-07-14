@@ -288,6 +288,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="banco" class="form-control" id="banco" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
                 <div class="row">
                     <div class="">
@@ -483,6 +497,20 @@
                 </div>
                 <div class="row">
                     <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="bancoE" class="form-control" id="bancoE" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="">
                         <div class="col-md-3">
                             <a class="btn btn-success edit" style="padding: 6px 16px 6px 46px;" id="guardarReciboE" name="guardarReciboE">
                                 GUARDAR <i class="green-icon fa fa-check-square" style="margin-left: 25px;"></i>
@@ -670,6 +698,20 @@
                                     <option value="">-- Escoja POS --</option>
                                     @foreach ($pos as $po)
                                         <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="bancoP" class="form-control" id="bancoP" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
                                     @endforeach
                                 </select>
                             </div>
