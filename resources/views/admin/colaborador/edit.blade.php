@@ -15,9 +15,9 @@
 @stop
 
 @section('content')
-<form method="POST" id="ColaboradorUpdateForm"  action="{{route('colaborador.update', $colaborador, $puestos, $departamentos)}}">
+<form method="POST" id="ColaboradorUpdateForm1"  action="{{route('colaborador.update', $colaborador, $puestos, $departamentos, $user)}}">
 
-    {{csrf_field()}}
+    {{csrf_field()}} {{ method_field('PUT') }}
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
@@ -77,7 +77,7 @@
                 <br>
                 <div class="text-right m-t-15">
                     <a class='btn btn-danger form-button' href="{{ route('colaborador.index') }}">Regresar</a>
-                    <button class="btn btn-primary edit" id="ButtonColaboradorUpdate">Actualizar</button>
+                    <button class="btn btn-primary edit" id="ButtonColaboradorUpdate1">Actualizar</button>
                 </div>
 
             </div>

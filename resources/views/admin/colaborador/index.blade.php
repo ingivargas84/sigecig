@@ -49,4 +49,5 @@
 
   </script>
   <script src="{{asset('js/colaboradores/index.js')}}"></script>
+
 @endpush
