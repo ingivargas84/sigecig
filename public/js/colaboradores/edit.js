@@ -13,20 +13,20 @@ $.validator.addMethod("ntelc1", function (value, element ){
 
     function cuiIsValid(cui1){
         var console = window.console;
-        if (!cui) {
+        if (!cui1) {
             console.log("CUI vacío");
             return true;
         }
         var cuiRegExp = /^[0-9]{4}\s?[0-9]{5}\s?[0-9]{4}$/;
-        if (!cuiRegExp.test(cui)) {
+        if (!cuiRegExp.test(cui1)) {
             console.log("CUI con formato inválido");
             return false;
         }
-        cui = cui.replace(/\s/, '');
-        var depto = parseInt(cui.substring(9, 11), 10);
-        var muni = parseInt(cui.substring(11, 13));
-        var numero = cui.substring(0, 8);
-        var verificador = parseInt(cui.substring(8, 9));
+        cui1 = cui1.replace(/\s/, '');
+        var depto = parseInt(cui1.substring(9, 11), 10);
+        var muni = parseInt(cui1.substring(11, 13));
+        var numero = cui1.substring(0, 8);
+        var verificador = parseInt(cui1.substring(8, 9));
         // Se asume que la codificación de Municipios y
         // departamentos es la misma que esta publicada en
         // http://goo.gl/EsxN1a
@@ -118,7 +118,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
 
 
 
-    var validator = $("#ColaboradorForm").validate({
+    var validator = $("#ColaboradorUpdateForm1").validate({
         ignore: [],
         onkeyup:false,
         rules: {
@@ -134,20 +134,20 @@ $.validator.addMethod("ntelc1", function (value, element ){
                 numero : true
             },
             dpi: {
-                    required : true,
-                    dpi : true,
-                    dpiunico : true
+                required : true,
+                dpi : true,
+                dpiunico : true
 
             },
             departamento: {
                 required: true
             },
-            subsedes: {
+            subsede: {
                 required: true
             },
             telefono:{
                 required: true,
-                ntelc : true
+                ntelc1: true
 
             },
         },
@@ -164,7 +164,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
             departamento: {
                 required: "Por favor, seleccione un departamento"
             },
-            subsedes: {
+            subsede: {
                 required: "Por favor, seleccione una subsede"
             },
             telefono: {
@@ -173,8 +173,10 @@ $.validator.addMethod("ntelc1", function (value, element ){
         }
     });
 
-$("#ButtonColaboradorUpdate").click(function(event) {
-	if ($('#ColaboradorUpdateForm').valid()) {
+$("#ButtonColaboradorUpdate1").click(function(event) {
+    event.preventDefault();
+
+	if ($('#ColaboradorUpdateForm1').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
