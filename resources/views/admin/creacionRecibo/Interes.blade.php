@@ -57,7 +57,7 @@
                     <div class="form-group row">
                         <label for="fecha_pago" class="col-md-3 col-lg-3 col-form-label" style="text-align: right;">Fecha hasta donde paga</label>
                         <div class="col-md-7">
-                            <input type="date" class="form-control" id="fecha_pago" name="fecha_pago" value="">
+                            <input type="date" class="form-control" id="fecha_pago" name="fecha_pago">
                         </div>
                     </div>
                     <div class="form-group row">

@@ -39,7 +39,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
         $banco = Banco::all();
         return view('admin.creacionRecibo.index', compact('pos', 'tipo', 'banco'));
@@ -65,13 +65,13 @@ class ReciboController extends Controller
 
     public function SerieDePagoA($id)
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->orWhere('categoria_id', '=', 6)->get();
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 1)->get();
         return json_encode($tipo);
     }
 
     public function SerieDePagoB($id)
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get();
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get();
         return json_encode($tipo);
     }
 
@@ -508,7 +508,7 @@ class ReciboController extends Controller
     public function getTipoDePagoB($tipo)
     {
         $consulta = TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
-            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '!=', 3)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
         return $consulta;
     }
@@ -521,7 +521,7 @@ class ReciboController extends Controller
     public function getMontoReactivacion()
     {
         $fecha_timbre = Input::get('fecha_timbre', date("Y-m-t"));
-        $fecha_colegio = Input::get('fecha_colegio', date("Y-m-t"));
+        $fecha_colegio = Input::get('fecha_colegio', date("y-m-t"));
         $colegiado = Input::get('colegiado');
         $fecha_hasta_donde_paga = Input::get('fecha_hasta_donde_paga', date("Y-m-t"));
         $monto_timbre = Input::get('monto_timbre', 0);
