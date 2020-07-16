@@ -216,6 +216,14 @@ Route::group([
         Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
         Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
         Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
+
+         // Modulo de Colegiados
+         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
+         Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
+
+
     });
 
 

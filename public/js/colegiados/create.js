@@ -1,3 +1,15 @@
+$.validator.addMethod("ntelc", function (value, element ){
+    var valor = value.length;
+    if(valor == 8)
+    {
+        return true;
+    }
+    else
+    {
+    return false;
+    }
+}, "Debe ingresar el número de teléfono con 8 dígitos");// validacion de telefono
+
 $.validator.addMethod("ntelc1", function (value, element ){
     var valor = value.length;
     if(valor == 8)
@@ -116,66 +128,149 @@ $.validator.addMethod("ntelc1", function (value, element ){
         return valid;
         }, "El CUI/DPI ya esta registrado en el sistema");
 
-
-
-    var validator = $("#ColaboradorUpdateForm1").validate({
-        ignore: [],
-        onkeyup:false,
-        rules: {
-            nombre:{
-                required: true,
-
-            },
-            puesto: {
-                required : true
-            },
-            telefono: {
-                required : true,
-                numero : true
-            },
-            dpi: {
-                required : true,
-                dpi : true,
-                dpiunico : true
-
-            },
-            departamento: {
-                required: true
-            },
-            subsede: {
-                required: true
-            },
-            telefono:{
-                required: true,
-                ntelc1: true
-
-            },
+var validator = $("#colegiadosForm").validate({
+	ignore: [],
+	onkeyup:false,
+	rules: {
+		nombre:{
+            required: true,
         },
-        messages: {
-            nombre: {
-                required: "Por favor, ingrese el nombre"
-            },
-            puesto: {
-                required: "Por favor, seleccione un puesto"
-            },
-            dpi: {
-                required: "Por favor, ingrese un número de CUI/DPI"
-            },
-            departamento: {
-                required: "Por favor, seleccione un departamento"
-            },
-            subsede: {
-                required: "Por favor, seleccione una subsede"
-            },
-            telefono: {
-                required: "Por favor, ingrese el telefono"
-            }
+        apellidos:{
+            required: true,
+		},
+		puesto: {
+			required : true
+        },
+        telefono: {
+            required : true,
+            numero : true
+        },
+        dpi: {
+            required : true,
+            dpi : true,
+            dpiunico : true
+        },
+		departamento: {
+			required: true
+        },
+        subsede: {
+			required: true
+        },
+        fechanac: {
+			required: true
+        },
+        municipio: {
+			required: true
+        },
+        pais: {
+			required: true
+        },
+        nacionalidad: {
+			required: true
+        },
+        correo_electronico: {
+			required: true
+        },
+        estadocivil: {
+			required: true
+        },
+        direccion: {
+			required: true
+        },
+        zona: {
+			required: true
+        },
+        municipioc: {
+			required: true
+        },
+        fechagrad: {
+			required: true
+        },
+        nombreemergencia: {
+			required: true
+        },
+        numeroemergencia: {
+			required: true
+		},
+		telefono:{
+            required: true,
+            ntelc : true
+        },
+        telefonotrabajo:{
+            required : true,
+            numero : true
+        },
+        telefonotrabajo:{
+            required: true,
+            ntelc1: true
         }
-    });
+	},
+	messages: {
+		nombre: {
+			required: "Por favor, ingrese el nombre"
+        },
+        apellidos: {
+			required: "Por favor, ingrese el nombre"
+		},
+		puesto: {
+			required: "Por favor, seleccione un puesto"
+        },
+        dpi: {
+			required: "Por favor, ingrese un número de CUI/DPI"
+		},
+		departamento: {
+			required: "Por favor, seleccione un departamento"
+        },
+        sexo: {
+			required: "Por favor, seleccione un sexo"
+		},
+		telefono: {
+			required: "Por favor, ingrese el teléfono"
+        },
+        telefonotrabajo: {
+			required: "Por favor, ingrese el teléfono"
+        },
+        municipio: {
+			required: "Por favor, ingrese un municipio"
+        },
+        pais: {
+			required: "Por favor, ingrese un pais"
+        },
+        nacionalidad: {
+			required: "Por favor, ingrese una nacionalidad"
+        },
+        correo_electronico: {
+			required: "Por favor, ingrese un corre electrónico"
+        },
+        estadocivil: {
+			required: "Por favor, ingrese el estado civil"
+        },
+        direccion: {
+			required: "Por favor, ingrese una dirección"
+        },
+        zona: {
+			required: "Por favor, ingrese una zona"
+        },
+        municipioc: {
+			required: "Por favor, ingrese un municipio"
+        },
+        nombreemergencia: {
+			required: "Por favor, ingrese nombre"
+        },
+        numeroemergencia: {
+			required: "Por favor, ingrese número"
+        },
+        fechagrad: {
+			required: "Por favor, ingrese fecha"
+        },
+        fechanac: {
+			required: "Por favor, ingrese la fecha de nacimiento"
+        }
+	}
+});
 
-$("#ButtonColaboradorUpdate1").click(function(event) {
-  
-	if ($('#ColaboradorUpdateForm1').valid()) {
+$("#ButtonColegiado").click(function(event) {
+	if ($('#colegiadosForm').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
