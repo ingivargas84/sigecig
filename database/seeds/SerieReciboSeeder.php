@@ -14,11 +14,11 @@ class SerieReciboSeeder extends Seeder
     {
         DB::table('sigecig_serie_recibo')->insert([
             'serie_recibo'=>'A',
-            'detalle'=>'Serie que sirve para registrar los pagos de colegiatura'
+            'detalle'=>'Serie que sirve para registrar los pagos de colegiatura y varios'
         ]);
         DB::table('sigecig_serie_recibo')->insert([
             'serie_recibo'=>'B',
-            'detalle'=>'Serie que sirve para registrar las ventas varias'
+            'detalle'=>'Serie que sirve para registrar los pagos de timbres'
         ]);
     }
 }
