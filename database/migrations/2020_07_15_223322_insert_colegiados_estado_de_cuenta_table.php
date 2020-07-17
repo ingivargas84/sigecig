@@ -21,17 +21,20 @@ class InsertColegiadosEstadoDeCuentaTable extends Migration
 
         for ($i = 0; $i < sizeof($result); $i++) {
             $cuentaM = EstadoDeCuentaMaestro::create([
-                'numero_colegiado'     => $result[$i]->c_cliente,
+                'colegiado_id'         => $result[$i]->c_cliente,
+                'estado_id'            => '1',
+                'fecha_creacion'       => date('Y-m-d h:i:s'),
+                'usuario_id'           => '1',
             ]);
         }
 
 
         // Llenado de datos de recibo Detalle
-        $query2 = "select numero_colegiado from sigecig_estado_de_cuenta_maestro";
+        $query2 = "select colegiado_id from sigecig_estado_de_cuenta_maestro";
         $result2 = DB::connection('mysql')->select($query2);
 
         for ($i = 0; $i < sizeof($result2); $i++) {
-            $colegiado = $result2[$i]->numero_colegiado;
+            $colegiado = $result2[$i]->colegiado_id;
 
             // ALMACENAMIENTO ACTIVOS
             $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
@@ -62,15 +65,19 @@ class InsertColegiadosEstadoDeCuentaTable extends Migration
 
                             //Almacenamiento
                     $TotalCapital = $capitalColegio + $capitalTimbre;
-                $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE numero_colegiado = $colegiado";
+                $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE colegiado_id = $colegiado";
                 $resp = DB::connection('mysql')->select($consulta);
                 $fechaHoy = date('Y-m-d h:i:s');
 
                 $cuentaD = EstadoDeCuentaDetalle::create([
-                    'id_maestro'    => $resp[0]->id,
-                    'fecha_pago'    => $fechaHoy,
-                    'estado_actual' => 'Activo',
-                    'saldo_total'   => $TotalCapital,
+                    'estado_cuenta_maestro_id'      => $resp[0]->id,
+                    'cantidad'                      => '1',
+                    'tipo_pago_id'                  => '58',
+                    'recibo_id'                     => '1',
+                    'abono'                         => '0.00',
+                    'cargo'                         => $TotalCapital,
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
                 ]);
 
             }else {
@@ -203,15 +210,19 @@ class InsertColegiadosEstadoDeCuentaTable extends Migration
                 $SaldoTotal = $totalPagoColegiado + $totalPagoTimbre;
 
                                 //Almacenamiento
-                $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE numero_colegiado = $colegiado";
+                $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE colegiado_id = $colegiado";
                 $resp = DB::connection('mysql')->select($consulta);
                 $fechaHoy = date('Y-m-d h:i:s');
 
                 $cuentaD = EstadoDeCuentaDetalle::create([
-                    'id_maestro'    => $resp[0]->id,
-                    'fecha_pago'    => $fechaHoy,
-                    'estado_actual' => 'Inactivo',
-                    'saldo_total'   => $SaldoTotal,
+                    'estado_cuenta_maestro_id'      => $resp[0]->id,
+                    'cantidad'                      => '1',
+                    'tipo_pago_id'                  => '58',
+                    'recibo_id'                     => '1',
+                    'abono'                         => '0.00',
+                    'cargo'                         => $SaldoTotal,
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
                 ]);
             }
         }

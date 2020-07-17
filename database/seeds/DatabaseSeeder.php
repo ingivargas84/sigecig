@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SerieReciboSeeder::class);
         $this->call(TipoDePagoSeeder::class);
         $this->call(CreacionSolicitudSeeder::class);
+        $this->call(EstadoDeEstadosDeCuentaSeeder::class);
 
         //$this->call(TiposLocalidadesSeeder::class);
 
