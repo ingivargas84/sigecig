@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li><a href="{{route('colaborador.index')}}"><i class="fa fa-list"></i> Colaboradores</a></li>
-          <li class="active">Crear</li>
+          <li class="active">Editar</li>
         </ol>
     </section>
 @stop
@@ -65,7 +65,7 @@
                                 <select name="usuario" class="form-control">
                                     <option value="">-- Escoja un Usuario--</option>
                                         @foreach ($user as $users)
-                                            <option value="{{ $users['id'] }}">{{ $users['username'] }}</option>
+                                            <option value="{{ $users['id'] }}">{{{ $users->username}}}</option>
                                         @endforeach
                                 </select>
                             </div>

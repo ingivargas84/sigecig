@@ -35,13 +35,15 @@ class CajasController extends Controller
     {
         $subsede = Subsedes::all();
         $caja = Cajas::all();
+
         //$bodega = Bodegas::all();
        // $user = User::all();
 
         $query= "SELECT U.name, U.id
         FROM sigecig_users U
         INNER JOIN model_has_roles MR ON MR.model_id = U.id
-        WHERE MR.role_id = '18'";
+        WHERE MR.role_id = '18'
+        AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)";
          
         $datos = DB::select($query);
 
