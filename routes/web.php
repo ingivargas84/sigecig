@@ -91,7 +91,7 @@ Route::group([
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
         Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
-        Route::post('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
+        Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
 
        // Módulo de Registro de Cajas
@@ -216,6 +216,14 @@ Route::group([
         Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
         Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
         Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
+
+         // Modulo de Colegiados
+         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
+         Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
+
+
     });
 
 

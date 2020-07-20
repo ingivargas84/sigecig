@@ -23,7 +23,8 @@ use App\ReciboTarjeta;
 use App\PosCobro;
 use App\Banco;
 use Validator;
-use NumeroALetras;
+//use NumeroALetras;
+use Luecano\NumeroALetras\NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReciboController extends Controller
@@ -39,7 +40,7 @@ class ReciboController extends Controller
      */
     public function index()
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get(); //el estado "0" son los tipo de pago activos
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
         $pos = PosCobro::all();
         $banco = Banco::all();
         return view('admin.creacionRecibo.index', compact('pos', 'tipo', 'banco'));
@@ -49,15 +50,14 @@ class ReciboController extends Controller
     {
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
-
+        $letras = new NumeroALetras;
+        echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
-        $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS', true);
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
-
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
@@ -65,13 +65,13 @@ class ReciboController extends Controller
 
     public function SerieDePagoA($id)
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 3)->orWhere('categoria_id', '=', 6)->get();
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 1)->get();
         return json_encode($tipo);
     }
 
     public function SerieDePagoB($id)
     {
-        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 3)->get();
+        $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get();
         return json_encode($tipo);
     }
 
@@ -208,7 +208,8 @@ class ReciboController extends Controller
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $letras = new NumeroALetras;
+            echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
             $nit_ = $nit[0];
             $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
@@ -319,7 +320,8 @@ class ReciboController extends Controller
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $nit_ = $id;
-            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $letras = new NumeroALetras;
+            echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
@@ -430,7 +432,8 @@ class ReciboController extends Controller
             $nit = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
             $nit_ = $nit[0];
 
-            $letras = NumeroALetras::convertir($id->monto_total, 'QUETZALES', 'CENTAVOS');
+            $letras = new NumeroALetras;
+            echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
@@ -508,7 +511,7 @@ class ReciboController extends Controller
     public function getTipoDePagoB($tipo)
     {
         $consulta = TipoDePago::select('codigo', 'tipo_de_pago', 'precio_colegiado', 'precio_particular', 'categoria_id')
-            ->where('id', $tipo)->where('estado', '=', 0)->where('categoria_id', '!=', 3)->get()->first();
+            ->where('id', $tipo)->where('estado', '=', 0)->get()->first();
 
         return $consulta;
     }
@@ -521,7 +524,7 @@ class ReciboController extends Controller
     public function getMontoReactivacion()
     {
         $fecha_timbre = Input::get('fecha_timbre', date("Y-m-t"));
-        $fecha_colegio = Input::get('fecha_colegio', date("Y-m-t"));
+        $fecha_colegio = Input::get('fecha_colegio', date("y-m-t"));
         $colegiado = Input::get('colegiado');
         $fecha_hasta_donde_paga = Input::get('fecha_hasta_donde_paga', date("Y-m-t"));
         $monto_timbre = Input::get('monto_timbre', 0);

@@ -185,7 +185,9 @@
         </li>
         @endrole
 
-
+        <li class="{{request()->is('colegiados')? 'active': ''}}" ><a href="{{route('colegiados.index')}}">
+          <i class="fa fa-book"></i> <span>Colegiados</span></a>
+        </li>
 
 </ul>
 
