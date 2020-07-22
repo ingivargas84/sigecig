@@ -63,7 +63,7 @@ class BoletaController extends Controller
         event(new ActualizacionBitacoraBoleta($boleta->no_boleta, 'Creacion', Auth::user()->id, date("Y-m-d")));
         return redirect()->route('boleta.index')->withFlash('La boleta ha sido creada exitosamente');
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -101,11 +101,11 @@ class BoletaController extends Controller
             'user_id' => Auth::user()->id,
             );
         $json = json_encode($nuevos_datos);
- 
+
         event(new ActualizacionBitacoraBoleta($boleta->no_boleta, 'Edicion', Auth::user()->id, date("Y-m-d")));
 
         $boleta->update($request->all());
-      
+
         return redirect()->route('boleta.index', $boleta)->with('flash','La Boleta ha sido actualizada!');
     }
 
@@ -116,7 +116,7 @@ class BoletaController extends Controller
         $boleta->save();
 
         event(new ActualizacionBitacoraBoleta($boleta->no_boleta, 'Eliminar', Auth::user()->id, date("Y-m-d")));
-        return Response::json(['success' => 'Éxito']);     
+        return Response::json(['success' => 'Éxito']);
      }
 
     public function delete(Boleta $boleta, Request $request)
@@ -125,7 +125,7 @@ class BoletaController extends Controller
         $boleta->save();
 
         event(new ActualizacionBitacoraBoleta($boleta->no_boleta, 'Eliminar', Auth::user()->id, date("Y-m-d")));
-        return Response::json(['success' => 'Éxito']);       
+        return Response::json(['success' => 'Éxito']);
      }
 
      public function activar(Boleta $boleta, Request $request)
@@ -135,12 +135,12 @@ class BoletaController extends Controller
         $boleta->save();
 
         event(new ActualizacionBitacoraBoleta($boleta->no_boleta, 'Activar', Auth::user()->id, date("Y-m-d")));
-        return Response::json(['success' => 'Éxito']);       
+        return Response::json(['success' => 'Éxito']);
      }
 
     public function getJson(Request $params)
      {
-         $api_Result['data'] = Boleta::where('estado_boleta','!=',3)->get(); 
+         $api_Result['data'] = Boleta::where('estado_boleta','!=',3)->get();
          return Response::json( $api_Result );
      }
 }
