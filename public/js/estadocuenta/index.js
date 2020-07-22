@@ -57,7 +57,6 @@ var resolucion_table = $('#resolucion-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
         },
-
         {
             "visible": false,
             "title": "id",
@@ -68,27 +67,23 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 return (data);},
             },
 
+
+
             {
-                "title": "No. Solicitud",
-                "data": "no_solicitud",
+                "title": "Colegiado",
+                "data": "cliente",
                 "width" : "10%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
                 }, 
                 
-                {
-                    "title": "No. Colegiado",
-                    "data": "n_colegiado",
-                    "width" : "10%",
-                    "responsivePriority": 1,
-                    "render": function( data, type, full, meta ) {
-                        return (data);},
-                    }, 
+                
+   
 
                     {
                         "title": "Nombre",
-                        "data": "Nombre1",
+                        "data": "n_cliente",
                         "width" : "40%",
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
@@ -96,13 +91,41 @@ var resolucion_table = $('#resolucion-table').DataTable({
                         }, 
 
                         {
-                            "title": "Estado Solicitud",
-                            "data": "estado_solicitud_ap",
+                            "title": "Estado",
+                            "data": "estado",
                             "width" : "15%",
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
                             }, 
+                            {
+                                "title": "Saldo",
+                                "data": "registro",
+                                "width" : "15%",
+                                "responsivePriority": 2,
+                                "render": function( data, type, full, meta ) {
+                                    return (data);},
+                                }, 
+                       
+
+                            {
+                                "title": "Acciones",
+                                "data": "estado_solicitud_ap",
+                                "orderable": false,
+                                "width" : "15%",
+                                "render": function(data, type, full, meta) {
+                                    var urlActual = $("input[name='urlActual']").val();
+                                    var rol = $("input[name='rol_user']").val();
+
+                return "<div class='text-center'>" + 
+                "<div class='float-center '>" +
+                "<a href='/estadocuenta/detallado/" + full.id + "' class='asap' >" + 
+                "<i class='fa fa-info' title='Ver Detalles'></i>" + 
+                "</a>" + "</div>";
+            
+        },
+        "responsivePriority": 4
+    }
 
                             ]
 });

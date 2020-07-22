@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use DB;
+use \App\EstadoDeCuentaMaestro;
+use \App\EstadoDeCuentaDetalle;
+
+use App\SQLSRV_Colegiado;
+use App\TipoDePago;
+use Carbon\Carbon;
+
+
 
 
 
@@ -18,26 +26,50 @@ class EstadoCuentaController extends Controller
     }
     public function index(){
         $user = Auth::User();
+
+
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
 
     public function getJson()
     {
-   
-            $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, B.nombre_banco, TC.tipo_cuenta, U.no_cuenta, U.fecha_pago_ap
-        FROM sigecig_solicitudes_ap U
-        INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
-        INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
-        INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
-        INNER JOIN sigecig_bancos B ON B.id=U.id_banco
-        INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
-        WHERE U.id_estado_solicitud >=1
-        ORDER BY U.id DESC";
-     
+        //$query=EstadoDeCuentaMaestro::all()->toArray();
+        $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
+        $List = implode(', ', $cuenta); 
 
-        $result = DB::select($query);
-
-        $api_Result['data'] = $result;
+        $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
+        FROM cc00 U
+        WHERE  U.c_cliente IN ($List)
+        ORDER BY cliente asc;";
+        $result = DB::connection('sqlsrv')->select($query);
+        $array=[];
+        foreach ($result as $key => $value) {
+            $timbrepagado = Carbon::parse($value->f_ult_timbre);
+            $mespagado = Carbon::parse($value->f_ult_pago);
+            $now = Carbon::now();
+            $diffmes = $mespagado->diffInMonths($now, false);
+            $difftimbre = $timbrepagado->diffInMonths($now,false);
+            if ($diffmes <= 3 || $difftimbre <= 3 ) {
+               $value->estado='ACTIVO';
+               $array[]= $value;
+            }else{
+               $value->estado='INACTIVO';
+               $array[]= $value;
+            }
+        }
+        $result= $array;
+        $array=[];
+        foreach ($result as $key => $value) {
+            $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
+            $value->id=$id->id;
+            $array[]= $value;
+        }
+        $api_Result['data'] = $array;
         return Response::json($api_Result);
+    }
+    public function estadoCuentaDetallado($id){
+        $user = Auth::User();
+        $cuenta = EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id)->get()->toArray();
+        return view ('admin.estadoCuenta.cuentadetalle',compact('user','cuenta'));
     }
 }

@@ -260,8 +260,9 @@ Route::group([
     Route::post('register', 'Auth\RegisterController@register');
 
     //Estado de cuenta colegiado
-    Route::get('estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
+    Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
     Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
+    Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
 
 
     // Password Reset Routes...
