@@ -91,7 +91,7 @@ Route::group([
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
         Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
-        Route::post('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
+        Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
 
        // Módulo de Registro de Cajas
@@ -206,7 +206,7 @@ Route::group([
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
         Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
-        
+
         // Modulo de Bodegas
         Route::get( '/bodegas' , 'BodegasController@index')->name('bodegas.index');
         Route::get('/bodegas/getJson/', 'BodegasController@getJson')->name('bodegas.getJson');
@@ -216,6 +216,21 @@ Route::group([
         Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
         Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
         Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
+
+        // Modulo de Colegiados
+        Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+        Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+        Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
+        Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
+
+        // Modulo de Remesa
+        Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
+        Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
+        Route::get( '/remesa/new', 'IngresoBodegaController@create')->name('remesa.new');
+        Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
+        Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
+        Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
+
     });
 
 
@@ -250,6 +265,12 @@ Route::group([
     //Registration Routes...
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
+
+    //Estado de cuenta colegiado
+    Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
+    Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
+    Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+
 
     // Password Reset Routes...
     /*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

@@ -113,7 +113,7 @@ class ColaboradorController extends Controller
         ->where('sigecig_users.id', '>=', '2')
         ->get();
         $sub = Subsedes::all();
-        
+        //dd($user);
 
         return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
 
@@ -133,10 +133,12 @@ class ColaboradorController extends Controller
             'dpi' => $request->dpi,
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
+            'subsede' => $request->subsede,
             'telefono' => $request->telefono,
             'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
+        event(new ActualizacionBitacora(1, Auth::user()->id,'edicion', $colaborador, $json, 'colaborador' ));
 
         $colaborador->update($request->all());
 

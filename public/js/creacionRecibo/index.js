@@ -220,7 +220,7 @@ $(document).ready(function () {
                                 var invitacion = {
                                     'colegiado': $("#c_cliente").val(),
                                     'fecha_timbre': $("#f_ult_timbre").val(),
-                                    'fecha_colegio': $("#f_ult_pago").val(),
+                                    'fecha_colegio': $("#fechaColegio").val(),
                                     'fecha_hasta_donde_paga': $("#fecha_pago").val(),
                                     'monto_timbre': $("#monto_timbre").val(),
                                 };
@@ -242,8 +242,8 @@ $(document).ready(function () {
                                             addnewrow();
 
                                             $("#codigo").val(11); //el 11 es el codigo de cuotas a pagar del colegiado
-                                            $("#cantidad").val(1);
-                                            $("#precioU").val('Q.'+data.cuotasColegio.toFixed(2));
+                                            $("#cantidad").val(data.cuotasColegio);
+                                            $("#precioU").val('Q.115.75');
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
                                             $("#subtotal").val('Q.'+data.capitalColegio.toFixed(2));
                                             addnewrow();
@@ -699,7 +699,6 @@ $("#guardarRecibo").click(function(e){
                     },
                     error: function(){
                         $('.loader').fadeOut(1000);
-                        alertify.warning('Dato aun no almacenado');
                     }
                 });
             }else if(totalPago > $("#total").val().substring(2)){
@@ -1116,7 +1115,6 @@ $("#guardarReciboE").click(function(e){
                 },
                 error: function(){
                     $('.loader').fadeOut(1000);
-                    alertify.warning('Dato aun no almacenado');
                 }
             });
         }else if(totalPago > $("#totalE").val().substring(2)){
@@ -1563,7 +1561,6 @@ $("#guardarReciboP").click(function(e){
                 },
                 error: function(){
                     $('.loader').fadeOut(1000);
-                    alertify.warning('Dato aun no almacenado');
                 }
             });
         }else if(totalPago > $("#totalP").val().substring(2)){

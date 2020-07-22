@@ -329,7 +329,6 @@ class ResolucionPagoController extends Controller
        
         $List = implode(', ', $cuenta); 
         
-        //cuery de prueba
         $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
         FROM cc00 U
         INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente 
