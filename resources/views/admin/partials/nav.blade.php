@@ -117,6 +117,9 @@
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
             </li>
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('remesa.index')}}">
+              <i class="fa fa-eye"></i>Ingreso de Timbres</a>
+            </li>
           </ul>
         @endrole
 
@@ -136,7 +139,7 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          
+
           @role("Super-Administrador|JefeTimbres|Timbre")
           <ul class="treeview-menu">
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
@@ -145,7 +148,7 @@
           </ul>
           @endrole
 
-         
+
 
         </li>
         @endrole

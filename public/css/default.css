@@ -45,6 +45,7 @@
 }
 .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-ok {
   color: white;
+  background: #3c7d21;
 }
 .alertify-notifier .ajs-message {
   background: rgba(255, 255, 255, 0.95);
