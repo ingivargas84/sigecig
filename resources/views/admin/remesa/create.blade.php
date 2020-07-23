@@ -124,6 +124,13 @@
                                         <td><input type="text" name="totalTc500" id="totalTc500" class="form-control" readOnly></td>
                                     </tr>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;background: #03306D;color:white;font-size: x-large"><b>TOTAL</b></td>
+                                        <td style="background: #03306D;"><input type="text" name="generalCantidad" id="generalCantidad" class="form-control" readOnly></td>
+                                        <td style="background: #03306D;"><input type="text" name="generalTotal" id="generalTotal" class="form-control" readOnly></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <br>

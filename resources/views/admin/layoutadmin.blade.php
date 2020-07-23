@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href="/ea/paceflash.css" rel="stylesheet"/>
+
   <title>SIGECIG</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -18,6 +20,12 @@
 
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
+  <link href="/ea/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ea/jquery-ui.css"/>
+
+  <!-- Fonts -->
+	<link href='/ea/font' rel='stylesheet' type='text/css'>
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome-4.5.0/css/font-awesome.min.css')}}">
   <!-- Ionicons -->

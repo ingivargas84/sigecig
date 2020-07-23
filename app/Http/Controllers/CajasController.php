@@ -49,7 +49,8 @@ class CajasController extends Controller
 
         $querybodega = "SELECT B.id, B.nombre_bodega
         FROM sigecig_bodega B
-        WHERE B.id NOT IN (SELECT bodega FROM sigecig_cajas)";
+        WHERE B.id NOT IN (SELECT bodega FROM sigecig_cajas)
+        AND B.estado = 1";
          
         $datos1 = DB::select($querybodega);
 

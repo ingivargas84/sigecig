@@ -23,7 +23,7 @@
 <div class="loader loader-bar is-active"></div>
 <div class="box">
     <div class="box-header">
-        <a class="btn btn-primary pull-right" href="{{route('colegiados.new')}}">
+        <a class="btn btn-primary pull-right" href="{{route('aspirante.new')}}">
             Ingresar colegiado  <i class="fa fa-plus"></i></a>
     </div>
     <!-- /.box-header -->

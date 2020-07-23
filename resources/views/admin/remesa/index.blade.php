@@ -35,12 +35,6 @@
 
 @endsection
 
-
-@push('styles')
-
-
-@endpush
-
 @push('scripts')
   <script>
     $(document).ready(function() {
