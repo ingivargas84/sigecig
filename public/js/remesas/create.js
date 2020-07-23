@@ -18,6 +18,9 @@ function calculoTc01()
     var cant = $("#cantidadTc01").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc01').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.5.00
@@ -40,6 +43,9 @@ function calculoTc05()
     var cant = $("#cantidadTc05").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc05').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.10.00
@@ -62,6 +68,9 @@ function calculoTc10()
     var cant = $("#cantidadTc10").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc10').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.20.00
@@ -84,6 +93,9 @@ function calculoTc20()
     var cant = $("#cantidadTc20").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc20').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.50.00
@@ -106,6 +118,9 @@ function calculoTc50()
     var cant = $("#cantidadTc50").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc50').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.100.00
@@ -128,6 +143,9 @@ function calculoTc100()
     var cant = $("#cantidadTc100").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc100').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 // Timbres de Q.200.00
@@ -150,6 +168,9 @@ function calculoTc200()
     var cant = $("#cantidadTc200").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc200').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
 }
 
 
@@ -173,6 +194,25 @@ function calculoTc500()
     var cant = $("#cantidadTc500").val();
     var final = Number(inicio) + Number(cant) - 1;
     $('#numeroFinalTc500').val(final);
+
+    getGeneralCantidad();
+    getGeneralTotal();
+}
+
+function getGeneralTotal() {
+    var total = 0;
+
+    total = Number($('#totalTc01').val().substring(2)) + Number($('#totalTc05').val().substring(2)) + Number($('#totalTc10').val().substring(2)) + Number($('#totalTc20').val().substring(2)) + Number($('#totalTc50').val().substring(2)) + Number($('#totalTc100').val().substring(2)) + Number($('#totalTc200').val().substring(2)) + Number($('#totalTc500').val().substring(2));
+
+    $("#generalTotal").val('Q.'+total.toFixed(2));
+}
+
+function getGeneralCantidad() {
+    var total = 0;
+
+    total = Number($('#cantidadTc01').val()) + Number($('#cantidadTc05').val()) + Number($('#cantidadTc10').val()) + Number($('#cantidadTc20').val()) + Number($('#cantidadTc50').val()) + Number($('#cantidadTc100').val()) + Number($('#cantidadTc200').val()) + Number($('#cantidadTc500').val());
+
+    $("#generalCantidad").val(total);
 }
 
 $(document).ready(function(){
@@ -222,6 +262,7 @@ $("#guardar").click(function(event) {
         }else{
             alertify.confirm('Almacenamiento Bodega', 'Este proceso es irreversible, Esta seguro de ingresar los siguientes datos a la bodega: <strong>' + selected + "</strong>",
             function(){
+                $('.loader').addClass("is-active");
                 var config = {};
                 $('input').each(function () {
                 config[this.name] = this.value;
@@ -236,8 +277,8 @@ $("#guardar").click(function(event) {
                     data: {config, bodega},
                     datatype: "json",
                     success: function() {
-                        $('.loader').fadeOut(1000);
                         window.location = "/remesa";
+                        $('.loader').fadeOut(1000);
                         alertify.set('notifier','position', 'top-center');
                         alertify.success('Datos almacenados con Éxito!!');
                     },

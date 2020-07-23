@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li><a href="{{route('remesa.index')}}"><i class="fa fa-list"></i> Remesas</a></li>
-          <li class="active">Crear</li>
+          <li class="active">Detalle</li>
         </ol>
     </section>
 @stop
