@@ -62,10 +62,10 @@
                             </div>
                             <div class="col-sm-4">
                                 <label for="usuario">Seleccione un Usuario:</label>
-                                <select name="usuario" class="form-control">
+                                <select name="usuario" class="form-control" id="usuario">
                                     <option value="">-- Escoja un Usuario--</option>
                                         @foreach ($user as $users)
-                                            <option value="{{ $users['id'] }}">{{{ $users->username}}}</option>
+                                            <option value="{{ $users['id'] }}">{{ $users['username']}}</option>
                                         @endforeach
                                 </select>
                             </div>

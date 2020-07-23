@@ -181,3 +181,5 @@ $("#ButtonColaboradorUpdate1").click(function(event) {
 		validator.focusInvalid();
 	}
 });
+
+

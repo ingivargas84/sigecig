@@ -223,6 +223,17 @@ Route::group([
         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
         Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
 
+         //General
+         Route::get('General/listamunicipios','General@getListaMunicipios');
+        Route::get('General/listadepartamentos','General@getListaDepartamentos');
+        Route::get('General/listapaises','General@getListaPaises');
+        Route::get('General/listauniversidades','General@getListaUniversidades');
+        Route::post('General/departamentopais','General@getDepartamentoPais');
+        Route::post('General/pais','General@getPais');
+
+        Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante']);
+        Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
+        Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
         Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
@@ -272,6 +283,12 @@ Route::group([
     //Registration Routes...
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
+
+    //Estado de cuenta colegiado
+    Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
+    Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
+    Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+
 
     // Password Reset Routes...
     /*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

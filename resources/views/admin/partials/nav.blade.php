@@ -192,6 +192,14 @@
           <i class="fa fa-book"></i> <span>Colegiados</span></a>
         </li>
 
+
+
+        @role('Super-Administrador|Administrador|Contabilidad')
+              <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">
+                <i class="fa fa-money"></i>Estados de Cuenta</a>
+              </li>
+        @endrole
+
 </ul>
 
 <!-- /.sidebar-menu -->
