@@ -223,7 +223,6 @@ Route::group([
         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
         Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
 
-<<<<<<< HEAD
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
         Route::get('General/listadepartamentos','General@getListaDepartamentos');
@@ -235,7 +234,6 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante']);
         Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
-=======
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
         Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
@@ -243,7 +241,6 @@ Route::group([
         Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
         Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
         Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
->>>>>>> 2173dc971f678ef24955f6c371d90b4077978e0d
 
     });
 
