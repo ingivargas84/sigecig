@@ -223,6 +223,17 @@ Route::group([
          Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
          Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
 
+         //General
+         Route::get('General/listamunicipios','General@getListaMunicipios');
+        Route::get('General/listadepartamentos','General@getListaDepartamentos');
+        Route::get('General/listapaises','General@getListaPaises');
+        Route::get('General/listauniversidades','General@getListaUniversidades');
+        Route::post('General/departamentopais','General@getDepartamentoPais');
+        Route::post('General/pais','General@getPais');
+
+        Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante']);
+        Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
+        Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
 
     });
 
