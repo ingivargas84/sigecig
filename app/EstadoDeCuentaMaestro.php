@@ -9,6 +9,9 @@ class EstadoDeCuentaMaestro extends Model
     protected $table='sigecig_estado_de_cuenta_maestro';
 
     protected $fillable=[
-        'numero_colegiado'
+        'colegiado_id',
+        'estado_id',
+        'fecha_creacion',
+        'usuario_id',
     ];
 }

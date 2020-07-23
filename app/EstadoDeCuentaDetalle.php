@@ -9,9 +9,13 @@ class EstadoDeCuentaDetalle extends Model
     protected $table='sigecig_estado_de_cuenta_detalle';
 
     protected $fillable=[
-        'id_maestro',
-        'fecha_pago',
-        'estado_actual',
-        'saldo_total'
+        'estado_cuenta_maestro_id',
+        'cantidad',
+        'tipo_pago_id',
+        'recibo_id',
+        'abono',
+        'cargo',
+        'usuario_id',
+        'estado_id'
     ];
 }

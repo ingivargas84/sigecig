@@ -16,7 +16,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
             filename: function(){
                         var D = new Date()
                         var d = D.getDate();
-                        var m = D.getMonth();
+                        var m = D.getMonth()+1;
                         var y = D.getFullYear();
                         var h = D.getHours();
                         var min = D.getMinutes();
@@ -31,7 +31,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
             filename: function(){
                         var D = new Date()
                         var d = D.getDate();
-                        var m = D.getMonth();
+                        var m = D.getMonth()+1;
                         var y = D.getFullYear();
                         var h = D.getHours();
                         var min = D.getMinutes();

@@ -15,10 +15,14 @@ class CreateSigecigEstadoDeCuentaDetalleTable extends Migration
     {
         Schema::create('sigecig_estado_de_cuenta_detalle', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('id_maestro');
-            $table->DateTime('fecha_pago');
-            $table->string('estado_actual');
-            $table->double('saldo_total',10,2);
+            $table->integer('estado_cuenta_maestro_id');
+            $table->integer('cantidad');
+            $table->integer('tipo_pago_id');
+            $table->bigInteger('recibo_id');
+            $table->double('abono',10,2);
+            $table->double('cargo',10,2);
+            $table->integer('usuario_id');
+            $table->integer('estado_id');
             $table->timestamps();
         });
     }

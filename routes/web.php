@@ -206,7 +206,7 @@ Route::group([
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
         Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
-        
+
         // Modulo de Bodegas
         Route::get( '/bodegas' , 'BodegasController@index')->name('bodegas.index');
         Route::get('/bodegas/getJson/', 'BodegasController@getJson')->name('bodegas.getJson');
@@ -217,12 +217,13 @@ Route::group([
         Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
         Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
 
-         // Modulo de Colegiados
-         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
-         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
-         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
-         Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
+        // Modulo de Colegiados
+        Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+        Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+        Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
+        Route::post('/colegiados/save/', 'ColegiadosController@store')->name('colegiados.save');
 
+<<<<<<< HEAD
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
         Route::get('General/listadepartamentos','General@getListaDepartamentos');
@@ -234,6 +235,15 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante']);
         Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
+=======
+        // Modulo de Remesa
+        Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
+        Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
+        Route::get( '/remesa/new', 'IngresoBodegaController@create')->name('remesa.new');
+        Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
+        Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
+        Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
+>>>>>>> 2173dc971f678ef24955f6c371d90b4077978e0d
 
     });
 
@@ -269,6 +279,12 @@ Route::group([
     //Registration Routes...
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
+
+    //Estado de cuenta colegiado
+    Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
+    Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
+    Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+
 
     // Password Reset Routes...
     /*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
