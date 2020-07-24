@@ -234,6 +234,7 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante']);
         Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
+
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
         Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
