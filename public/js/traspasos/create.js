@@ -184,7 +184,7 @@ $("#guardar").click(function(event) {
                 if (Number($('#bodega1').val()) == Number($('#bodega2').val())){
                     alertify.set('notifier','position', 'top-center'); alertify.error('Esta introduciendo la misma bodega en Origen y Destino');
                 }else {
-                    // $('.loader').addClass("is-active");
+                    $('.loader').addClass("is-active");
                     var config = {};
                     $('input').each(function () {
                     config[this.name] = this.value;
