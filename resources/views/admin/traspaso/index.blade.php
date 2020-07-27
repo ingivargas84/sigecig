@@ -3,12 +3,12 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-      REMESAS
+      Traspaso De Timbres
       </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Remesas</li>
+      <li class="active">Traspaso</li>
     </ol>
   </section>
 
@@ -19,13 +19,13 @@
 <div class="loader loader-bar is-active"></div>
 <div class="box">
     <div class="box-header">
-      <a class="btn btn-primary pull-right" href="{{route('remesa.new')}}">
-        <i class="fa fa-plus"></i>  Ingresar Remesa a Bodega</a>
+      <a class="btn btn-primary pull-right" href="{{route('traspaso.new')}}">
+        <i class="fa fa-plus"></i>  Realizar nuevo traspaso</a>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
         <input type="hidden" name="rol_user" value="{{auth()->user()->roles[0]->name}}">
-        <table id="remesas-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
+        <table id="traspasos-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
         </table>
         <input type="hidden" name="urlActual" value="{{url()->current()}}">
     </div>
@@ -39,9 +39,9 @@
   <script>
     $(document).ready(function() {
       $('.loader').fadeOut(225);
-      remesas_table.ajax.url("{{route('remesa.getJson')}}").load();
+      traspasos_table.ajax.url("{{route('traspaso.getJson')}}").load();
     });
 
   </script>
-  <script src="{{asset('js/remesas/index.js')}}"></script>
+  <script src="{{asset('js/traspasos/index.js')}}"></script>
 @endpush

@@ -1,5 +1,4 @@
-var remesas_table = $('#remesas-table').DataTable({
-    //"ajax": "/boletas/getJson",
+var traspasos_table = $('#traspasos-table').DataTable({
     "responsive": true,
     "processing": true,
     "info": true,
@@ -23,10 +22,10 @@ var remesas_table = $('#remesas-table').DataTable({
                     var h = D.getHours();
                     var min = D.getMinutes();
                     var seg = D.getSeconds();
-                    return 'sigecig_Remesas_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
+                    return 'sigecig_Traspasos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                     },
         exportOptions: {
-            columns: [ 0, 1, 2, 3 ]}
+            columns: [ 0, 1, 2, 3, 4 ]}
     },
     {
         extend: 'csvHtml5',
@@ -38,10 +37,10 @@ var remesas_table = $('#remesas-table').DataTable({
                     var h = D.getHours();
                     var min = D.getMinutes();
                     var seg = D.getSeconds();
-                    return 'sigecig_Remesas_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
+                    return 'sigecig_Traspasos_'+d+'-'+m+'-'+y+'  '+h+'.'+min+'.'+seg;
                     },
         exportOptions: {
-            columns: [ 0, 1, 2, 3 ]}
+            columns: [ 0, 1, 2, 3, 4 ]}
     }
     ],
 
@@ -75,19 +74,17 @@ var remesas_table = $('#remesas-table').DataTable({
     "order": [0, 'desc'],
 
     "columns": [ {
-        "title": "Fecha de ingreso",
-        "data": "created_at",
-        "width" : "10%",
+        "title": "ID",
+        "data": "id",
+        "width" : "5%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
-            var D = data;
-            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
-            return (nuevaT);},
+            return (data);},
     },
 
     {
-        "title": "Nombre de Usuario",
-        "data": "name",
+        "title": "Bodega Origen",
+        "data": "bodega_origen",
         "width" : "15%",
         "responsivePriority": 2,
         "render": function( data, type, full, meta ) {
@@ -95,17 +92,26 @@ var remesas_table = $('#remesas-table').DataTable({
     },
 
     {
-        "title": "Cantidad de timbres",
+        "title": "Bodega Destino",
+        "data": "bodega_destino",
+        "width" : "15%",
+        "responsivePriority": 2,
+        "render": function( data, type, full, meta ) {
+            return (data);},
+    },
+
+    {
+        "title": "Cantidad de Timbres",
         "data": "cantidad_de_timbres",
-        "width" : "15%",
-        "responsivePriority": 2,
+        "width" : "10%",
+        "responsivePriority": 4,
         "render": function( data, type, full, meta ) {
-            return (data);},
+            return(data);},
     },
 
     {
         "title": "Total",
-        "data": "total",
+        "data": "total_en_timbres",
         "width" : "10%",
         "responsivePriority": 4,
         "render": function( data, type, full, meta ) {
@@ -120,7 +126,7 @@ var remesas_table = $('#remesas-table').DataTable({
             var urlActual = $("input[name='urlActual']").val();
 
             return  "<div class='float-rigth col-lg-4'>" +
-                    "<a href='"+urlActual+"/detalle/"+full.id+"' class='detalles-remesa' >" +
+                    "<a href='#' class='detalles-remesa' >" +
                     "<i class='fa fa-btn fa-edit' title='detalles remesa'></i>" +
                     "</a>" + "</div>";
         },
