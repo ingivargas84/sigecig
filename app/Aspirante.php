@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Aspirante extends Model
 {
+  protected $connection = 'sqlsrv';
   protected $table = 'aspirante';
   protected $primaryKey = 'dpi';
   protected $keyType = 'string';
   public $timestamps = false;
     //
+
+    protected $fillable = [
+      'dpi',
+  ];
+
     public function universidadGraduado() {
       return $this->belongsTo('\App\Universidad', 'universidadGraduado');
     }

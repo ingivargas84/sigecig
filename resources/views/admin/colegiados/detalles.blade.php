@@ -1,0 +1,212 @@
+@extends('admin.layoutadmin')
+
+@section('header')
+    <section class="content-header">
+      <script src="/ea/jquery.min.js"></script>
+
+        <h1>
+          Colegiados
+          <small>Ingresar datos de nuevo colegiado </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
+          <li><a href="{{route('colegiados.index')}}"><i class="fa fa-list"></i> Colegiados</a></li>
+          <li class="active">Crear</li>
+        </ol>
+    </section>
+@endsection
+@section('meta')
+
+
+@push('scripts')
+<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
+<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
+{{-- <script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
+<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> --}}
+<script src="{{asset('/ea/bootstrap.min.js')}}"></script>
+<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
+
+@endpush 
+
+@section('content')
+<form method="POST" id="colegiadosForm" >
+  {{csrf_field()}}
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <legend>Información Personal</legend>
+                        <div class="row">
+                            <div class="col-sm-4">
+                              <label for="dpi">Dpi:</label>
+                              <input id="dpi" onchange="cargarDatos()" autofocus="" placeholder="Dpi" class="form-control" name="dpi" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="nombre">Nombres:</label>
+                              <input id="nombres" class="form-control" placeholder="Nombres" name="nombres" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="apellidos" class="control-label">Apellidos</label>
+                              <input id="apellidos" class="form-control" placeholder="Apellidos" name="apellidos" type="text" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                             <div class='col-sm-2'>
+                              <label for="sexo">Sexo:</label>
+                              <select class="form-control" id="sexo" name="sexo" readonly>
+                                <option value="F">FEMENINO</option>
+                                <option value="M">MASCULINO</option>
+                              </select>                            
+                              </div>
+                              <div class="col-sm-2">
+                                <label for="fechaNacimiento" class="control-label">Fecha Nac.</label>
+                                <input id="fechaNacimiento" class="form-control" name="fechaNacimiento" type="date" readonly>                            
+                              </div>
+                              <div class='col-sm-4'>
+                                <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
+                                <input id="valMunicipioNacimiento" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioNacimiento" type="text" autocomplete="off" readonly>
+                              </div>
+                              <div class='col-sm-4'>
+                                <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
+                                <input id="valDepartamentoNacimiento" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly>
+                              </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class='col-sm-4'>
+                              <label for="valPais" class="control-label">País</label>
+                              <input id="valPais" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
+                              </div>
+                            <div class="col-sm-4">
+                              <label for="valNacionalidad" class="control-label">Nacionalidad</label>
+                              <input id="valNacionalidad" class="form-control ui-autocomplete-input" placeholder="Nacionalidad" name="valNacionalidad" type="text" autocomplete="off"readonly>
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="telefono" class="control-label">Teléfono</label>
+                              <input id="telefono" class="form-control" placeholder="Teléfono" name="telefono" type="text" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-4">
+                              <label for="email" class="control-label">Correo electrónico</label>
+                              <input id="email" class="form-control" placeholder="Correo electrónico" name="email" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="estadoCivil" class="control-label">Estado civil</label>
+                              <select onchange="mostrarConyugue();" id="estadoCivil" class="form-control" name="estadoCivil" readonly>
+                                <option value="C">Casado(a)</option>
+                                <option value="D">Divorciado(a)</option>
+                                <option value="S" selected="selected">Soltero(a)</option>
+                                <option value="U">Unido(a)</option>
+                                <option value="V">Viudo(a)</option>
+                              </select>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="direccion" class="control-label">Dirección</label>
+                              <input id="direccion" class="form-control" placeholder="Dirección" name="direccion" type="text" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-4">
+                              <label for="zona" class="control-label">Zona</label>
+                              <input id="zona" class="form-control" placeholder="Zona" name="zona" type="tel" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="valMunicipio" class="control-label">Municipio</label>
+                              <input id="valMunicipio" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="destino" class="control-label">Destino correo</label>
+                              <select class="form-control" id="destino" name="destino" readonly>
+                                <option value="Casa">Casa</option>
+                                <option value="Oficina">Oficina</option>
+                                <option value="Otros">Otros</option>
+                              </select>
+                            </div>
+                        </div>
+                        <br>
+                        <legend>Trabajo</legend>
+                        <div class="row">
+                            <div class="col-sm-4">
+                              <label for="direccionTrabajo" class="control-label">Dirección Trabajo</label>
+                              <input id="direccionTrabajo" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="zonaTrabajo" class="control-label">Zona</label>
+                              <input id="zonaTrabajo" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="telTrabajo" class="control-label">Tel. Trabajo</label>
+                              <input id="telTrabajo" class="form-control" placeholder="Teléfono" name="telTrabajo" type="tel" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-4">
+                              <label for="valMunicipioTrabajo" class="control-label">Municipio Trabajo</label>
+                              <input id="valMunicipioTrabajo" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioTrabajo" type="text" autocomplete="off" readonly>
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="valDepartamentoTrabajo" class="control-label">Depto. Trab.</label>
+                              <input id="valDepartamentoTrabajo" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoTrabajo" type="text" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <br>
+                        <legend>Datos Académicos</legend>
+                        <div class="row">
+                            <div class="col-sm-2">
+                              <label for="fechaGraduacion" class="control-label">Fecha Graduación</label>
+                              <input id="fechaGraduacion" class="form-control" name="fechaGraduacion" type="date" readonly>
+                            </div>
+                            <div class="col-sm-5">
+                              <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
+                              <input id="valUniversidadGraduado" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadGraduado" type="text" autocomplete="off" readonly>
+                            </div>
+                            <div class="col-sm-5">
+                              <label> Carrera afin </label>   
+                              <input id="ca" name="interests[]" type="checkbox" value="ca" readonly>     
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                              <label for="valUniversidadIncorporado" class="control-label">Universidad incorporado</label>
+                              <input id="valUniversidadIncorporado" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadIncorporado" type="text" autocomplete="off" value="Ninguna o Desconocida" readonly>
+                            </div>
+                            <div class="col-sm-6">
+                              <label for="tituloTesis" class="control-label">Título tesis</label>
+                              <input id="tituloTesis" class="form-control" placeholder="Título de Tesis" name="tituloTesis" type="text" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <legend>Contacto de Emergencia</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                              <label for="nombreContactoEmergencia" class="control-label">Nombre contacto de emergencia</label>
+                              <input id="nombreContactoEmergencia" required="" class="form-control" placeholder="Nombres" name="nombreContactoEmergencia" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="telefonoContactoEmergencia" class="control-label">Teléfono</label>
+                              <input id="telefonoContactoEmergencia" required="" class="form-control" placeholder="Teléfono" name="telefonoContactoEmergencia" type="tel" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-right m-t-15">
+       {{--                     <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
+ <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
+ 
+ {{-- <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> 
+ <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <div class="loader loader-bar"></div>
+
+@endsection
+@push('scripts')
+<script src="{{asset('js/colegiados/aspirante.js')}}"></script>
+@endpush
