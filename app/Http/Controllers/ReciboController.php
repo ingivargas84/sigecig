@@ -271,7 +271,7 @@ class ReciboController extends Controller
                     ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
                 );
                 $result = DB::connection('sqlsrv')->update($query, $parametros);
-               
+
             }
 
             if($totalPrecioTimbre != null){
@@ -298,11 +298,7 @@ class ReciboController extends Controller
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $letras = new NumeroALetras;
-<<<<<<< HEAD
-            // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-=======
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
->>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
             $nit_ = $nit[0];
             $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
@@ -416,11 +412,7 @@ class ReciboController extends Controller
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $nit_ = $id;
             $letras = new NumeroALetras;
-<<<<<<< HEAD
-            // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-=======
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
->>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
@@ -534,11 +526,7 @@ class ReciboController extends Controller
             $nit_ = $nit[0];
 
             $letras = new NumeroALetras;
-<<<<<<< HEAD
-            // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-=======
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
->>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
