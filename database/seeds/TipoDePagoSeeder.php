@@ -541,6 +541,24 @@ class TipoDePagoSeeder extends Seeder
             'estado'=>'0',
             'display_plataforma'=>false, 
         ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'VAR1',
+            'tipo_de_pago'=>'Envío en capital y mpios de Guatemala(Guatex)24hrs',
+            'precio_colegiado'=>'20',
+            'precio_particular'=>'20',
+            'categoria_id'=>'1',
+            'estado'=>'1',
+            'display_plataforma'=>true, 
+        ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'VAR2',
+            'tipo_de_pago'=>'Envío a deptos del país(Guatex) 5 días hábiles',
+            'precio_colegiado'=>'30',
+            'precio_particular'=>'30',
+            'categoria_id'=>'1',
+            'estado'=>'1',
+            'display_plataforma'=>true, 
+        ]);
 
     }
 }

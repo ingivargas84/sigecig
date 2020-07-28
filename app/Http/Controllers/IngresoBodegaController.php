@@ -332,6 +332,7 @@ class IngresoBodegaController extends Controller
     {
         $maestro = $id;
         $fecha = substr($maestro->created_at,0,10);
+        $fecha = date("d/m/Y", strtotime($fecha));
         $bodega = Bodegas::Where('id','=', $maestro->codigo_bodega_id)->get();
 
         $query = "SELECT t.codigo, d.planchas, d.unidad_por_plancha, d.numeracion_inicial, d.numeracion_final, d.cantidad, d.total

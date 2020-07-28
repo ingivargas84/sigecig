@@ -64,8 +64,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
         "render": function( data, type, full, meta ) {
             return (data);},
     },
-
-
+   
     {
         "title": "Puesto",
         "data": "puesto",
@@ -137,7 +136,7 @@ var solicitudes_table = $('#colaboradores-table').DataTable({
                 if(rol_user == 'Super-Administrador' || rol_user == 'Administrador'){
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-colaborador' >" +
+                    "<a href='"+urlActual+"/edit/"+full.id+"' class='edit-colaborador'" + "data-method='post' data-id='"+full.id+"'  data-usuario='"+full.usuario+"'>" +
                     "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                     "</a>" + "</div>"+
                     "<div class='float-right col-lg-4'>" +

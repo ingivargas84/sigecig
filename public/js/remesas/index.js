@@ -80,7 +80,9 @@ var remesas_table = $('#remesas-table').DataTable({
         "width" : "10%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
-            return (data);},
+            var D = data;
+            var nuevaT=D.split(" ")[0].split("-").reverse().join("/");
+            return (nuevaT);},
     },
 
     {
