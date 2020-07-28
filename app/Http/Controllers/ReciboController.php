@@ -52,7 +52,7 @@ class ReciboController extends Controller
         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
         $letras = new NumeroALetras;
-        echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+        $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
         FROM sigecig_recibo_detalle rd
@@ -195,7 +195,16 @@ class ReciboController extends Controller
             $reciboMaestro->usuario = Auth::user()->id;
             $reciboMaestro->monto_total = $totalAPagar;
             $reciboMaestro->save();
-
+            $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
+            if (empty($id_estado_cuenta)) {
+                $cuentaM = \App\EstadoDeCuentaMaestro::create([
+                    'colegiado_id'         =>$colegiado,
+                    'estado_id'            => '1',
+                    'fecha_creacion'       => date('Y-m-d h:i:s'),
+                    'usuario_id'           => '1',
+                ]);
+                $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
+            }
             $array = $request->input("datos");
 
             for ($i = 1; $i < sizeof($array); $i++) {
@@ -206,11 +215,32 @@ class ReciboController extends Controller
                     'precio_unitario'   => substr($array[$i][3],2),
                     'total'             => substr($array[$i][5],2),
                 ]);
+                //agregamos el cobro a el estado de cueta ( cargo)
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                    'cantidad'                      => $array[$i][2],
+                    'tipo_pago_id'                  => $array[$i][0],
+                    'recibo_id'                     => $reciboMaestro->numero_recibo,
+                    'abono'                         => '0',
+                    'cargo'                         => substr($array[$i][5],2),
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
+                //agregamos el pago al estado de cuenta (abono)
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                    'cantidad'                      => $array[$i][2],
+                    'tipo_pago_id'                  => $array[$i][0],
+                    'recibo_id'                     => $reciboMaestro->numero_recibo,
+                    'abono'                         => substr($array[$i][5],2),
+                    'cargo'                         => '0',
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
             }
 
             if ($pagoCheque == 'si') {
                 $banco = Banco::where('id', '=', $banco_id)->get()->first();
-
                 $bdCheque = new ReciboCheque;
                 $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
                 $bdCheque->numero_cheque = $numeroCheque;
@@ -241,6 +271,7 @@ class ReciboController extends Controller
                     ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
                 );
                 $result = DB::connection('sqlsrv')->update($query, $parametros);
+               
             }
 
             if($totalPrecioTimbre != null){
@@ -267,7 +298,11 @@ class ReciboController extends Controller
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $letras = new NumeroALetras;
+<<<<<<< HEAD
             // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+=======
+            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+>>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
             $nit_ = $nit[0];
             $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
@@ -282,9 +317,9 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
-                return response()->json(['success' => 'Exito']);
+                return response()->json(['success' => 'Todo Correcto']);
             } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
+                return response()->json(['success' => 'Exito-No se envio correo']);
             }
 
 
@@ -381,7 +416,11 @@ class ReciboController extends Controller
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $nit_ = $id;
             $letras = new NumeroALetras;
+<<<<<<< HEAD
             // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+=======
+            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+>>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
@@ -495,7 +534,11 @@ class ReciboController extends Controller
             $nit_ = $nit[0];
 
             $letras = new NumeroALetras;
+<<<<<<< HEAD
             // echo $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+=======
+            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+>>>>>>> 340c2677119299907173a60cebc50249c27ab58c
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');

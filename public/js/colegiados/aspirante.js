@@ -87,7 +87,6 @@
       }
   }, "El CUI/DPI ingresado está incorrecto");
 
-
   $.validator.addMethod("dpiunico", function(value, element){
       var valid = false;
       var urlActual = $("input[name='urlActual']").val();
@@ -103,144 +102,162 @@
       });
       return valid;
       }, "El CUI/DPI ya esta registrado en el sistema");
-var validator = $("#formulario").validate({
+
+var validator = $("#colegiadosForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
 		nombres:{
-            required: true,
+      required: true,
         },
-        apellidos:{
-            required: true,
-		},
-		puesto: {
-			required : true
+    apellidos:{
+      required: true,
+	    	},
+    telefono: {
+      required : true,
+      numero : true
         },
-        telefono: {
-            required : true,
-            numero : true
+    dpi: {
+      required : true,
+      dpi : true,
+      dpiunico : true
         },
-        dpi: {
-            required : true,
-            dpi : true,
-            dpiunico : true
-        },
-        valDepartamentoNacimiento: {
+    valDepartamentoNacimiento: {
 			required: true
         },
-        subsede: {
+    fechaNacimiento: {
 			required: true
         },
-        fechaNacimiento: {
+    fechaGraduacion: {
+      required: true
+        },
+    valMunicipioNacimiento: {
 			required: true
         },
-        valMunicipioNacimiento: {
+    valPais: {
 			required: true
         },
-        valPais: {
+    valNacionalidad: {
 			required: true
         },
-        valNacionalidad: {
+    email: {
 			required: true
         },
-        email: {
+    estadoCivil: {
 			required: true
         },
-        estadoCivil: {
+    direccion: {
 			required: true
         },
-        direccion: {
+    zona: {
 			required: true
         },
-        zona: {
+    municipioc: {
 			required: true
         },
-        municipioc: {
+    fechagrad: {
 			required: true
         },
-        fechagrad: {
+    nombreContactoEmergencia: {
 			required: true
         },
-        nombreemergencia: {
+    telefonoContactoEmergencia: {
 			required: true
+	    	},
+    telefono:{
+      required: true,
+      ntelc : true
         },
-        numeroemergencia: {
-			required: true
-		},
-		telefono:{
-            required: true,
-            ntelc : true
+    valMunicipio:{
+      required: true
+      },
+    valUniversidadGraduado:{
+      required: true
+      },
+    telefonotrabajo:{
+      required : true,
+      numero : true
         },
-        telefonotrabajo:{
-            required : true,
-            numero : true
-        },
-        telefonotrabajo:{
-            required: true,
-            ntelc1: true
+    telefonotrabajo:{
+      required: true,
+      ntelc1: true
         }
 	},
 	messages: {
-		nombres: {
+    nombres: {
 			required: "Por favor, ingrese el nombre"
         },
-        apellidos: {
+    apellidos: {
 			required: "Por favor, ingrese el nombre"
-		},
-		puesto: {
-			required: "Por favor, seleccione un puesto"
-        },
-        dpi: {
+	    	},
+    dpi: {
 			required: "Por favor, ingrese un número de CUI/DPI"
-		},
-		valDepartamentoNacimiento: {
+	    	},
+    valDepartamentoNacimiento: {
 			required: "Por favor, seleccione un departamento"
         },
-        sexo: {
+    sexo: {
 			required: "Por favor, seleccione un sexo"
-		},
-		telefono: {
+	    	},
+    telefono: {
 			required: "Por favor, ingrese el teléfono"
         },
-        telefonotrabajo: {
+    telefonotrabajo: {
 			required: "Por favor, ingrese el teléfono"
         },
-        valMunicipioNacimiento: {
+    valMunicipioNacimiento: {
 			required: "Por favor, ingrese un municipio"
         },
-        valPais: {
+    valPais: {
 			required: "Por favor, ingrese un pais"
         },
-        valNacionalidad: {
+    valNacionalidad: {
 			required: "Por favor, ingrese una nacionalidad"
         },
-        email: {
+    email: {
 			required: "Por favor, ingrese un corre electrónico"
         },
-        estadoCivil: {
+    estadoCivil: {
 			required: "Por favor, ingrese el estado civil"
         },
-        direccion: {
+    direccion: {
 			required: "Por favor, ingrese una dirección"
         },
-        zona: {
+    zona: {
 			required: "Por favor, ingrese una zona"
         },
-        municipioc: {
+    municipioc: {
 			required: "Por favor, ingrese un municipio"
         },
-        nombreemergencia: {
-			required: "Por favor, ingrese nombre"
+    valUniversidadGraduado: {
+      required: "Por favor, ingrese una universidad"
         },
-        numeroemergencia: {
-			required: "Por favor, ingrese número"
+    nombreContactoEmergencia: {
+			required: "Por favor, ingrese un nombre"
         },
-        fechagrad: {
+    telefonoContactoEmergencia: {
+			required: "Por favor, ingrese un número"
+        },
+    fechaGraduacion: {
 			required: "Por favor, ingrese fecha"
         },
-        fechaNacimiento: {
+    fechaNacimiento: {
 			required: "Por favor, ingrese la fecha de nacimiento"
+        },
+    valMunicipio: {
+      required: "Por favor, ingrese un municipio"
         }
+	}
+});
+
+
+$("#guardarAspirante").click(function(event) {
+  var url = "/colegiados"; 
+  $(location).attr('href',url);
+	if ($('#colegiadosForm').valid()) {
+		$('.loader').addClass("is-active");
+	} else {
+		validator.focusInvalid();
 	}
 });
 
@@ -443,39 +460,39 @@ function guardarAspiranteF() {
     'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
     'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
     'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
+    //'tipoSangre': $("#tipoSangre").val(),
 
     'idNacionalidad': $("#idNacionalidad").val(),
     'telefono': $("#telefono").val(),
     'telTrabajo': $("#telTrabajo").val(),
     'email': $("#email").val(),
-    'nit': $("#nit").val(),
+    //'nit': $("#nit").val(),
     'estadoCivil': $("#estadoCivil").val(),
 
-    'conyugue': $("#conyugue").val(),
+    //'conyugue': $("#conyugue").val(),
 
     'direccion': $("#direccion").val(),
     'zona': $("#zona").val(),
     'idDepartamentoCasa': $("#idDepartamento").val(),
     'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
+    //'codigoPostal': $("#codigoPostal").val(),
 
     'direccionTrabajo': $("#direccionTrabajo").val(),
     'zonaTrabajo': $("#zonaTrabajo").val(),
     'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
     'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
+    //'lugarTrabajo': $("#lugarTrabajo").val(),
 
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
+    //'direccionOtro': $("#direccionOtro").val(),
+    //'zonaOtro': $("#zonaOtro").val(),
+    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
+    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
     'destino': $("#destino").val(),
 
     'fechaGraduacion': $("#fechaGraduacion").val(),
     'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
     'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
+    //'creditos': $("#creditos").val(),
 
     'tituloTesis': $("#tituloTesis").val(),
     'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
@@ -500,6 +517,8 @@ function guardarAspiranteF() {
               html += item1;
             });
             html += "</li>";
+            alertify.set('notifier','position', 'top-center');
+			    	alertify.success('Colegiado creado con Éxito!!');
             //console.log(item);
             /*html += "<ul>" + item.question;
             $.each(item.answer, function (index1, item1) {

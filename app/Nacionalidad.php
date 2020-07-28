@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pais extends Model
+class Nacionalidad extends Model
 {
   protected $connection = 'sqlsrv';
-  protected $table = 'pais';
-  protected $primaryKey = 'c_pais';
+  protected $table = 'nacionalidades';
+  protected $primaryKey = 'c_nacionalidad';
   public $timestamps = false;
-    //
 }

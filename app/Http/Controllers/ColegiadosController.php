@@ -11,6 +11,13 @@ use App\Http\Controllers\Controller;
 use DB, Image, Mail, Log, Auth, PDF, Date, Hash;
 use Validator;
 use Illuminate\Support\Facades\Input;
+use App\Aspirante;
+use App\Universidad;
+use App\Municipio;
+use App\DepartamentoNac;
+use App\Pais;
+use App\Nacionalidad;
+use App\Sexo;
 
 class ColegiadosController extends Controller
 {
@@ -49,6 +56,24 @@ class ColegiadosController extends Controller
         }
         return view('admin.colegiados.create')->with(['estadosCivil'=> $estadosCivil, 'sexos' => $sexos, 'destinos' => $destinos, 'colegiado' => $colegiado]);
       }
+
+      public function detalles(Aspirante $id)
+    {
+      $query = Aspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $id->universidadGraduado)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $id->universidadIncorporado)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $id->idmunicipionacimiento)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $id->iddepartamentonacimiento)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $id->idPaisNacimiento)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $id->idnacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $id->estadocivil)->get()->first();
+      $sx = Sexo::where('c_sexo', '=', $id->sexo)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
+
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab'));
+    }
       
       public function getDatosAspirante() {
         $aspirante = Input::get('idusuario');
@@ -145,9 +170,9 @@ class ColegiadosController extends Controller
     return json_encode($user);
   }
 
-  protected function setDatosAspirante() {
+  public function setDatosAspirante() {
     DB::beginTransaction();
-     $rules = array(
+    /*  $rules = array(
 //        'idusuario' => 'required|digits:13',
       'idusuario' => 'required',
       'nombres' => 'required',
@@ -186,7 +211,7 @@ class ColegiadosController extends Controller
       return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
     }
     Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado al aspirante " . print_r(Input::all(), true));
-
+ */
     $user = \App\Aspirante::find(Input::get('idusuario'));
     if($user == null) {
       $user = new \App\Aspirante;
@@ -201,39 +226,39 @@ class ColegiadosController extends Controller
     $user->idmunicipionacimiento = Input::get('idMunicipioNacimiento');
     $user->iddepartamentonacimiento = Input::get('idDepartamentoNacimiento');
     $user->idPaisNacimiento = Input::get('idPaisNacimiento');
-    $user->tiposangre = Input::get('tipoSangre');
+    //$user->tiposangre = Input::get('tipoSangre');
 
     $user->idnacionalidad = Input::get('idNacionalidad');
     $user->telefono = Input::get('telefono');
     $user->telefonotrabajo = Input::get('telTrabajo');
     $user->correo = Input::get('email');
-    $user->nit = Input::get('nit');
+    //$user->nit = Input::get('nit');
     $user->estadocivil = Input::get('estadoCivil');
 
-    $user->conyugue = Input::get('conyugue');
+   // $user->conyugue = Input::get('conyugue');
 
     $user->direccioncasa = Input::get('direccion');
     $user->zona = Input::get('zona');
     $user->idmunicipiocasa = Input::get('idMunicipioCasa');
     $user->iddepartamentocasa = Input::get('idDepartamentoCasa');
-    $user->codigopostal = Input::get('codigoPostal');
+    //$user->codigopostal = Input::get('codigoPostal');
 
     $user->direcciontrabajo = Input::get('direccionTrabajo');
     $user->zonatrabajo = Input::get('zonaTrabajo');
     $user->iddepartamentotrabajo = Input::get('idDepartamentoTrabajo');
     $user->idmunicipiotrabajo = Input::get('idMunicipioTrabajo');
-    $user->lugar = Input::get('lugarTrabajo');
+   // $user->lugar = Input::get('lugarTrabajo');
 
-    $user->direccionotro = Input::get('direccionOtro');
-    $user->zonaotro = Input::get('zonaOtro');
-    $user->iddepartamentootro = Input::get('idDepartamentoOtro');
-    $user->idmunicipiootro = Input::get('idMunicipioOtro');
+   // $user->direccionotro = Input::get('direccionOtro');
+   // $user->zonaotro = Input::get('zonaOtro');
+  //  $user->iddepartamentootro = Input::get('idDepartamentoOtro');
+   // $user->idmunicipiootro = Input::get('idMunicipioOtro');
     $user->destinocorreo = Input::get('destino');
 
     $user->fechagraduacion = Input::get('fechaGraduacion');
     $user->universidadgraduado = Input::get('idUniversidadGraduado');
     $user->universidadincorporado = Input::get('idUniversidadIncorporado');
-    $user->creditos = Input::get('creditos');
+    //$user->creditos = Input::get('creditos');
 
     $user->titulotesis = Input::get('tituloTesis');
     $user->telefonocontactoemergencia = Input::get('telefonoContactoEmergencia');
@@ -242,16 +267,16 @@ class ColegiadosController extends Controller
 
     $user->save();
     DB::commit();
-    return json_encode(array('error' => 0, 'mensaje' => 'Aspirante guardado correctamente'));
+    return redirect()->route('colegiados.index')->withFlash('Colegiado se creo exitosamente!');
   }
 
     public function getJson(Request $params)
      {
-        $query = "SELECT B.id, B.nombre_bodega, B.descripcion, B.estado
-        FROM sigecig_bodega B
-        WHERE B.estado != 0";
+        $query = "SELECT dpi, nombre, carrera_afin
+        FROM aspirante 
+        ";
 
-        $api_Result['data'] = DB::select($query);
+        $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
      }
 }

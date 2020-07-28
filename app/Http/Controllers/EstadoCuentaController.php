@@ -27,13 +27,16 @@ class EstadoCuentaController extends Controller
     public function index(){
         $user = Auth::User();
 
+        ///////////////////////////
+
+        //////////////////////////
+
 
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
 
     public function getJson()
     {
-        //$query=EstadoDeCuentaMaestro::all()->toArray();
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
         $List = implode(', ', $cuenta); 
 
@@ -43,6 +46,7 @@ class EstadoCuentaController extends Controller
         ORDER BY cliente asc;";
         $result = DB::connection('sqlsrv')->select($query);
         $array=[];
+        //verificamos el estado del colegiado (Activo o Inactivo)
         foreach ($result as $key => $value) {
             $timbrepagado = Carbon::parse($value->f_ult_timbre);
             $mespagado = Carbon::parse($value->f_ult_pago);
@@ -50,18 +54,23 @@ class EstadoCuentaController extends Controller
             $diffmes = $mespagado->diffInMonths($now, false);
             $difftimbre = $timbrepagado->diffInMonths($now,false);
             if ($diffmes <= 3 || $difftimbre <= 3 ) {
-               $value->estado='ACTIVO';
+               $value->estado='Activo';
                $array[]= $value;
             }else{
-               $value->estado='INACTIVO';
+               $value->estado='Inactivo';
                $array[]= $value;
             }
         }
         $result= $array;
         $array=[];
+
         foreach ($result as $key => $value) {
             $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
+            $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('abono');
+            $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('cargo');
+            $total = $cargo-$abono;
             $value->id=$id->id;
+            $value->registro= number_format($total, 2, '.', ' ');
             $array[]= $value;
         }
         $api_Result['data'] = $array;

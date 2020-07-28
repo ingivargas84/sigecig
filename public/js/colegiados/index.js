@@ -48,24 +48,24 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "columns": [ 
         {
             "title": "No. Colegiado",
-            "data": "id",
-            "width" : "10%",
+            "data": "dpi",
+            "width" : "5%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
             "title": "Nombre",
-            "data": "nombre_bodega",
-            "width" : "40%",
+            "data": "nombre",
+            "width" : "35%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
             "title": "Carrera",
-            "data": "descripcion",
-            "width" : "20%",
+            "data": "carrera_afin",
+            "width" : "25%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -73,7 +73,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
         {
             "title": "Estado",
             "data": "descripcion",
-            "width" : "20%",
+            "width" : "15%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -81,29 +81,32 @@ var colegiados_table = $('#colegiados-table').DataTable({
     {
         "title": "Acciones",
         "orderable": false,
-        "width" : "10%",
+        "width" : "20%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
 
-            if(full.estado == 1){
-                return "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-bodegas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_bodega='" + full.nombre_bodega + "' data-descripcion='"+full.descripcion+"'>" +
-                "<i class='fa fa-btn fa-edit' title='Editar Bodega'></i>" +
-                "</a>" + "</div>" +
-                "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-right col-lg-4'>" +
-                "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
-                "<i class='fa fa-trash' title='Eliminar Bodega'></i>" +
-                "</a>" + "</div>";
-                }else{
                     return "<div id='" + full.id + "' class='text-center'>" +
-                    "<div class='float-right col-lg-6'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/activar' class='activar-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
-                    "<i class='fa fa-thumbs-up' title='Activar Caja'></i>" +
-                    "</a>" + "</div>" 
-                }
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
+                    "<i class='fa fa-info-circle' title='Detalles'></i>" +
+                    "</a>" + "</div>" +
+                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                    "</a>" + "</div>" +
+                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-info' title='Información de Timbres'></i>" +
+                    "</a>" + "</div>" +
+                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
+                    "</a>" + "</div>"
+                
         },
         "responsivePriority": 1
     }]
