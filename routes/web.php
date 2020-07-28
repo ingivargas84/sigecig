@@ -202,6 +202,7 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
