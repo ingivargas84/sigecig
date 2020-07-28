@@ -207,7 +207,7 @@ class ReciboController extends Controller
 
             if($mesesASumar != null){
                 $valMesesASumar = $mesesASumar / 115.75;
-                $fechaPagoColegio = new Carbon($fechaPagoColegio);dd($fechaPagoColegio);
+                $fechaPagoColegio = new Carbon($fechaPagoColegio);
                 $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($valMesesASumar+1)->subSeconds(1)->toDateTimeString();
                 $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
                 $query = "UPDATE cc00 SET f_ult_pago = :nuevaFecha WHERE c_cliente = :colegiado";
@@ -215,7 +215,7 @@ class ReciboController extends Controller
                     ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
                 );
                 $result = DB::connection('sqlsrv')->update($query, $parametros);
-                dd($fechaPagoColegio);
+               
             }
 
             if($totalPrecioTimbre != null){
