@@ -159,13 +159,25 @@ class ReciboController extends Controller
                     'precio_unitario'   => substr($array[$i][3],2),
                     'total'             => substr($array[$i][5],2),
                 ]);
+                //agregamos el cobro a el estado de cueta ( cargo)
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                    'cantidad'                      => $array[$i][2],
+                    'tipo_pago_id'                  => $array[$i][0],
+                    'recibo_id'                     => $reciboMaestro->numero_recibo,
+                    'abono'                         => '0',
+                    'cargo'                         => substr($array[$i][5],2),
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
+                //agregamos el pago al estado de cuenta (abono)
                 $cuentaD = \App\EstadoDeCuentaDetalle::create([
                     'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
                     'cantidad'                      => $array[$i][2],
                     'tipo_pago_id'                  => $array[$i][0],
                     'recibo_id'                     => $reciboMaestro->numero_recibo,
                     'abono'                         => substr($array[$i][5],2),
-                    'cargo'                         => substr($array[$i][5],2),
+                    'cargo'                         => '0',
                     'usuario_id'                    => '1',
                     'estado_id'                     => '1',
                 ]);
@@ -195,7 +207,7 @@ class ReciboController extends Controller
 
             if($mesesASumar != null){
                 $valMesesASumar = $mesesASumar / 115.75;
-                $fechaPagoColegio = new Carbon($fechaPagoColegio);
+                $fechaPagoColegio = new Carbon($fechaPagoColegio);dd($fechaPagoColegio);
                 $nuevaFecha = $fechaPagoColegio->startofMonth()->addMonths($valMesesASumar+1)->subSeconds(1)->toDateTimeString();
                 $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
                 $query = "UPDATE cc00 SET f_ult_pago = :nuevaFecha WHERE c_cliente = :colegiado";
@@ -203,6 +215,7 @@ class ReciboController extends Controller
                     ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
                 );
                 $result = DB::connection('sqlsrv')->update($query, $parametros);
+                dd($fechaPagoColegio);
             }
 
             if($totalPrecioTimbre != null){

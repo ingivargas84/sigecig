@@ -7,8 +7,9 @@
     </center>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Estado de Cuenta Detallado</li>
+      <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
+      <li><a href="{{route('estadocuenta.index')}}"><i class="fa fa-list"></i> Estados de Cuenta </a></li>
+      <li class="active">Detalle</li>
     </ol>
   </section>
 
