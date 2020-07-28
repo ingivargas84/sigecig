@@ -139,7 +139,16 @@ class ReciboController extends Controller
             $reciboMaestro->usuario = Auth::user()->id;
             $reciboMaestro->monto_total = $totalAPagar;
             $reciboMaestro->save();
-
+            $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
+            if (empty($id_estado_cuenta)) {
+                $cuentaM = \App\EstadoDeCuentaMaestro::create([
+                    'colegiado_id'         =>$colegiado,
+                    'estado_id'            => '1',
+                    'fecha_creacion'       => date('Y-m-d h:i:s'),
+                    'usuario_id'           => '1',
+                ]);
+                $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
+            }
             $array = $request->input("datos");
 
             for ($i = 1; $i < sizeof($array); $i++) {
@@ -150,11 +159,32 @@ class ReciboController extends Controller
                     'precio_unitario'   => substr($array[$i][3],2),
                     'total'             => substr($array[$i][5],2),
                 ]);
+                //agregamos el cobro a el estado de cueta ( cargo)
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                    'cantidad'                      => $array[$i][2],
+                    'tipo_pago_id'                  => $array[$i][0],
+                    'recibo_id'                     => $reciboMaestro->numero_recibo,
+                    'abono'                         => '0',
+                    'cargo'                         => substr($array[$i][5],2),
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
+                //agregamos el pago al estado de cuenta (abono)
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                    'cantidad'                      => $array[$i][2],
+                    'tipo_pago_id'                  => $array[$i][0],
+                    'recibo_id'                     => $reciboMaestro->numero_recibo,
+                    'abono'                         => substr($array[$i][5],2),
+                    'cargo'                         => '0',
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
             }
 
             if ($pagoCheque == 'si') {
                 $banco = Banco::where('id', '=', $banco_id)->get()->first();
-
                 $bdCheque = new ReciboCheque;
                 $bdCheque->numero_recibo = $reciboMaestro->numero_recibo;
                 $bdCheque->numero_cheque = $numeroCheque;
@@ -185,6 +215,7 @@ class ReciboController extends Controller
                     ':nuevaFecha' => $nuevaFecha, ':colegiado' => $colegiado
                 );
                 $result = DB::connection('sqlsrv')->update($query, $parametros);
+               
             }
 
             if($totalPrecioTimbre != null){
@@ -224,9 +255,9 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
                 Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
-                return response()->json(['success' => 'Exito']);
+                return response()->json(['success' => 'Todo Correcto']);
             } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
+                return response()->json(['success' => 'Exito-No se envio correo']);
             }
 
 
