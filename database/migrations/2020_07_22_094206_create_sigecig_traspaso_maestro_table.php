@@ -18,6 +18,7 @@ class CreateSigecigTraspasoMaestroTable extends Migration
             $table->integer('bodega_origen_id');
             $table->integer('bodega_destino_id');
             $table->bigInteger('cantidad_de_timbres');
+            $table->bigInteger('total_en_timbres');
             $table->timestamp('fecha_ingreso');
             $table->integer('usuario_id');
             $table->timestamps();

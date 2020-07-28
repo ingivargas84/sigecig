@@ -106,7 +106,7 @@ var traspasos_table = $('#traspasos-table').DataTable({
         "width" : "10%",
         "responsivePriority": 4,
         "render": function( data, type, full, meta ) {
-            return('Q.'+data.toFixed(2));},
+            return(data);},
     },
 
     {
