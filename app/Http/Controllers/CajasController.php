@@ -50,7 +50,8 @@ class CajasController extends Controller
         FROM sigecig_users U
         INNER JOIN model_has_roles MR ON MR.model_id = U.id
         WHERE MR.role_id = '18'
-        AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)";
+        AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)
+        AND U.estado = 1";
          
         $datos = DB::select($query);
 

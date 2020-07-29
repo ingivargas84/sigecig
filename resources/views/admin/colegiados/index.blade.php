@@ -16,9 +16,7 @@
 
   @section('content')
   @include('admin.users.confirmarAccionModal')
-  @include('admin.bodegas.createModal')
-  @include('admin.bodegas.editModal') 
-  @include('admin.bodegas.createModal')
+  @include('admin.colegiados.profesionModal')
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">

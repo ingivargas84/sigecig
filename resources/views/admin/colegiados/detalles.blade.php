@@ -89,15 +89,7 @@
                             </div>
                             <div class="col-sm-4">
                               <label for="estadoCivil" class="control-label">Estado civil</label>
-                              <input id="estadoCivil" value="{{$ecivil->n_civil}}" class="form-control" placeholder="Estado civil" name="estadoCivil" type="text" readonly>                            
-{{-- 
-                              <select onchange="mostrarConyugue();" id="estadoCivil" class="form-control" name="estadoCivil" readonly>
-                                <option value="C">Casado(a)</option>
-                                <option value="D">Divorciado(a)</option>
-                                <option value="S" selected="selected">Soltero(a)</option>
-                                <option value="U">Unido(a)</option>
-                                <option value="V">Viudo(a)</option>
-                              </select>             --}}                
+                              <input id="estadoCivil" value="{{$ecivil->n_civil}}" class="form-control" placeholder="Estado civil" name="estadoCivil" type="text" readonly>                                  
                             </div>
                             <div class="col-sm-4">
                               <label for="direccion" class="control-label">Dirección</label>
@@ -186,7 +178,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="text-right m-t-15">
+                      <div class="text-right m-t-15">
          {{--                <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
  <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
  
