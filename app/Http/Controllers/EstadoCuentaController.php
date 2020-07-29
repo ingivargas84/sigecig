@@ -38,7 +38,7 @@ class EstadoCuentaController extends Controller
     public function getJson()
     {
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
-        $List = implode(', ', $cuenta); 
+        $List = implode(', ', $cuenta);
 
         $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
         FROM cc00 U
@@ -80,8 +80,8 @@ class EstadoCuentaController extends Controller
         $user = Auth::User();
         $no_colegiado=EstadoDeCuentaMaestro::select('colegiado_id')->where('id',$id)->get()->first();
         $colegiado=\App\SQLSRV_Colegiado::select('n_cliente','c_cliente')->where('c_cliente',$no_colegiado->colegiado_id)->get()->first();
-        
-   
+
+
 
         return view ('admin.estadoCuenta.cuentadetalle',compact('user','id','colegiado'));
     }
@@ -94,7 +94,7 @@ class EstadoCuentaController extends Controller
         WHERE U.estado_cuenta_maestro_id = $id
         ORDER BY U.id DESC";
 
-       
+
         $result = DB::select($query);
 
         $api_Result['data'] = $result;

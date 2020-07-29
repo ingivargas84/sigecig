@@ -76,8 +76,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                }, 
-                
+                },
+
                     {
                         "title": "Nombre",
                         "data": "n_cliente",
@@ -85,7 +85,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
                             return (data);},
-                        }, 
+                        },
 
                         {
                             "title": "Estado",
@@ -94,7 +94,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
-                            }, 
+                            },
                             {
                                 "title": "Saldo",
                                 "data": "registro",
@@ -102,20 +102,20 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                 "responsivePriority": 2,
                                 "render": function( data, type, full, meta ) {
                                     if(data <= 0){
-                                        return "<div class='text-right' >" + 
+                                        return "<div class='text-right' >" +
                                         "<div class='float-left col-lg-4'>Q." + "</div>" +
                                         "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
                                         "</div>";
                                     }
                                       else{
-                                        return "<div class='text-right' >" + 
+                                        return "<div class='text-right' >" +
                                         "<div class='float-left col-lg-4'>Q." + "</div>" +
                                         "<div class='float-right col-lg-6' style='color:red; float:right;'>" + (data)+
                                         "</div>";
                                       }
                                 },
-                                }, 
-                       
+                                },
+
 
                             {
                                 "title": "Acciones",
@@ -126,20 +126,20 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-       
-                return "<div id='" + full.id + "' class='text-center'>" + 
+
+                return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
                 "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
+                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
-                "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
-                "</a>" + "</div>" 
+                "<a href='/resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
+                "<i class='fa fa-indent' title='Cardex XYZ'></i>" +
+                "</a>" + "</div>"
 
-        
 
-  
+
+
         },
         "responsivePriority": 4
     }
@@ -154,4 +154,4 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
 
-    
+

@@ -125,7 +125,7 @@ Route::group([
         Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-        Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('/resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
@@ -203,6 +203,7 @@ Route::group([
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
+        Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');

@@ -200,6 +200,13 @@
                     </div>
                     <br>
                 </div>
+                <div class="row" id="divExistencia">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existencia" id="existencia" class="form-control" style="display:none;">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalle">
                         <table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
@@ -461,6 +468,13 @@
                         </div>
                     </div>
                     <br>
+                </div>
+                <div class="row" id="divExistenciaE">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existenciaE" id="existenciaE" class="form-control" style="display:none;">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalleE">
@@ -726,6 +740,13 @@
                         </div>
                     </div>
                     <br>
+                </div>
+                <div class="row" id="divExistenciaP">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existenciaP" id="existenciaP" class="form-control" style="display:none;">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalleP">
