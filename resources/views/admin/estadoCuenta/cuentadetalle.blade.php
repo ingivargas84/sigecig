@@ -16,16 +16,19 @@
   @section('content')
 
 
-<div class="box-header">
+  <div class="box-header">
 
-</div>
-  <!-- /.box-header -->
-
-  <!-- /.box-body -->
-  <div>
-      <label for="">Tipo de pago</label><input type="text">
   </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <input type="hidden" name="rol_user" value="{{$user->roles[0]->name}}">
+      <table id="resolucion-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">            
+      </table>
+      <input type="hidden" name="urlActual" value="{{url()->current()}}">
+  </div>
+  <!-- /.box-body -->
   <div class="loader loader-bar is-active" style="display: none "></div>
+</div>
 <!-- /.box --> 
 
 @endsection
@@ -36,6 +39,11 @@
 @endpush
 
 @push('scripts')
-
+  <script>
+    $(document).ready(function() {
+        resolucion_table.ajax.url("{{route('estadocuenta.getdetalle',$id)}}").load();       
+    });
+</script>
+  <script src="{{asset('js/estadocuenta/detalle.js')}}"></script>
   @endpush
 @stop

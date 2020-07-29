@@ -1,5 +1,5 @@
 var resolucion_table = $('#resolucion-table').DataTable({
-    "ajax": "/estadocuenta/getJson",
+    "ajax": "/estadocuenta/getDetalle/$id",
     "responsive": true,
     "retrieve": true,
     "processing": true,
@@ -60,7 +60,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
         {
             "visible": false,
             "title": "id",
-            "data": "id",
+            "data": "estado_cuenta_maestro_id",
             "width" : "0%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -70,8 +70,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
             {
-                "title": "Colegiado",
-                "data": "cliente",
+                "title": "Cantidad",
+                "data": "cantidad",
                 "width" : "10%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
@@ -79,42 +79,52 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 }, 
                 
                     {
-                        "title": "Nombre",
-                        "data": "n_cliente",
-                        "width" : "40%",
+                        "title": "Tipo de Pago",
+                        "data": "tipo_de_pago",
+                        "width" : "20%",
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
                             return (data);},
                         }, 
 
                         {
-                            "title": "Estado",
-                            "data": "estado",
+                            "title": "No recibo",
+                            "data": "recibo_id",
                             "width" : "10%",
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
                             }, 
                             {
-                                "title": "Saldo",
-                                "data": "registro",
-                                "width" : "15%",
+                                "title": "Cargos",
+                                "data": "cargo",
+                                "width" : "10%",
                                 "responsivePriority": 2,
                                 "render": function( data, type, full, meta ) {
-                                    if(data <= 0){
+                           
                                         return "<div class='text-right' >" + 
                                         "<div class='float-left col-lg-4'>Q." + "</div>" +
                                         "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
                                         "</div>";
-                                    }
-                                      else{
-                                        return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-4'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-6' style='color:red; float:right;'>" + (data)+
-                                        "</div>";
-                                      }
+                                    
+                           
                                 },
                                 }, 
+                                {
+                                    "title": "Abonos",
+                                    "data": "abono",
+                                    "width" : "10%",
+                                    "responsivePriority": 2,
+                                    "render": function( data, type, full, meta ) {
+                                      
+                                            return "<div class='text-right' >" + 
+                                            "<div class='float-left col-lg-4'>Q." + "</div>" +
+                                            "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
+                                            "</div>";
+                                        
+                                   
+                                    },
+                                    }, 
                        
 
                             {
@@ -128,14 +138,10 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
        
                 return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left col-lg-4'>" +
-                "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
+                "<div class='float-center'>" +
+                "<a href='/estadocuenta/detallado/"+full.id+ " 'target=''>" +
                 "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
-                "</a>" + "</div>" +
-                "<div class='float-right col-lg-4'>" +
-                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
-                "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
-                "</a>" + "</div>" 
+                "</a>" + "</div>"
 
         
 
@@ -146,8 +152,6 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
                             ]
 });
-
-
 
 
 

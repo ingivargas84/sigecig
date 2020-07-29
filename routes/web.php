@@ -202,6 +202,7 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
@@ -290,6 +291,8 @@ Route::group([
     Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
     Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
     Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+    Route::get('/estadocuenta/getDetalle/{id}','EstadoCuentaController@getDetalle')->name('estadocuenta.getdetalle');
+
 
 
     // Password Reset Routes...
