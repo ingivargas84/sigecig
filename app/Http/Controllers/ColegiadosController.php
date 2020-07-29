@@ -12,6 +12,12 @@ use DB, Image, Mail, Log, Auth, PDF, Date, Hash;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use App\Aspirante;
+use App\Universidad;
+use App\Municipio;
+use App\DepartamentoNac;
+use App\Pais;
+use App\Nacionalidad;
+use App\Sexo;
 
 class ColegiadosController extends Controller
 {
@@ -51,9 +57,22 @@ class ColegiadosController extends Controller
         return view('admin.colegiados.create')->with(['estadosCivil'=> $estadosCivil, 'sexos' => $sexos, 'destinos' => $destinos, 'colegiado' => $colegiado]);
       }
 
-      public function detalles(Aspirante $dpi)
+      public function detalles(Aspirante $id)
     {
-        return view ('admin.colegiados.detalles');
+      $query = Aspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $id->universidadGraduado)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $id->universidadIncorporado)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $id->idmunicipionacimiento)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $id->iddepartamentonacimiento)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $id->idPaisNacimiento)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $id->idnacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $id->estadocivil)->get()->first();
+      $sx = Sexo::where('c_sexo', '=', $id->sexo)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
+
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab'));
     }
       
       public function getDatosAspirante() {
@@ -253,7 +272,7 @@ class ColegiadosController extends Controller
 
     public function getJson(Request $params)
      {
-        $query = "SELECT nombre, carrera_afin
+        $query = "SELECT dpi, nombre, carrera_afin
         FROM aspirante 
         ";
 

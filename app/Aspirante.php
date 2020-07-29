@@ -15,6 +15,9 @@ class Aspirante extends Model
 
     protected $fillable = [
       'dpi',
+      'creditos',
+      'valMunicipioNacimiento',
+      'valDepartamentoNacimiento',
   ];
 
     public function universidadGraduado() {

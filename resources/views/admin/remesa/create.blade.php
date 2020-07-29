@@ -24,7 +24,7 @@
                             <div class="col-md-8">
                                 <label for="bodega">Bodega:</label>
                                 <select name="bodega" class="form-control" id="bodega">
-                                    <option value="">-- Escoja la Categoría --</option>
+                                    <option value="">-- Escoja la Bodega --</option>
                                     @foreach ($bodega as $bo)
                                         <option value="{{ $bo->id }}">{{ $bo->nombre_bodega }}</option>
                                     @endforeach

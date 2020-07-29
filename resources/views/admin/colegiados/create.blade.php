@@ -77,10 +77,12 @@ $(document).ready(function(){
                               <div class='col-sm-4'>
                                 <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
                                 <input id="valMunicipioNacimiento" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioNacimiento" type="text" autocomplete="off">
+                                <input type="hidden" id="idMunicipioNacimiento" name="idMunicipioNacimiento">
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
                                 <input id="valDepartamentoNacimiento" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on">
+                                <input type="hidden" id="idDepartamentoNacimiento" name="idDepartamentoNacimiento">
                               </div>
                         </div>
                         <br>
@@ -88,10 +90,12 @@ $(document).ready(function(){
                             <div class='col-sm-4'>
                               <label for="valPais" class="control-label">País</label>
                               <input id="valPais" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on">
-                              </div>
+                              <input type="hidden" id="idPais" name="idPais">
+                            </div>
                             <div class="col-sm-4">
                               <label for="valNacionalidad" class="control-label">Nacionalidad</label>
                               <input id="valNacionalidad" class="form-control ui-autocomplete-input" placeholder="Nacionalidad" name="valNacionalidad" type="text" autocomplete="off">
+                              <input type="hidden" id="idNacionalidad" name="idNacionalidad">
                             </div>
                             <div class="col-sm-4">
                               <label for="telefono" class="control-label">Teléfono</label>
@@ -126,8 +130,9 @@ $(document).ready(function(){
                               <input id="zona" class="form-control" placeholder="Zona" name="zona" type="tel">                            
                             </div>
                             <div class="col-sm-4">
-                              <label for="valMunicipio" class="control-label">Municipio</label>
+                              <label for="valMunicipio" class="control-label">Municipio Casa</label>
                               <input id="valMunicipio" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off">
+                              <input type="hidden" id="idMunicipio" name="idMunicipio">
                             </div>
                             <div class="col-sm-4">
                               <label for="destino" class="control-label">Destino correo</label>
@@ -159,10 +164,12 @@ $(document).ready(function(){
                             <div class="col-sm-4">
                               <label for="valMunicipioTrabajo" class="control-label">Municipio Trabajo</label>
                               <input id="valMunicipioTrabajo" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioTrabajo" type="text" autocomplete="off">
+                              <input type="hidden" id="idMunicipioTrabajo" name="idMunicipioTrabajo">
                             </div>
                             <div class="col-sm-4">
                               <label for="valDepartamentoTrabajo" class="control-label">Depto. Trab.</label>
                               <input id="valDepartamentoTrabajo" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoTrabajo" type="text" autocomplete="off">
+                              <input type="hidden" id="idDepartamentoTrabajo" name="idDepartamentoTrabajo">
                             </div>
                         </div>
                         <br>
@@ -175,6 +182,7 @@ $(document).ready(function(){
                             <div class="col-sm-5">
                               <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
                               <input id="valUniversidadGraduado" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadGraduado" type="text" autocomplete="off">
+                              <input type="hidden" id="idUniversidadGraduado" name="idUniversidadGraduado">
                             </div>
                             <div class="col-sm-5">
                               <label> Carrera afin </label>   
@@ -186,6 +194,7 @@ $(document).ready(function(){
                             <div class="col-sm-6">
                               <label for="valUniversidadIncorporado" class="control-label">Universidad incorporado</label>
                               <input id="valUniversidadIncorporado" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadIncorporado" type="text" autocomplete="off" value="Ninguna o Desconocida">
+                              <input type="hidden" id="idUniversidadIncorporado" name="idUniversidadIncorporado">
                             </div>
                             <div class="col-sm-6">
                               <label for="tituloTesis" class="control-label">Título tesis</label>

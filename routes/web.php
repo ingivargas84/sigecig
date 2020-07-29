@@ -202,6 +202,7 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
@@ -234,7 +235,7 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
         Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
-        Route::get( 'Aspirante/{dpi}/detalles', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        Route::get( 'colegiados/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
 
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');

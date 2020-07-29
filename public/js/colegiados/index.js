@@ -48,7 +48,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "columns": [ 
         {
             "title": "No. Colegiado",
-            "data": "id",
+            "data": "dpi",
             "width" : "5%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -88,7 +88,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
 
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/detalles' class='activar-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
                     "<i class='fa fa-info-circle' title='Detalles'></i>" +
                     "</a>" + "</div>" +
                     "<div id='" + full.id + "' class='text-center'>" +
