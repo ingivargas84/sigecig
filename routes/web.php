@@ -290,6 +290,8 @@ Route::group([
     Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
     Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
     Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+    Route::get('/estadocuenta/getDetalle/{id}','EstadoCuentaController@getDetalle')->name('estadocuenta.getdetalle');
+
 
 
     // Password Reset Routes...
