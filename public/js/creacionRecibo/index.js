@@ -208,6 +208,7 @@ function getTc01(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -267,6 +268,7 @@ function getTc05(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -326,6 +328,7 @@ function getTc10(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -385,6 +388,7 @@ function getTc20(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -444,6 +448,7 @@ function getTc50(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -503,6 +508,7 @@ function getTc100(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -562,6 +568,7 @@ function getTc200(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -621,6 +628,7 @@ function getTc500(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
