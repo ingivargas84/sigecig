@@ -293,6 +293,9 @@ Route::group([
     Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
     Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
     Route::get('/estadocuenta/getDetalle/{id}','EstadoCuentaController@getDetalle')->name('estadocuenta.getdetalle');
+    Route::get('/estadocuenta/xyz/{id}','EstadoCuentaController@xyz')->name('estadocuenta.xyz');
+    Route::get('/estadocuenta/getxyz/{id}','EstadoCuentaController@getXyz')->name('estadocuenta.getxyz');
+
 
 
 

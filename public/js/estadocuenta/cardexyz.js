@@ -1,5 +1,5 @@
 var resolucion_table = $('#resolucion-table').DataTable({
-    "ajax": "/estadocuenta/getDetalle/$id",
+    "ajax": "/estadocuenta/getxyz/$id",
     "responsive": true,
     "retrieve": true,
     "processing": true,
@@ -51,7 +51,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
     "columns": [ {
         "visible": false,
         "title": "No.",
-        "data": "id",
+        "data": "c_cliente",
         "width" : "0%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
@@ -60,7 +60,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
         {
             "visible": false,
             "title": "id",
-            "data": "estado_cuenta_maestro_id",
+            "data": "c_cliente",
             "width" : "0%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -71,24 +71,28 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
             {
                 "title": "Tipo de Pago",
-                "data": "tipo_de_pago",
-                "width" : "20%",
+                "data": "descripcion",
+                "width" : "15%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                },
+                }, 
+                
+                {
+                    "title": "Cantidad",
+                    "data": "cantidad",
+                    "width" : "7%",
+                    "responsivePriority": 1,
+                    "render": function( data, type, full, meta ) {
+                        return "<div class='text-right' >" + 
+                                "<div class='float-left col-lg-1'>Q." + "</div>" +
+                                "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
+                                "</div>";},
+                    },
 
-                    {
-                        "title": "Cantidad",
-                        "data": "cantidad",
-                        "width" : "5%",
-                        "responsivePriority": 1,
-                        "render": function( data, type, full, meta ) {
-                            return (data);},
-                        }, 
                         {
                             "title": "Precio",
-                            "data": "precio_colegiado",
+                            "data": "precio_u",
                             "width" : "7%",
                             "responsivePriority": 1,
                             "render": function( data, type, full, meta ) {
@@ -97,49 +101,28 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
                                         "</div>";},
                             },
-
-                        {
-                            "visible": false,
-                            "title": "No recibo",
-                            "data": "recibo_id",
-                            "width" : "10%",
-                            "responsivePriority": 2,
-                            "render": function( data, type, full, meta ) {
-                                return (data);},
-                            },
                             {
-                                "title": "Cargos",
-                                "data": "cargo",
+                                "title": "Total",
+                                "data": "importe",
                                 "width" : "7%",
-                                "responsivePriority": 2,
+                                "responsivePriority": 1,
                                 "render": function( data, type, full, meta ) {
-                                    if(data!=0){
-                                        return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-1'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
-                                        "</div>";}else{
-                                            return  "";
-                                        }
-                                    
-                           
-                                },},
-                                {
-                                    "title": "Abonos",
-                                    "data": "abono",
-                                    "width" : "7%",
-                                    "responsivePriority": 2,
-                                    "render": function( data, type, full, meta ) {
-                                      if(data!=0){
-                                            return "<div class='text-right' >" + 
+                                    return "<div class='text-right' >" + 
                                             "<div class='float-left col-lg-1'>Q." + "</div>" +
                                             "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
-                                            "</div>";}else{
-                                                return "";
-                                            }
-                                        
+                                            "</div>";},
+                                },
+                                {
+                                    "title": "No. Factura",
+                                    "data": "num_fac",
+                                    "width" : "5%",
+                                    "responsivePriority": 2,
+                                    "render": function( data, type, full, meta ) {
+                                        return (data);},
+                                    }, 
                                    
-                                    },},
-
+                           
+                       
 
                             {
                                 "title": "Acciones",
@@ -150,26 +133,19 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-
-                return "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-center'>" +
-                "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target='blanck'>" +
-                "<i class='fa fa-print' title='Ver Detalles'></i>" +
+       
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-left '>" +
+                "<a id='enviar' href='#"+full.id+"/'  class='enviar' >" +
+                "<i class='fa fa-print' title='Imprimir'></i>" + 
                 "</a>" + "</div>"
 
+        
 
-
-
+  
         },
         "responsivePriority": 4
     }
 
                             ]
 });
-
-
-
-
-
-
-
