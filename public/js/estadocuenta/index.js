@@ -98,21 +98,14 @@ var resolucion_table = $('#resolucion-table').DataTable({
                             {
                                 "title": "Saldo",
                                 "data": "registro",
-                                "width" : "15%",
+                                "width" : "10%",
                                 "responsivePriority": 2,
                                 "render": function( data, type, full, meta ) {
-                                    if(data <= 0){
                                         return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-4'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
+                                        "<div class='float-left col-lg-1'>Q." + "</div>" +
+                                        "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
                                         "</div>";
-                                    }
-                                      else{
-                                        return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-4'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-6' style='color:red; float:right;'>" + (data)+
-                                        "</div>";
-                                      }
+                        
                                 },
                                 }, 
                        
@@ -133,7 +126,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='resolucion/"+full.id+"/cambio' class='cambiar-estado' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
+                "<a href='/estadocuenta/xyz/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
                 "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
                 "</a>" + "</div>" 
 
