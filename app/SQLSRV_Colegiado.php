@@ -71,4 +71,29 @@ class SQLSRV_Colegiado extends Model
         'auxpost',
         'updated_at'
     ];
+
+    public function codigosTimbrePago($cantidad = 1) {
+        $montoTemp = $this->monto_timbre * $cantidad;
+        $valores = [500, 200, 100, 50, 20, 10, 5, 1];
+        //$valores = [500, 200, 100, 5, 1];
+        $retorno = array();
+        foreach($valores as $valor) {
+          if($montoTemp >= $valor) {
+            $divisionEntera = intdiv($montoTemp, $valor);
+            $montoTemp -= $valor * $divisionEntera;
+            $detalle = new \stdClass();
+            $detalle->codigo = 'TC' . str_pad($valor, 2, '0', STR_PAD_LEFT);
+            $timbre = \App\TipoDePago::where('codigo',$detalle->codigo)->get()->first();
+            $total = $timbre->precio_colegiado * $divisionEntera;
+            $detalle->id = $timbre->id;
+            $detalle->descripcion = $timbre->tipo_de_pago;
+            $detalle->precio_colegiado = $timbre->precio_colegiado;
+            $detalle->cantidad = $divisionEntera;
+            $detalle->total=$total;
+            $retorno[] = $detalle;
+          }
+        }
+        return $retorno;
+      }
+    
 }

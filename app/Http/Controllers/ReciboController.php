@@ -222,7 +222,7 @@ class ReciboController extends Controller
                 $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
             }
             $array = $request->input("datos");
-
+            
             for ($i = 1; $i < sizeof($array); $i++) {
                 $reciboDetalle = Recibo_Detalle::create([
                     'numero_recibo'     => $reciboMaestro->numero_recibo,

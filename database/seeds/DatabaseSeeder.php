@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CreacionSolicitudSeeder::class);
         $this->call(EstadoDeEstadosDeCuentaSeeder::class);
         $this->call(bodegaDetalleSeeder::class);
+        $this->call(SegecigMesesSeeder::class);
+
 
         //$this->call(TiposLocalidadesSeeder::class);
 

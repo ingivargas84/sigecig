@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        'App\Console\Commands\ActualizarSaldos',
         'App\Console\Commands\HourlyUpdate',
     ];
 
@@ -24,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('hour:update')
-        ->everyMinute();
+        $schedule->command('saldos:update');
+        $schedule->command('hour:update');
     }
 
     /**

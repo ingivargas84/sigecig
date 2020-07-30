@@ -101,9 +101,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                 "width" : "10%",
                                 "responsivePriority": 2,
                                 "render": function( data, type, full, meta ) {
-                                        return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-1'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
+                                        return "<div class='float-right ' style='color:black; float:right;'>Q. " + (data)+
                                         "</div>";
                         
                                 },
