@@ -122,7 +122,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         }
                                     
                            
-                                },
+                                },},
                                 {
                                     "title": "Abonos",
                                     "data": "abono",
@@ -138,14 +138,14 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                             }
                                         
                                    
-                                    },
+                                    },},
 
 
                             {
                                 "title": "Acciones",
                                 "data": "estado_solicitud_ap",
                                 "orderable": false,
-                                "width" : "15%",
+                                "width" : "5%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
@@ -153,8 +153,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
-                "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target=''>" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
+                "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target='blanck'>" +
+                "<i class='fa fa-print' title='Ver Detalles'></i>" +
                 "</a>" + "</div>"
 
 

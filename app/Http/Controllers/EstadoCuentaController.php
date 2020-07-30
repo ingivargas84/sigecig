@@ -31,12 +31,7 @@ class EstadoCuentaController extends Controller
     public function getJson()
     {
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
-<<<<<<< HEAD
         $List = implode(', ', $cuenta); 
-=======
-        $List = implode(', ', $cuenta);
-
->>>>>>> 72e11d4b9840ee42835258044f3636b8b43c72d8
         $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
         FROM cc00 U
         WHERE  U.c_cliente IN ($List)
