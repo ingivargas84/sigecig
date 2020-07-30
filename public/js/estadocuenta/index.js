@@ -76,8 +76,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                }, 
-                
+                },
+
                     {
                         "title": "Nombre",
                         "data": "n_cliente",
@@ -85,7 +85,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
                             return (data);},
-                        }, 
+                        },
 
                         {
                             "title": "Estado",
@@ -94,7 +94,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
-                            }, 
+                            },
                             {
                                 "title": "Saldo",
                                 "data": "registro",
@@ -107,8 +107,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         "</div>";
                         
                                 },
-                                }, 
-                       
+                                },
+
 
                             {
                                 "title": "Acciones",
@@ -119,20 +119,18 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-       
-                return "<div id='" + full.id + "' class='text-center'>" + 
+
+                return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
                 "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
+                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='/estadocuenta/xyz/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
                 "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
                 "</a>" + "</div>" 
 
-        
 
-  
         },
         "responsivePriority": 4
     }
@@ -147,4 +145,4 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
 
-    
+

@@ -76,8 +76,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                }, 
-                
+                },
+
                     {
                         "title": "Cantidad",
                         "data": "cantidad",
@@ -106,7 +106,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
-                            }, 
+                            },
                             {
                                 "title": "Cargos",
                                 "data": "cargo",
@@ -123,7 +123,6 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     
                            
                                 },
-                                }, 
                                 {
                                     "title": "Abonos",
                                     "data": "abono",
@@ -140,8 +139,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         
                                    
                                     },
-                                    }, 
-                       
+
 
                             {
                                 "title": "Acciones",
@@ -152,16 +150,16 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-       
-                return "<div id='" + full.id + "' class='text-center'>" + 
+
+                return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
-                "<a href='/estadocuenta/detallado/"+full.id+ " 'target=''>" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
+                "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target=''>" +
+                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>"
 
-        
 
-  
+
+
         },
         "responsivePriority": 4
     }
@@ -174,4 +172,4 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
 
-    
+

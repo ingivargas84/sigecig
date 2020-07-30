@@ -93,6 +93,7 @@ class ReciboController extends Controller
             $result = DB::select($query);
         $bodega = $result[0]->bodega;
 
+        // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
         $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = $request->codigo AND bodega_id = $bodega";
         $result = DB::select($query);
         $cantidadTotal = $result[0]->cantidadTotal;
@@ -122,13 +123,28 @@ class ReciboController extends Controller
 
             // return response()->json(['success' => 'Exito']);
         } else {
-            $error = 'la cantidad supera al valor existente en bodega';
+            $error = 'No hay existencia en su bodega para realizar esta venta';
             return response()->json($error, 500);
         }
 
         // consulta en phpMyAdmin para saber la existencia total de timbres por bodega y tipo de pago
         // SELECT SUM(cantidad) as cantidadTotal FROM `sigecig_ingreso_producto` WHERE tipo_de_pago_id = 30 AND bodega_id = 1
 
+    }
+
+    public function existenciaBodega(Request $request)
+    {
+        // consulta para saber a que bodega pertenece el cajero o usuario loggeado
+        $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $request->user";
+            $result = DB::select($query);
+        $bodega = $result[0]->bodega;
+
+        // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
+        $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = $request->codigo AND bodega_id = $bodega";
+        $result = DB::select($query);
+        $cantidadTotal = $result[0]->cantidadTotal;
+
+        return $cantidadTotal;
     }
 
     /**
