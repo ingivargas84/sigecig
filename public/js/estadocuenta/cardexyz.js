@@ -1,5 +1,5 @@
 var resolucion_table = $('#resolucion-table').DataTable({
-    "ajax": "/estadocuenta/getJson",
+    "ajax": "/estadocuenta/getxyz/$id",
     "responsive": true,
     "retrieve": true,
     "processing": true,
@@ -51,7 +51,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
     "columns": [ {
         "visible": false,
         "title": "No.",
-        "data": "id",
+        "data": "c_cliente",
         "width" : "0%",
         "responsivePriority": 1,
         "render": function( data, type, full, meta ) {
@@ -60,7 +60,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
         {
             "visible": false,
             "title": "id",
-            "data": "id",
+            "data": "c_cliente",
             "width" : "0%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -70,77 +70,82 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
             {
-                "title": "Colegiado",
-                "data": "cliente",
-                "width" : "10%",
+                "title": "Tipo de Pago",
+                "data": "descripcion",
+                "width" : "15%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                },
-
-                    {
-                        "title": "Nombre",
-                        "data": "n_cliente",
-                        "width" : "40%",
-                        "responsivePriority": 1,
-                        "render": function( data, type, full, meta ) {
-                            return (data);},
-                        },
+                }, 
+                
+                {
+                    "title": "Cantidad",
+                    "data": "cantidad",
+                    "width" : "7%",
+                    "responsivePriority": 1,
+                    "render": function( data, type, full, meta ) {
+                        return "<div class='text-right' >" + 
+                                "<div class='float-left col-lg-1'>Q." + "</div>" +
+                                "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
+                                "</div>";},
+                    },
 
                         {
-                            "title": "Estado",
-                            "data": "estado",
-                            "width" : "10%",
-                            "responsivePriority": 2,
+                            "title": "Precio",
+                            "data": "precio_u",
+                            "width" : "7%",
+                            "responsivePriority": 1,
                             "render": function( data, type, full, meta ) {
-                                return (data);},
+                                return "<div class='text-right' >" + 
+                                        "<div class='float-left col-lg-1'>Q." + "</div>" +
+                                        "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
+                                        "</div>";},
                             },
                             {
-                                "title": "Saldo",
-                                "data": "registro",
-                                "width" : "10%",
-                                "responsivePriority": 2,
+                                "title": "Total",
+                                "data": "importe",
+                                "width" : "7%",
+                                "responsivePriority": 1,
                                 "render": function( data, type, full, meta ) {
-                                        return "<div class='float-right ' style='color:black; float:right;'>Q. " + (data)+
-                                        "</div>";
-                        
+                                    return "<div class='text-right' >" + 
+                                            "<div class='float-left col-lg-1'>Q." + "</div>" +
+                                            "<div class='float-right col-lg-8' style='color:black; float:right;'>" + (data)+
+                                            "</div>";},
                                 },
-                                },
-
+                                {
+                                    "title": "No. Factura",
+                                    "data": "num_fac",
+                                    "width" : "5%",
+                                    "responsivePriority": 2,
+                                    "render": function( data, type, full, meta ) {
+                                        return (data);},
+                                    }, 
+                                   
+                           
+                       
 
                             {
                                 "title": "Acciones",
                                 "data": "estado_solicitud_ap",
                                 "orderable": false,
-                                "width" : "15%",
+                                "width" : "5%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
+       
+                return "<div id='" + full.id + "' class='text-center'>" + 
+                "<div class='float-left '>" +
+                "<a id='enviar' href='#"+full.id+"/'  class='enviar' >" +
+                "<i class='fa fa-print' title='Imprimir'></i>" + 
+                "</a>" + "</div>"
 
-                return "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-left col-lg-6'>" +
-                "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
-                "</a>" + "</div>" +
-                "<div class='float-right col-lg-4'>" +
-                "<a href='/estadocuenta/xyz/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
-                "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
-                "</a>" + "</div>" 
+        
 
-
+  
         },
         "responsivePriority": 4
     }
 
                             ]
 });
-
-
-
-
-
-
-
-
-

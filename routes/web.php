@@ -125,7 +125,7 @@ Route::group([
         Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-        Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('/resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
@@ -202,6 +202,8 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
+        Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
@@ -234,7 +236,7 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
         Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
-        Route::get( 'Aspirante/{dpi}/detalles', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        Route::get( 'colegiados/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
 
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
@@ -290,6 +292,11 @@ Route::group([
     Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
     Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
     Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+    Route::get('/estadocuenta/getDetalle/{id}','EstadoCuentaController@getDetalle')->name('estadocuenta.getdetalle');
+    Route::get('/estadocuenta/xyz/{id}','EstadoCuentaController@xyz')->name('estadocuenta.xyz');
+    Route::get('/estadocuenta/getxyz/{id}','EstadoCuentaController@getXyz')->name('estadocuenta.getxyz');
+
+
 
 
     // Password Reset Routes...

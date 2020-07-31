@@ -12,6 +12,12 @@ use DB, Image, Mail, Log, Auth, PDF, Date, Hash;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use App\Aspirante;
+use App\Universidad;
+use App\Municipio;
+use App\DepartamentoNac;
+use App\Pais;
+use App\Nacionalidad;
+use App\Sexo;
 
 class ColegiadosController extends Controller
 {
@@ -51,16 +57,29 @@ class ColegiadosController extends Controller
         return view('admin.colegiados.create')->with(['estadosCivil'=> $estadosCivil, 'sexos' => $sexos, 'destinos' => $destinos, 'colegiado' => $colegiado]);
       }
 
-      public function detalles(Aspirante $dpi)
+      public function detalles(Aspirante $id)
     {
-        return view ('admin.colegiados.detalles');
+      $query = Aspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $id->universidadGraduado)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $id->universidadIncorporado)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $id->idmunicipionacimiento)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $id->iddepartamentonacimiento)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $id->idPaisNacimiento)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $id->idnacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $id->estadocivil)->get()->first();
+      $sx = Sexo::where('c_sexo', '=', $id->sexo)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
+
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab'));
     }
       
       public function getDatosAspirante() {
         $aspirante = Input::get('idusuario');
-    Log::info("CIG. El usuario " . Auth::user()->name . " ha consultado al aspirante " . $aspirante);
-    $user = \App\Aspirante::find($aspirante);
-    if(!$user) {
+      Log::info("CIG. El usuario " . Auth::user()->name . " ha consultado al aspirante " . $aspirante);
+      $user = \App\Aspirante::find($aspirante);
+      if(!$user) {
       $respuesta = array('error' => '1', 'mensaje' => 'Datos no encontrados');
       return json_encode($respuesta);
     }
@@ -251,9 +270,80 @@ class ColegiadosController extends Controller
     return redirect()->route('colegiados.index')->withFlash('Colegiado se creo exitosamente!');
   }
 
+
+  public function getDatosProfesionalesAspirante() {
+    $rules = array(
+//        'idusuario' => 'required|digits:13',
+      'idusuario' => 'required',
+      'tipo' => 'required|required|in:P,M'
+    );
+    $messages = [
+      'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+    ];
+    $validator = Validator::make(Input::all(), $rules, $messages);
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      $errors =  json_decode($errors);
+      return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+    }
+
+    $tipo = Input::get('tipo');
+    $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+    $retorno = array();
+    if($aspirante != null) {
+      if($tipo == 'P') {
+//          $retorno = \App\Aspirante::find(Input::get('idusuario'))->profesiones()->get();
+        $retorno = $aspirante->profesiones()->get();
+      } else if($tipo == 'M') {
+        $retorno = \App\Aspirante::find(Input::get('idusuario'))->especialidades()->get();
+      }
+    }
+
+    return json_encode($retorno);
+  }
+
+  public function setDatosProfesionalesAspirante() {
+    $rules = array(
+//        'idusuario' => 'required|integer',
+      'idusuario' => 'required',
+      'idprofesion' => 'required'
+    );
+
+    $validator = Validator::make(Input::all(), $rules);
+    if ($validator->fails()) {
+      return json_encode(array('retorno' => 2, 'mensaje' => 'Profesión o colegiado inválido'));
+    }
+
+    $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+    if($aspirante == null) {
+//        $this->setDatosAspirante();
+//        $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+    }
+Log::info("Morir2 ".print_r($aspirante, true));
+    $aspirante->profesiones()->attach(Input::get('idprofesion'));
+    return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+  }
+
+  public function setDatosEspecialidadesAspirante() {
+    $rules = array(
+      'idusuario' => 'required|integer',
+      'idespecialidad' => 'required'
+    );
+
+    $validator = Validator::make(Input::all(), $rules);
+    if ($validator->fails()) {
+      return json_encode(array('retorno' => 2, 'mensaje' => 'Profesión o colegiado inválido'));
+    }
+
+    $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+    $aspirante->especialidades()->attach(Input::get('idespecialidad'));
+    return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+  }
+
+
     public function getJson(Request $params)
      {
-        $query = "SELECT nombre, carrera_afin
+        $query = "SELECT dpi, nombre, carrera_afin
         FROM aspirante 
         ";
 
