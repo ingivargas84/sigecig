@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\PlataformaBanco;
+use Carbon\Carbon;
+
 
 
 class ActualizarSaldos extends Command
@@ -39,8 +41,21 @@ class ActualizarSaldos extends Command
      */
     public function handle()
     {  
-        $bco=new PlataformaBanco();
-        $bco->nombre_banco="A la 12.30 desde Actualizacion Saldos";
-        $bco->save();
+        $mes = Now()->format('m');
+        $anio = Now()->format('yy');
+        $cuenta = \App\EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->get();
+        foreach ($cuenta as $key => $value) {
+            $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('abono');
+            $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('cargo');
+            $total = $cargo-$abono;
+            $saldos = \App\SigecigSaldoColegiados::create([
+                'no_colegiado'      => $value->colegiado_id,
+                'mes_id'            => $mes,
+                'año'               => $anio,
+                'saldo'             => $total,
+                'fecha'             => Now(),
+            ]);
+        }
+ 
     }
 }

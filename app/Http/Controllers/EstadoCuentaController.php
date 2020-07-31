@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Response;
 use DB;
 use \App\EstadoDeCuentaMaestro;
 use \App\EstadoDeCuentaDetalle;
-
+use App\SigecigSaldoColegiados;
 use App\SQLSRV_Colegiado;
 use App\TipoDePago;
 use Carbon\Carbon;
@@ -26,23 +26,8 @@ class EstadoCuentaController extends Controller
     }
     public function index(){
         $user = Auth::User();
-        //////
-        $cuenta = \App\EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->get();
-        foreach ($cuenta as $key => $value) {
-            $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('abono');
-            $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('cargo');
-            $total = $cargo-$abono;
-            $saldos = \App\SigecigSaldoColegiados::create([
-                'no_colegiado'      => $value->colegiado_id,
-                'mes_id'            => 1,
-                'año'               => 2020,
-                'saldo'             => $total,
-                'fecha'             => Now(),
-            ]);
-        }
- 
-        dd($saldos);
-        //////
+
+
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
     public function getJson()
@@ -55,14 +40,25 @@ class EstadoCuentaController extends Controller
         ORDER BY cliente asc;";
         $result = DB::connection('sqlsrv')->select($query);
         $array=[];
-        //verificamos el estado del colegiado (Activo o Inactivo)
+
         foreach ($result as $key => $value) {
             $timbrepagado = Carbon::parse($value->f_ult_timbre);
             $mespagado = Carbon::parse($value->f_ult_pago);
             $now = Carbon::now();
             $diffmes = $mespagado->diffInMonths($now, false);
             $difftimbre = $timbrepagado->diffInMonths($now,false);
-            if ($diffmes <= 3 || $difftimbre <= 3 ) {
+            $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
+            $saldo=SigecigSaldoColegiados::where('no_colegiado',$value->cliente)->get()->last();
+            $value->id=$id->id;
+            if(!empty($saldo)){
+            $value->registro= number_format($saldo->saldo, 2);}
+            else{
+                $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('abono');
+                $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('cargo');
+                $total=$cargo-$abono;
+                $value->registro= number_format($total, 2);
+            }
+            if ($diffmes <= 3 && $difftimbre <= 3 ) {
                $value->estado='Activo';
                $array[]= $value;
             }else{
@@ -70,18 +66,8 @@ class EstadoCuentaController extends Controller
                $array[]= $value;
             }
         }
-        $result= $array;
-        $array=[];
-
-        foreach ($result as $key => $value) {
-            $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
-            $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('abono');
-            $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('cargo');
-            $total = $cargo-$abono;
-            $value->id=$id->id;
-            $value->registro= number_format($total, 2);
-            $array[]= $value;
-        }
+        
+  
         $api_Result['data'] = $array;
         return Response::json($api_Result);
     }

@@ -119,7 +119,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
                 return "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-left col-lg-4'>" +
+                "<div class='float-left col-lg-6'>" +
                 "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
                 "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>" +

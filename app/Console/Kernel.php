@@ -25,8 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('saldos:update');
         $schedule->command('hour:update');
+        $schedule->command('saldos:update');
+       
     }
 
     /**
