@@ -27,11 +27,21 @@ class EstadoCuentaController extends Controller
     public function index(){
         $user = Auth::User();
 
+        /////
+
+        /////
+       
 
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
     public function getJson()
     {
+        $MesActual=Carbon::Now();
+        $mes=$MesActual->format('m');
+        $anio=$MesActual->format('yy');
+        $ageFrom=Carbon::Now()->startOfMonth();
+        $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
+
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
         $List = implode(', ', $cuenta); 
         $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
@@ -48,13 +58,20 @@ class EstadoCuentaController extends Controller
             $diffmes = $mespagado->diffInMonths($now, false);
             $difftimbre = $timbrepagado->diffInMonths($now,false);
             $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
-            $saldo=SigecigSaldoColegiados::where('no_colegiado',$value->cliente)->get()->last();
+            $saldoActual =\App\SigecigSaldoColegiados::where('no_colegiado',$value->cliente)->where('mes_id',$mes)->where('año',$anio)->get()->last();
+            $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
+            if(empty($abono)){
+                $abono=0;
+            }
+            $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('cargo');
+            if(empty($cargo)){
+                $cargo=0;
+            }
             $value->id=$id->id;
-            if(!empty($saldo)){
-            $value->registro= number_format($saldo->saldo, 2);}
+            if(!empty($saldoActual)){
+                $total=$saldoActual->saldo+$cargo-$abono; 
+                $value->registro= number_format($total, 2);}
             else{
-                $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('abono');
-                $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('cargo');
                 $total=$cargo-$abono;
                 $value->registro= number_format($total, 2);
             }
