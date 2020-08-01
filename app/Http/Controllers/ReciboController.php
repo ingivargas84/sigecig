@@ -232,6 +232,8 @@ class ReciboController extends Controller
                     'total'             => substr($array[$i][5],2),
                 ]);
                 //agregamos el cobro a el estado de cueta ( cargo)
+                $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
+                if($tipoPago->tipo != 1){
                 $cuentaD = \App\EstadoDeCuentaDetalle::create([
                     'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
                     'cantidad'                      => $array[$i][2],
@@ -241,7 +243,7 @@ class ReciboController extends Controller
                     'cargo'                         => substr($array[$i][5],2),
                     'usuario_id'                    => '1',
                     'estado_id'                     => '1',
-                ]);
+                ]);}
                 //agregamos el pago al estado de cuenta (abono)
                 $cuentaD = \App\EstadoDeCuentaDetalle::create([
                     'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
@@ -327,7 +329,7 @@ class ReciboController extends Controller
                 $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
                 $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
                 $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
-                Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
+                //Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
 
                 return response()->json(['success' => 'Todo Correcto']);
             } catch (\Throwable $th) {

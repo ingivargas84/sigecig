@@ -41,17 +41,34 @@ class ActualizarSaldos extends Command
      */
     public function handle()
     {  
-        $mes = Now()->format('m');
-        $anio = Now()->format('yy');
+        $mesActual = Now()->format('m');
+        $anioActual = Now()->format('yy');
+        $mesAnterior=Carbon::Now()->startOfMonth()->subMonth();
+        $mes=$mesAnterior->format('m');
+        $anio=$mesAnterior->format('yy');
+        $ageFrom=Carbon::Now()->startOfMonth()->subMonth();
+        $ageTo=Carbon::Now()->startOfMonth()->subSecond();
+      
         $cuenta = \App\EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->get();
         foreach ($cuenta as $key => $value) {
-            $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('abono');
-            $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->sum('cargo');
-            $total = $cargo-$abono;
+            $saldoActual =\App\SigecigSaldoColegiados::where('no_colegiado',$value->colegiado_id)->where('mes_id',$mes)->where('año',$anio)->get()->last();
+            $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
+            if(empty($abono)){
+                $abono=0;
+            }
+            $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$value->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('cargo');
+            if(empty($cargo)){
+                $cargo=0;
+            }
+            if(empty($saldoActual)){
+                $total = $cargo-$abono;
+            }else{
+            $total = $saldoActual->saldo+$cargo-$abono;
+              }  
             $saldos = \App\SigecigSaldoColegiados::create([
                 'no_colegiado'      => $value->colegiado_id,
-                'mes_id'            => $mes,
-                'año'               => $anio,
+                'mes_id'            => $mesActual,
+                'año'               => $anioActual,
                 'saldo'             => $total,
                 'fecha'             => Now(),
             ]);
