@@ -35,7 +35,7 @@
                         <legend>Información Personal</legend>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="dpi">Dpi:</label>
+                              <label for="dpi">DPI:</label>
                               <input name="dpi"  onchange="cargarDatos()" autofocus="" value="{{$query->dpi}}" class="form-control" type="text" readonly>                            
                             </div>
                             <div class="col-sm-4">
@@ -175,6 +175,23 @@
                             <div class="col-sm-4">
                               <label for="telefonoContactoEmergencia" class="control-label">Teléfono</label>
                               <input id="telefonoContactoEmergencia" value="{{$query->telefonoContactoEmergencia}}" class="form-control" placeholder="Teléfono" name="telefonoContactoEmergencia" type="tel" readonly>                            
+                            </div>
+                        </div>
+                        <br>
+
+                        <legend>Profesion y Especialidad</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                              <label for="profesion" class="control-label">Profesion:</label>
+                              <input id="profesion" value="Ninguna..." class="form-control" placeholder="Nombres" name="profesion" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-4">
+                              <label for="especialidad" class="control-label">Especialidad:</label>
+                              @if ($especilidadasp->c_especialidad==true)
+                              <input id="especialidad" value="{{$especialidad->n_especialidad}}" class="form-control" placeholder="Teléfono" name="especialidad" type="text" readonly>         
+                              @else                   
+                              <input id="especialidad" class="form-control" placeholder="Teléfono" name="especialidad" type="text" value="Ninguna o Desconocida" readonly>         
+                              @endif
                             </div>
                         </div>
                         <br>

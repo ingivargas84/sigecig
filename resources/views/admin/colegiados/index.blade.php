@@ -2,6 +2,8 @@
 
 @section('header')
 <section class="content-header">
+  <script src="/ea/jquery.min.js"></script>
+
     <h1><center>
       Colegiados
       </center>
@@ -41,6 +43,8 @@
 @endpush
 @push('scripts')
 <script src="{{asset('js/colegiados/index.js')}}"></script>
+<script src="{{asset('js/colegiados/add.js')}}"></script>
+
    {{--  <script src="{{asset('js/bodegas/create.js')}}"></script>
       <script src="{{asset('js/bodegas/edit.js')}}"></script> --}}
  

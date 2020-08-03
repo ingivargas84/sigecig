@@ -18,7 +18,8 @@ use App\DepartamentoNac;
 use App\Pais;
 use App\Nacionalidad;
 use App\Sexo;
-
+use App\Especialidad;
+use App\EspecialidadAspirante;
 class ColegiadosController extends Controller
 {
     public function index()
@@ -72,7 +73,24 @@ class ColegiadosController extends Controller
       $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
 
-        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab'));
+      /*  $especilidadasp = "SELECT E.n_especialidad FROM especialidad E
+       INNER JOIN especialidadAspirante EA on EA.c_especialidad = E.c_especialidad 
+       INNER JOIN aspirante A ON A.dpi = EA.dpi";
+      $resultado = DB::connection('sqlsrv')->select($especilidadasp);
+
+       */
+ 
+      $especilidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
+      /*
+      $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
+      $especilidadasp = Especialidad::select('aspirante.n_especialidad')
+            ->join('especialidadAspirante', 'aspirante.dpi', '=', 'especialidadAspirante.dpi')
+            ->get();*/
+
+
+     // $especilidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especilidadasp', 'especialidad'));
     }
       
       public function getDatosAspirante() {
@@ -267,7 +285,7 @@ class ColegiadosController extends Controller
 
     $user->save();
     DB::commit();
-    return redirect()->route('colegiados.index')->withFlash('Colegiado se creo exitosamente!');
+    return redirect()->route('colegiados.index')->with('flash','Colegiado se creo exitosamente!');
   }
 
 

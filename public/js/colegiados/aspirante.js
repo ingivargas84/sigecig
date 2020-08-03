@@ -252,59 +252,13 @@ var validator = $("#colegiadosForm").validate({
 
 
 $("#guardarAspirante").click(function(event) {
-  var url = "/colegiados"; 
-  $(location).attr('href',url);
 	if ($('#colegiadosForm').valid()) {
-		$('.loader').addClass("is-active");
+        $('.loader').addClass("is-active");
+        window.location.href = '/colegiados';
 	} else {
 		validator.focusInvalid();
 	}
 });
-
-/* 
-$(window).on('load', function(e) {
-  $("#idusuario").val(location.hash);
-    if($("#idusuario").val()) {
-      getdatos();
-    }
-    $(".nombreEspecialidad").autocomplete({
-      source: "General/busquedaEspecialidadAutocomplete",
-      focus: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox
-        $(this).val(ui.item.label);
-      },
-      select: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox and hidden field
-
-        $(this).val(ui.item.label);
-        $('#idespecialidad').val(ui.item.value);
-        //$(this).nextAll('input').first().val(ui.item.value);
-      }
-    });
-
-    $(".nombreProfesion").autocomplete({
-      source: "General/busquedaProfesionAutocomplete",
-      focus: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox
-        $(this).val(ui.item.label);
-      },
-      select: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox and hidden field
-
-        $(this).val(ui.item.label);
-        $('#idprofesion').val(ui.item.value);
-        //$(this).nextAll('input').first().val(ui.item.value);
-      }
-    });
-}); */
 
 function cargarDatos() {
   getdatos();
@@ -1541,39 +1495,39 @@ function agregarEspecialidadF() {
     'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
     'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
     'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
+    //'tipoSangre': $("#tipoSangre").val(),
 
     'idNacionalidad': $("#idNacionalidad").val(),
     'telefono': $("#telefono").val(),
     'telTrabajo': $("#telTrabajo").val(),
     'email': $("#email").val(),
-    'nit': $("#nit").val(),
+    //'nit': $("#nit").val(),
     'estadoCivil': $("#estadoCivil").val(),
 
-    'conyugue': $("#conyugue").val(),
+    //'conyugue': $("#conyugue").val(),
 
     'direccion': $("#direccion").val(),
     'zona': $("#zona").val(),
     'idDepartamentoCasa': $("#idDepartamento").val(),
     'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
+    //'codigoPostal': $("#codigoPostal").val(),
 
     'direccionTrabajo': $("#direccionTrabajo").val(),
     'zonaTrabajo': $("#zonaTrabajo").val(),
     'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
     'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
+    //'lugarTrabajo': $("#lugarTrabajo").val(),
 
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
+    //'direccionOtro': $("#direccionOtro").val(),
+    //'zonaOtro': $("#zonaOtro").val(),
+    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
+    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
     'destino': $("#destino").val(),
 
     'fechaGraduacion': $("#fechaGraduacion").val(),
     'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
     'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
+    //'creditos': $("#creditos").val(),
 
     'tituloTesis': $("#tituloTesis").val(),
     'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
@@ -1625,39 +1579,39 @@ function agregarProfesionF() {
     'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
     'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
     'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
+    //'tipoSangre': $("#tipoSangre").val(),
 
     'idNacionalidad': $("#idNacionalidad").val(),
     'telefono': $("#telefono").val(),
     'telTrabajo': $("#telTrabajo").val(),
     'email': $("#email").val(),
-    'nit': $("#nit").val(),
+    //'nit': $("#nit").val(),
     'estadoCivil': $("#estadoCivil").val(),
 
-    'conyugue': $("#conyugue").val(),
+    //'conyugue': $("#conyugue").val(),
 
     'direccion': $("#direccion").val(),
     'zona': $("#zona").val(),
     'idDepartamentoCasa': $("#idDepartamento").val(),
     'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
+    //'codigoPostal': $("#codigoPostal").val(),
 
     'direccionTrabajo': $("#direccionTrabajo").val(),
     'zonaTrabajo': $("#zonaTrabajo").val(),
     'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
     'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
+    //'lugarTrabajo': $("#lugarTrabajo").val(),
 
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
+    //'direccionOtro': $("#direccionOtro").val(),
+    //'zonaOtro': $("#zonaOtro").val(),
+    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
+    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
     'destino': $("#destino").val(),
 
     'fechaGraduacion': $("#fechaGraduacion").val(),
     'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
     'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
+    //'creditos': $("#creditos").val(),
 
     'tituloTesis': $("#tituloTesis").val(),
     'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
