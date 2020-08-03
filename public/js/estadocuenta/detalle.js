@@ -70,82 +70,90 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
             {
-                "title": "Cantidad",
-                "data": "cantidad",
-                "width" : "10%",
+                "title": "Tipo de Pago",
+                "data": "tipo_de_pago",
+                "width" : "20%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-                }, 
-                
+                },
+
                     {
-                        "title": "Tipo de Pago",
-                        "data": "tipo_de_pago",
-                        "width" : "20%",
+                        "title": "Cantidad",
+                        "data": "cantidad",
+                        "width" : "5%",
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
                             return (data);},
                         }, 
+                        {
+                            "title": "Precio",
+                            "data": "precio_colegiado",
+                            "width" : "7%",
+                            "responsivePriority": 1,
+                            "render": function( data, type, full, meta ) {
+                                return   "<div class='float-right ' style='color:black; float:right;'>Q. " + (data)+
+                                "</div>";},
+                            },
 
                         {
+                            "visible": false,
                             "title": "No recibo",
                             "data": "recibo_id",
                             "width" : "10%",
                             "responsivePriority": 2,
                             "render": function( data, type, full, meta ) {
                                 return (data);},
-                            }, 
+                            },
                             {
                                 "title": "Cargos",
                                 "data": "cargo",
-                                "width" : "10%",
+                                "width" : "7%",
                                 "responsivePriority": 2,
                                 "render": function( data, type, full, meta ) {
-                           
-                                        return "<div class='text-right' >" + 
-                                        "<div class='float-left col-lg-4'>Q." + "</div>" +
-                                        "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
-                                        "</div>";
+                                    if(data!=0){
+                                        return "<div class='float-right ' style='color:black; float:right;'>Q. " + (data)+
+                                        "</div>";}else{
+                                            return  "";
+                                        }
                                     
                            
-                                },
-                                }, 
+                                },},
                                 {
                                     "title": "Abonos",
                                     "data": "abono",
-                                    "width" : "10%",
+                                    "width" : "7%",
                                     "responsivePriority": 2,
                                     "render": function( data, type, full, meta ) {
-                                      
-                                            return "<div class='text-right' >" + 
-                                            "<div class='float-left col-lg-4'>Q." + "</div>" +
-                                            "<div class='float-right col-lg-6' style='color:black; float:right;'>" + (data)+
-                                            "</div>";
+                                      if(data!=0){
+                                        return "<div class='float-right ' style='color:black; float:right;'>Q. " + (data)+
+                                        "</div>";}else{
+                                                return "";
+                                            }
                                         
                                    
-                                    },
-                                    }, 
-                       
+                                    },},
+
 
                             {
                                 "title": "Acciones",
                                 "data": "estado_solicitud_ap",
                                 "orderable": false,
-                                "width" : "15%",
+                                "width" : "5%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-       
-                return "<div id='" + full.id + "' class='text-center'>" + 
+
+                return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
-                "<a href='/estadocuenta/detallado/"+full.id+ " 'target=''>" +
-                "<i class='fa fa-info-circle' title='Ver Detalles'></i>" + 
+                "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target='blanck'>" +
+                "<i class='fa fa-print' title='Ver Detalles'></i>" +
                 "</a>" + "</div>"
 
-        
 
-  
+
+
         },
         "responsivePriority": 4
     }
@@ -158,4 +166,4 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
 
-    
+

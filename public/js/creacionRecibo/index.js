@@ -208,6 +208,7 @@ function getTc01(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -267,6 +268,7 @@ function getTc05(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -326,6 +328,7 @@ function getTc10(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -385,6 +388,7 @@ function getTc20(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -444,6 +448,7 @@ function getTc50(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -503,6 +508,7 @@ function getTc100(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -562,6 +568,7 @@ function getTc200(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -621,6 +628,7 @@ function getTc500(){
                     alertify.warning(mensaje);
 
                     $(celdas).closest('tr').remove();
+                    getTotal();
                 }
             });
         }
@@ -785,6 +793,7 @@ $(document).ready(function () {
                                 $("input[name='descTipoPago']").val(response.tipo_de_pago);
                                 $("input[name='subtotal']").val('Q.'+response.precio_colegiado.toFixed(2));
                                 $("input[name='categoria_id']").val(response.categoria_id);
+                                consultaTimbre();
 
                                 $("#cantidad").val(1);
                             }else if($('#estado').val() == 'Inactivo'){
@@ -847,6 +856,7 @@ $(document).ready(function () {
                             $("input[name='categoria_id']").val(response.categoria_id);
 
                             $("#cantidad").val(1);
+                            consultaTimbre();
                         }
                     }
                 },
@@ -859,8 +869,51 @@ $(document).ready(function () {
                 }
             });
         }
+        if (valor == ''){
+            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
+        }
     });
 });
+
+function consultaTimbre(){
+    var combo = document.getElementById("codigo");
+    var selected = combo.options[combo.selectedIndex].text;
+    if (selected == '-- Escoja --'){var combo = document.getElementById("codigoE");var selected = combo.options[combo.selectedIndex].text;}
+    if (selected == '-- Escoja --'){var combo = document.getElementById("codigoP");var selected = combo.options[combo.selectedIndex].text;}
+    if (selected.substring(0,2) == 'TC' || selected.substring(0,2) == 'TE' || selected.substring(0,3) == 'TIM'){
+        var user = $('#rol_user').val();
+        var codigo = $('#codigo').val();
+        if (codigo == ''){codigo = $('#codigoE').val();}
+        if (codigo == ''){codigo = $('#codigoP').val();}
+        var nombre;
+        if (codigo == 30 || codigo == 22 || codigo == 38){codigo = 30; nombre = 'TC01';}else //1
+        if (codigo == 31 || codigo == 27 || codigo == 39){codigo = 31; nombre = 'TC05';}else //5
+        if (codigo == 32 || codigo == 23 || codigo == 40){codigo = 32; nombre = 'TC10';}else //10
+        if (codigo == 34 || codigo == 25 || codigo == 41){codigo = 34; nombre = 'TC20';}else //20
+        if (codigo == 36 || codigo == 28 || codigo == 42){codigo = 36; nombre = 'TC50';}else //50
+        if (codigo == 33 || codigo == 24 || codigo == 43){codigo = 33; nombre = 'TC100';}else //100
+        if (codigo == 35 || codigo == 26 || codigo == 44){codigo = 35; nombre = 'TC200';}else //200
+        if (codigo == 37 || codigo == 29 || codigo == 45){codigo = 37; nombre = 'TC500';} //500
+        $.ajax({
+            type: "POST",
+            dataType: 'JSON',
+            url: "existenciaBodega",
+            data: {user, codigo, nombre},
+            success: function(data){
+                if(selected != ''){
+                    document.getElementById('existencia').style.display = "";
+                    $('#existencia').val(data+' timbres disponibles');
+                    document.getElementById('existenciaE').style.display = "";
+                    $('#existenciaE').val(data+' timbres disponibles');
+                    document.getElementById('existenciaP').style.display = "";
+                    $('#existenciaP').val(data+' timbres disponibles');
+                }
+            }
+        });
+    }
+}
 
 
 $(document).ready(function(){
@@ -925,6 +978,9 @@ function validateRow(){
                             getTotal();
                             getTimbres(selected);
                             limpiarFilaDetalle();
+                            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+                            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+                            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
                             finish();
                         }
                     }
@@ -1002,6 +1058,9 @@ function validateRow(){
 
 	$(resultado).prependTo("#tablaDetalle > tbody");
    getTotal();
+    document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+    document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+    document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
 }
 
 
@@ -1419,6 +1478,7 @@ $(document).ready(function () {
                         $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
                         $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idE']").val(response.categoria_id);
+                        consultaTimbre();
 
                         $("#cantidadE").val(1);
                     }
@@ -1431,6 +1491,11 @@ $(document).ready(function () {
                         $("input[name='categoria_idE']").val('');
                 }
             });
+        }
+        if (valor == ''){
+            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
         }
     });
 });
@@ -1497,6 +1562,9 @@ $(document).ready(function(){
                             getTotalE();
                             getTimbres(selected);
                             limpiarFilaDetalleE();
+                            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+                            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+                            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
                             finish();
                         }
                     }
@@ -1576,6 +1644,9 @@ $(document).ready(function(){
 
 	$(resultado).prependTo("#tablaDetalleE > tbody");
    getTotalE();
+    document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+    document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+    document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
 }
 
 function getTotalE() {
@@ -1940,6 +2011,7 @@ $(document).ready(function () {
                         $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
                         $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
                         $("input[name='categoria_idP']").val(response.categoria_id);
+                        consultaTimbre();
 
                         $("#cantidadP").val(1);
                     }
@@ -1952,6 +2024,11 @@ $(document).ready(function () {
                         $("input[name='categoria_idP']").val('');
                 }
             });
+        }
+        if (valor == ''){
+            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
         }
     });
 });
@@ -2019,6 +2096,9 @@ function agregarproductofP() {
                             getTotalP();
                             getTimbres(selected);
                             limpiarFilaDetalleP();
+                            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+                            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+                            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
                             finish();
                         }
                     }
@@ -2096,6 +2176,9 @@ function agregarproductofP() {
 
 	$(resultado).prependTo("#tablaDetalleP > tbody");
    getTotalP();
+    document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+    document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+    document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
 }
 
 

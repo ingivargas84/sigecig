@@ -3,13 +3,13 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-     {{$colegiado->n_cliente}}
+      {{$colegiado->n_cliente}}
     </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
       <li><a href="{{route('estadocuenta.index')}}"><i class="fa fa-list"></i> Estados de Cuenta </a></li>
-      <li class="active">Detalle</li>
+      <li class="active">Cardex XYZ</li>
     </ol>
   </section>
 
@@ -41,9 +41,9 @@
 @push('scripts')
   <script>
     $(document).ready(function() {
-        resolucion_table.ajax.url("{{route('estadocuenta.getdetalle',$id)}}").load();       
+        resolucion_table.ajax.url("{{route('estadocuenta.getxyz',$id)}}").load();       
     });
 </script>
-  <script src="{{asset('js/estadocuenta/detalle.js')}}"></script>
+  <script src="{{asset('js/estadocuenta/cardexyz.js')}}"></script>
   @endpush
 @stop
