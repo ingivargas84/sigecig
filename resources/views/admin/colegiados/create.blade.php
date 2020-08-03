@@ -36,12 +36,11 @@ $(document).ready(function(){
 {{-- <script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
 <script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> --}}
 <script src="{{asset('/ea/bootstrap.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
 
 @endpush 
 
 @section('content')
-<form method="POST" id="colegiadosForm" action="{{route('colegiados.save')}}">
+<form method="POST" id="colegiadosForm" >
   {{csrf_field()}}
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -49,7 +48,7 @@ $(document).ready(function(){
                         <legend>Información Personal</legend>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="dpi">Dpi:</label>
+                              <label for="dpi">DPI:</label>
                               <input id="dpi" onchange="cargarDatos()" autofocus="" placeholder="Dpi" class="form-control" name="dpi" type="text">                            
                             </div>
                             <div class="col-sm-4">
@@ -217,7 +216,7 @@ $(document).ready(function(){
 {{-- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
  --}}
  {{-- <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> --}}
- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
+                          <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
                         </div>
                     </div>
                 </div>

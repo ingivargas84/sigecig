@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Response;
 use DB;
 use \App\EstadoDeCuentaMaestro;
 use \App\EstadoDeCuentaDetalle;
-
+use App\SigecigSaldoColegiados;
 use App\SQLSRV_Colegiado;
 use App\TipoDePago;
 use Carbon\Carbon;
@@ -26,10 +26,22 @@ class EstadoCuentaController extends Controller
     }
     public function index(){
         $user = Auth::User();
+
+        /////
+
+        /////
+       
+
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
     public function getJson()
     {
+        $MesActual=Carbon::Now();
+        $mes=$MesActual->format('m');
+        $anio=$MesActual->format('yy');
+        $ageFrom=Carbon::Now()->startOfMonth();
+        $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
+
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
         $List = implode(', ', $cuenta); 
         $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
@@ -38,14 +50,32 @@ class EstadoCuentaController extends Controller
         ORDER BY cliente asc;";
         $result = DB::connection('sqlsrv')->select($query);
         $array=[];
-        //verificamos el estado del colegiado (Activo o Inactivo)
+
         foreach ($result as $key => $value) {
             $timbrepagado = Carbon::parse($value->f_ult_timbre);
             $mespagado = Carbon::parse($value->f_ult_pago);
             $now = Carbon::now();
             $diffmes = $mespagado->diffInMonths($now, false);
             $difftimbre = $timbrepagado->diffInMonths($now,false);
-            if ($diffmes <= 3 || $difftimbre <= 3 ) {
+            $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
+            $saldoActual =\App\SigecigSaldoColegiados::where('no_colegiado',$value->cliente)->where('mes_id',$mes)->where('año',$anio)->get()->last();
+            $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
+            if(empty($abono)){
+                $abono=0;
+            }
+            $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('cargo');
+            if(empty($cargo)){
+                $cargo=0;
+            }
+            $value->id=$id->id;
+            if(!empty($saldoActual)){
+                $total=$saldoActual->saldo+$cargo-$abono; 
+                $value->registro= number_format($total, 2);}
+            else{
+                $total=$cargo-$abono;
+                $value->registro= number_format($total, 2);
+            }
+            if ($diffmes <= 3 && $difftimbre <= 3 ) {
                $value->estado='Activo';
                $array[]= $value;
             }else{
@@ -53,18 +83,8 @@ class EstadoCuentaController extends Controller
                $array[]= $value;
             }
         }
-        $result= $array;
-        $array=[];
-
-        foreach ($result as $key => $value) {
-            $id=EstadoDeCuentaMaestro::where('colegiado_id',$value->cliente)->get()->first();
-            $abono=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('abono');
-            $cargo=EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id->id)->sum('cargo');
-            $total = $cargo-$abono;
-            $value->id=$id->id;
-            $value->registro= number_format($total, 2, '.', ' ');
-            $array[]= $value;
-        }
+        
+  
         $api_Result['data'] = $array;
         return Response::json($api_Result);
     }
@@ -112,4 +132,24 @@ class EstadoCuentaController extends Controller
         
         return Response::json($api_Result);
     }
+
+    public function codigosTimbrePago($cantidad = 1) {
+        $montoTemp = $this->monto_timbre * $cantidad;
+        //$valores = [500, 200, 100, 50, 20, 10, 5, 1];
+        $valores = [500, 200, 100, 5, 1];
+        $retorno = array();
+        foreach($valores as $valor) {
+          if($montoTemp >= $valor) {
+            $divisionEntera = intdiv($montoTemp, $valor);
+            $montoTemp -= $valor * $divisionEntera;
+            $detalle = new \stdClass();
+            $detalle->codigo = 'TC' . str_pad($valor, 2, '0', STR_PAD_LEFT);
+            $detalle->descripcion = 'Timbre por cuota de ' . $valor . ' quetzales';
+            $detalle->precioUnitario = $valor;
+            $detalle->cantidad = $divisionEntera;
+            $retorno[] = $detalle;
+          }
+        }
+        return $retorno;
+      }
 }

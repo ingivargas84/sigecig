@@ -86,22 +86,22 @@ var colegiados_table = $('#colegiados-table').DataTable({
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
 
-                    return "<div id='" + full.id + "' class='text-center'>" +
+                    return "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
                     "<i class='fa fa-info-circle' title='Detalles'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='#'"+ "data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' >" +
+                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' data-nombre='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"' >" +
                     "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
                     "<i class='fa fa-info' title='Información de Timbres'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
                     "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
