@@ -91,7 +91,11 @@ class ReciboController extends Controller
         // consulta para saber a que bodega pertenece el cajero o usuario loggeado
         $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $request->user";
             $result = DB::select($query);
-        $bodega = $result[0]->bodega;
+
+        if (empty($result)){
+            $error = 'Usuario no cuenta con bodega asignada';
+            return response()->json($error, 500);
+        }else { $bodega = $result[0]->bodega; }
 
         // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
         $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = $request->codigo AND bodega_id = $bodega";
@@ -222,7 +226,7 @@ class ReciboController extends Controller
                 $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
             }
             $array = $request->input("datos");
-            
+
             for ($i = 1; $i < sizeof($array); $i++) {
                 $reciboDetalle = Recibo_Detalle::create([
                     'numero_recibo'     => $reciboMaestro->numero_recibo,
