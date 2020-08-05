@@ -68,8 +68,6 @@ $(document).ready(function(){
         }
         if (Number($('#cantidadTraspasoTc01B1').val()) > Number($('#existenciaTc01B1').val())){
             alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC01 no debe exceder su existencia');
-            $('#cantidadTraspasoTc01B1').val($('#existenciaTc01B1').val())
-            $('#nuevaCantidadTc01B2').val($('#existenciaTc01B1').val());
         }
     });
     $('#cantidadTraspasoTc05B1').change(function() {

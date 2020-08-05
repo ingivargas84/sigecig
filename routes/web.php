@@ -252,6 +252,7 @@ Route::group([
         Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
         Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
         Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
+        Route::get('/remesa/pdf/{id}/', 'IngresoBodegaController@pdfRemesa')->name('remesa.pdfRemesa');
 
         // Modulo de Traspaso de timbres
         Route::get( '/traspaso', 'TraspasoController@index')->name('traspaso.index');
