@@ -32,7 +32,7 @@ class Aspirante extends Model
       return $this->belongsTo('\App\DepartamentoNac', 'iddepartamentonacimiento');
     }
 
-    /* public function profesiones()
+     public function profesiones()
     {
         return $this->belongsToMany('\App\Profesion', 'profesionAspirante', 'dpi', 'c_profesion');
     }
@@ -40,5 +40,5 @@ class Aspirante extends Model
     public function especialidades()
     {
         return $this->belongsToMany('\App\Especialidad', 'especialidadAspirante', 'dpi', 'c_especialidad');
-    } */
+    } 
 }

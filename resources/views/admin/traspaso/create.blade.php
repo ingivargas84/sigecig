@@ -116,42 +116,42 @@
                                         <tr>
                                             <td><b>TC01</b></td>
                                             <td><input type="number" name="existenciaTc01B2" id="existenciaTc01B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc01B2" id="nuevaCantidadTc01B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc01B2" id="nuevaCantidadTc01B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC05</b></td>
                                             <td><input type="number" name="existenciaTc05B2" id="existenciaTc05B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc05B2" id="nuevaCantidadTc05B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc05B2" id="nuevaCantidadTc05B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC10</b></td>
                                             <td><input type="number" name="existenciaTc10B2" id="existenciaTc10B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc10B2" id="nuevaCantidadTc10B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc10B2" id="nuevaCantidadTc10B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC20</b></td>
                                             <td><input type="number" name="existenciaTc20B2" id="existenciaTc20B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc20B2" id="nuevaCantidadTc20B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc20B2" id="nuevaCantidadTc20B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC50</b></td>
                                             <td><input type="number" name="existenciaTc50B2" id="existenciaTc50B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc50B2" id="nuevaCantidadTc50B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc50B2" id="nuevaCantidadTc50B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC100</b></td>
                                             <td><input type="number" name="existenciaTc100B2" id="existenciaTc100B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc100B2" id="nuevaCantidadTc100B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc100B2" id="nuevaCantidadTc100B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC200</b></td>
                                             <td><input type="number" name="existenciaTc200B2" id="existenciaTc200B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc200B2" id="nuevaCantidadTc200B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc200B2" id="nuevaCantidadTc200B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                         <tr>
                                             <td><b>TC500</b></td>
                                             <td><input type="number" name="existenciaTc500B2" id="existenciaTc500B2" class="form-control" readOnly min="0"></td>
-                                            <td><input type="number" name="nuevaCantidadTc500B2" id="nuevaCantidadTc500B2" class="form-control" min="0"></td>
+                                            <td><input type="number" name="nuevaCantidadTc500B2" id="nuevaCantidadTc500B2" class="form-control" readOnly min="0"></td>
                                         </tr>
                                     </tbody>
                                 </table>
