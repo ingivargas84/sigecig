@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
-use App\EstadoCivil;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB, Image, Mail, Log, Auth, PDF, Date, Hash;
@@ -20,11 +20,30 @@ use App\Nacionalidad;
 use App\Sexo;
 use App\Especialidad;
 use App\EspecialidadAspirante;
+use App\Profesion;
+use App\ProfesionAspirante;
+use App\EstadoCivil;
+
 class ColegiadosController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+
     public function index()
     {
-        return view ('admin.colegiados.index');
+        $query = "SELECT c_profesion id, IIF (n_profesion='',titulo_masculino,titulo_masculino+' '+n_profesion) as nombre
+        FROM profesion
+        ORDER BY titulo_masculino+' '+n_profesion";
+        $resultado = DB::connection('sqlsrv')->select($query);
+        
+        $query = "SELECT c_especialidad id, n_especialidad nombre 
+        FROM especialidad 
+        ORDER BY n_especialidad";
+    		$esp = DB::connection('sqlsrv')->select($query);
+
+        return view ('admin.colegiados.index', compact('resultado', 'esp'));
     }
 
     public function create()
@@ -80,17 +99,17 @@ class ColegiadosController extends Controller
 
        */
  
-      $especilidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
-      $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
+      $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
+      
+      $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $profesion = Profesion::where('c_profesion', '=', $profasp->c_profesion)->get()->first();
+
       /*
       $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
       $especilidadasp = Especialidad::select('aspirante.n_especialidad')
             ->join('especialidadAspirante', 'aspirante.dpi', '=', 'especialidadAspirante.dpi')
             ->get();*/
-
-
-     // $especilidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
-        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especilidadasp', 'especialidad'));
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'profesion'));
     }
       
       public function getDatosAspirante() {
@@ -190,46 +209,9 @@ class ColegiadosController extends Controller
 
   public function setDatosAspirante() {
     DB::beginTransaction();
-    /*  $rules = array(
-//        'idusuario' => 'required|digits:13',
-      'idusuario' => 'required',
-      'nombres' => 'required',
-      'apellidos' => 'required',
-
-      'sexo' => 'required|in:M,F',
-      'fechaNacimiento' => 'required|date',
-      'idDepartamentoCasa' => 'required',
-      'idMunicipioCasa' => 'required',
-
-      'email' => 'required',
-
-//        'dpi' => 'required|digits:13',
-      'idDepartamentoNacimiento' => 'required',
-      'idMunicipioNacimiento' => 'required',
-      'idDepartamentoTrabajo' => 'required',
-      'idMunicipioTrabajo' => 'required',
-      'direccion' => 'required',
-
-      'estadoCivil' => 'required|in:C,D,P,S,U,V',
-      'destino' => 'required|in:Casa,Oficina,Otros',
-      'codigoPostal' => 'required',
-      'telTrabajo' => 'required',
-      'lugarTrabajo' => 'required',
-
-      'fechaGraduacion' => 'required|date',
-      'idUniversidadGraduado' => 'required',
-    );
-    $messages = [
-      'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
-    ]; 
-    $validator = Validator::make(Input::all(), $rules, $messages);
-    if ($validator->fails()) {
-      $errors = $validator->errors();
-      $errors =  json_decode($errors);
-      return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
-    }
-    Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado al aspirante " . print_r(Input::all(), true));
- */
+   
+    //Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado al aspirante " . print_r(Input::all(), true));
+ 
     $user = \App\Aspirante::find(Input::get('idusuario'));
     if($user == null) {
       $user = new \App\Aspirante;
@@ -285,7 +267,7 @@ class ColegiadosController extends Controller
 
     $user->save();
     DB::commit();
-    return redirect()->route('colegiados.index')->with('flash','Colegiado se creo exitosamente!');
+    return response()->json(['mensaje' => 'Registrado Correctamente', 'url'=> route('colegiados.index')]);
   }
 
 
@@ -355,10 +337,104 @@ Log::info("Morir2 ".print_r($aspirante, true));
 
     $aspirante = \App\Aspirante::find(Input::get('idusuario'));
     $aspirante->especialidades()->attach(Input::get('idespecialidad'));
-    return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+    return json_encode(array('retorno' => 0, 'mensaje' => 'Especialidad guardada correctamente'));
   }
 
 
+  public function guardarMontoTimbreAspirante() {
+    $rules = array(
+//        'idusuario' => 'required|digits:13',
+          'idusuario' => 'required|integer',
+          'montoTimbre' => 'required'
+    );
+    $messages = [
+      'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+    ];
+    $validator = Validator::make(Input::all(), $rules, $messages);
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      $errors =  json_decode($errors);
+      return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+    }
+    Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado el monto de timbre " . print_r(Input::all(), true));
+    $user = \App\Aspirante::find(Input::get('idusuario'));
+    if($user == null) {
+      $this->setDatosAspirante();
+      $user = \App\Aspirante::find(Input::get('idusuario'));
+    }
+    $user->montoTimbre = Input::get('montoTimbre');
+    $user->save();
+    return json_encode(array('error' => 0, 'mensaje' => 'Datos guardados correctamente.'));
+  }
+
+  public function getMontoTimbreAspirante() {
+    $rules = array(
+//        'idusuario' => 'required|digits:13'
+      'idusuario' => 'required'
+    );
+    $messages = [
+      'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+    ];
+    $validator = Validator::make(Input::all(), $rules, $messages);
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      $errors =  json_decode($errors);
+      return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+    }
+    Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha consultado el monto de timbre " . Input::get('idusuario'));
+    $user = \App\Aspirante::find(Input::get('idusuario'));
+    if($user == null) {
+      $user = new \App\Aspirante;
+    }
+    return json_encode(array('error' => 0, 'montoTimbre' => $user->montoTimbre));
+  }
+
+  
+    public function obtenerFechaTopeMensualidades() {
+      $rules = array(
+        'idusuario' => 'required|digits:13'
+      );
+      $messages = [
+        'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+      ];
+      $validator = Validator::make(Input::all(), $rules, $messages);
+      if ($validator->fails()) {
+        $errors = $validator->errors();
+        $errors =  json_decode($errors);
+        return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+      }
+
+      $user = \App\Aspirante::find(Input::get('idusuario'));
+      if($user == null) {
+        $user = new \App\Aspirante;
+      }
+      return json_encode(array('error' => 0, 'topefechapagocuotas' => $user->topeFechaPagoCuotas));
+    }
+
+    public function guardarFechaTopeMensualidades() {
+      $rules = array(
+        'idusuario' => 'required|digits:13',
+        'fechaTopeMensualidades' => 'required|date'
+      );
+      $messages = [
+        'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+      ];
+      $validator = Validator::make(Input::all(), $rules, $messages);
+      if ($validator->fails()) {
+        $errors = $validator->errors();
+        $errors =  json_decode($errors);
+        return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+      }
+      Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado la fecha de tope del aspirante " . print_r(Input::all(), true));
+      $user = \App\Aspirante::find(Input::get('idusuario'));
+      if($user == null) {
+        $this->setDatosAspirante();
+        $user = \App\Aspirante::find(Input::get('idusuario'));
+      }
+      $user->topeFechaPagoCuotas = Input::get('fechaTopeMensualidades');
+      $user->save();
+      return json_encode(array('error' => 0, 'mensaje' => 'Datos guardados correctamente.'));
+    }
     public function getJson(Request $params)
      {
         $query = "SELECT dpi, nombre, carrera_afin

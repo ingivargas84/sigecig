@@ -4,8 +4,8 @@ $('#ingresoModal2').on('shown.bs.modal', function(event){
 	var nombre = button.data('nombre');
 	
 	var modal = $(this);
-  modal.find(".modal-body input[name='nombre']").val(nombre);
   modal.find(".modal-body input[name='dpi']").val(dpi);
+  modal.find(".modal-body input[name='nombre']").val(nombre);
 
  });
 
@@ -198,6 +198,13 @@ $(window).on('load', function(e) {
         }
       });
   
+      $(document).ready(function() {
+        $('.selectpicker').selectpicker({
+          style: 'btn btn-light',
+          size: 4
+        });
+   });
+
       $(".nombreProfesion").autocomplete({
         source: "General/busquedaProfesionAutocomplete",
         focus: function(event, ui) {
@@ -211,10 +218,16 @@ $(window).on('load', function(e) {
           event.preventDefault();
           // manually update the textbox and hidden field
   
-          $(this).val(ui.item.label);
+          $('#nombreProfesion').val(ui.item.label);
           $('#idprofesion').val(ui.item.value);
+          return false;
+
           //$(this).nextAll('input').first().val(ui.item.value);
-        }
+        },
+        success: function(data)
+{
+     $("#nombreProfesion").selectpicker('refresh');
+}
       });
   }); 
   
@@ -235,13 +248,14 @@ $(window).on('load', function(e) {
   }
 
   
-function agregarEspecialidadF() {
-	var invitacion = {
-		'idespecialidad': $("#idespecialidad").val(),
-    'idusuario': $("#dpi").val(),
-    'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
 
+function agregarProfesionF() {
+	var invitacion = {
+		'idprofesion': $("#idprofesion").val(),
+    'idusuario': $("#dpi").val(),
+   /* 'nombres': $("#nombres").val(),
+    'apellidos': $("#apellidos").val(),
+ 
     'sexo': $("#sexo").val(),
     'fechaNacimiento': $("#fechaNacimiento").val(),
     'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
@@ -283,7 +297,93 @@ function agregarEspecialidadF() {
 
     'tituloTesis': $("#tituloTesis").val(),
     'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
+    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val() */
+	};
+  $("#mensajes").html("");
+	$.ajax({
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+		dataType:'JSON',
+		url: "Aspirante/setDatosProfesionalesAspirante",
+		xhrFields: {
+				withCredentials: true
+		},
+		data: invitacion,
+		success: function(data){
+      if(data.retorno==0) {
+        $("#mensajes").html("Profesión guardada correctamente.");
+        $("#mensajes").css({'color':'green'});
+        getDatosProfesionales("P");
+      } else if(data.retorno==1) {
+        $("#mensajes").html("Especialidad ya presente.");
+        $("#mensajes").css({'color':'red'});
+      } else {
+        var a = "Error en el sistema.";
+        if(data.hasOwnProperty("mensaje")) {
+          a += " " + data.mensaje;
+        }
+        $("#mensajes").html(a);
+        $("#mensajes").css({'color':'red'});
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('Profesion agregada con Éxito!!');
+      }
+		},
+		error: function(response) {
+				$("#mensajes").html("Error en el sistema.");
+        $("#mensajes").css({'color':'red'});
+		}
+	});
+}
+  
+function agregarEspecialidadF() {
+	var invitacion = {
+		'idespecialidad': $("#idespecialidad").val(),
+    'idusuario': $("#dpi").val(),
+ /*   'nombres': $("#nombres").val(),
+    'apellidos': $("#apellidos").val(),
+ 
+    'sexo': $("#sexo").val(),
+    'fechaNacimiento': $("#fechaNacimiento").val(),
+    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
+    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
+    'idPaisNacimiento': $("#idPais").val(),
+    //'tipoSangre': $("#tipoSangre").val(),
+
+    'idNacionalidad': $("#idNacionalidad").val(),
+    'telefono': $("#telefono").val(),
+    'telTrabajo': $("#telTrabajo").val(),
+    'email': $("#email").val(),
+    //'nit': $("#nit").val(),
+    'estadoCivil': $("#estadoCivil").val(),
+
+    //'conyugue': $("#conyugue").val(),
+
+    'direccion': $("#direccion").val(),
+    'zona': $("#zona").val(),
+    'idDepartamentoCasa': $("#idDepartamento").val(),
+    'idMunicipioCasa': $("#idMunicipio").val(),
+    //'codigoPostal': $("#codigoPostal").val(),
+
+    'direccionTrabajo': $("#direccionTrabajo").val(),
+    'zonaTrabajo': $("#zonaTrabajo").val(),
+    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
+    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
+    //'lugarTrabajo': $("#lugarTrabajo").val(),
+
+    //'direccionOtro': $("#direccionOtro").val(),
+    //'zonaOtro': $("#zonaOtro").val(),
+    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
+    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
+    'destino': $("#destino").val(),
+
+    'fechaGraduacion': $("#fechaGraduacion").val(),
+    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
+    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
+    //'creditos': $("#creditos").val(),
+
+    'tituloTesis': $("#tituloTesis").val(),
+    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
+    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val() */
 	};
   $("#mensajes").html("");
 	$.ajax({
@@ -311,6 +411,9 @@ function agregarEspecialidadF() {
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
       }
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('Especialidad agregada con Éxito!!');
+        $('#ingresoModal2').modal("hide");
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");

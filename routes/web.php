@@ -227,6 +227,9 @@ Route::group([
         Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
         Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
         Route::post('Aspirante/setDatosEspecialidadesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesAspirante']);
+        Route::post('Aspirante/guardarMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarMontoTimbreAspirante']);
+        Route::post('Aspirante/getMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getMontoTimbreAspirante']);
+        Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -238,8 +241,8 @@ Route::group([
         Route::get('General/busquedaProfesionAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaProfesionAutocomplete']);
         Route::get('General/busquedaEspecialidadAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaEspecialidadAutocomplete']);
 
-        Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
-        Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
+        Route::post('Aspirante/setdatosaspirante', 'ColegiadosController@setDatosAspirante')->name('colegiados.save');
+        Route::post('Aspirante/getdatosaspirante', 'ColegiadosController@getDatosAspirante');
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
         Route::get( 'colegiados/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
         //Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
