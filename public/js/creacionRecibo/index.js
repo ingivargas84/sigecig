@@ -87,6 +87,7 @@ function obtenerDatosColegiado()
     comprobarCheckEfectivo();
     comprobarCheckCheque();
     comprobarCheckTarjeta();
+    limpiarTimbres();
 }
 
 function limpiarPantallaColegiado()
@@ -150,6 +151,7 @@ $(document).ready(function () {
         limpiarFilaDetalle();
         limpiarFilaDetalleE();
         limpiarFilaDetalleP();
+        limpiarTimbres();
     });
 });
 
@@ -207,8 +209,39 @@ function getTc01(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    // $(celdas).closest('tr').remove();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM1') || ($($(celdas[1])).text() == 'TC01') || ($($(celdas[1])).text() == 'TE01')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM1') || ($($(celdas[1])).text() == 'TC01') || ($($(celdas[1])).text() == 'TE01')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM1') || ($($(celdas[1])).text() == 'TC01') || ($($(celdas[1])).text() == 'TE01')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc01').style.display = "none";$("input[name='tc01']").val('');$('#tc01inicio').val('');$('#tc01fin').val('');
+                    document.getElementById('datoTc01E').style.display = "none";$("input[name='tc01E']").val('');$('#tc01inicioE').val('');$('#tc01finE').val('');
+                    document.getElementById('datoTc01P').style.display = "none";$("input[name='tc01P']").val('');$('#tc01inicioP').val('');$('#tc01finP').val('');
                 }
             });
         }
@@ -267,8 +300,38 @@ function getTc05(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM5') || ($($(celdas[1])).text() == 'TC05') || ($($(celdas[1])).text() == 'TE05')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM5') || ($($(celdas[1])).text() == 'TC05') || ($($(celdas[1])).text() == 'TE05')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM5') || ($($(celdas[1])).text() == 'TC05') || ($($(celdas[1])).text() == 'TE05')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc05').style.display = "none";$("input[name='tc05']").val('');$('#tc05inicio').val('');$('#tc05fin').val('');
+                    document.getElementById('datoTc05E').style.display = "none";$("input[name='tc05E']").val('');$('#tc05inicioE').val('');$('#tc05finE').val('');
+                    document.getElementById('datoTc05P').style.display = "none";$("input[name='tc05P']").val('');$('#tc05inicioP').val('');$('#tc05finP').val('');
                 }
             });
         }
@@ -327,8 +390,38 @@ function getTc10(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM10') || ($($(celdas[1])).text() == 'TC10') || ($($(celdas[1])).text() == 'TE10')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM10') || ($($(celdas[1])).text() == 'TC10') || ($($(celdas[1])).text() == 'TE10')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM10') || ($($(celdas[1])).text() == 'TC10') || ($($(celdas[1])).text() == 'TE10')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc10').style.display = "none";$("input[name='tc10']").val('');$('#tc10inicio').val('');$('#tc10fin').val('');
+                    document.getElementById('datoTc10E').style.display = "none";$("input[name='tc10E']").val('');$('#tc10inicioE').val('');$('#tc10finE').val('');
+                    document.getElementById('datoTc10P').style.display = "none";$("input[name='tc10P']").val('');$('#tc10inicioP').val('');$('#tc10finP').val('');
                 }
             });
         }
@@ -387,8 +480,38 @@ function getTc20(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM20') || ($($(celdas[1])).text() == 'TC20') || ($($(celdas[1])).text() == 'TE20')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM20') || ($($(celdas[1])).text() == 'TC20') || ($($(celdas[1])).text() == 'TE20')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM20') || ($($(celdas[1])).text() == 'TC20') || ($($(celdas[1])).text() == 'TE20')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc20').style.display = "none";$("input[name='tc20']").val('');$('#tc20inicio').val('');$('#tc20fin').val('');
+                    document.getElementById('datoTc20E').style.display = "none";$("input[name='tc20E']").val('');$('#tc20inicioE').val('');$('#tc20finE').val('');
+                    document.getElementById('datoTc20P').style.display = "none";$("input[name='tc20P']").val('');$('#tc20inicioP').val('');$('#tc20finP').val('');
                 }
             });
         }
@@ -447,8 +570,38 @@ function getTc50(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM50') || ($($(celdas[1])).text() == 'TC50') || ($($(celdas[1])).text() == 'TE50')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM50') || ($($(celdas[1])).text() == 'TC50') || ($($(celdas[1])).text() == 'TE50')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM50') || ($($(celdas[1])).text() == 'TC50') || ($($(celdas[1])).text() == 'TE50')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc50').style.display = "none";$("input[name='tc50']").val('');$('#tc50inicio').val('');$('#tc50fin').val('');
+                    document.getElementById('datoTc50E').style.display = "none";$("input[name='tc50E']").val('');$('#tc50inicioE').val('');$('#tc50finE').val('');
+                    document.getElementById('datoTc50P').style.display = "none";$("input[name='tc50P']").val('');$('#tc50inicioP').val('');$('#tc50finP').val('');
                 }
             });
         }
@@ -507,8 +660,38 @@ function getTc100(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM100') || ($($(celdas[1])).text() == 'TC100') || ($($(celdas[1])).text() == 'TE100')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM100') || ($($(celdas[1])).text() == 'TC100') || ($($(celdas[1])).text() == 'TE100')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM100') || ($($(celdas[1])).text() == 'TC100') || ($($(celdas[1])).text() == 'TE100')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc100').style.display = "none";$("input[name='tc100']").val('');$('#tc100inicio').val('');$('#tc100fin').val('');
+                    document.getElementById('datoTc100E').style.display = "none";$("input[name='tc100E']").val('');$('#tc100inicioE').val('');$('#tc100finE').val('');
+                    document.getElementById('datoTc100P').style.display = "none";$("input[name='tc100P']").val('');$('#tc100inicioP').val('');$('#tc100finP').val('');
                 }
             });
         }
@@ -567,8 +750,38 @@ function getTc200(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM200') || ($($(celdas[1])).text() == 'TC200') || ($($(celdas[1])).text() == 'TE200')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM200') || ($($(celdas[1])).text() == 'TC200') || ($($(celdas[1])).text() == 'TE200')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM200') || ($($(celdas[1])).text() == 'TC200') || ($($(celdas[1])).text() == 'TE200')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc200').style.display = "none";$("input[name='tc200']").val('');$('#tc200inicio').val('');$('#tc200fin').val('');
+                    document.getElementById('datoTc200E').style.display = "none";$("input[name='tc200E']").val('');$('#tc200inicioE').val('');$('#tc200finE').val('');
+                    document.getElementById('datoTc200P').style.display = "none";$("input[name='tc200P']").val('');$('#tc200inicioP').val('');$('#tc200finP').val('');
                 }
             });
         }
@@ -627,8 +840,38 @@ function getTc500(){
                     alertify.set('notifier','position', 'top-center');
                     alertify.warning(mensaje);
 
-                    $(celdas).closest('tr').remove();
-                    getTotal();
+                    var filas = $("#tablaDetalle").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM500') || ($($(celdas[1])).text() == 'TC500') || ($($(celdas[1])).text() == 'TE500')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleE").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM500') || ($($(celdas[1])).text() == 'TC500') || ($($(celdas[1])).text() == 'TE500')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+                    var filas = $("#tablaDetalleP").find("tr");
+                    if (filas.length > 1){
+                        for(var i= 0; i < filas.length; i++){
+                            var celdas = $(filas[i]).find("td");
+                            if(($($(celdas[1])).text() == 'TIM500') || ($($(celdas[1])).text() == 'TC500') || ($($(celdas[1])).text() == 'TE500')){
+                                $(celdas).closest('tr').remove();
+                            }
+                        }
+                    }
+
+                    getTotal(); getTotalE(); getTotalP();
+                    document.getElementById('datoTc500').style.display = "none";$("input[name='tc500']").val('');$('#tc500inicio').val('');$('#tc500fin').val('');
+                    document.getElementById('datoTc500E').style.display = "none";$("input[name='tc500E']").val('');$('#tc500inicioE').val('');$('#tc500finE').val('');
+                    document.getElementById('datoTc500P').style.display = "none";$("input[name='tc500P']").val('');$('#tc500inicioP').val('');$('#tc500finP').val('');
                 }
             });
         }
@@ -1082,6 +1325,33 @@ function getTotal() {
     $("input[name='subtotal']").val('');
     $("#codigo").focus();
   }
+
+  function limpiarTimbres(){
+    document.getElementById('datoTc01').style.display = "none";$("input[name='tc01']").val('');$('#tc01inicio').val('');$('#tc01fin').val('');
+    document.getElementById('datoTc01E').style.display = "none";$("input[name='tc01E']").val('');$('#tc01inicioE').val('');$('#tc01finE').val('');
+    document.getElementById('datoTc01P').style.display = "none";$("input[name='tc01P']").val('');$('#tc01inicioP').val('');$('#tc01finP').val('');
+    document.getElementById('datoTc05').style.display = "none";$("input[name='tc05']").val('');$('#tc05inicio').val('');$('#tc05fin').val('');
+    document.getElementById('datoTc05E').style.display = "none";$("input[name='tc05E']").val('');$('#tc05inicioE').val('');$('#tc05finE').val('');
+    document.getElementById('datoTc05P').style.display = "none";$("input[name='tc05P']").val('');$('#tc05inicioP').val('');$('#tc05finP').val('');
+    document.getElementById('datoTc10').style.display = "none";$("input[name='tc10']").val('');$('#tc10inicio').val('');$('#tc10fin').val('');
+    document.getElementById('datoTc10E').style.display = "none";$("input[name='tc10E']").val('');$('#tc10inicioE').val('');$('#tc10finE').val('');
+    document.getElementById('datoTc10P').style.display = "none";$("input[name='tc10P']").val('');$('#tc10inicioP').val('');$('#tc10finP').val('');
+    document.getElementById('datoTc20').style.display = "none";$("input[name='tc20']").val('');$('#tc20inicio').val('');$('#tc20fin').val('');
+    document.getElementById('datoTc20E').style.display = "none";$("input[name='tc20E']").val('');$('#tc20inicioE').val('');$('#tc20finE').val('');
+    document.getElementById('datoTc20P').style.display = "none";$("input[name='tc20P']").val('');$('#tc20inicioP').val('');$('#tc20finP').val('');
+    document.getElementById('datoTc50').style.display = "none";$("input[name='tc50']").val('');$('#tc50inicio').val('');$('#tc50fin').val('');
+    document.getElementById('datoTc50E').style.display = "none";$("input[name='tc50E']").val('');$('#tc50inicioE').val('');$('#tc50finE').val('');
+    document.getElementById('datoTc50P').style.display = "none";$("input[name='tc50P']").val('');$('#tc50inicioP').val('');$('#tc50finP').val('');
+    document.getElementById('datoTc100').style.display = "none";$("input[name='tc100']").val('');$('#tc100inicio').val('');$('#tc100fin').val('');
+    document.getElementById('datoTc100E').style.display = "none";$("input[name='tc100E']").val('');$('#tc100inicioE').val('');$('#tc100finE').val('');
+    document.getElementById('datoTc100P').style.display = "none";$("input[name='tc100P']").val('');$('#tc100inicioP').val('');$('#tc100finP').val('');
+    document.getElementById('datoTc200').style.display = "none";$("input[name='tc200']").val('');$('#tc200inicio').val('');$('#tc200fin').val('');
+    document.getElementById('datoTc200E').style.display = "none";$("input[name='tc200E']").val('');$('#tc200inicioE').val('');$('#tc200finE').val('');
+    document.getElementById('datoTc200P').style.display = "none";$("input[name='tc200P']").val('');$('#tc200inicioP').val('');$('#tc200finP').val('');
+    document.getElementById('datoTc500').style.display = "none";$("input[name='tc500']").val('');$('#tc500inicio').val('');$('#tc500fin').val('');
+    document.getElementById('datoTc500E').style.display = "none";$("input[name='tc500E']").val('');$('#tc500inicioE').val('');$('#tc500finE').val('');
+    document.getElementById('datoTc500P').style.display = "none";$("input[name='tc500P']").val('');$('#tc500inicioP').val('');$('#tc500finP').val('');
+}
 
   function eliminardetalle(e) {
 	if (confirm("Confirma que desea eliminar este producto") == false) {

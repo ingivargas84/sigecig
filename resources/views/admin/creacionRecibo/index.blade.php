@@ -203,7 +203,7 @@
                 <div class="row" id="divExistencia">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="text" name="existencia" id="existencia" class="form-control" style="display:none;">
+                            <input type="text" name="existencia" id="existencia" class="form-control" style="display:none;" readOnly>
                         </div>
                     </div>
                 </div>
@@ -472,7 +472,7 @@
                 <div class="row" id="divExistenciaE">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="text" name="existenciaE" id="existenciaE" class="form-control" style="display:none;">
+                            <input type="text" name="existenciaE" id="existenciaE" class="form-control" style="display:none;" readOnly>
                         </div>
                     </div>
                 </div>
@@ -744,7 +744,7 @@
                 <div class="row" id="divExistenciaP">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="text" name="existenciaP" id="existenciaP" class="form-control" style="display:none;">
+                            <input type="text" name="existenciaP" id="existenciaP" class="form-control" style="display:none;" readOnly>
                         </div>
                     </div>
                 </div>
@@ -962,6 +962,7 @@
             comprobarCheckEfectivoP();
             comprobarCheckChequeP();
             comprobarCheckTarjetaP();
+            limpiarTimbres()
         });
     });
 </script>

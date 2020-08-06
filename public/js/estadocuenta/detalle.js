@@ -85,7 +85,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                         "responsivePriority": 1,
                         "render": function( data, type, full, meta ) {
                             return (data);},
-                        }, 
+                        },
                         {
                             "title": "Precio",
                             "data": "precio_colegiado",
@@ -116,8 +116,8 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         "</div>";}else{
                                             return  "";
                                         }
-                                    
-                           
+
+
                                 },},
                                 {
                                     "title": "Abonos",
@@ -130,27 +130,29 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                         "</div>";}else{
                                                 return "";
                                             }
-                                        
-                                   
+
+
                                     },},
 
 
                             {
                                 "title": "Acciones",
-                                "data": "estado_solicitud_ap",
+                                // "data": "estado_solicitud_ap",
                                 "orderable": false,
                                 "width" : "5%",
                                 "render": function(data, type, full, meta) {
                                     var urlActual = $("input[name='urlActual']").val();
                                     var rol = $("input[name='rol_user']").val();
 
-
+            if (full.abono != 0 ){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
                 "<a href='/creacionRecibo/pdf/"+full.recibo_id+ "/'target='blanck'>" +
                 "<i class='fa fa-print' title='Ver Detalles'></i>" +
                 "</a>" + "</div>"
-
+            } else {
+                return null;
+            }
 
 
 
