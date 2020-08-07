@@ -559,7 +559,7 @@ class TipoDePagoSeeder extends Seeder
             'tipo_de_pago'=>'Envío en capital y mpios de Guatemala(Guatex)24hrs',
             'precio_colegiado'=>'20',
             'precio_particular'=>'20',
-            'categoria_id'=>'1',
+            'categoria_id'=>'0',
             'estado'=>'0',
             'display_plataforma'=>true,
         ]);
@@ -568,7 +568,7 @@ class TipoDePagoSeeder extends Seeder
             'tipo_de_pago'=>'Envío a deptos del país(Guatex) 5 días hábiles',
             'precio_colegiado'=>'30',
             'precio_particular'=>'30',
-            'categoria_id'=>'1',
+            'categoria_id'=>'0',
             'estado'=>'0',
             'display_plataforma'=>true,
         ]);

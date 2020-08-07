@@ -18,12 +18,14 @@
 
   @section('content')
   @include('admin.users.confirmarAccionModal')
-  @include('admin.colegiados.profesionModal')
+  @include('admin.colegiados.profesionModal', $resultado)
+  @include('admin.colegiados.timbreModal')
+
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">
     <div class="box-header">
-        <a class="btn btn-primary pull-right" href="{{route('aspirante.new')}}">
+        <a class="btn btn-primary pull-right" data-toggle="modal" href="{{route('aspirante.new')}}">
             Ingresar colegiado  <i class="fa fa-plus"></i></a>
     </div>
     <!-- /.box-header -->
@@ -44,10 +46,7 @@
 @push('scripts')
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('js/colegiados/add.js')}}"></script>
-
-   {{--  <script src="{{asset('js/bodegas/create.js')}}"></script>
-      <script src="{{asset('js/bodegas/edit.js')}}"></script> --}}
- 
+<script src="{{asset('js/colegiados/timbre.js')}}"></script>
   <script>
     $(document).ready(function() {
       $('.loader').fadeOut(225);

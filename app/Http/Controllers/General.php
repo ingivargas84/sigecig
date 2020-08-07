@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB, Mail, Excel, PDO, PDF;
@@ -17,6 +19,10 @@ use Illuminate\Support\Facades\Input;
 
 class General extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
     /**
      * Display a listing of the resource.
      *
@@ -195,15 +201,6 @@ class General extends Controller
         return $resultado;
       }
 
-      protected function busquedaProfesionRaw($busqueda) {
-        $nombre = $busqueda;
-        $nombrePreparado = str_replace(" ","%",strtolower(trim($nombre)));
-        $query = "SELECT c_profesion id, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') nombre FROM profesion WHERE (lower(isnull(n_profesion,'') + ' ' + isnull(titulo_masculino,'')) COLLATE SQL_LATIN1_GENERAL_CP1_CI_AI like '%' + :nombre + '%') OR (lower(isnull(n_profesion,'') + ' ' + isnull(titulo_femenino,'')) COLLATE SQL_LATIN1_GENERAL_CP1_CI_AI like '%' + :nombre + '%') ORDER BY n_profesion + ' ' + titulo_masculino";
-        $parametros = array(':nombre' => $nombrePreparado);
-    		$resultado = DB::connection('sqlsrv')->select($query, $parametros);
-        $this->utf8_encode_deep($resultado);
-        return $resultado;
-      }
 
       protected function obtenerEspecialidad() {
         $id = Input::get('id');

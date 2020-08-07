@@ -72,7 +72,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
         },
         {
             "title": "Estado",
-            "data": "descripcion",
+            "data": "carrera_afin",
             "width" : "15%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -98,7 +98,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
                     "</a>" + "</div>" +
                     "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.dpi+"' data-nombre1='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"'>" +
                     "<i class='fa fa-info' title='Información de Timbres'></i>" +
                     "</a>" + "</div>" +
                     "<div id='" + full.dpi + "' class='text-center'>" +
@@ -122,28 +122,3 @@ $("#btnConfirmarAccion").click(function(event) {
         validator.focusInvalid();
     }
 });
-
-$(document).on('click', 'a.destroy-bodegas', function(e) {
-    e.preventDefault(); // does not go through with the link.
-    alertify.defaults.theme.ok = "btn btn-error";
-    var $this = $(this);
-    alertify.confirm('Eliminar Bodega', 'Esta seguro de eliminar la Bodega?',
-        function(){
-            $('.loader').fadeIn();
-            $.post({
-                type: $this.data('method'),
-                url: $this.attr('href')
-            }).done(function (data) {
-                $('.loader').fadeOut(225);
-                bodegas_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Bodega eliminada con Éxito!!');
-            });
-         }
-        , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
-        });
-});
-
-

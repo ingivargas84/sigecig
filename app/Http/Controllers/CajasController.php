@@ -36,8 +36,7 @@ class CajasController extends Controller
         //$subsede = Subsedes::all();
         $datos2 = "SELECT S.id, S.nombre_sede
         FROM sigecig_subsedes S
-        WHERE S.id NOT IN (SELECT subsede FROM sigecig_cajas)
-        AND S.estado = 1";
+        WHERE S.estado = 1";
          
         $subsede = DB::select($datos2);
 
