@@ -133,6 +133,16 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
                                     },},
+                                    {
+                                        "title": "Fecha",
+                                        "data": "updated_at",
+                                        "width" : "7%",
+                                        "responsivePriority": 2,
+                                        "render": function( data, type, full, meta ) {
+                                            return (data);
+    
+    
+                                        },},
 
 
                             {

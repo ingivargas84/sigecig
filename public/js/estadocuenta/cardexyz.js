@@ -16,7 +16,16 @@ var resolucion_table = $('#resolucion-table').DataTable({
     'pageLength',
     'excelHtml5',
     'csvHtml5',
-    'pdfHtml5'
+    {
+        extend: 'pdfHtml5',
+        filename: function(){
+           
+            let numeroColegiado = $('#noColegiado').val();
+            return 'Kardex-'+numeroColegiado;
+            },
+            exportOptions: {
+                columns: [ 1, 2, 3, 4, 5, 6 ]}
+    }
     ],
 
     "paging": true,
@@ -120,32 +129,15 @@ var resolucion_table = $('#resolucion-table').DataTable({
                                     "render": function( data, type, full, meta ) {
                                         return (data);},
                                     }, 
-                                   
-                           
-                       
+                                    {
+                                        "title": "Fecha",
+                                        "data": "fecha",
+                                        "width" : "5%",
+                                        "responsivePriority": 2,
+                                        "render": function( data, type, full, meta ) {
+                                            return (data);},
+                                        }, 
 
-                            {
-                                "title": "Acciones",
-                                "data": "estado_solicitud_ap",
-                                "orderable": false,
-                                "width" : "5%",
-                                "render": function(data, type, full, meta) {
-                                    var urlActual = $("input[name='urlActual']").val();
-                                    var rol = $("input[name='rol_user']").val();
-
-       
-                return "<div id='" + full.id + "' class='text-center'>" + 
-                "<div class='float-left '>" +
-                "<a id='enviar' href='#"+full.id+"/'  class='enviar' >" +
-                "<i class='fa fa-print' title='Imprimir'></i>" + 
-                "</a>" + "</div>"
-
-        
-
-  
-        },
-        "responsivePriority": 4
-    }
 
                             ]
 });

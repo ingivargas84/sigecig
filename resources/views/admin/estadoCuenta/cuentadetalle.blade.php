@@ -3,7 +3,8 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-     {{$colegiado->n_cliente}}
+     <div>{{$colegiado->n_cliente}} </div>
+     <div>SALDO: Q. {{$total}}</div>
     </center>
     </h1>
     <ol class="breadcrumb">

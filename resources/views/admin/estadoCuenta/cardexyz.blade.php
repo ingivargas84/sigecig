@@ -4,6 +4,7 @@
 <section class="content-header">
     <h1><center>
       {{$colegiado->n_cliente}}
+      <input type="text" style="display: none" value="{{$colegiado->c_cliente}}" id="noColegiado">
     </center>
     </h1>
     <ol class="breadcrumb">
