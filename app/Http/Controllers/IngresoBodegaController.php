@@ -384,4 +384,24 @@ class IngresoBodegaController extends Controller
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
     }
+
+    public function pdfRemesa(IngresoBodegaMaestro $id)
+    {
+        $newDate = date("d/m/Y", strtotime($id->created_at));
+        $nombre = User::select("name")->where("id", $id->usuario_id)->get()->first();
+
+        $query1= "SELECT tp.codigo, tp.tipo_de_pago, id.planchas, id.unidad_por_plancha, id.numeracion_inicial, id.numeracion_final, id.cantidad, id.total FROM sigecig_ingreso_bodega_detalle id
+                  INNER JOIN sigecig_tipo_de_pago tp ON id.tipo_de_pago_id = tp.id
+                  WHERE id.ingreso_maestro_id = $id->id";
+        $datos = DB::select($query1);
+
+        $total = 0;
+        for ($i = 1; $i < sizeof($datos); $i++) {
+            $total += $datos[$i]->total;
+        }
+
+        return \PDF::loadView('admin.remesa.pdfremesa', compact('id', 'nombre', 'datos', 'total', 'newDate'))
+        ->setPaper('legal', 'landscape')
+        ->stream('Remesa.pdf');
+    }
 }

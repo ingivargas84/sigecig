@@ -122,7 +122,11 @@ var remesas_table = $('#remesas-table').DataTable({
             return  "<div class='float-rigth col-lg-4'>" +
                     "<a href='"+urlActual+"/detalle/"+full.id+"' class='detalles-remesa' >" +
                     "<i class='fa fa-btn fa-edit' title='detalles remesa'></i>" +
-                    "</a>" + "</div>";
+                    "</a>" + "</div>" +
+                    "<div class='float-rigth col-lg-4'>" +
+                    "<a href='"+urlActual+"/pdf/"+full.id+"/' class='pdf-remesa' >" +
+                    "<i class='fa fa-file-pdf-o' title='PDF remesa'></i>" +
+                    "</a>" + "</div>" ;
         },
         "responsivePriority": 5
     }]

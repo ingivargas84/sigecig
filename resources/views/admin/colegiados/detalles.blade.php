@@ -35,7 +35,7 @@
                         <legend>Información Personal</legend>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="dpi">Dpi:</label>
+                              <label for="dpi">DPI:</label>
                               <input name="dpi"  onchange="cargarDatos()" autofocus="" value="{{$query->dpi}}" class="form-control" type="text" readonly>                            
                             </div>
                             <div class="col-sm-4">
@@ -59,7 +59,11 @@
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
+                                @if ($muninac->n_mpo==true)
                                 <input id="valMunicipioNacimiento" value="{{$muninac->n_mpo}}" list="countries" class="form-control" placeholder="Municipio" name="valMunicipioNacimiento" type="text" autocomplete="off" readonly>
+                                @else
+                                <input id="valMunicipioNacimiento" value="No ingresado" list="countries" class="form-control" name="valMunicipioNacimiento" type="text" readonly>
+                                @endif
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
@@ -70,11 +74,20 @@
                         <div class="row">
                             <div class='col-sm-4'>
                               <label for="valPais" class="control-label">País</label>
+                              @if($paisnac ["c_pais"] != null)
+                              <input id="valPais" value="No encontrado" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
+                              @else
                               <input id="valPais" value="{{$paisnac->n_pais}}" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
-                              </div>
+                              @endif
+
+                            </div>
                             <div class="col-sm-4">
                               <label for="valNacionalidad" class="control-label">Nacionalidad</label>
-                              <input id="valNacionalidad" value="{{$nacionalidad->n_nacionalidad}}" class="form-control ui-autocomplete-input" placeholder="Nacionalidad" name="valNacionalidad" type="text" autocomplete="off"readonly>
+                              @if($nacionalidad ["c_nacionalidad"] == null)
+                              <input id="valNacionalidad" value="No ingresada" class="form-control ui-autocomplete-input" name="valNacionalidad" type="text" autocomplete="off"readonly>
+                              @else
+                              <input id="valNacionalidad" value="{{$nacionalidad->n_nacionalidad}}" class="form-control ui-autocomplete-input" name="valNacionalidad" type="text" autocomplete="off"readonly>
+                             @endif
                             </div>
                             <div class="col-sm-4">
                               <label for="telefono" class="control-label">Teléfono</label>
@@ -178,6 +191,49 @@
                             </div>
                         </div>
                         <br>
+
+                        <legend>Profesion y Especialidad</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                              <label for="profesion" class="control-label">Profesion:</label>
+                              @if ($profesion->c_profesion==true)
+                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                              @else 
+                              @else
+                              <input id="profesion" value="No ingresada" class="form-control" placeholder="Teléfono" name="profesion" type="tel" readonly>                            
+                              @endif
+{{--                                 <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>         
+ --}}                              </div>
+                            <div class="col-sm-4">
+                              <label for="especialidad" class="control-label">Especialidad:</label>
+
+                               @if($especialidadasp ["c_especialidad"] == null)
+                              <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
+                              @else 
+                               <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
+                               @endif  
+                            </div>
+                        </div>
+                        <br>
+                        <legend>Datos de Timbre</legend>
+                        <div class="row">
+                            <div class="col-sm-6">
+                              <label for="profesion" class="control-label">Monto:</label>
+                            @if ($query->montoTimbre==true)
+                               <input id="profesion" value="{{$query->montoTimbre}}" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
+                              @else
+                             <input id="profesion" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
+                              @endif
+                              </div>
+                            <div class="col-sm-4">
+                              <label for="especialidad" class="control-label">Fecha:</label>
+                              @if ($query->topeFechaPagoCuotas==true)
+                              <input id="especialidad" value="{{$query->topeFechaPagoCuotas}}" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                            @else 
+                            <input id="especialidad" value="No ingresada" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                            @endif
+                            </div>
+                        </div>
+                        <br>
                       <div class="text-right m-t-15">
          {{--                <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
  <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
@@ -193,5 +249,5 @@
 
 @endsection  
 @push('scripts')
-<script src="{{asset('js/colegiados/aspirante.js')}}"></script>
-@endpush
+{{-- <script src="{{asset('js/colegiados/aspirante.js')}}"></script>
+ --}}@endpush

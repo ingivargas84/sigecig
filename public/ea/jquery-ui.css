@@ -118,6 +118,8 @@
 	left: 0;
 	cursor: default;
 }
+.ui-front { z-index: 9999; }
+
 .ui-button {
 	display: inline-block;
 	position: relative;

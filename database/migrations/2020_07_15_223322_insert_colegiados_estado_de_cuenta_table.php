@@ -72,7 +72,7 @@ class InsertColegiadosEstadoDeCuentaTable extends Migration
                 $cuentaD = EstadoDeCuentaDetalle::create([
                     'estado_cuenta_maestro_id'      => $resp[0]->id,
                     'cantidad'                      => '1',
-                    'tipo_pago_id'                  => '58',
+                    'tipo_pago_id'                  => '61',
                     'recibo_id'                     => '1',
                     'abono'                         => '0.00',
                     'cargo'                         => $TotalCapital,

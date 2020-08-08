@@ -120,6 +120,9 @@
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('remesa.index')}}">
               <i class="fa fa-eye"></i>Ingreso de Timbres</a>
             </li>
+            <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
+                <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
+            </li>
           </ul>
         @endrole
 
@@ -199,10 +202,6 @@
                 <i class="fa fa-money"></i>Estados de Cuenta</a>
               </li>
         @endrole
-
-        <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
-          <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
-        </li>
 
 </ul>
 

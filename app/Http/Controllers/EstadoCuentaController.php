@@ -29,6 +29,7 @@ class EstadoCuentaController extends Controller
 
         /////
 
+
         /////
        
 
@@ -89,17 +90,38 @@ class EstadoCuentaController extends Controller
         return Response::json($api_Result);
     }
     public function estadoCuentaDetallado($id){
-
+        $MesActual=Carbon::Now();
+        $mes=$MesActual->format('m');
+        $anio=$MesActual->format('yy');
+        $ageFrom=Carbon::Now()->startOfMonth();
+        $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
         $user = Auth::User();
         $no_colegiado=EstadoDeCuentaMaestro::select('colegiado_id')->where('id',$id)->get()->first();
         $colegiado=\App\SQLSRV_Colegiado::select('n_cliente','c_cliente')->where('c_cliente',$no_colegiado->colegiado_id)->get()->first();
+
+        $saldoActual =\App\SigecigSaldoColegiados::where('no_colegiado',$no_colegiado->colegiado_id)->where('mes_id',$mes)->where('año',$anio)->get()->last();
+        $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
+        if(empty($abono)){
+            $abono=0;
+        }
+        $cargo=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('cargo');
+        if(empty($cargo)){
+            $cargo=0;
+        }
+        if(!empty($saldoActual)){
+            $total=$saldoActual->saldo+$cargo-$abono; 
+        }
+        else{
+            $total=$cargo-$abono;
+        }
         
-        return view ('admin.estadoCuenta.cuentadetalle',compact('user','id','colegiado'));
+        $total= number_format($total, 2);
+        return view ('admin.estadoCuenta.cuentadetalle',compact('user','id','colegiado','total'));
     }
 
     public function getDetalle($id){
 
-        $query = "SELECT U.id, U.estado_cuenta_maestro_id, U.cantidad,  S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id 
+        $query = "SELECT U.id, U.estado_cuenta_maestro_id, U.cantidad, U.updated_at, S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id 
         FROM sigecig_estado_de_cuenta_detalle U
         INNER JOIN sigecig_tipo_de_pago S ON U.tipo_pago_id=S.id
         WHERE U.estado_cuenta_maestro_id = $id
@@ -121,7 +143,7 @@ class EstadoCuentaController extends Controller
         return view ('admin.estadoCuenta.cardexyz',compact('user','id','colegiado'));
     }
     public function getXyz($id){
-        $query = "SELECT U.c_cliente,  U.num_fac, U.n_cliente, S.descripcion ,CONVERT(VARCHAR, CAST(S.importe  AS MONEY), 1) as importe,  CONVERT(VARCHAR, CAST(S.precio_u  AS MONEY), 1) as precio_u, CONVERT(VARCHAR, CAST(S.cantidad  AS MONEY), 1) as cantidad, S.codigo
+        $query = "SELECT U.c_cliente,  U.num_fac, U.n_cliente,FORMAT( U.fecha1, 'dd/MM/yyyy h:m:s', 'en-US' ) AS 'fecha',S.descripcion ,CONVERT(VARCHAR, CAST(S.importe  AS MONEY), 1) as importe,  CONVERT(VARCHAR, CAST(S.precio_u  AS MONEY), 1) as precio_u, CONVERT(VARCHAR, CAST(S.cantidad  AS MONEY), 1) as cantidad,  S.codigo
         FROM fac01 U
         INNER JOIN fac02 S ON U.num_fac=S.num_fac
         WHERE U.c_cliente = '$id'

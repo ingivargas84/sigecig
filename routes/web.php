@@ -223,7 +223,13 @@ Route::group([
         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
-        Route::post('/colegiados/save/', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
+       // Route::post('/colegiados/save/', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
+        Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
+        Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
+        Route::post('Aspirante/setDatosEspecialidadesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesAspirante']);
+        Route::post('Aspirante/guardarMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarMontoTimbreAspirante']);
+        Route::post('Aspirante/getMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getMontoTimbreAspirante']);
+        Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -232,11 +238,15 @@ Route::group([
         Route::get('General/listauniversidades','General@getListaUniversidades');
         Route::post('General/departamentopais','General@getDepartamentoPais');
         Route::post('General/pais','General@getPais');
+        Route::get('General/busquedaProfesionAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaProfesionAutocomplete']);
+        Route::get('General/busquedaEspecialidadAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaEspecialidadAutocomplete']);
 
-        Route::post('Aspirante/setdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosAspirante'])->name('colegiados.save');
-        Route::post('Aspirante/getdatosaspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosAspirante']);
+        Route::post('Aspirante/setdatosaspirante', 'ColegiadosController@setDatosAspirante')->name('colegiados.save');
+        Route::post('Aspirante/getdatosaspirante', 'ColegiadosController@getDatosAspirante');
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
         Route::get( 'colegiados/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        //Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
+       // Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
 
         // Modulo de Remesa
         Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
@@ -245,6 +255,7 @@ Route::group([
         Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
         Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
         Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
+        Route::get('/remesa/pdf/{id}/', 'IngresoBodegaController@pdfRemesa')->name('remesa.pdfRemesa');
 
         // Modulo de Traspaso de timbres
         Route::get( '/traspaso', 'TraspasoController@index')->name('traspaso.index');
@@ -252,6 +263,7 @@ Route::group([
         Route::get( '/traspaso/new', 'TraspasoController@create')->name('traspaso.new');
         Route::post( '/traspaso/save', 'TraspasoController@store')->name('traspaso.save');
         Route::get( '/getBodega/{bodega}', 'TraspasoController@getBodega');
+        Route::get('/traspaso/pdf/{id}/', 'TraspasoController@pdfTraspaso')->name('traspaso.pdfTraspaso');
 
     });
 

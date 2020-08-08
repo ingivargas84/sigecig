@@ -66,6 +66,9 @@ $(document).ready(function(){
         if ($('#cantidadTraspasoTc01B1').val() == 0){
             $('#nuevaCantidadTc01B2').val(0);
         }
+        if (Number($('#cantidadTraspasoTc01B1').val()) > Number($('#existenciaTc01B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC01 no debe exceder su existencia');
+        }
     });
     $('#cantidadTraspasoTc05B1').change(function() {
         var total = 0;
@@ -73,6 +76,11 @@ $(document).ready(function(){
         $('#nuevaCantidadTc05B2').val(total);
         if ($('#cantidadTraspasoTc05B1').val() == 0){
             $('#nuevaCantidadTc05B2').val(0);
+        }
+        if (Number($('#cantidadTraspasoTc05B1').val()) > Number($('#existenciaTc05B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC05 no debe exceder su existencia');
+            $('#cantidadTraspasoTc05B1').val($('#existenciaTc05B1').val())
+            $('#nuevaCantidadTc05B2').val($('#existenciaTc05B1').val());
         }
     });
     $('#cantidadTraspasoTc10B1').change(function() {
@@ -82,6 +90,11 @@ $(document).ready(function(){
         if ($('#cantidadTraspasoTc10B1').val() == 0){
             $('#nuevaCantidadTc10B2').val(0);
         }
+        if (Number($('#cantidadTraspasoTc10B1').val()) > Number($('#existenciaTc10B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC10 no debe exceder su existencia');
+            $('#cantidadTraspasoTc10B1').val($('#existenciaTc10B1').val())
+            $('#nuevaCantidadTc10B2').val($('#existenciaTc10B1').val());
+        }
     });
     $('#cantidadTraspasoTc20B1').change(function() {
         var total = 0;
@@ -89,6 +102,11 @@ $(document).ready(function(){
         $('#nuevaCantidadTc20B2').val(total);
         if ($('#cantidadTraspasoTc20B1').val() == 0){
             $('#nuevaCantidadTc20B2').val(0);
+        }
+        if (Number($('#cantidadTraspasoTc20B1').val()) > Number($('#existenciaTc20B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC20 no debe exceder su existencia');
+            $('#cantidadTraspasoTc20B1').val($('#existenciaTc20B1').val())
+            $('#nuevaCantidadTc20B2').val($('#existenciaTc20B1').val());
         }
     });
     $('#cantidadTraspasoTc50B1').change(function() {
@@ -98,6 +116,11 @@ $(document).ready(function(){
         if ($('#cantidadTraspasoTc50B1').val() == 0){
             $('#nuevaCantidadTc50B2').val(0);
         }
+        if (Number($('#cantidadTraspasoTc50B1').val()) > Number($('#existenciaTc50B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC50 no debe exceder su existencia');
+            $('#cantidadTraspasoTc50B1').val($('#existenciaTc50B1').val())
+            $('#nuevaCantidadTc50B2').val($('#existenciaTc50B1').val());
+        }
     });
     $('#cantidadTraspasoTc100B1').change(function() {
         var total = 0;
@@ -105,6 +128,11 @@ $(document).ready(function(){
         $('#nuevaCantidadTc100B2').val(total);
         if ($('#cantidadTraspasoTc100B1').val() == 0){
             $('#nuevaCantidadTc100B2').val(0);
+        }
+        if (Number($('#cantidadTraspasoTc100B1').val()) > Number($('#existenciaTc100B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC100 no debe exceder su existencia');
+            $('#cantidadTraspasoTc100B1').val($('#existenciaTc100B1').val())
+            $('#nuevaCantidadTc100B2').val($('#existenciaTc100B1').val());
         }
     });
     $('#cantidadTraspasoTc200B1').change(function() {
@@ -114,6 +142,11 @@ $(document).ready(function(){
         if ($('#cantidadTraspasoTc200B1').val() == 0){
             $('#nuevaCantidadTc200B2').val(0);
         }
+        if (Number($('#cantidadTraspasoTc200B1').val()) > Number($('#existenciaTc200B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC200 no debe exceder su existencia');
+            $('#cantidadTraspasoTc200B1').val($('#existenciaTc200B1').val())
+            $('#nuevaCantidadTc200B2').val($('#existenciaTc200B1').val());
+        }
     });
     $('#cantidadTraspasoTc500B1').change(function() {
         var total = 0;
@@ -121,6 +154,11 @@ $(document).ready(function(){
         $('#nuevaCantidadTc500B2').val(total);
         if ($('#cantidadTraspasoTc500B1').val() == 0){
             $('#nuevaCantidadTc500B2').val(0);
+        }
+        if (Number($('#cantidadTraspasoTc500B1').val()) > Number($('#existenciaTc500B1').val())){
+            alertify.set('notifier','position', 'top-center'); alertify.error('la cantidad de timbres a traspasar TC500 no debe exceder su existencia');
+            $('#cantidadTraspasoTc500B1').val($('#existenciaTc500B1').val())
+            $('#nuevaCantidadTc500B2').val($('#existenciaTc500B1').val());
         }
     });
 

@@ -72,7 +72,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
         },
         {
             "title": "Estado",
-            "data": "descripcion",
+            "data": "carrera_afin",
             "width" : "15%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -86,22 +86,22 @@ var colegiados_table = $('#colegiados-table').DataTable({
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
 
-                    return "<div id='" + full.id + "' class='text-center'>" +
+                    return "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
                     "<i class='fa fa-info-circle' title='Detalles'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='#'"+ "data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' >" +
+                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' data-nombre='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"' >" +
                     "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.dpi+"' data-nombre1='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"'>" +
                     "<i class='fa fa-info' title='Información de Timbres'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.id + "' class='text-center'>" +
+                    "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
                     "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
@@ -122,28 +122,3 @@ $("#btnConfirmarAccion").click(function(event) {
         validator.focusInvalid();
     }
 });
-
-$(document).on('click', 'a.destroy-bodegas', function(e) {
-    e.preventDefault(); // does not go through with the link.
-    alertify.defaults.theme.ok = "btn btn-error";
-    var $this = $(this);
-    alertify.confirm('Eliminar Bodega', 'Esta seguro de eliminar la Bodega?',
-        function(){
-            $('.loader').fadeIn();
-            $.post({
-                type: $this.data('method'),
-                url: $this.attr('href')
-            }).done(function (data) {
-                $('.loader').fadeOut(225);
-                bodegas_table.ajax.reload();
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Bodega eliminada con Éxito!!');
-            });
-         }
-        , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
-        });
-});
-
-

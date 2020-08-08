@@ -251,60 +251,27 @@ var validator = $("#colegiadosForm").validate({
 });
 
 
+   //Mostrar y ocultar formulario
+   if (window.location.hash === '#tim') {
+    $('#ingresoModal3').modal('show');
+  }
+  $('#ingresoModal3').on('hide.bs.modal', function () {
+    $("#TimbreForm").validate().resetForm();
+    document.getElementById("TimbreForm").reset();
+    window.location.hash = '#';
+  });
+  $('#ingresoModal3').on('shown.bs.modal', function () {
+    window.location.hash = '#tim';
+    });
+
 $("#guardarAspirante").click(function(event) {
-  var url = "/colegiados"; 
-  $(location).attr('href',url);
 	if ($('#colegiadosForm').valid()) {
-		$('.loader').addClass("is-active");
+        $('.loader').addClass("is-active");
+        window.location.href = '/colegiados';
 	} else {
 		validator.focusInvalid();
 	}
 });
-
-/* 
-$(window).on('load', function(e) {
-  $("#idusuario").val(location.hash);
-    if($("#idusuario").val()) {
-      getdatos();
-    }
-    $(".nombreEspecialidad").autocomplete({
-      source: "General/busquedaEspecialidadAutocomplete",
-      focus: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox
-        $(this).val(ui.item.label);
-      },
-      select: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox and hidden field
-
-        $(this).val(ui.item.label);
-        $('#idespecialidad').val(ui.item.value);
-        //$(this).nextAll('input').first().val(ui.item.value);
-      }
-    });
-
-    $(".nombreProfesion").autocomplete({
-      source: "General/busquedaProfesionAutocomplete",
-      focus: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox
-        $(this).val(ui.item.label);
-      },
-      select: function(event, ui) {
-        // prevent autocomplete from updating the textbox
-        event.preventDefault();
-        // manually update the textbox and hidden field
-
-        $(this).val(ui.item.label);
-        $('#idprofesion').val(ui.item.value);
-        //$(this).nextAll('input').first().val(ui.item.value);
-      }
-    });
-}); */
 
 function cargarDatos() {
   getdatos();
@@ -508,7 +475,7 @@ function guardarAspiranteF() {
 		success: function(data){
 				var idusuario = $("#idusuario").val();
 				$("#cleanButton").click();
-				$("#mensajes").html("");
+        $("#mensajes").html("");
 				if(data.error==1){
           var html = "<ul>";
           $.each(data.infoError, function (index, item) {
@@ -517,8 +484,7 @@ function guardarAspiranteF() {
               html += item1;
             });
             html += "</li>";
-            alertify.set('notifier','position', 'top-center');
-			    	alertify.success('Colegiado creado con Éxito!!');
+           
             //console.log(item);
             /*html += "<ul>" + item.question;
             $.each(item.answer, function (index1, item1) {
@@ -526,13 +492,18 @@ function guardarAspiranteF() {
             });
             html+="</ul>";*/
           });
+          
           html += "</ul>";
 						$("#mensajes").html(data.mensaje + html);
 						$("#mensajes").css({'color':'red'});
 				} else {
-						$("#mensajes").html("Datos guardados correctamente.");
-            $("#mensajes").css({'color':'green'});
-				}
+          window.location = "/colegiados";
+                alertify.set('notifier','position', 'top-center');
+                alertify.success('Colegiado creado con Éxito!!');
+					/* 	$("#mensajes").html("Datos guardados correctamente.");
+            $("#mensajes").css({'color':'green'}); */
+        }
+        
 				//alert(data.n_cliente);
 		},
 		error: function(response) {
@@ -1395,77 +1366,6 @@ function actualizarPagosBanrural() {
   });
 }
 
-function guardarMontoTimbre()
-{
-  var invitacion = {
-    'idusuario': $("#dpi").val(),
-    'montoTimbre': $("#montoTimbre").val(),
-    'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
-
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
-
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
-  };
-  $.ajax({
-    type: "POST",
-    headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-    dataType:'JSON',
-    url: "Aspirante/guardarMontoTimbreAspirante",
-    data: invitacion,
-    success: function(data){
-      if(data.error==1){
-        $("#mensajes").html("Ningún dato encontrado.");
-        $("#mensajes").css({'color':'red'});
-      } else {
-        $("#mensajes").html("Datos guardados correctamente.");
-        $("#mensajes").css({'color':'green'});
-      }
-    },
-    error: function(response) {
-      $("#mensajes").html("Error en el sistema.");
-    }
-  });
-}
 
       function getDatosTimbre() {
         $("#montoTimbre").val("");
@@ -1529,173 +1429,6 @@ function guardarMontoTimbre()
                         });
       }
 
-function agregarEspecialidadF() {
-	var invitacion = {
-		'idespecialidad': $("#idespecialidad").val(),
-    'idusuario': $("#dpi").val(),
-    'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
-
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
-
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
-	};
-  $("#mensajes").html("");
-	$.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-		dataType:'JSON',
-		url: "Aspirante/setDatosEspecialidadesAspirante",
-		xhrFields: {
-				withCredentials: true
-		},
-		data: invitacion,
-		success: function(data){
-      if(data.retorno==0) {
-        $("#mensajes").html("Especialidad guardada correctamente.");
-        $("#mensajes").css({'color':'green'});
-        getDatosProfesionales("M");
-      } else if(data.retorno==1) {
-        $("#mensajes").html("Especialidad ya presente.");
-        $("#mensajes").css({'color':'red'});
-      } else {
-        var a = "Error en el sistema.";
-        if(data.hasOwnProperty("mensaje")) {
-          a += " " + data.mensaje;
-        }
-        $("#mensajes").html(a);
-        $("#mensajes").css({'color':'red'});
-      }
-		},
-		error: function(response) {
-				$("#mensajes").html("Error en el sistema.");
-        $("#mensajes").css({'color':'red'});
-		}
-	});
-}
-
-function agregarProfesionF() {
-	var invitacion = {
-		'idprofesion': $("#idprofesion").val(),
-    'idusuario': $("#dpi").val(),
-    'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
-
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    'tipoSangre': $("#tipoSangre").val(),
-
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    'direccionOtro': $("#direccionOtro").val(),
-    'zonaOtro': $("#zonaOtro").val(),
-    'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
-	};
-  $("#mensajes").html("");
-	$.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-		dataType:'JSON',
-		url: "Aspirante/setDatosProfesionalesAspirante",
-		xhrFields: {
-				withCredentials: true
-		},
-		data: invitacion,
-		success: function(data){
-      if(data.retorno==0) {
-        $("#mensajes").html("Profesión guardada correctamente.");
-        $("#mensajes").css({'color':'green'});
-        getDatosProfesionales("P");
-      } else if(data.retorno==1) {
-        $("#mensajes").html("Especialidad ya presente.");
-        $("#mensajes").css({'color':'red'});
-      } else {
-        var a = "Error en el sistema.";
-        if(data.hasOwnProperty("mensaje")) {
-          a += " " + data.mensaje;
-        }
-        $("#mensajes").html(a);
-        $("#mensajes").css({'color':'red'});
-      }
-		},
-		error: function(response) {
-				$("#mensajes").html("Error en el sistema.");
-        $("#mensajes").css({'color':'red'});
-		}
-	});
-}
 
 $("#serieReciboColegio").bind('keyup', function (e) {
     if (e.which >= 97 && e.which <= 122) {
@@ -1786,78 +1519,6 @@ function generarKardex(tipoV){
     $.post("Colegiado/generarKardex",{colegiado:$("#idusuario").val(), tipo: tipoV}, function(data, status){
 
     });
-}
-
-function guardarFechaTopeMensualidades()
-{
-                  var invitacion = {
-                      'idusuario': $("#dpi").val(),
-                      'fechaTopeMensualidades': $("#fechaTopeMensualidades").val(),
-                      'nombres': $("#nombres").val(),
-                      'apellidos': $("#apellidos").val(),
-
-                      'sexo': $("#sexo").val(),
-                      'fechaNacimiento': $("#fechaNacimiento").val(),
-                      'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-                      'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-                      'idPaisNacimiento': $("#idPais").val(),
-                      'tipoSangre': $("#tipoSangre").val(),
-
-                      'idNacionalidad': $("#idNacionalidad").val(),
-                      'telefono': $("#telefono").val(),
-                      'telTrabajo': $("#telTrabajo").val(),
-                      'email': $("#email").val(),
-                      'nit': $("#nit").val(),
-                      'estadoCivil': $("#estadoCivil").val(),
-
-                      'conyugue': $("#conyugue").val(),
-
-                      'direccion': $("#direccion").val(),
-                      'zona': $("#zona").val(),
-                      'idDepartamentoCasa': $("#idDepartamento").val(),
-                      'idMunicipioCasa': $("#idMunicipio").val(),
-                      'codigoPostal': $("#codigoPostal").val(),
-
-                      'direccionTrabajo': $("#direccionTrabajo").val(),
-                      'zonaTrabajo': $("#zonaTrabajo").val(),
-                      'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-                      'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-                      'lugarTrabajo': $("#lugarTrabajo").val(),
-
-                      'direccionOtro': $("#direccionOtro").val(),
-                      'zonaOtro': $("#zonaOtro").val(),
-                      'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-                      'idMunicipioOtro': $("#idMunicipioOtro").val(),
-                      'destino': $("#destino").val(),
-
-                      'fechaGraduacion': $("#fechaGraduacion").val(),
-                      'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-                      'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-                      'creditos': $("#creditos").val(),
-
-                      'tituloTesis': $("#tituloTesis").val(),
-                      'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-                      'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
-                  };
-                  $.ajax({
-                      type: "POST",
-                      headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-                      dataType:'JSON',
-                      url: "Aspirante/guardarFechaTopeMensualidades",
-                      data: invitacion,
-                      success: function(data){
-                              if(data.error==1){
-                                      $("#mensajes").html("Error al guardar.");
-                                      $("#mensajes").css({'color':'red'});
-                              } else {
-        $("#mensajes").html("Datos guardados correctamente.");
-        $("#mensajes").css({'color':'green'});
-                              }
-                      },
-                      error: function(response) {
-                              $("#mensajes").html("Error en el sistema.");
-                      }
-                  });
 }
 
 function asociarColegiado() {
