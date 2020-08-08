@@ -91,13 +91,6 @@ class ColegiadosController extends Controller
       $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
       $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
-
-      /*  $especilidadasp = "SELECT E.n_especialidad FROM especialidad E
-       INNER JOIN especialidadAspirante EA on EA.c_especialidad = E.c_especialidad 
-       INNER JOIN aspirante A ON A.dpi = EA.dpi";
-      $resultado = DB::connection('sqlsrv')->select($especilidadasp);
-
-       */
  
       $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
       

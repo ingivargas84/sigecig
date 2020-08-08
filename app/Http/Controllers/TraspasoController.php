@@ -400,28 +400,6 @@ class TraspasoController extends Controller
         // SELECT * FROM `sigecig_ingreso_producto` WHERE tipo_de_pago_id = 30 AND bodega_id = 1 ORDER BY id ASC
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     public function getBodega($id)
     {
         $queryTc01 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 30";
@@ -453,5 +431,38 @@ class TraspasoController extends Controller
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
+    }
+
+    public function pdfTraspaso(TraspasoMaestro $id)
+    {
+        $newDate = date("d/m/Y", strtotime($id->created_at)); //fecha de creacion
+        $nombreUsuario = User::select("name")->where("id", $id->usuario_id)->get()->first(); //nombre del usuario que creo el traspaso
+
+        $query = "SELECT t.id, b.nombre_bodega as bodega_origen, c.nombre_bodega as bodega_destino, t.cantidad_de_timbres, t.total_en_timbres
+                  FROM sigecig_traspaso_maestro t
+                  INNER JOIN sigecig_bodega b ON t.bodega_origen_id = b.id
+                  INNER JOIN sigecig_bodega c ON t.bodega_destino_id = c.id
+                  WHERE t.id = $id->id";
+        $result = DB::select($query);
+
+        $bodegaOrigen  = $result[0]->bodega_origen; //bodega de origen
+        $bodegaDestino = $result[0]->bodega_destino; //bodega de destino
+
+
+        $query1= "SELECT tp.codigo, tp.tipo_de_pago, id.cantidad_a_traspasar FROM sigecig_traspaso_detalle id
+                  INNER JOIN sigecig_tipo_de_pago tp ON id.tipo_pago_timbre_id = tp.id
+                  WHERE id.traspaso_maestro_id = $id->id";
+        $datos = DB::select($query1);
+
+        // dd($result);
+
+        // $total = 0;
+        // for ($i = 1; $i < sizeof($datos); $i++) {
+        //     $total += $datos[$i]->total;
+        // }
+
+        return \PDF::loadView('admin.traspaso.pdftraspaso', compact('id', 'nombreUsuario', 'bodegaOrigen', 'bodegaDestino', 'newDate'))
+        ->setPaper('legal', 'portrait')
+        ->stream('Traspaso.pdf');
     }
 }

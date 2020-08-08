@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class='col-sm-4'>
                               <label for="valPais" class="control-label">País</label>
-                              @if($paisnac ["c_pais"] == null)
+                              @if($paisnac ["c_pais"] != null)
                               <input id="valPais" value="No encontrado" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
                               @else
                               <input id="valPais" value="{{$paisnac->n_pais}}" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
@@ -196,18 +196,21 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="profesion" class="control-label">Profesion:</label>
-{{--                               <input id="profesion" value="{{$profesion->n_profesion}}" class="form-control" placeholder="Teléfono" name="profesion" type="tel" readonly>                            
- --}}
-                               <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>         
-                             </div>
+                              @if ($profesion->c_profesion==true)
+                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                              @else 
+                              @else
+                              <input id="profesion" value="No ingresada" class="form-control" placeholder="Teléfono" name="profesion" type="tel" readonly>                            
+                              @endif
+{{--                                 <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>         
+ --}}                              </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Especialidad:</label>
 
                                @if($especialidadasp ["c_especialidad"] == null)
                               <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
                               @else 
-                              <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
-                              @endif  
+                               <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
+                               @endif  
                             </div>
                         </div>
                         <br>
@@ -215,13 +218,19 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="profesion" class="control-label">Monto:</label>
-{{--                               <input id="profesion" value="{{$profesion->n_profesion}}" class="form-control" placeholder="Teléfono" name="profesion" type="tel" readonly>                            
- --}}
-                               <input id="profesion" value="Sin monto" class="form-control" name="profesion" type="text" readonly>         
-                             </div>
+                            @if ($query->montoTimbre==true)
+                               <input id="profesion" value="{{$query->montoTimbre}}" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
+                              @else
+                             <input id="profesion" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
+                              @endif
+                              </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Fecha:</label>
-                              <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                              @if ($query->topeFechaPagoCuotas==true)
+                              <input id="especialidad" value="{{$query->topeFechaPagoCuotas}}" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                            @else 
+                            <input id="especialidad" value="No ingresada" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                            @endif
                             </div>
                         </div>
                         <br>
