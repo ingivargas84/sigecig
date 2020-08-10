@@ -14,10 +14,6 @@ use App\TipoDePago;
 use Carbon\Carbon;
 
 
-
-
-
-
 class EstadoCuentaController extends Controller
 {
     public function __construct()
@@ -26,7 +22,6 @@ class EstadoCuentaController extends Controller
     }
     public function index(){
         $user = Auth::User();
-
         /////
 
 

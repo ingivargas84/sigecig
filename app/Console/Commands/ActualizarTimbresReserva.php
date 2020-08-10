@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Carbon\Carbon;
+
 
 class ActualizarTimbresReserva extends Command
 {
@@ -11,14 +13,14 @@ class ActualizarTimbresReserva extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'update:estadoTimbre';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Actualizacion de estado de timbre en reserva, con tiempo mayor a 10 minutos de creacion';
 
     /**
      * Create a new command instance.
@@ -37,6 +39,18 @@ class ActualizarTimbresReserva extends Command
      */
     public function handle()
     {
-        //
+        $now = Carbon::now();
+        $timbresEnReserva=\App\SigecigReservaTimbres::where('estado','1')->get();
+        foreach ($timbresEnReserva as $key => $timbre) {
+            $fechaTimbre = Carbon::parse($timbre->fecha_hora);
+            $diffMinutes = $fechaTimbre->diffInMinutes($now,false);
+            if($diffMinutes >11){
+                $timbre->estado=0;
+                $timbre->update();
+            }
+        }
+
+      
+        
     }
 }
