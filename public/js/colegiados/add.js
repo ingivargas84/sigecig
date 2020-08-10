@@ -325,7 +325,7 @@ function agregarProfesionF() {
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
         alertify.set('notifier','position', 'top-center');
-        alertify.success('Profesion agregada con Éxito!!');
+        alertify.success('Profesión agregada con Éxito!!');
       }
 		},
 		error: function(response) {
@@ -411,6 +411,7 @@ function agregarEspecialidadF() {
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
       }
+        colegiados_table.ajax.reload();
         alertify.set('notifier','position', 'top-center');
         alertify.success('Especialidad agregada con Éxito!!');
         $('#ingresoModal2').modal("hide");

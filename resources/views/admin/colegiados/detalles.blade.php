@@ -59,35 +59,39 @@
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
-                                @if ($muninac->n_mpo==true)
+                                  @if ($id->idmunicipionacimiento!=null)
                                 <input id="valMunicipioNacimiento" value="{{$muninac->n_mpo}}" list="countries" class="form-control" placeholder="Municipio" name="valMunicipioNacimiento" type="text" autocomplete="off" readonly>
                                 @else
                                 <input id="valMunicipioNacimiento" value="No ingresado" list="countries" class="form-control" name="valMunicipioNacimiento" type="text" readonly>
-                                @endif
+                                @endif  
                               </div>
                               <div class='col-sm-4'>
-                                <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
-                                <input id="valDepartamentoNacimiento" value="{{$depnac->n_depto}}" class="form-control" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly>
+                                  <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
+                                  @if ($id->iddepartamentonacimiento!=null)
+                                <input id="valDepartamentoNacimiento" value="{{$depnac->n_depto}}" class="form-control" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly> 
+                                @else
+                                <input id="valDepartamentoNacimiento" value="No ingresado" class="form-control" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly> 
+                                @endif
                               </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class='col-sm-4'>
                               <label for="valPais" class="control-label">País</label>
-                              @if($paisnac ["c_pais"] != null)
+                               @if($id ["idPaisNacimiento"] == null)
                               <input id="valPais" value="No encontrado" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
                               @else
                               <input id="valPais" value="{{$paisnac->n_pais}}" class="form-control ui-autocomplete-input" placeholder="País" name="valPais" type="text" autocomplete="on" readonly>
-                              @endif
+                              @endif 
 
                             </div>
                             <div class="col-sm-4">
                               <label for="valNacionalidad" class="control-label">Nacionalidad</label>
-                              @if($nacionalidad ["c_nacionalidad"] == null)
+                               @if($id ["idnacionalidad"] == null)
                               <input id="valNacionalidad" value="No ingresada" class="form-control ui-autocomplete-input" name="valNacionalidad" type="text" autocomplete="off"readonly>
                               @else
                               <input id="valNacionalidad" value="{{$nacionalidad->n_nacionalidad}}" class="form-control ui-autocomplete-input" name="valNacionalidad" type="text" autocomplete="off"readonly>
-                             @endif
+                             @endif 
                             </div>
                             <div class="col-sm-4">
                               <label for="telefono" class="control-label">Teléfono</label>
@@ -116,8 +120,12 @@
                               <input id="zona" value="{{$query->zona}}" class="form-control" placeholder="Zona" name="zona" type="tel" readonly>                            
                             </div>
                             <div class="col-sm-4">
-                              <label for="valMunicipio" class="control-label">Municipio Casa</label>
+                               <label for="valMunicipio" class="control-label">Municipio Casa</label>
+                               @if ($id->idMunicipioCasa==null)
+                               <input id="valMunicipio" value="No ingresado" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
+                                @else
                               <input id="valMunicipio" value="{{$municasa->n_mpo}}" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
+                                @endif
                             </div>
                             <div class="col-sm-4">
                               <label for="destino" class="control-label">Destino correo</label>
@@ -143,12 +151,20 @@
                         <br>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="valMunicipioTrabajo" class="control-label">Municipio Trabajo</label>
+                               <label for="valMunicipioTrabajo" class="control-label">Municipio Trabajo</label>
+                               @if ($id->idMunicipioTrabajo==null)
+                               <input id="valMunicipioTrabajo" value="No ingresado" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioTrabajo" type="text" autocomplete="off" readonly>
+                              @else
                               <input id="valMunicipioTrabajo" value="{{$munitrab->n_mpo}}" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipioTrabajo" type="text" autocomplete="off" readonly>
+                             @endif
                             </div>
                             <div class="col-sm-4">
-                              <label for="valDepartamentoTrabajo" class="control-label">Depto. Trab.</label>
+                               <label for="valDepartamentoTrabajo" class="control-label">Depto. Trab.</label>
+                               @if ($id->idDepartamentoTrabajo==null)
+                               <input id="valDepartamentoTrabajo" value="No ingresado" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoTrabajo" type="text" autocomplete="off" readonly>
+                              @else
                               <input id="valDepartamentoTrabajo" value="{{$deptrab->n_depto}}" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamentoTrabajo" type="text" autocomplete="off" readonly>
+                             @endif
                             </div>
                         </div>
                         <br>
@@ -192,44 +208,43 @@
                         </div>
                         <br>
 
-                        <legend>Profesion y Especialidad</legend>
+                        <legend>Profesión y Especialidad</legend>
                         <div class="row">
                             <div class="col-sm-6">
-                              <label for="profesion" class="control-label">Profesion:</label>
-                              @if ($profesion->c_profesion==true)
-                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                              @else 
+                              <label for="Profesión" class="control-label">Profesion:</label>
+                              @if ($profasp!=null)
+                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
                               @else
-                              <input id="profesion" value="No ingresada" class="form-control" placeholder="Teléfono" name="profesion" type="tel" readonly>                            
+                              <input id="profesion" value="No ingresada" class="form-control" name="profesion" type="text" readonly>                            
                               @endif
-{{--                                 <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>         
- --}}                              </div>
+                              </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Especialidad:</label>
-
-                               @if($especialidadasp ["c_especialidad"] == null)
-                              <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
+                                @if($especialidadasp!= null)
+                                <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
                               @else 
-                               <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
-                               @endif  
+                               <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
+                               @endif   
                             </div>
                         </div>
                         <br>
                         <legend>Datos de Timbre</legend>
                         <div class="row">
                             <div class="col-sm-6">
-                              <label for="profesion" class="control-label">Monto:</label>
-                            @if ($query->montoTimbre==true)
-                               <input id="profesion" value="{{$query->montoTimbre}}" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
-                              @else
-                             <input id="profesion" value="No ingresado" class="form-control" name="profesion" type="text" readonly>         
+                              <label for="montoTimbre" class="control-label">Monto:</label>
+                            @if ($query->montoTimbre!=null)
+                               <input id="montoTimbre" value="{{$query->montoTimbre}}" class="form-control" name="montoTimbre" type="text" readonly>         
+                            @else
+                             <input id="montoTimbre" value="No ingresado" class="form-control" name="montoTimbre" type="text" readonly>         
                               @endif
-                              </div>
+                            </div>
+
                             <div class="col-sm-4">
-                              <label for="especialidad" class="control-label">Fecha:</label>
-                              @if ($query->topeFechaPagoCuotas==true)
-                              <input id="especialidad" value="{{$query->topeFechaPagoCuotas}}" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                              <label for="fechaMonto" class="control-label">Fecha:</label>
+                              @if ($query->topeFechaPagoCuotas!=null)
+                              <input id="fechaMonto" value="{{$query->topeFechaPagoCuotas}}" class="form-control" name="fechaMonto" type="text" readonly>           
                             @else 
-                            <input id="especialidad" value="No ingresada" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>           
+                            <input id="fechaMonto" value="No ingresada" class="form-control" name="fechaMonto" type="text" readonly>           
                             @endif
                             </div>
                         </div>
