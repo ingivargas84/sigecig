@@ -126,8 +126,8 @@ var traspasos_table = $('#traspasos-table').DataTable({
             var urlActual = $("input[name='urlActual']").val();
 
             return  "<div class='float-rigth col-lg-4'>" +
-                    "<a href='#' class='detalles-remesa' >" +
-                    "<i class='fa fa-btn fa-edit' title='detalles remesa'></i>" +
+                    "<a href='"+urlActual+"/pdf/"+full.id+"/' class='pdf-traspaso' >" +
+                    "<i class='fa fa-file-pdf-o' title='PDF traspaso'></i>" +
                     "</a>" + "</div>";
         },
         "responsivePriority": 5

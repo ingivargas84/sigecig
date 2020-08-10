@@ -264,6 +264,7 @@ Route::group([
         Route::get( '/traspaso/new', 'TraspasoController@create')->name('traspaso.new');
         Route::post( '/traspaso/save', 'TraspasoController@store')->name('traspaso.save');
         Route::get( '/getBodega/{bodega}', 'TraspasoController@getBodega');
+        Route::get('/traspaso/pdf/{id}/', 'TraspasoController@pdfTraspaso')->name('traspaso.pdfTraspaso');
 
     });
 
