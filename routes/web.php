@@ -230,6 +230,7 @@ Route::group([
         Route::post('Aspirante/guardarMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarMontoTimbreAspirante']);
         Route::post('Aspirante/getMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getMontoTimbreAspirante']);
         Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
+        Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');

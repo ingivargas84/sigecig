@@ -48,7 +48,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "columns": [ 
         {
             "title": "No. Colegiado",
-            "data": "dpi",
+            "data": "dpi", 
             "width" : "5%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -56,23 +56,23 @@ var colegiados_table = $('#colegiados-table').DataTable({
         },
         {
             "title": "Nombre",
-            "data": "nombre",
-            "width" : "35%",
-            "responsivePriority": 1,
-            "render": function( data, type, full, meta ) {
-                return (data);},
-        },
-        {
-            "title": "Carrera",
-            "data": "carrera_afin",
+            "data": "nombre", 
             "width" : "25%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
+            "title": "Carrera",
+            "data": "carrera", 
+            "width" : "35%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        }, 
+        {
             "title": "Estado",
-            "data": "carrera_afin",
+            "data": "estado",
             "width" : "15%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
@@ -80,12 +80,14 @@ var colegiados_table = $('#colegiados-table').DataTable({
         },
     {
         "title": "Acciones",
+        "data": "c_cliente",
         "orderable": false,
         "width" : "20%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
-
+/*              if(data == true){  //Estado 2 de la solicitud
+ */ 
                     return "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
@@ -96,6 +98,9 @@ var colegiados_table = $('#colegiados-table').DataTable({
                     "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' data-nombre='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"' >" +
                     "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                     "</a>" + "</div>" +
+       /*       }
+            else if(data == null){    //Estado 1 de la solicitud  */
+
                     "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.dpi+"' data-nombre1='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"'>" +
@@ -103,10 +108,11 @@ var colegiados_table = $('#colegiados-table').DataTable({
                     "</a>" + "</div>" +
                     "<div id='" + full.dpi + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='"+urlActual+"/"+full.id+"/destroy' class='destroy-bodegas'"+ "data-method='post' data-id='"+full.id+"' >" +
+                    "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.dpi+"' data-nombre2='"+full.nombre+"'>" +
                     "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
                     "</a>" + "</div>"
-                
+           /*   }
+            else return "";  */
         },
         "responsivePriority": 1
     }]
