@@ -132,7 +132,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 30;
+            $bodegaDetalle->timbre_id = 1;
             $bodegaDetalle->planchas = $planchasTc01;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc01;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc01;
@@ -147,7 +147,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 31;
+            $bodegaDetalle->timbre_id = 2;
             $bodegaDetalle->planchas = $planchasTc05;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc05;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc05;
@@ -163,7 +163,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 32;
+            $bodegaDetalle->timbre_id = 3;
             $bodegaDetalle->planchas = $planchasTc10;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc10;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc10;
@@ -179,7 +179,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 34;
+            $bodegaDetalle->timbre_id = 4;
             $bodegaDetalle->planchas = $planchasTc20;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc20;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc20;
@@ -195,7 +195,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 36;
+            $bodegaDetalle->timbre_id = 5;
             $bodegaDetalle->planchas = $planchasTc50;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc50;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc50;
@@ -211,7 +211,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 33;
+            $bodegaDetalle->timbre_id = 6;
             $bodegaDetalle->planchas = $planchasTc100;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc100;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc100;
@@ -227,7 +227,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 35;
+            $bodegaDetalle->timbre_id = 7;
             $bodegaDetalle->planchas = $planchasTc200;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc200;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc200;
@@ -243,7 +243,7 @@ class IngresoBodegaController extends Controller
             $bodegaDetalle = new IngresoBodegaDetalle;
             $bodegaDetalle->fecha_ingreso = now();
             $bodegaDetalle->ingreso_maestro_id = $lastValueId;
-            $bodegaDetalle->tipo_de_pago_id = 37;
+            $bodegaDetalle->timbre_id = 8;
             $bodegaDetalle->planchas = $planchasTc500;
             $bodegaDetalle->unidad_por_plancha = $unidadPlanchaTc500;
             $bodegaDetalle->numeracion_inicial = $numeroInicialTc500;
@@ -258,7 +258,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc01 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 30;
+            $ingresoProducto->timbre_id = 1;
             $ingresoProducto->cantidad = $cantidadTc01;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -266,7 +266,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc05 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 31;
+            $ingresoProducto->timbre_id = 2;
             $ingresoProducto->cantidad = $cantidadTc05;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -274,7 +274,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc10 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 32;
+            $ingresoProducto->timbre_id = 3;
             $ingresoProducto->cantidad = $cantidadTc10;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -282,7 +282,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc20 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 34;
+            $ingresoProducto->timbre_id = 4;
             $ingresoProducto->cantidad = $cantidadTc20;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -290,7 +290,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc50 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 36;
+            $ingresoProducto->timbre_id = 5;
             $ingresoProducto->cantidad = $cantidadTc50;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -298,7 +298,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc100 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 33;
+            $ingresoProducto->timbre_id = 6;
             $ingresoProducto->cantidad = $cantidadTc100;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -306,7 +306,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc200 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 35;
+            $ingresoProducto->timbre_id = 7;
             $ingresoProducto->cantidad = $cantidadTc200;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -314,7 +314,7 @@ class IngresoBodegaController extends Controller
         if($cantidadTc500 != 0)
         {
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 37;
+            $ingresoProducto->timbre_id = 8;
             $ingresoProducto->cantidad = $cantidadTc500;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
@@ -335,9 +335,9 @@ class IngresoBodegaController extends Controller
         $fecha = date("d/m/Y", strtotime($fecha));
         $bodega = Bodegas::Where('id','=', $maestro->codigo_bodega_id)->get();
 
-        $query = "SELECT t.codigo, d.planchas, d.unidad_por_plancha, d.numeracion_inicial, d.numeracion_final, d.cantidad, d.total
+        $query = "SELECT t.descripcion, d.planchas, d.unidad_por_plancha, d.numeracion_inicial, d.numeracion_final, d.cantidad, d.total
                   from sigecig_ingreso_bodega_detalle d
-                  inner join sigecig_tipo_de_pago t on d.tipo_de_pago_id = t.id
+                  inner join sigecig_timbres t on d.timbre_id = t.id
                   WHERE ingreso_maestro_id = $maestro->id";
         $result = DB::select($query);
 
@@ -355,21 +355,21 @@ class IngresoBodegaController extends Controller
         $tc200 = substr($datos,47,5);
         $tc500 = substr($datos,53,5);
 
-        $lastValueTc01 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 30)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc01 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 1)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc01 = $lastValueTc01->numeracion_final + 1;
-        $lastValueTc05 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 31)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc05 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 2)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc05 = $lastValueTc05->numeracion_final + 1;
-        $lastValueTc10 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 32)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc10 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 3)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc10 = $lastValueTc10->numeracion_final + 1;
-        $lastValueTc20 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 34)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc20 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 4)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc20 = $lastValueTc20->numeracion_final + 1;
-        $lastValueTc50 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 36)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc50 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 5)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc50 = $lastValueTc50->numeracion_final + 1;
-        $lastValueTc100 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 33)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc100 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 6)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc100 = $lastValueTc100->numeracion_final + 1;
-        $lastValueTc200 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 35)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc200 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 7)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc200 = $lastValueTc200->numeracion_final + 1;
-        $lastValueTc500 = DB::table('sigecig_ingreso_bodega_detalle')->Where('tipo_de_pago_id','=', 37)->orderBy('ingreso_maestro_id', 'desc')->first();
+        $lastValueTc500 = DB::table('sigecig_ingreso_bodega_detalle')->Where('timbre_id','=', 8)->orderBy('ingreso_maestro_id', 'desc')->first();
         $lastValueTc500 = $lastValueTc500->numeracion_final + 1;
 
         return array("tc01" => $lastValueTc01,"tc05" => $lastValueTc05, "tc10" => $lastValueTc10,"tc20" => $lastValueTc20,"tc50" => $lastValueTc50,"tc100" => $lastValueTc100,"tc200" => $lastValueTc200,"tc500" => $lastValueTc500);
@@ -390,8 +390,8 @@ class IngresoBodegaController extends Controller
         $newDate = date("d/m/Y", strtotime($id->created_at));
         $nombre = User::select("name")->where("id", $id->usuario_id)->get()->first();
 
-        $query1= "SELECT tp.codigo, tp.tipo_de_pago, id.planchas, id.unidad_por_plancha, id.numeracion_inicial, id.numeracion_final, id.cantidad, id.total FROM sigecig_ingreso_bodega_detalle id
-                  INNER JOIN sigecig_tipo_de_pago tp ON id.tipo_de_pago_id = tp.id
+        $query1= "SELECT tp.descripcion, id.planchas, id.unidad_por_plancha, id.numeracion_inicial, id.numeracion_final, id.cantidad, id.total FROM sigecig_ingreso_bodega_detalle id
+                  INNER JOIN sigecig_timbres tp ON id.timbre_id = tp.id
                   WHERE id.ingreso_maestro_id = $id->id";
         $datos = DB::select($query1);
 

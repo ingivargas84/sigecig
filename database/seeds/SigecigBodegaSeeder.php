@@ -17,5 +17,11 @@ class SigecigBodegaSeeder extends Seeder
         $bodega->descripcion="Bodega ventas en linea";
         $bodega->estado=1;
         $bodega->save();
+
+        $bodega=new Bodegas();
+        $bodega->nombre_bodega="Bodega Central";
+        $bodega->descripcion="Bodega Central";
+        $bodega->estado=1;
+        $bodega->save();
     }
 }
