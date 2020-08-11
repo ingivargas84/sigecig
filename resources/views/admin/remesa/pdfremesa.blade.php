@@ -174,7 +174,7 @@
             </thead>
             @foreach($datos as $co)
             <tr >
-                <td style="background:eee;text-align:center;padding: 7px;">{{$co->codigo}} - {{$co->tipo_de_pago}}</td>
+                <td style="background:eee;text-align:center;padding: 7px;">{{$co->descripcion}}</td>
                 <td style="background:eee;text-align:center;">{{$co->planchas}}</td>
                 <td style="background:eee;text-align:center;">{{$co->unidad_por_plancha}}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>

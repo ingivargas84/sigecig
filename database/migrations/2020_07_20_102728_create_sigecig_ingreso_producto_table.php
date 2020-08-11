@@ -15,7 +15,7 @@ class CreateSigecigIngresoProductoTable extends Migration
     {
         Schema::create('sigecig_ingreso_producto', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tipo_de_pago_id');
+            $table->integer('timbre_id');
             $table->bigInteger('cantidad');
             $table->integer('bodega_id');
             $table->timestamps();
