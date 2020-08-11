@@ -69,7 +69,8 @@ class TraspasoController extends Controller
         $cantidadTraspasoTc200B1    = $request->input("config.cantidadTraspasoTc200B1");
         $existenciaTc500B1          = $request->input("config.existenciaTc500B1");
         $cantidadTraspasoTc500B1    = $request->input("config.cantidadTraspasoTc500B1");
-        $bodegaOrigen               = $request->bodegaOrigen;
+        // $bodegaOrigen               = $request->bodegaOrigen;
+        $bodegaOrigen               = 2;
         $bodegaDestino              = $request->bodegaDestino;
 
         // Almacen traspaso Maestro
@@ -100,119 +101,127 @@ class TraspasoController extends Controller
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 30;
+            $trasDetalle->tipo_pago_timbre_id = 1;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc01B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 30;
+            $ingresoProducto->timbre_id = 1;
             $ingresoProducto->cantidad = $cantidadTraspasoTc01B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc05B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 31;
+            $trasDetalle->tipo_pago_timbre_id = 2;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc05B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 31;
+            $ingresoProducto->timbre_id = 2;
             $ingresoProducto->cantidad = $cantidadTraspasoTc05B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc10B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 32;
+            $trasDetalle->tipo_pago_timbre_id = 3;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc10B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 32;
+            $ingresoProducto->timbre_id = 3;
             $ingresoProducto->cantidad = $cantidadTraspasoTc10B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc20B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 34;
+            $trasDetalle->tipo_pago_timbre_id = 4;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc20B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 34;
+            $ingresoProducto->timbre_id = 4;
             $ingresoProducto->cantidad = $cantidadTraspasoTc20B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc50B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 36;
+            $trasDetalle->tipo_pago_timbre_id = 5;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc50B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 36;
+            $ingresoProducto->timbre_id = 5;
             $ingresoProducto->cantidad = $cantidadTraspasoTc50B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc100B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 33;
+            $trasDetalle->tipo_pago_timbre_id = 6;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc100B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 33;
+            $ingresoProducto->timbre_id = 6;
             $ingresoProducto->cantidad = $cantidadTraspasoTc100B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc200B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 35;
+            $trasDetalle->tipo_pago_timbre_id = 7;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc200B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 35;
+            $ingresoProducto->timbre_id = 7;
             $ingresoProducto->cantidad = $cantidadTraspasoTc200B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
         if($cantidadTraspasoTc500B1 != 0)
         {
             $trasDetalle = new TraspasoDetalle;
             $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 37;
+            $trasDetalle->tipo_pago_timbre_id = 8;
             $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc500B1;
             $trasDetalle->save();
 
             $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->tipo_de_pago_id = 37;
+            $ingresoProducto->timbre_id = 8;
             $ingresoProducto->cantidad = $cantidadTraspasoTc500B1;
             $ingresoProducto->bodega_id = $bodegaDestino;
+            $ingresoProducto->traspaso_id = $lastValueId;
             $ingresoProducto->save();
         }
 
         // Actualizacion de ingreso producto
         if($cantidadTraspasoTc01B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 30 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 1 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -235,7 +244,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc05B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 31 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 2 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -258,7 +267,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc10B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 32 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 3 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -281,7 +290,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc20B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 34 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 4 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -304,7 +313,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc50B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 36 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 5 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -327,7 +336,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc100B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 33 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 6 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -350,7 +359,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc200B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 35 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 7 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -373,7 +382,7 @@ class TraspasoController extends Controller
 
         if($cantidadTraspasoTc500B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 37 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
+            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 8 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
             $result = DB::select($query);
 
             foreach($result as $res)
@@ -397,26 +406,26 @@ class TraspasoController extends Controller
 
         return response()->json(['success' => 'Exito']);
 
-        // SELECT * FROM `sigecig_ingreso_producto` WHERE tipo_de_pago_id = 30 AND bodega_id = 1 ORDER BY id ASC
+        // SELECT * FROM `sigecig_ingreso_producto` WHERE timbre_id = 30 AND bodega_id = 1 ORDER BY id ASC
     }
 
     public function getBodega($id)
     {
-        $queryTc01 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 30";
+        $queryTc01 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 1";
         $resultTc01 = DB::select($queryTc01);
-        $queryTc05 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 31";
+        $queryTc05 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 2";
         $resultTc05 = DB::select($queryTc05);
-        $queryTc10 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 32";
+        $queryTc10 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 3";
         $resultTc10 = DB::select($queryTc10);
-        $queryTc20 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 34";
+        $queryTc20 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 4";
         $resultTc20 = DB::select($queryTc20);
-        $queryTc50 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 36";
+        $queryTc50 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 5";
         $resultTc50 = DB::select($queryTc50);
-        $queryTc100 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 33";
+        $queryTc100 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 6";
         $resultTc100 = DB::select($queryTc100);
-        $queryTc200 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 35";
+        $queryTc200 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 7";
         $resultTc200 = DB::select($queryTc200);
-        $queryTc500 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND tipo_de_pago_id = 37";
+        $queryTc500 = "SELECT SUM(cantidad) as cantidad FROM sigecig_ingreso_producto WHERE bodega_id = $id AND timbre_id = 8";
         $resultTc500 = DB::select($queryTc500);
 
         return array("tc01" => $resultTc01[0]->cantidad,"tc05" => $resultTc05[0]->cantidad, "tc10" => $resultTc10[0]->cantidad,"tc20" => $resultTc20[0]->cantidad,"tc50" => $resultTc50[0]->cantidad,"tc100" => $resultTc100[0]->cantidad,"tc200" => $resultTc200[0]->cantidad,"tc500" => $resultTc500[0]->cantidad);
