@@ -44,7 +44,7 @@ class ActualizarTimbresReserva extends Command
         foreach ($timbresEnReserva as $key => $timbre) {
             $fechaTimbre = Carbon::parse($timbre->fecha_hora);
             $diffMinutes = $fechaTimbre->diffInMinutes($now,false);
-            if($diffMinutes >11){
+            if($diffMinutes >= 11){
                 $timbre->estado=0;
                 $timbre->update();
             }
