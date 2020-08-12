@@ -1,7 +1,8 @@
 
 $(document).ready(function(){
-    $('#bodega1').change(function() {
-        var bodega1 = $('#bodega1').val();
+    // $('#bodega1').change(function() {
+        // var bodega1 = $('#bodega1').val();
+        var bodega1 = 2;
         $.ajax({
             type: 'GET',
             url: '/getBodega/' + bodega1,
@@ -27,7 +28,7 @@ $(document).ready(function(){
                 limpiarCantidaYExistencia();
             },
         });
-    });
+    // });
     $('#bodega2').change(function() {
         var bodega2 = $('#bodega2').val();
         $.ajax({
