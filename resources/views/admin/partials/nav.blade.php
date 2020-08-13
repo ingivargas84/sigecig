@@ -40,13 +40,13 @@
       </li>
       @endrole
 
-      @role("Administrador")
+      @role("Administrador|Super-Administrador")
       <li class="{{request()->is('cajas')? 'active': ''}}"><a href="{{route('cajas.index')}}">
         <i class="fa fa-eye"></i>Cajas</a>
       </li>
       @endrole
 
-      @role("Administrador|JefeContabilidad|Contabilidad")
+      @role("Administrador|JefeContabilidad|Contabilidad|Super-Administrador")
       <li class="{{request()->is('bodegas')? 'active': ''}}"><a href="{{route('bodegas.index')}}">
         <i class="fa fa-eye"></i>Bodegas</a>
       </li>

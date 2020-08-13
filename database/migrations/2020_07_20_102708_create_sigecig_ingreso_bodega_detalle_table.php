@@ -17,7 +17,7 @@ class CreateSigecigIngresoBodegaDetalleTable extends Migration
             $table->increments('id');
             $table->timestamp('fecha_ingreso');
             $table->bigInteger('ingreso_maestro_id');
-            $table->integer('tipo_de_pago_id');
+            $table->integer('timbre_id');
             $table->integer('planchas');
             $table->integer('unidad_por_plancha');
             $table->bigInteger('numeracion_inicial');

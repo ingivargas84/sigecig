@@ -11,7 +11,7 @@ class IngresoBodegaDetalle extends Model
     protected $fillable=[
         'fecha_ingreso',
         'ingreso_maestro_id',
-        'tipo_de_pago_id',
+        'timbre_id',
         'planchas',
         'unidad_por_plancha',
         'numeracion_inicial',
