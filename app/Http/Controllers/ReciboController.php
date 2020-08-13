@@ -79,16 +79,6 @@ class ReciboController extends Controller
 
     public function consultaTimbres(Request $request)
     {
-        //asignando otro valor a los tipos de pago
-        if ($request->nombre == 'TC01'){$nombre2 = 'TIM1';$nombre3 = 'TE01';}
-        if ($request->nombre == 'TC05'){$nombre2 = 'TIM5';$nombre3 = 'TE05';}
-        if ($request->nombre == 'TC10'){$nombre2 = 'TIM10';$nombre3 = 'TE10';}
-        if ($request->nombre == 'TC20'){$nombre2 = 'TIM20';$nombre3 = 'TE20';}
-        if ($request->nombre == 'TC50'){$nombre2 = 'TIM50';$nombre3 = 'TE50';}
-        if ($request->nombre == 'TC100'){$nombre2 = 'TIM100';$nombre3 = 'TE100';}
-        if ($request->nombre == 'TC200'){$nombre2 = 'TIM200';$nombre3 = 'TE200';}
-        if ($request->nombre == 'TC500'){$nombre2 = 'TIM500';$nombre3 = 'TE500';}
-
         // consulta para saber a que bodega pertenece el cajero o usuario loggeado
         $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $request->user";
             $result = DB::select($query);
@@ -107,37 +97,62 @@ class ReciboController extends Controller
         $cantidadTotal = $result[0]->cantidadTotal;
 
         if ($cantidadTotal >= $request->cantidad){ // si la existencia en bodega es mayor inicia la operacion para desplegar dato de timbre
-            $query = "SELECT * FROM sigecig_recibo_detalle WHERE codigo_compra LIKE '$request->nombre' OR codigo_compra LIKE '$nombre2' OR codigo_compra LIKE '$nombre3' ORDER BY id DESC";
-            $result = DB::select($query);
 
-            if ($result != null) {
-                $id = $result[0]->id;
+            $consulta1 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+            $result = DB::select($consulta1);
 
-                $query = "SELECT * FROM sigecig_venta_de_timbres WHERE recibo_detalle_id = $id";
-                $result = DB::select($query);
-                $anteriorFinal = $result[0]->numeracion_final;
+            foreach($result as $res)
+            {
+                $total = $res->cantidad - $request->cantidad;
+                if ($total >= 0) {
+                    $numeroInicio = $res->numeracion_inicial;
+                    $numeroFinal = $res->numeracion_inicial + $request->cantidad - 1;
+                    return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                } elseif ($total < 0) {
+                    $numeroInicio = $res->numeracion_inicial;
+                    $cantidad = $total * -1;
 
-                $numeroInicio = $anteriorFinal + 1;
-                $numeroFinal = $numeroInicio + $request->cantidad - 1;
+                    $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                        $dato = DB::select($consulta2);
 
-                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
-
-            } else {
-                $numeroInicio = 1;
-                $numeroFinal = $numeroInicio + $request->cantidad - 1;
-
-                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                    for($i = 1; $i < sizeof($dato); $i++)
+                    {
+                        $total = $dato[$i]->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                            return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                        } elseif ($total < 0) {
+                            $cantidad = $total * -1;
+                            $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                                $dato = DB::select($consulta3);
+                            for($i = 2; $i < sizeof($dato); $i++)
+                            {
+                                $total = $dato[$i]->cantidad - $cantidad;
+                                if ($total >= 0) {
+                                    $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                    return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                } elseif ($total < 0) {
+                                    $cantidad = $total * -1;
+                                    $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                                        $dato = DB::select($consulta4);
+                                    for($i = 3; $i < sizeof($dato); $i++)
+                                    {
+                                        $total = $dato[$i]->cantidad - $cantidad;
+                                        if ($total >= 0) {
+                                            $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                            return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
-            // return response()->json(['success' => 'Exito']);
         } else {
             $error = 'No hay existencia en su bodega para realizar esta venta';
             return response()->json($error, 500);
         }
-
-        // consulta en phpMyAdmin para saber la existencia total de timbres por bodega y tipo de pago
-        // SELECT SUM(cantidad) as cantidadTotal FROM `sigecig_ingreso_producto` WHERE tipo_de_pago_id = 30 AND bodega_id = 1
-
     }
 
     public function existenciaBodega(Request $request)
