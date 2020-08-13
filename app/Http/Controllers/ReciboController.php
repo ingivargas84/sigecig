@@ -23,6 +23,7 @@ use App\ReciboTarjeta;
 use App\PosCobro;
 use App\Banco;
 use App\VentaDeTimbres;
+use App\TiposDeProductos;
 use Validator;
 //use NumeroALetras;
 use Luecano\NumeroALetras\NumeroALetras;
@@ -97,12 +98,15 @@ class ReciboController extends Controller
             return response()->json($error, 500);
         }else { $bodega = $result[0]->bodega; }
 
+        // consulta para saber que codigo de timbre corresponde el tipo de pago
+        $consulta = TiposDeProductos::select('timbre_id')->where('tipo_de_pago_id', $request->codigo)->get()->first();
+
         // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
-        $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = $request->codigo AND bodega_id = $bodega";
+        $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega";
         $result = DB::select($query);
         $cantidadTotal = $result[0]->cantidadTotal;
 
-        if ($cantidadTotal >= $request->cantidad){ // si la existencia en bodega es mayor incia la operacion para desplegar dato de timbre
+        if ($cantidadTotal >= $request->cantidad){ // si la existencia en bodega es mayor inicia la operacion para desplegar dato de timbre
             $query = "SELECT * FROM sigecig_recibo_detalle WHERE codigo_compra LIKE '$request->nombre' OR codigo_compra LIKE '$nombre2' OR codigo_compra LIKE '$nombre3' ORDER BY id DESC";
             $result = DB::select($query);
 
@@ -143,8 +147,11 @@ class ReciboController extends Controller
             $result = DB::select($query);
         $bodega = $result[0]->bodega;
 
+        // consulta para saber que codigo de timbre corresponde el tipo de pago
+        $consulta = TiposDeProductos::select('timbre_id')->where('tipo_de_pago_id', $request->codigo)->get()->first();
+
         // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
-        $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = $request->codigo AND bodega_id = $bodega";
+        $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega";
         $result = DB::select($query);
         $cantidadTotal = $result[0]->cantidadTotal;
 

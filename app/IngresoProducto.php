@@ -11,6 +11,8 @@ class IngresoProducto extends Model
     protected $fillable=[
         'timbre_id',
         'cantidad',
-        'bodega_id',
+        'numeracion_inicial',
+        'numeracion_final',
+        'bodega_id'
     ];
 }

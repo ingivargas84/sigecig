@@ -260,6 +260,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 1;
             $ingresoProducto->cantidad = $cantidadTc01;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc01;
+            $ingresoProducto->numeracion_final = $numeroFinalTc01;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -268,6 +270,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 2;
             $ingresoProducto->cantidad = $cantidadTc05;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc05;
+            $ingresoProducto->numeracion_final = $numeroFinalTc05;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -276,6 +280,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 3;
             $ingresoProducto->cantidad = $cantidadTc10;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc10;
+            $ingresoProducto->numeracion_final = $numeroFinalTc10;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -284,6 +290,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 4;
             $ingresoProducto->cantidad = $cantidadTc20;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc20;
+            $ingresoProducto->numeracion_final = $numeroFinalTc20;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -292,6 +300,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 5;
             $ingresoProducto->cantidad = $cantidadTc50;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc50;
+            $ingresoProducto->numeracion_final = $numeroFinalTc50;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -300,6 +310,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 6;
             $ingresoProducto->cantidad = $cantidadTc100;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc100;
+            $ingresoProducto->numeracion_final = $numeroFinalTc100;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -308,6 +320,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 7;
             $ingresoProducto->cantidad = $cantidadTc200;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc200;
+            $ingresoProducto->numeracion_final = $numeroFinalTc200;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }
@@ -316,6 +330,8 @@ class IngresoBodegaController extends Controller
             $ingresoProducto = new IngresoProducto;
             $ingresoProducto->timbre_id = 8;
             $ingresoProducto->cantidad = $cantidadTc500;
+            $ingresoProducto->numeracion_inicial = $numeroInicialTc500;
+            $ingresoProducto->numeracion_final = $numeroFinalTc500;
             $ingresoProducto->bodega_id = $bodega_id;
             $ingresoProducto->save();
         }

@@ -171,7 +171,7 @@ function getTc01(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 22 || codigo == 38){codigo = 30; nombre = 'TC01';}
+            // if (codigo == 22 || codigo == 38){codigo = 30; nombre = 'TC01';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -1130,15 +1130,7 @@ function consultaTimbre(){
         var codigo = $('#codigo').val();
         if (codigo == ''){codigo = $('#codigoE').val();}
         if (codigo == ''){codigo = $('#codigoP').val();}
-        var nombre;
-        if (codigo == 30 || codigo == 22 || codigo == 38){codigo = 30; nombre = 'TC01';}else //1
-        if (codigo == 31 || codigo == 27 || codigo == 39){codigo = 31; nombre = 'TC05';}else //5
-        if (codigo == 32 || codigo == 23 || codigo == 40){codigo = 32; nombre = 'TC10';}else //10
-        if (codigo == 34 || codigo == 25 || codigo == 41){codigo = 34; nombre = 'TC20';}else //20
-        if (codigo == 36 || codigo == 28 || codigo == 42){codigo = 36; nombre = 'TC50';}else //50
-        if (codigo == 33 || codigo == 24 || codigo == 43){codigo = 33; nombre = 'TC100';}else //100
-        if (codigo == 35 || codigo == 26 || codigo == 44){codigo = 35; nombre = 'TC200';}else //200
-        if (codigo == 37 || codigo == 29 || codigo == 45){codigo = 37; nombre = 'TC500';} //500
+        var nombre = selected;
         $.ajax({
             type: "POST",
             dataType: 'JSON',
