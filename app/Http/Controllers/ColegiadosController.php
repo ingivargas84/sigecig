@@ -23,6 +23,9 @@ use App\EspecialidadAspirante;
 use App\Profesion;
 use App\ProfesionAspirante;
 use App\EstadoCivil;
+use App\CC00;
+use App\CC00prof;
+use App\CC00espec;
 
 class ColegiadosController extends Controller
 {
@@ -104,6 +107,27 @@ class ColegiadosController extends Controller
             ->join('especialidadAspirante', 'aspirante.dpi', '=', 'especialidadAspirante.dpi')
             ->get();*/
         return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
+    }
+
+    public function detallesCo(CC00 $codigo)
+    {
+      $query = CC00::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
+      $sx = Sexo::where('c_sexo', '=', $codigo->sexo)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $codigo->c_pais)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $codigo->c_mpo)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $codigo->c_depto)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $codigo->nacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $codigo->e_civil)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $codigo->c_mpocasa)->get()->first();
+      $depcasa = DepartamentoNac::where('c_depto', '=', $codigo->c_deptocasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $codigo->c_mpotrab)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->c_deptotrab)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
+      $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get()->first(); 
+
+        return view ('admin.colegiados.detallesCo', compact('query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
     }
       
       public function getDatosAspirante() {
@@ -535,10 +559,17 @@ Log::info("Morir2 ".print_r($aspirante, true));
 
     public function getJson(Request $params)
      {
-        $query = "SELECT C.dpi, C.nombre, CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
-        FROM aspirante C
-        LEFT JOIN profesionAspirante PA ON PA.dpi = C.dpi
-        LEFT JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+        $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
+        IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
+        (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
+        cp.n_profesion as carrera
+                FROM cc00 CC
+                INNER JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente
+                UNION
+                SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
+                    FROM aspirante C
+                    INNER JOIN profesionAspirante PA ON PA.dpi = C.dpi
+                    INNER JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
