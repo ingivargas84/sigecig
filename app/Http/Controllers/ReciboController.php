@@ -103,44 +103,47 @@ class ReciboController extends Controller
 
             foreach($result as $res)
             {
-                $total = $res->cantidad - $request->cantidad;
-                if ($total >= 0) {
-                    $numeroInicio = $res->numeracion_inicial;
-                    $numeroFinal = $res->numeracion_inicial + $request->cantidad - 1;
-                    return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
-                } elseif ($total < 0) {
-                    $numeroInicio = $res->numeracion_inicial;
-                    $cantidad = $total * -1;
+                if ($res->cantidad != 0)
+                {
+                    $total = $res->cantidad - $request->cantidad;
+                    if ($total >= 0) {
+                        $numeroInicio = $res->numeracion_inicial;
+                        $numeroFinal = $res->numeracion_inicial + $request->cantidad - 1;
+                        return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                    } elseif ($total < 0) {
+                        $numeroInicio = $res->numeracion_inicial;
+                        $cantidad = $total * -1;
 
-                    $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                        $dato = DB::select($consulta2);
+                        $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                            $dato = DB::select($consulta2);
 
-                    for($i = 1; $i < sizeof($dato); $i++)
-                    {
-                        $total = $dato[$i]->cantidad - $cantidad;
-                        if ($total >= 0) {
-                            $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                            return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
-                        } elseif ($total < 0) {
-                            $cantidad = $total * -1;
-                            $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                                $dato = DB::select($consulta3);
-                            for($i = 2; $i < sizeof($dato); $i++)
-                            {
-                                $total = $dato[$i]->cantidad - $cantidad;
-                                if ($total >= 0) {
-                                    $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                    return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
-                                } elseif ($total < 0) {
-                                    $cantidad = $total * -1;
-                                    $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                                        $dato = DB::select($consulta4);
-                                    for($i = 3; $i < sizeof($dato); $i++)
-                                    {
-                                        $total = $dato[$i]->cantidad - $cantidad;
-                                        if ($total >= 0) {
-                                            $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                            return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                        for($i = 1; $i < sizeof($dato); $i++)
+                        {
+                            $total = $dato[$i]->cantidad - $cantidad;
+                            if ($total >= 0) {
+                                $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                            } elseif ($total < 0) {
+                                $cantidad = $total * -1;
+                                $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                                    $dato = DB::select($consulta3);
+                                for($i = 2; $i < sizeof($dato); $i++)
+                                {
+                                    $total = $dato[$i]->cantidad - $cantidad;
+                                    if ($total >= 0) {
+                                        $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                        return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                    } elseif ($total < 0) {
+                                        $cantidad = $total * -1;
+                                        $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                                            $dato = DB::select($consulta4);
+                                        for($i = 3; $i < sizeof($dato); $i++)
+                                        {
+                                            $total = $dato[$i]->cantidad - $cantidad;
+                                            if ($total >= 0) {
+                                                $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                            }
                                         }
                                     }
                                 }
@@ -613,7 +616,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 30 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 1 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
@@ -622,18 +625,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -658,7 +665,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 31 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 2 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
@@ -667,18 +674,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -703,7 +714,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 32 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 3 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
@@ -712,18 +723,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -748,7 +763,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 34 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 4 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
@@ -757,18 +772,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -793,7 +812,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 36 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 5 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
@@ -802,18 +821,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -838,7 +861,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 33 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 6 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
@@ -847,18 +870,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -883,7 +910,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 35 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 7 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
@@ -892,18 +919,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
@@ -928,7 +959,7 @@ class ReciboController extends Controller
                     $result = DB::select($query);
                 $bodega = $result[0]->bodega;
 
-                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE tipo_de_pago_id = 37 AND bodega_id = $bodega ORDER BY id ASC";
+                $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 8 AND bodega_id = $bodega ORDER BY id ASC";
                 $result = DB::select($consulta);
 
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
@@ -937,18 +968,22 @@ class ReciboController extends Controller
 
                 foreach($result as $res)
                 {
-                    $total = $res->cantidad - $cantidad;
-                    if ($total >= 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                        $parametros = array(':total' => $total, ':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
-                        break;
-                    } elseif ($total < 0) {
-                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                        $parametros = array(':id' => $res->id );
-                        $result = DB::connection('mysql')->update($query, $parametros);
+                    if ($res->cantidad != 0)
+                    {
+                        $total = $res->cantidad - $cantidad;
+                        if ($total >= 0) {
+                            $nuevoInicio = $res->numeracion_inicial + $cantidad;
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                            $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
+                            $result = DB::connection('mysql')->update($query, $parametros);
+                            break;
+                        } elseif ($total < 0) {
+                            $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                            $parametros = array(':id' => $res->id );
+                            $result = DB::connection('mysql')->update($query, $parametros);
 
-                        $cantidad = $total * -1 ;
+                            $cantidad = $total * -1 ;
+                        }
                     }
                 }
             }
