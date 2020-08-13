@@ -4,6 +4,8 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "processing": true,
     "info": true,
     "showNEntries": true,
+    "destroy": true,
+
     "dom": 'Bfrtip',
 
     lengthMenu: [
@@ -47,72 +49,81 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "order": [0, 'desc'],
     "columns": [ 
         {
-            "title": "No. Colegiado",
-            "data": "dpi", 
-            "width" : "5%",
+            "title": "Colegiado",
+            "data": "codigo", 
+            "width" : "3%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
             "title": "Nombre",
-            "data": "nombre", 
+            "data": "colegiado", 
             "width" : "25%",
-            "responsivePriority": 1,
+            "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
         {
             "title": "Carrera",
             "data": "carrera", 
-            "width" : "35%",
-            "responsivePriority": 1,
+            "width" : "42%",
+            "responsivePriority": 3,
             "render": function( data, type, full, meta ) {
                 return (data);},
         }, 
-        {
+         {
             "title": "Estado",
             "data": "estado",
-            "width" : "15%",
-            "responsivePriority": 1,
+            "width" : "10%",
+            "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
-        },
+        }, 
     {
         "title": "Acciones",
-        "data": "c_cliente",
+        "data": "estado",
         "orderable": false,
         "width" : "20%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
-/*              if(data == true){  //Estado 2 de la solicitud
- */ 
-                    return "<div id='" + full.dpi + "' class='text-center'>" +
+             if(data == 'Aspirante'){ 
+
+                    return "<div id='" + full.codigo + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='"+urlActual+"/detalles/"+full.dpi+"'"+ "data-method='post' data-dpi='"+full.dpi+"' data-nit='"+full.nit+"'>" +
+                    "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                     "<i class='fa fa-info-circle' title='Detalles'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.dpi + "' class='text-center'>" +
+                    "<div id='" + full.codigo + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.dpi+"' data-nombre='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"' >" +
+                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                     "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                     "</a>" + "</div>" +
-       /*       }
-            else if(data == null){    //Estado 1 de la solicitud  */
-
-                    "<div id='" + full.dpi + "' class='text-center'>" +
+    
+                    "<div id='" + full.codigo + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.dpi+"' data-nombre1='"+full.nombre+"' data-carrera_afin='"+full.carrera_afin+"'>" +
+                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
                     "<i class='fa fa-info' title='Información de Timbres'></i>" +
                     "</a>" + "</div>" +
-                    "<div id='" + full.dpi + "' class='text-center'>" +
+                    "<div id='" + full.codigo + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.dpi+"' data-nombre2='"+full.nombre+"'>" +
+                    "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.codigo+"' data-nombre2='"+full.colegiado+"'>" +
                     "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
-                    "</a>" + "</div>"
-           /*   }
-            else return "";  */
+                    "</a>" + "</div>";
+            }
+            else {
+                return "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='"+urlActual+"/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-info-circle' title='Detalles'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                "</a>" + "</div>"
+            }
         },
         "responsivePriority": 1
     }]
