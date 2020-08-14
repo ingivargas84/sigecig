@@ -86,7 +86,7 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $tipo->update($nuevos_datos);
         try {
-                    //envio de correo Finalizar estado
+        //envio de correo Finalizar estado
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $tipo->id)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
@@ -377,7 +377,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud = '4';
         $estado_solicitud->update();
-        try {
+      
             //envio de Corroe Aprobacion Documentacion
             $fecha_actual = date_format(Now(), 'd-m-Y');
             $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
@@ -388,10 +388,7 @@ class ResolucionPagoController extends Controller
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
-        } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-            return response()->json(['mensaje' => 'Resgistrado Correctamente']);
-        }
+     
 
     }
 
@@ -428,8 +425,7 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud = '5';
         $estado_solicitud->update();
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-        try {
+     
             //envio de Corroe Aprobacion Solicitud por Junta Directiva
             $fecha_actual = date_format(Now(), 'd-m-Y');
             $solicitudAP = PlataformaSolicitudAp::Where("id",  $request->id_solicitud)->get()->first();
@@ -440,10 +436,7 @@ class ResolucionPagoController extends Controller
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
-        } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-            return response()->json(['mensaje' => 'Resgistrado Correctamente']);        }
-
+     
     }
 
     public function rczDocumentosJunta(Request $request)
@@ -480,7 +473,13 @@ class ResolucionPagoController extends Controller
         $type = File::mimeType($path);
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
-        return $response;
+ 
+       $data = file_get_contents($path);
+       $base64 = 'data:doc/' . "pdf" . ';base64,' . base64_encode($data);
+       return $base64; 
+       
+        return $base64;
+      
     }
     public function verDpiAp($solicitud)
     {

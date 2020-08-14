@@ -14,5 +14,6 @@ class BitacoraAp extends Model
         'fecha',
         'estado_solicitud',
         'usuario',
+        'id_creacion',
     ];
 }

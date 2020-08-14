@@ -61,10 +61,10 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                @if ($id->id_creacion==1)
+                                @if ($cambio->id_creacion==0)
                                 <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
                                 @endif
-                                @if ($id->id_creacion==0)
+                                @if ($cambio->id_creacion==1)
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
                                 @endif
                                 
@@ -82,10 +82,10 @@
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
-                                @if ($id->id_creacion==1)
+                                @if ($cambio->id_creacion==0)
                                 <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
                                 @endif
-                                @if ($id->id_creacion==0)
+                                @if ($cambio->id_creacion==1)
                                 <input type="text" class="form-control" value="{{$adm_persona->Nombre1}}" readonly>
                                 @endif
                             </div>
@@ -244,11 +244,17 @@
                             <div class="col-sm-12 ">
                                 @if ($id->id_estado_solicitud>=2 && $id->pdf_solicitud_ap != null && $id->pdf_dpi_ap != null)
                                 <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$id->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                    <h4  style="padding: 10px">Solicitud de anticipo firmada <a  href="" id="pdfSolicitud" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                    <div class="" id="solicitudpdf" style="display: none  ">
+                                        <embed class="" src="{{$id->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
+                                   </div>
                                 </div>
                                 <div class="col-sm-6">
-                                        <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$id->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
-                                </div>
+                                        <h4  style="padding: 10px">Copiade DPI ambos lados<a  href="" id="pdfDpi" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
+                                        <div class="" id="dpipdf"  style="display: none">
+                                            <embed  src="{{$id->pdf_dpi_ap}}" type="application/pdf" width="100%" height="400px" />
+                                        </div>
+                                    </div>
                                 @endif
                                 @if ($id->id_estado_solicitud >=7)
                                 <div class="col-sm-6">
@@ -268,7 +274,7 @@
             </div>             
   </form>
 
-  <div class="loader loader-bar"></div>
+  <div class="loader loader-bar"></div>  
 
 @endsection
 
@@ -278,4 +284,5 @@
 
 @push('scripts')
  <script src="{{asset('js/resolucion/index.js')}}"></script>
+ <script src="{{asset('js/resolucion/bitacora.js')}}"></script>
 @endpush
