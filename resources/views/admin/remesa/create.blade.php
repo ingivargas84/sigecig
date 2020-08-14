@@ -52,7 +52,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td value="30">TC01</td>
+                                        <td value="30"><b>T01</b></td>
                                         <td><input type="number" name="planchasTc01" id="planchasTc01" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc01" id="unidadPlanchaTc01" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc01" id="numeroInicialTc01" class="form-control" readOnly min="0"></td>
@@ -61,7 +61,7 @@
                                         <td><input type="text" name="totalTc01" id="totalTc01" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC05</td>
+                                        <td><b>T05</b></td>
                                         <td><input type="number" name="planchasTc05" id="planchasTc05" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc05" id="unidadPlanchaTc05" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc05" id="numeroInicialTc05" class="form-control" readOnly min="0"></td>
@@ -70,7 +70,7 @@
                                         <td><input type="text" name="totalTc05" id="totalTc05" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC10</td>
+                                        <td><b>T10</b></td>
                                         <td><input type="number" name="planchasTc10" id="planchasTc10" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc10" id="unidadPlanchaTc10" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc10" id="numeroInicialTc10" class="form-control" readOnly min="0"></td>
@@ -79,7 +79,7 @@
                                         <td><input type="text" name="totalTc10" id="totalTc10" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC20</td>
+                                        <td><b>T20</b></td>
                                         <td><input type="number" name="planchasTc20" id="planchasTc20" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc20" id="unidadPlanchaTc20" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc20" id="numeroInicialTc20" class="form-control" readOnly min="0"></td>
@@ -88,7 +88,7 @@
                                         <td><input type="text" name="totalTc20" id="totalTc20" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC50</td>
+                                        <td><b>T50</b></td>
                                         <td><input type="number" name="planchasTc50" id="planchasTc50" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc50" id="unidadPlanchaTc50" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc50" id="numeroInicialTc50" class="form-control" readOnly min="0"></td>
@@ -97,7 +97,7 @@
                                         <td><input type="text" name="totalTc50" id="totalTc50" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC100</td>
+                                        <td><b>T100</b></td>
                                         <td><input type="number" name="planchasTc100" id="planchasTc100" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc100" id="unidadPlanchaTc100" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc100" id="numeroInicialTc100" class="form-control" readOnly min="0"></td>
@@ -106,7 +106,7 @@
                                         <td><input type="text" name="totalTc100" id="totalTc100" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC200</td>
+                                        <td><b>T200</b></td>
                                         <td><input type="number" name="planchasTc200" id="planchasTc200" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc200" id="unidadPlanchaTc200" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc200" id="numeroInicialTc200" class="form-control" readOnly min="0"></td>
@@ -115,7 +115,7 @@
                                         <td><input type="text" name="totalTc200" id="totalTc200" class="form-control" readOnly></td>
                                     </tr>
                                     <tr>
-                                        <td>TC500</td>
+                                        <td><b>T500</b></td>
                                         <td><input type="number" name="planchasTc500" id="planchasTc500" class="form-control" min="0"></td>
                                         <td><input type="number" name="unidadPlanchaTc500" id="unidadPlanchaTc500" class="form-control" min="0" value="40"></td>
                                         <td><input type="number" name="numeroInicialTc500" id="numeroInicialTc500" class="form-control" readOnly min="0"></td>

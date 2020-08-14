@@ -30,18 +30,18 @@
         .lg{
             margin-left: 4rem;
             margin-top: 1rem;
-            margin-bottom: 1rem;
+            /* margin-bottom: 1rem; */
         }
         .texto{
             display: inline-block;
             vertical-align: top;
-            margin-top: 2rem;
+            /* margin-top: 0rem; */
         }
         .texto1 {
             font-size:35px;
             font-weight: bold;
             color:black;
-            height: 50px;
+            height: 10px;
             display: inline-block;
             vertical-align: top;
         }
@@ -116,16 +116,8 @@
             width: 90%;
             margin: 20 auto;
             font-family: "sans-serif";
-        }
-      /*   table, td, th {
             border-collapse: collapse;
-            border: 1px solid black;
-            margin: 20 auto;
-            text-align: center;
-            width: 90%;
-            font-family: "sans-serif";
-            height: 30px;
-        }*/
+        }
         .odd th, .odd td {
             background: #eee;
         }
@@ -136,32 +128,34 @@
     </style>
 </head>
 <body>
-    <div class="container body" style="margin-bottom: 15px;">
-            <div class="row" style="font-family: sans-serif; margin-bottom:1rem; height: 190px; margin-left: 1rem;">
-                <img class="lg" src="images/logo.png"  height="190"  alt="">
-                <div class="texto">
+    <div class="container body" style="margin-bottom: 35px; border-bottom: 4px solid #03306d; height: 22%;">
+            <div class="row" style="font-family: sans-serif; height: 190px; margin-left: 1rem;">
+                <img class="lg" src="images/logocig.png"  height="90"  alt="">
+                <div class="texto" style="margin-top: 3rem;">
                 <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
                         7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
                         PBX: 2218-2600 / www.cig.org.gt <br>
                         NIT: 299329-5</small></p>
             </div>
-            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 38%; margin-right: 4rem;">
-                <h3 style="margin-top: 3rem; "> Reporte De Remesa {{$id->id}}</h3></div>
+            <div class="texto1" style="color: #03306d; background: white;height: 20px; width: 38%; margin-right: 3rem;">
+                <h3 style="margin-top: 4rem; "> Reporte De Remesa {{$id->id}}</h3></div>
             </div>
         </div>
     </div>
     <div class="row colegiado">
-        <div class="">
+        <div class="" >
           <label class=""><b>FECHA DE CREACIÓN: </b>{{$newDate}} </label>
         </div>
+        <br>
         <div class="">
-          <label class="" ><b>GENERO LA REMESA: </b>{{$nombre->name}}</label>
+          <label class="" ><b>GENERÓ LA REMESA: </b>{{$nombre->name}}</label>
         </div>
+        <br>
     </div>
     <br>
     <br>
-        <table>
-            <thead>
+        <table style="margin-top: 4rem; ">
+            <thead >
                 <tr>
                     <th width="38%" style="background: #D2D2D2;text-align:center;">CÓDIGO</th>
                     <th width="9%" style="background: #D2D2D2;text-align:center;">PLANCHAS</th>
@@ -174,7 +168,7 @@
             </thead>
             @foreach($datos as $co)
             <tr >
-                <td style="background:eee;text-align:center;padding: 7px;">{{$co->codigo}} - {{$co->tipo_de_pago}}</td>
+                <td style="background:eee;text-align:center;padding: 7px;">{{$co->descripcion}}</td>
                 <td style="background:eee;text-align:center;">{{$co->planchas}}</td>
                 <td style="background:eee;text-align:center;">{{$co->unidad_por_plancha}}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>

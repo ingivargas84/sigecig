@@ -1448,120 +1448,12 @@ $("#serieReciboTimbre").bind('keyup', function (e) {
 
     $("#serieReciboTimbre").val(($("#serieReciboTimbre").val()).toUpperCase());
 });
-/* 
-function asociarRecibo(tipo) {
-  var serie = "";
-  var numeroFactura = "";
-  var nombreTipo = "";
-  if(tipo=="01") {
-    serie = $("#serieReciboTimbre").val();
-    numeroFactura = $("#numeroReciboTimbre").val();
-    nombreTipo="Timbre";
-  } else if (tipo == "02") {
-    serie = $("#serieReciboColegio").val();
-    numeroFactura = $("#numeroReciboColegio").val();
-    nombreTipo="Colegio";
-  }
-  if (confirm("Confirma que desea asociar el recibo " + serie + " - " + numeroFactura + " de " + nombreTipo + " al colegiado " + $("#idusuario").val())   == false) {
-		return;
-	}
-  alert("morir");
-  return;
-	var tok = {!! json_encode(array('_token'=> csrf_token())) !!};
-	var serie = "";
-  var numeroFactura = "";
-  if(tipo=="01") {
-    serie = $("#serieReciboTimbre").val();
-    numeroFactura = $("#numeroReciboTimbre").val();
-  } else if (tipo == "02") {
-    serie = $("#serieReciboColegio").val();
-    numeroFactura = $("#numeroReciboColegio").val();
-  }
-	var datos = {
-		'serie': serie,
-		'numeroFactura': numeroFactura,
-    'tipo': tipo,
-    'colegiado': $("#idusuario").val()
-	};
-  $("#mensajes").html("");
-	$.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-		dataType:'JSON',
-		url: "Facturacion/asociarRecibo",
-		xhrFields: {
-				withCredentials: true
-		},
-		data: datos,
-		success: function(data){
-        if(data.retorno==0) {
-          $("#mensajes").html("Recibo asociado correctamente.");
-          $("#mensajes").css({'color':'green'});
-          getPagosColegiado(tipo);
-        } else {
-          var a = "Error al asociar recibo. Verifique datos.";
-          if(data.hasOwnProperty("mensaje")) {
-            a += " " + data.mensaje;
-          }
-          $("#mensajes").html(a);
-          $("#mensajes").css({'color':'red'});
-        }
-		},
-		error: function(response) {
-				$("#cleanButton").click();
-				$("#mensajes").css({'color':'red'});
-				$("#mensajes").html("Error en el sistema.");
-		}
-	});
-} */
-
 function generarKardex(tipoV){
     $.post("Colegiado/generarKardex",{colegiado:$("#idusuario").val(), tipo: tipoV}, function(data, status){
 
     });
 }
 
-function asociarColegiado() {
-  var invitacion = {
-      'idusuario': $("#dpi").val(),
-      'colegiado': $("#colegiado").val(),
-      'fechaColegiado': $("#fechaColegiado").val(),
-      'fechaUltimoPagoColegio': $("#fechaUltimoPagoColegio").val(),
-      'fechaUltimoPagoTimbre': $("#fechaUltimoPagoTimbre").val(),
-      'observaciones': $("#observaciones").val(),
-      'memo': $("#memo").val(),
-      'password': $("#password").val(),
-  };
-  $("#password").val('');
-  $.ajax({
-    type: "POST",
-    headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-    dataType:'JSON',
-    url: "Aspirante/asociarColegiado",
-    data: invitacion,
-    success: function(data){
-      if(data.error==0){
-        $("#mensajes").html("Colegiado asociado correctamente.");
-        $("#mensajes").css({'color':'green'});
-
-      } else if(data.error==2){
-        $("#mensajes").html("Error de autenticación.");
-        $("#mensajes").css({'color':'red'});
-
-      } else if(data.error==3){
-        $("#mensajes").html("Colegiado ya existente.");
-        $("#mensajes").css({'color':'red'});
-
-      } else {
-        $("#mensajes").html("Error al guardar.");
-        $("#mensajes").css({'color':'red'});
-      }
-    },
-    error: function(response) {
-      $("#mensajes").html("Error en el sistema.");
-    }
-  });
-}
 
 function mostrarConyugue() {
   if($('#estadoCivil').val() == 'C') {

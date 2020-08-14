@@ -20,7 +20,7 @@
   @include('admin.users.confirmarAccionModal')
   @include('admin.colegiados.profesionModal', $resultado)
   @include('admin.colegiados.timbreModal')
-
+  @include('admin.colegiados.asociarModal')
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">
@@ -47,6 +47,8 @@
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('js/colegiados/add.js')}}"></script>
 <script src="{{asset('js/colegiados/timbre.js')}}"></script>
+<script src="{{asset('js/colegiados/asociar.js')}}"></script>
+
   <script>
     $(document).ready(function() {
       $('.loader').fadeOut(225);

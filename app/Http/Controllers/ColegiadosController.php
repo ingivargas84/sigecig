@@ -23,6 +23,9 @@ use App\EspecialidadAspirante;
 use App\Profesion;
 use App\ProfesionAspirante;
 use App\EstadoCivil;
+use App\CC00;
+use App\CC00prof;
+use App\CC00espec;
 
 class ColegiadosController extends Controller
 {
@@ -95,14 +98,36 @@ class ColegiadosController extends Controller
       $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
       
       $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get()->first();
-      $profesion = Profesion::where('c_profesion', '=', $profasp->c_profesion)->get()->first();
+/* dd($profasp);
+      $profesion = Profesion::where('c_profesion', '=', $profasp->c_profesion)->get()->first(); */
 
       /*
       $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
       $especilidadasp = Especialidad::select('aspirante.n_especialidad')
             ->join('especialidadAspirante', 'aspirante.dpi', '=', 'especialidadAspirante.dpi')
             ->get();*/
-        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'profesion'));
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
+    }
+
+    public function detallesCo(CC00 $codigo)
+    {
+      $query = CC00::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
+      $sx = Sexo::where('c_sexo', '=', $codigo->sexo)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $codigo->c_pais)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $codigo->c_mpo)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $codigo->c_depto)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $codigo->nacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $codigo->e_civil)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $codigo->c_mpocasa)->get()->first();
+      $depcasa = DepartamentoNac::where('c_depto', '=', $codigo->c_deptocasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $codigo->c_mpotrab)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->c_deptotrab)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
+      $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get()->first(); 
+
+        return view ('admin.colegiados.detallesCo', compact('query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
     }
       
       public function getDatosAspirante() {
@@ -428,13 +453,128 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $user->save();
       return json_encode(array('error' => 0, 'mensaje' => 'Datos guardados correctamente.'));
     }
+
+    
+    public function asociarColegiado() {
+      if (!Hash::check(Input::get('password'), Auth::user()->password)) {
+        return json_encode(array('retorno' => 2, 'mensaje' => 'Error de autenticación'));
+      }
+      $rules = array(
+//        'idusuario' => 'required|integer',
+        'idusuario' => 'required',
+        'colegiado' => 'required|integer',
+        'fechaColegiado' => 'required|date',
+        'fechaUltimoPagoColegio' => 'required|date',
+        'fechaUltimoPagoTimbre' => 'required|date'
+      );
+      $validator = Validator::make(Input::all(), $rules);
+      if ($validator->fails()) {
+        return json_encode(array('retorno' => 2, 'mensaje' => 'Especialidad o colegiado inválido'));
+      }
+      $colegiado = \App\Cc00::find(Input::get('colegiado'));
+      if($colegiado) {
+        $respuesta = array('error' => '3', 'mensaje' => 'Colegiado ya existente');
+        return json_encode($respuesta);
+      }
+
+      DB::beginTransaction();
+      $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+      Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha asociado el colegiado " . Input::get('colegiado') . " al aspirante " . print_r($aspirante, true));
+      $colegiado = new \App\Cc00;
+      $colegiado->c_cliente = Input::get('colegiado');
+      $colegiado->n_cliente= $aspirante->nombre . ' ' . $aspirante->apellidos;
+      $colegiado->nombres= $aspirante->nombre;
+      $colegiado->apellidos= $aspirante->apellidos;
+      $colegiado->telefono= $aspirante->telefono;
+      $colegiado->e_mail= $aspirante->correo;
+      $colegiado->f_ult_pago= Input::get('fechaUltimoPagoColegio');
+      $colegiado->f_ult_timbre= Input::get('fechaUltimoPagoTimbre');
+      $colegiado->fecha_col= Input::get('fechaColegiado');
+      $colegiado->fallecido= 'N';
+      $colegiado->c_depto= $aspirante->iddepartamentonacimiento;
+      $colegiado->c_mpo= $aspirante->idmunicipionacimiento;
+      $colegiado->direccion= $aspirante->direccionCasa;
+      $colegiado->dir_trabajo= $aspirante->direccionTrabajo;
+      //$colegiado->contacto1= $aspirante->direccionOtro;
+      $colegiado->c_mpocasa= $aspirante->idMunicipioCasa;
+      $colegiado->c_deptocasa= $aspirante->idDepartamentoCasa;
+      $colegiado->c_mpotrab= $aspirante->idMunicipioTrabajo;
+      $colegiado->c_deptotrab= $aspirante->idDepartamentoTrabajo;
+      //$colegiado->c_mpootro= $aspirante->idMunicipioOtro;
+     // $colegiado->c_deptootro= $aspirante->idDepartamentoOtro;
+      $colegiado->zona= $aspirante->zona;
+      $colegiado->zona_trabajo= $aspirante->zonatrabajo;
+      //$colegiado->zona_otra= $aspirante->zonaotro;
+      $colegiado->registro= $aspirante->dpi;
+     // $colegiado->nit= $aspirante->nit;
+      $colegiado->estado_junta= '01';
+      $colegiado->sexo= $aspirante->sexo;
+      $colegiado->e_civil= $aspirante->estadocivil;
+      $colegiado->destino_correo= $aspirante->destinoCorreo;
+      //$colegiado->cod_postal= $aspirante->codigopostal;
+      $colegiado->fax= $aspirante->telefonoTrabajo;
+      //$colegiado->contacto2= $aspirante->lugar;
+      $colegiado->c_pais= $aspirante->idPaisNacimiento;
+      $colegiado->fecha_nac= $aspirante->fechaNacimiento;
+      //$colegiado->tipo_sangre= $aspirante->tipoSangre;
+      $colegiado->max_constancias= 130;
+      $colegiado->telefonocontactoemergencia= $aspirante->telefonoContactoEmergencia;
+      $colegiado->nombrecontactoemergencia= $aspirante->nombreContactoEmergencia;
+      $colegiado->paga_auxilio= 1;
+      $colegiado->jubilado= 0;
+      $colegiado->fecha_grad= $aspirante->fechaGraduacion;
+      $colegiado->c_universidad= $aspirante->universidadGraduado;
+      $colegiado->c_universidad1= $aspirante->universidadIncorporado;
+      $colegiado->cred_acum= $aspirante->creditos;
+      $colegiado->titulo_tesis= $aspirante->tituloTesis;
+      $colegiado->descto_colegio= 0;
+      $colegiado->descto_timbre= 0;
+      $colegiado->n_social= $aspirante->conyugue;
+      $colegiado->memo= Input::get('memo');
+      $colegiado->observaciones= Input::get('observaciones');
+      $colegiado->estado= 'A';
+      $colegiado->c_vendedor= '01';
+      $colegiado->c_t_cl= 0;
+      $colegiado->c_negocio= 1;
+      $colegiado->t_pre= 'A';
+      $colegiado->topeFechaPagoCuotas= $aspirante->topeFechaPagoCuotas;
+      $colegiado->monto_timbre= $aspirante->montoTimbre;
+      $colegiado->nacionalidad= $aspirante->idnacionalidad;
+      $colegiado->telmovil= $aspirante->telefono;
+      $colegiado->carrera_afin= $aspirante->carrera_afin;
+
+      $colegiado->save();
+      $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
+      $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
+      $resultado = DB::insert($query, $parametros);
+
+      $query = "INSERT INTO cc00espec(c_cliente,c_especialidad,n_especialidad) select :colegiado, ea.c_especialidad, isnull(titulo_masculino,'') + ' ' + isnull(n_especialidad,'') from especialidadAspirante ea INNER JOIN especialidad e ON ea.c_especialidad = e.c_especialidad WHERE dpi=:dpi";
+      $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
+      $resultado = DB::insert($query, $parametros);
+
+      DB::commit();
+
+      return json_encode(array('error' => 0, 'mensaje' => 'Colegiado trasladado correctamente'));
+    }
+
     public function getJson(Request $params)
      {
-        $query = "SELECT dpi, nombre, carrera_afin
-        FROM aspirante 
-        ";
+        $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
+        IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
+        (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
+        cp.n_profesion as carrera
+                FROM cc00 CC
+                INNER JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente
+                UNION
+                SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
+                    FROM aspirante C
+                    INNER JOIN profesionAspirante PA ON PA.dpi = C.dpi
+                    INNER JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
      }
 }
+/* "SELECT  C.n_cliente, C.c_cliente, C.estado
+        FROM cc00 C
+        ";  */ 

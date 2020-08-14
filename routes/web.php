@@ -230,6 +230,7 @@ Route::group([
         Route::post('Aspirante/guardarMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarMontoTimbreAspirante']);
         Route::post('Aspirante/getMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getMontoTimbreAspirante']);
         Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
+        Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -244,7 +245,9 @@ Route::group([
         Route::post('Aspirante/setdatosaspirante', 'ColegiadosController@setDatosAspirante')->name('colegiados.save');
         Route::post('Aspirante/getdatosaspirante', 'ColegiadosController@getDatosAspirante');
         Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
-        Route::get( 'colegiados/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        Route::get( 'aspirante/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        Route::get( 'colegiados/detalles/{codigo}', 'ColegiadosController@detallesCo')->name('colegiado.detalles');
+
         //Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
        // Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
 

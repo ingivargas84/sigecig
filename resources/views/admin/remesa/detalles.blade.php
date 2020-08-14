@@ -50,7 +50,7 @@
                                 <tbody>
                                 @foreach($result as $res)
                                 <tr>
-                                    <td>{{$res->codigo}}</td>
+                                    <td>{{$res->descripcion}}</td>
                                     <td>{{$res->planchas}}</td>
                                     <td>{{$res->unidad_por_plancha}}</td>
                                     <td>{{$res->numeracion_inicial}}</td>
