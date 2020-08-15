@@ -34,6 +34,7 @@ class RegistrarBitacoraAp
         $bitacoraB->fecha = $event->fecha;
         $bitacoraB->no_solicitud = $event->no_solicitud;
         $bitacoraB->estado_solicitud = $event->id_estado_solicitud;
+        $bitacoraB->id_creacion = 0;
 
         $bitacoraB->save();
         

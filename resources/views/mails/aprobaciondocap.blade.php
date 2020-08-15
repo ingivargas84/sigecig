@@ -37,7 +37,7 @@
         <div class="datos"> <label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label  for="">STATUS: PASO 03/08</label></div><br><br>
         <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso4.png') }}" alt="picsum"  /></div>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
      @elseif($solicitudAP['id_estado_solicitud']=='5')
@@ -51,7 +51,7 @@
         <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso5.png') }}" alt="picsum"  /></div>
         <h3><center>Se le solicita presentarse a las instalaciones del CIG para proceder a la firma de su resolución de pago. </center></h3>
         <h3><center>Horarios habilitados: Lunes a Viernes de 8:00 a 15:00 horas. </center></h3><br><br> 
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
  
 
     @elseif($solicitudAP['id_estado_solicitud']=='8')
@@ -62,7 +62,7 @@
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label  >STATUS: PASO 06/08</label></div><br><br><br>
         <div ><img  class="img1" src="{{ $message->embed(public_path().'/images/paso6.png') }}" alt="picsum"  /></div>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
     @elseif($solicitudAP['id_estado_solicitud']=='6')
@@ -73,7 +73,7 @@
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
         <div style=" "><p class=" rechazo">{{$solicitudAP['solicitud_rechazo_junta']}}</p></div> <br><br>    
         <h3><center>Puede iniciar una nueva solicitud en cualquier momento</center></h3>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
     @elseif($solicitudAP['id_estado_solicitud']=='9')
@@ -84,7 +84,7 @@
         <div class="datos"><label    for="">STATUS: PASO 07/08</label></div><br><br>
         <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso7.png') }}" alt="picsum" /></div>
         <h3> <center>El deposito se encuentra programado para el día:  {{ \Carbon\Carbon::parse($solicitudAP['fecha_pago_ap'])->format('d-m-Y')}} </center> </h3> <br><br>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
  
 
 
@@ -105,7 +105,7 @@
         <div  style=" color:red;"><h3><center> MOTIVO DEL RECHAZO</center></h3></div>
         <div style=""><p class="rechazo" >{{$solicitudAP['solicitud_rechazo_ap']}}</p></div> <br><br>  
         <h3><center>Puede iniciar una nueva solicitud en cualquier momento</center></h3>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
         @elseif($solicitudAP['id_estado_solicitud']=='2')
@@ -118,7 +118,7 @@
         <div class="datos"> <label for="">STATUS: PASO 02/08</label></div><br><br>
         <div ><img class="img1" src='{{ $message->embed(public_path().'/images/paso2.png') }}' alt="picsum" /></div>
         <h3><center>Tiempo estimado de 7 días hábiles. </center></h3>
-        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="http://localhost:8000/postumo/">http://localhost:8000/postumo/</a> </h4>
+        <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
  
     @endif <br><br>
