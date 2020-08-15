@@ -36,7 +36,7 @@
         <div class=" datos"><label class=""  for="">FECHA: {{$fecha_actual}}</label></div> 
         <div class="datos"> <label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label  for="">STATUS: PASO 03/08</label></div><br><br>
-        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso4.png') }}" alt="picsum"  /></div>
+        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso4.PNG') }}" alt="picsum"  /></div>
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
@@ -48,7 +48,7 @@
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label  >STATUS: PASO 05/08</label></div><br><br><br>
-        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso5.png') }}" alt="picsum"  /></div>
+        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso5.PNG') }}" alt="picsum"  /></div>
         <h3><center>Se le solicita presentarse a las instalaciones del CIG para proceder a la firma de su resolución de pago. </center></h3>
         <h3><center>Horarios habilitados: Lunes a Viernes de 8:00 a 15:00 horas. </center></h3><br><br> 
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
@@ -61,7 +61,7 @@
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label  >STATUS: PASO 06/08</label></div><br><br><br>
-        <div ><img  class="img1" src="{{ $message->embed(public_path().'/images/paso6.png') }}" alt="picsum"  /></div>
+        <div ><img  class="img1" src="{{ $message->embed(public_path().'/images/paso6.PNG') }}" alt="picsum"  /></div>
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
@@ -82,7 +82,7 @@
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> </div>
         <div class="datos"><label    for="">STATUS: PASO 07/08</label></div><br><br>
-        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso7.png') }}" alt="picsum" /></div>
+        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso7.PNG') }}" alt="picsum" /></div>
         <h3> <center>El deposito se encuentra programado para el día:  {{ \Carbon\Carbon::parse($solicitudAP['fecha_pago_ap'])->format('d-m-Y')}} </center> </h3> <br><br>
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
  
@@ -94,7 +94,7 @@
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> </div>
         <div class="datos"><label    for="">STATUS: PASO 08/08</label></div><br><br>
-        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso8.png') }}" alt="picsum" /></div><br>
+        <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso8.PNG') }}" alt="picsum" /></div><br>
         <h4 class="pie" >Gracias por utilizar nuestros servicios en línea </h4>
 
     @elseif($solicitudAP['id_estado_solicitud']=='3')
@@ -116,7 +116,7 @@
         <div  class=" datos"><label   for="">FECHA: {{$fecha_actual}}</label></div>        
         <div class="datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label></div>
         <div class="datos"> <label for="">STATUS: PASO 02/08</label></div><br><br>
-        <div ><img class="img1" src='{{ $message->embed(public_path().'/images/paso2.png') }}' alt="picsum" /></div>
+        <div ><img class="img1" src='{{ $message->embed(public_path().'/images/paso2.PNG') }}' alt="picsum" /></div>
         <h3><center>Tiempo estimado de 7 días hábiles. </center></h3>
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
