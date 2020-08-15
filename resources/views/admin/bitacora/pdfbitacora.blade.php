@@ -19,14 +19,26 @@
                 @if($cambio ["estado_solicitud"] == 1)   
             <div class="texto1">
                 <h4> 1. Ingreso de Información  </h4>
-                <p> Fecha de Configuración <b> {{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}</b> Configurado por: <b>{{$adm_persona->Nombre1}}</b>
+                <p> Fecha de Configuración <b> {{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}</b> 
+                    Configurado por: 
+                    @if ($cambio->id_creacion == 1)
+                    <b>{{$adm_persona->Nombre1}}</b>
+                    @else
+                    <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                    @endif
                 </div>
                 @endif 
             
             @if($cambio ["estado_solicitud"] == 2)
             <div class="texto1">
                 <h4> 2. Adjuntar Documentación  </h4>
-                <p> Fecha de Configuración <b> {{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}</b> Configurado por: <b>{{$adm_persona->Nombre1}}</b>
+                <p> Fecha de Configuración <b> {{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}</b> 
+                    Configurado por: 
+                    @if ($cambio->id_creacion == 1)
+                    <b>{{$adm_persona->Nombre1}}</b>
+                    @else
+                    <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                    @endif
                 </div>   
                 @endif 
 

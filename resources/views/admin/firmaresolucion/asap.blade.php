@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
-          <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Autorizacion</a></li>
-          <li class="active">Crear</li>
+          <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Resolución</a></li>
+          <li class="active">Revisión</li>
         </ol>      
     </section>
 
