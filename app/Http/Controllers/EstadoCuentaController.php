@@ -14,10 +14,6 @@ use App\TipoDePago;
 use Carbon\Carbon;
 
 
-
-
-
-
 class EstadoCuentaController extends Controller
 {
     public function __construct()
@@ -26,7 +22,6 @@ class EstadoCuentaController extends Controller
     }
     public function index(){
         $user = Auth::User();
-
         /////
 
 
@@ -155,23 +150,5 @@ class EstadoCuentaController extends Controller
         return Response::json($api_Result);
     }
 
-    public function codigosTimbrePago($cantidad = 1) {
-        $montoTemp = $this->monto_timbre * $cantidad;
-        //$valores = [500, 200, 100, 50, 20, 10, 5, 1];
-        $valores = [500, 200, 100, 5, 1];
-        $retorno = array();
-        foreach($valores as $valor) {
-          if($montoTemp >= $valor) {
-            $divisionEntera = intdiv($montoTemp, $valor);
-            $montoTemp -= $valor * $divisionEntera;
-            $detalle = new \stdClass();
-            $detalle->codigo = 'TC' . str_pad($valor, 2, '0', STR_PAD_LEFT);
-            $detalle->descripcion = 'Timbre por cuota de ' . $valor . ' quetzales';
-            $detalle->precioUnitario = $valor;
-            $detalle->cantidad = $divisionEntera;
-            $retorno[] = $detalle;
-          }
-        }
-        return $retorno;
-      }
+    
 }
