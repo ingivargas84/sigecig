@@ -94,11 +94,11 @@ class ResolucionPagoController extends Controller
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-        event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, $fecha, $tipo->id_estado_solicitud));
+        event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, Now(), $tipo->id_estado_solicitud));
         return Response::json(['success' => 'Éxito']);
 
         } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, $fecha, $tipo->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, Now(), $tipo->id_estado_solicitud));
             return Response::json(['success' => 'Éxito']);
         }
 
@@ -218,10 +218,10 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
             return Response::json(['success' => 'Éxito']);
         } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
             return Response::json(['success' => 'Éxito']);
         }
 
@@ -239,6 +239,10 @@ class ResolucionPagoController extends Controller
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
+        $auxpost = SQLSRV_Colegiado::where("c_cliente", $solicitud->n_colegiado)->get()->first();
+        $auxpost->auxpost = '1';
+        $auxpost->update();
+
         try {
                 //envio de correo Finalizar estado
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -248,19 +252,11 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
-
-            $auxpost = SQLSRV_Colegiado::where("c_cliente", $solicitud->n_colegiado)->get()->first();
-            $auxpost->auxpost = '1';
-            $auxpost->update();
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
 
             return Response::json(['success' => 'Éxito']);
         } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
-
-            $auxpost = SQLSRV_Colegiado::where("c_cliente", $solicitud->n_colegiado)->get()->first();
-            $auxpost->auxpost = '1';
-            $auxpost->update();
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id,Now(), $solicitud->id_estado_solicitud));
 
             return Response::json(['success' => 'Éxito']);
         }
@@ -287,7 +283,7 @@ class ResolucionPagoController extends Controller
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
     
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, $fecha, $solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id,Now(), $solicitud->id_estado_solicitud));
             //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
             return Response::json(['success' => 'Éxito']);
        
@@ -377,17 +373,24 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud = '4';
         $estado_solicitud->update();
-      
-            //envio de Corroe Aprobacion Documentacion
-            $fecha_actual = date_format(Now(), 'd-m-Y');
-            $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
-            $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
-            $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
-            $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
-            Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+        try {
+                       //envio de Corroe Aprobacion Documentacion
+                       $fecha_actual = date_format(Now(), 'd-m-Y');
+                       $solicitudAP = PlataformaSolicitudAp::Where("id", $request->solicitud)->get()->first();
+                       $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
+                       $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
+                       $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
+                       Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+           
+                       event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
+                       return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+        } catch (\Throwable $th) {
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+        }
+      
+
      
 
     }
@@ -410,10 +413,10 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id,Now(), $estado_solicitud->id_estado_solicitud));
              return response()->json(['mensaje' => 'Registrado Correctamente']);
         } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Registrado Correctamente']);
         }
        
@@ -426,6 +429,8 @@ class ResolucionPagoController extends Controller
         $estado_solicitud->id_estado_solicitud = '5';
         $estado_solicitud->update();
      
+ 
+            try {
             //envio de Corroe Aprobacion Solicitud por Junta Directiva
             $fecha_actual = date_format(Now(), 'd-m-Y');
             $solicitudAP = PlataformaSolicitudAp::Where("id",  $request->id_solicitud)->get()->first();
@@ -434,8 +439,12 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
-            return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+                event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
+                return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+            } catch (\Throwable $th) {
+                event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id,Now(), $estado_solicitud->id_estado_solicitud));
+                return response()->json(['mensaje' => 'Resgistrado Correctamente']);
+            }
      
     }
 
@@ -456,10 +465,10 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
     
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         } catch (\Throwable $th) {
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, $fecha, $estado_solicitud->id_estado_solicitud));
+            event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         }
 

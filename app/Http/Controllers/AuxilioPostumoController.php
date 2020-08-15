@@ -259,7 +259,7 @@ class AuxilioPostumoController extends Controller
             return redirect()->route('crearUsuario.index')->withFlash('Usuario ya existe');
         }
    
-        dd($admin_usuario);
+        
         return ('save');
     }
 }
