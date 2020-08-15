@@ -211,7 +211,7 @@
                         <legend>Profesión y Especialidad</legend>
                         <div class="row">
                             <div class="col-sm-6">
-                              <label for="Profesión" class="control-label">Profesion:</label>
+                              <label for="Profesión" class="control-label">Profesión:</label>
                               @if ($profasp!=null)
                               <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
                               @else
@@ -238,7 +238,6 @@
                              <input id="montoTimbre" value="No ingresado" class="form-control" name="montoTimbre" type="text" readonly>         
                               @endif
                             </div>
-
                             <div class="col-sm-4">
                               <label for="fechaMonto" class="control-label">Fecha:</label>
                               @if ($query->topeFechaPagoCuotas!=null)

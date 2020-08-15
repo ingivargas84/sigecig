@@ -11,6 +11,8 @@ class TraspasoDetalle extends Model
     protected $fillable = [
         'traspaso_maestro_id',
         'tipo_pago_timbre_id',
-        'cantidad_a_traspasar'
+        'cantidad_a_traspasar',
+        'numeracion_inicial',
+        'numeracion_final'
     ];
 }

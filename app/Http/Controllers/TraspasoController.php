@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\TraspasoMaestro;
 use App\TraspasoDetalle;
 use App\IngresoProducto;
+use App\IngresoBodegaDetalle;
+use App\IngresoBodegaMaestro;
 use App\Bodegas;
 use App\User;
 use Validator;
@@ -94,315 +96,498 @@ class TraspasoController extends Controller
         $trasMaestro->usuario_id = Auth::user()->id;
         $trasMaestro->save();
 
-        // Almacen traspaso Detalle
+        // Almacen traspaso Detalle e Ingreso Producto y Actualizacion de tabla ingreso_producto de bodega anterior
         $lastValueId = TraspasoMaestro::pluck('id')->last();
+        $idBodegaMaestro = IngresoBodegaMaestro::pluck('id')->where('codigo_bodega_id', 2)->last();
 
         if($cantidadTraspasoTc01B1 != 0)
         {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 1;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc01B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 1;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc01B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc05B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 2;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc05B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 2;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc05B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc10B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 3;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc10B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 3;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc10B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc20B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 4;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc20B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 4;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc20B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc50B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 5;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc50B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 5;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc50B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc100B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 6;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc100B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 6;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc100B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc200B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 7;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc200B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 7;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc200B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-        if($cantidadTraspasoTc500B1 != 0)
-        {
-            $trasDetalle = new TraspasoDetalle;
-            $trasDetalle->traspaso_maestro_id = $lastValueId;
-            $trasDetalle->tipo_pago_timbre_id = 8;
-            $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc500B1;
-            $trasDetalle->save();
-
-            $ingresoProducto = new IngresoProducto;
-            $ingresoProducto->timbre_id = 8;
-            $ingresoProducto->cantidad = $cantidadTraspasoTc500B1;
-            $ingresoProducto->bodega_id = $bodegaDestino;
-            $ingresoProducto->traspaso_id = $lastValueId;
-            $ingresoProducto->save();
-        }
-
-        // Actualizacion de ingreso producto
-        if($cantidadTraspasoTc01B1 != 0)
-        {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 1 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 1 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc01B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc01B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 1;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc01B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 1;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc01B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc01B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc01B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 1;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 1;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc01B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc05B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 2 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 2 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc05B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc05B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 2;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc05B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 2;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc05B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc05B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc05B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 1;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 2;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc05B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc10B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 3 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 3 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc10B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc10B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 3;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc10B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 3;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc10B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc10B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc10B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 3;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 3;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc10B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc20B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 4 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 4 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc20B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc20B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 4;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc20B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 4;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc20B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc20B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc20B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 4;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 4;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc20B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc50B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 5 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 5 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc50B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc50B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 5;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc50B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 5;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc50B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc50B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc50B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 5;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 5;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc50B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc100B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 6 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 6 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc100B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc100B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 6;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc100B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 6;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc100B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc100B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc100B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 6;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 6;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc100B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc200B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 7 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 7 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc200B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc200B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 7;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc200B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 7;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc200B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc200B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc200B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 7;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 7;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc200B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
         if($cantidadTraspasoTc500B1 != 0)
         {
-            $query = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 8 AND bodega_id = $bodegaOrigen ORDER BY id ASC";
-            $result = DB::select($query);
+            $consulta = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = 8 AND bodega_id = 2 ORDER BY id ASC"; //consulta para ver existencias de bodega
+                $result = DB::select($consulta);
 
             foreach($result as $res)
             {
                 $total = $res->cantidad - $cantidadTraspasoTc500B1;
                 if ($total >= 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total WHERE id = :id";
-                    $parametros = array(':total' => $total, ':id' => $res->id );
-                    $result = DB::connection('mysql')->update($query, $parametros);
-                    break;
-                } elseif ($total < 0) {
-                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0 WHERE id = :id";
-                    $parametros = array(':id' => $res->id );
+                    $finalIP = $res->numeracion_inicial + $cantidadTraspasoTc500B1 -1;
+
+                    $ingresoProducto = new IngresoProducto;
+                    $ingresoProducto->timbre_id = 8;
+                    $ingresoProducto->cantidad = $cantidadTraspasoTc500B1;
+                    $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                    $ingresoProducto->numeracion_final = $finalIP;
+                    $ingresoProducto->bodega_id = $bodegaDestino;
+                    $ingresoProducto->save();
+
+                    $trasDetalle = new TraspasoDetalle;
+                    $trasDetalle->traspaso_maestro_id = $lastValueId;
+                    $trasDetalle->tipo_pago_timbre_id = 8;
+                    $trasDetalle->cantidad_a_traspasar = $cantidadTraspasoTc500B1;
+                    $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                    $trasDetalle->numeracion_final = $finalIP;
+                    $trasDetalle->save();
+
+                    $nuevoInicialIP = $res->numeracion_inicial + $cantidadTraspasoTc500B1;
+
+                    $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
+                    $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicialIP);
                     $result = DB::connection('mysql')->update($query, $parametros);
 
-                    $cantidadTraspasoTc500B1 = $total * -1 ;
+                    break;
+                } elseif ($total < 0) {
+                    if ($res->cantidad != 0){
+                        $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                        $parametros = array(':id' => $res->id );
+                        $result = DB::connection('mysql')->update($query, $parametros);
+
+                        $ingresoProducto = new IngresoProducto;
+                        $ingresoProducto->timbre_id = 8;
+                        $ingresoProducto->cantidad = $res->cantidad;
+                        $ingresoProducto->numeracion_inicial = $res->numeracion_inicial;
+                        $ingresoProducto->numeracion_final = $res->numeracion_final;
+                        $ingresoProducto->bodega_id = $bodegaDestino;
+                        $ingresoProducto->save();
+
+                        $trasDetalle = new TraspasoDetalle;
+                        $trasDetalle->traspaso_maestro_id = $lastValueId;
+                        $trasDetalle->tipo_pago_timbre_id = 8;
+                        $trasDetalle->cantidad_a_traspasar = $res->cantidad;
+                        $trasDetalle->numeracion_inicial = $res->numeracion_inicial;
+                        $trasDetalle->numeracion_final = $res->numeracion_final;
+                        $trasDetalle->save();
+
+                        $cantidadTraspasoTc500B1 = $total * -1 ;
+                    }
                 }
             }
         }
-
 
         return response()->json(['success' => 'Exito']);
 

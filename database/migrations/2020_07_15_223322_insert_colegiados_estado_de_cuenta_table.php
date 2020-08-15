@@ -16,7 +16,7 @@ class InsertColegiadosEstadoDeCuentaTable extends Migration
     public function up()
     {
         // Llenado de datos de recibo Maestro
-        $query = "select c_cliente from cc00 where c_cliente >= 11000 and c_cliente <= 11100";
+        $query = "select c_cliente from cc00 where c_cliente >= 11000 and c_cliente <= 11100 or c_cliente = 18136";
         $result = DB::connection('sqlsrv')->select($query);
 
         for ($i = 0; $i < sizeof($result); $i++) {

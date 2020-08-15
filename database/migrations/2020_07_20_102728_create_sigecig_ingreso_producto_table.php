@@ -17,8 +17,9 @@ class CreateSigecigIngresoProductoTable extends Migration
             $table->increments('id');
             $table->integer('timbre_id');
             $table->bigInteger('cantidad');
+            $table->bigInteger('numeracion_inicial')->nullable();
+            $table->bigInteger('numeracion_final')->nullable();
             $table->integer('bodega_id');
-            $table->integer('traspaso_id')->nullable();
             $table->timestamps();
         });
     }
