@@ -52,6 +52,9 @@
         .derecha {
             text-align:right;
         }
+        .centro {
+            text-align:center;
+        }
         /* .izquierda {
             border-left: 6px double black;
         } */
@@ -147,10 +150,10 @@
                 @foreach($datos as $co)
                 <tr>
                     <td height="17"><b>{{$co->descripcion}}</b></td>
-                    <td class="derecha"><input type="number" name="iniciaTc01" id="iniciaTc01">{{$co->numeracion_inicial}}</td>
-                    <td class="derecha"><input type="number" name="finTc01" id="finTc01">{{$co->numeracion_final}}</td>
-                    <td class="derecha"><input type="number" name="unidadesTc01" id="unidadesTc01">{{$co->cantidad_a_traspasar}}</td>
-                    <td class="derecha"><input type="number" name="totalTc01" id="totalTc01">
+                    <td class="centro"><input type="number" name="iniciaTc01" id="iniciaTc01">{{$co->numeracion_inicial}}</td>
+                    <td class="centro"><input type="number" name="finTc01" id="finTc01">{{$co->numeracion_final}}</td>
+                    <td class="centro"><input type="number" name="unidadesTc01" id="unidadesTc01">{{$co->cantidad_a_traspasar}}</td>
+                    <td class="centro"><input type="number" name="totalTc01" id="totalTc01">
                         @if ($co->descripcion=='Timbres de precio de Q1.00') {{$co->cantidad_a_traspasar * 1}} @endif
                         @if ($co->descripcion=='Timbres de precio de Q5.00') {{$co->cantidad_a_traspasar * 5}} @endif
                         @if ($co->descripcion=='Timbres de precio de Q10.00') {{$co->cantidad_a_traspasar * 10}} @endif
@@ -161,7 +164,7 @@
                         @if ($co->descripcion=='Timbres de precio de Q500.00') {{$co->cantidad_a_traspasar * 500}} @endif
                     </td>
                     <td class="derecha">Q.<input type="number" name="precioTc01" id="precioTc01">
-                        @if ($co->descripcion=='Timbres de precio de Q1.00') Q.{{number_format($co->cantidad_a_traspasar * 1, 2)}} @endif
+                        @if ($co->descripcion=='Timbres de precio de Q1.00') {{number_format($co->cantidad_a_traspasar * 1, 2)}} @endif
                         @if ($co->descripcion=='Timbres de precio de Q5.00') {{number_format($co->cantidad_a_traspasar * 5, 2)}} @endif
                         @if ($co->descripcion=='Timbres de precio de Q10.00') {{number_format($co->cantidad_a_traspasar * 10, 2)}} @endif
                         @if ($co->descripcion=='Timbres de precio de Q20.00') {{number_format($co->cantidad_a_traspasar * 20, 2)}} @endif
@@ -175,7 +178,7 @@
             </tbody>
             <tr>
                 <th colspan="5" style="background: #D2D2D2;text-align:center;" height="17">TOTAL </th>
-                <th style="color: black;text-align:center;" class="derecha">Q.{{number_format($total, 2)}}</th>
+                <th style="color: black;" class="derecha">Q.{{number_format($total, 2)}}</th>
             </tr>
         </table>
     </div>
