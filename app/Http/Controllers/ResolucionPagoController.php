@@ -233,14 +233,12 @@ class ResolucionPagoController extends Controller
     {
 
         //Estado 9 a 10
-        $fecha = date("Y/m/d h:m:s");
         $nuevos_datos = array(
             'id_estado_solicitud' => 10,
         );
-        $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
         $auxpost = SQLSRV_Colegiado::where("c_cliente", $solicitud->n_colegiado)->get()->first();
-        $auxpost->auxpost = '1';
+        $auxpost->auxpost = 1;
         $auxpost->update();
 
         try {
@@ -258,7 +256,7 @@ class ResolucionPagoController extends Controller
         } catch (\Throwable $th) {
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id,Now(), $solicitud->id_estado_solicitud));
 
-            return Response::json(['success' => 'Éxito']);
+            return Response::json(['success' => 'Éxito-No se envio correo']);
         }
        
     }
