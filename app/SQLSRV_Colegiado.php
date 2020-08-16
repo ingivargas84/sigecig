@@ -70,9 +70,8 @@ class SQLSRV_Colegiado extends Model
         'monto_timbre',
         'telmovil',
         'auxpost',
-        'updated_at'
     ];
-
+    protected $updated_at = 'Ymd H: i: s';
 
       public function codigosTimbrePago($cantidad = 1) {
         $montoTemp = $this->monto_timbre * $cantidad;
