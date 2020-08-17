@@ -258,13 +258,8 @@ class AuxilioPostumoController extends Controller
             return ('Usuario ya existe');
             return redirect()->route('crearUsuario.index')->withFlash('Usuario ya existe');
         }
-<<<<<<< HEAD
 
-        dd($admin_usuario);
-=======
-   
-        
->>>>>>> 25826b8166851e6b3e8bcbf5a2a916b0cf62c4c4
+
         return ('save');
     }
 }
