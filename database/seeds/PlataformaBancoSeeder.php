@@ -49,10 +49,6 @@ class PlataformaBancoSeeder extends Seeder
         $bco->save();
 
         $bco=new PlataformaBanco();
-        $bco->nombre_banco="Banco de Guatemala";
-        $bco->save();
-
-        $bco=new PlataformaBanco();
         $bco->nombre_banco="Banco INV,S.A.";
         $bco->save();
 
@@ -62,10 +58,6 @@ class PlataformaBancoSeeder extends Seeder
 
         $bco=new PlataformaBanco();
         $bco->nombre_banco="CITIBANK N.A.";
-        $bco->save();
-
-        $bco=new PlataformaBanco();
-        $bco->nombre_banco="Banco de Crédito";
         $bco->save();
 
         $bco=new PlataformaBanco();
@@ -79,6 +71,6 @@ class PlataformaBancoSeeder extends Seeder
         $bco=new PlataformaBanco();
         $bco->nombre_banco="VIVIBANCO";
         $bco->save();
-    
+
     }
 }
