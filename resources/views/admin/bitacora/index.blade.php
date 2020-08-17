@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>  
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>  
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>  
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -78,7 +78,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -98,7 +98,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -120,7 +120,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -129,28 +129,14 @@
                         </div>
                         @endif
                       
-                        @if($cambio ["estado_solicitud"] == 4)
-                       <p><b>5. Solicitud de Aprobación a Junta Directiva</b>
-                            <br>
-                        <div class="row">
-                            <div class="form-group col-md-4" >
-                                <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
-                            </div>
-                            <div class="form-group col-md-4" >
-                                <label>Configurado por:</label>
-                                <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
-                            </div>
-                        </div>
-                        @endif
 
                         @if($cambio ["estado_solicitud"] == 5)
-                        <p><b>6. Aprobación de Junta Auxilio Póstumo</b>
+                        <p><b>5. Aprobación de Junta Auxilio Póstumo</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -160,12 +146,12 @@
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 6)
-                        <p><b>7. Rechazado por Junta</b>
+                        <p><b>6. Rechazado por Junta</b>
                             <br>
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -180,6 +166,21 @@
 
                         </div>
                         @endif
+                        @if($cambio ["estado_solicitud"] == 7)
+                        <p><b>7. Ingreso de Acta</b>
+                            <br>
+                        <div class="row">
+                            <div class="form-group col-md-4" >
+                                <label>Fecha de Configuración</label>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
+                            </div>
+                            <div class="form-group col-md-4" >
+                                <label>Configurado por:</label>
+                                <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
+                            </div>
+                        </div>   
+        
+                        @endif
 
                         @if($cambio ["estado_solicitud"] == 8)
                         <p><b>8. Firma de Resolución</b>
@@ -187,7 +188,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -202,7 +203,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
@@ -230,7 +231,7 @@
                         <div class="row">
                             <div class="form-group col-md-4" >
                                 <label>Fecha de Configuración</label>
-                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:m:s')}}' readonly>
+                                <input type="text" class="form-control" value='{{ \Carbon\Carbon::parse($cambio->created_at)->format('d/m/Y H:i:s')}}' readonly>
                             </div>
                             <div class="form-group col-md-4" >
                                 <label>Configurado por:</label>
