@@ -165,7 +165,6 @@ class AuxilioPostumoController extends Controller
     public function guardarDocumentosAp(Request $request, $id)
     {
 
-        
         $fecha = date("Y/m/d h:m:s");
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
@@ -178,22 +177,15 @@ class AuxilioPostumoController extends Controller
             'dpi' => 'required'
         ]);
 
-        // $pdfSolicituddb = 'C:\Documents\ap\solicitud/Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        // $pdfSolicitud = 'Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        // request()->solicitud->move('C:\Documents\ap\solicitud', $pdfSolicitud);
+ 
 
-        // $pdfDpidb = 'C:\Documents\ap\dpi/Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        // $pdfDpi = 'Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        // request()->dpi->move('C:\Documents\ap\dpi', $pdfDpi);
-
-        $pdfSolicituddb = '/solicitud/Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        $pdfSolicitud = 'Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
+        $pdfSolicituddb = '/solicitud/Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
+        $pdfSolicitud = 'Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
         request()->solicitud->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\solicitud', $pdfSolicitud);
 
-        $pdfDpidb = '/dpi/Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        $pdfDpi = 'Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
+        $pdfDpidb = '/dpi/Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
+        $pdfDpi = 'Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
         request()->dpi->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\dpi', $pdfDpi);
-
 
         $solicitudAP->pdf_solicitud_ap = $pdfSolicituddb;
         $solicitudAP->pdf_dpi_ap = $pdfDpidb;
