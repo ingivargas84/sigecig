@@ -52,7 +52,7 @@ class ResolucionPagoController extends Controller
 
     public function reporte_ap(PlataformaSolicitudAp $id)
     {
-        
+
         $path = 'images/timbre.png';
         $data = file_get_contents($path);
         $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
@@ -61,7 +61,7 @@ class ResolucionPagoController extends Controller
 
         $query = "SELECT U.id, U.no_solicitud, U.n_colegiado, AP.Nombre1, S.estado_solicitud_ap, U.no_cuenta, U.fecha_pago_ap
             FROM sigecig_solicitudes_ap U
-            INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id 
+            INNER JOIN sigecig_estado_solicitud_ap S ON U.id_estado_solicitud=S.id
             INNER JOIN adm_usuario AU ON AU.Usuario=U.n_colegiado
             INNER JOIN adm_persona AP ON AU.idPersona = AP.idPersona
             INNER JOIN sigecig_tipo_cuentas TC ON TC.id=U.id_tipo_cuenta
@@ -258,7 +258,7 @@ class ResolucionPagoController extends Controller
 
             return Response::json(['success' => 'Éxito-No se envio correo']);
         }
-       
+
     }
 
     /**
@@ -280,11 +280,11 @@ class ResolucionPagoController extends Controller
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
-    
+
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id,Now(), $solicitud->id_estado_solicitud));
             //return redirect()->route('tipoDePago.index', $tipo)->with('flash','Tipo de pago ha sido actualizado!');
             return Response::json(['success' => 'Éxito']);
-       
+
 
     }
 
@@ -293,7 +293,7 @@ class ResolucionPagoController extends Controller
         $data = $request->all();
 
         Mail::send('mails.cambioestado', ['data' => $data],  function ($m) use ($data) {
-            $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala');
+            $m->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala portal electrónico');
             $m->to("ing.ivargas21314@gmail.com", "Iver Vargas")->subject('Prueba de Correo');
         });
 
@@ -384,16 +384,16 @@ class ResolucionPagoController extends Controller
                        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
                        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
                        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
-           
+
                        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
                        return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         } catch (\Throwable $th) {
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         }
-      
 
-     
+
+
 
     }
 
@@ -421,7 +421,7 @@ class ResolucionPagoController extends Controller
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Registrado Correctamente']);
         }
-       
+
     }
 
     public function aprDocumentosJunta(Request $request)
@@ -430,8 +430,8 @@ class ResolucionPagoController extends Controller
         $estado_solicitud = PlataformaSolicitudAp::Where("id", $request->id_solicitud)->get()->first();
         $estado_solicitud->id_estado_solicitud = '5';
         $estado_solicitud->update();
-     
- 
+
+
             try {
             //envio de Corroe Aprobacion Solicitud por Junta Directiva
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -447,7 +447,7 @@ class ResolucionPagoController extends Controller
                 event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id,Now(), $estado_solicitud->id_estado_solicitud));
                 return response()->json(['mensaje' => 'Resgistrado Correctamente']);
             }
-     
+
     }
 
     public function rczDocumentosJunta(Request $request)
@@ -466,7 +466,7 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
-    
+
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
             return response()->json(['mensaje' => 'Resgistrado Correctamente']);
         } catch (\Throwable $th) {
@@ -484,13 +484,13 @@ class ResolucionPagoController extends Controller
         $type = File::mimeType($path);
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
- 
+
        $data = file_get_contents($path);
        $base64 = 'data:doc/' . "pdf" . ';base64,' . base64_encode($data);
-       return $base64; 
-       
+       return $base64;
+
         return $base64;
-      
+
     }
     public function verDpiAp($solicitud)
     {
