@@ -28,7 +28,7 @@ class RegistrarBitacoraAp
      */
     public function handle(ActualizacionBitacoraAp $event)
     {
-     
+
         $bitacoraB = new BitacoraAp;
         $bitacoraB->usuario = $event->user_id;
         $bitacoraB->fecha = $event->fecha;
@@ -37,6 +37,6 @@ class RegistrarBitacoraAp
         $bitacoraB->id_creacion = 0;
 
         $bitacoraB->save();
-        
+
     }
 }

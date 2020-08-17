@@ -30,7 +30,7 @@ class AuxilioPostumoController extends Controller
         WHERE auxpost=0 and DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3 and fallecido='N' and DATEDIFF(month,fecha_nac,GetDate()) >= 900";
         $result = DB::connection('sqlsrv')->select($query);
         $array=[];
-        
+
         foreach ($result as $colegiado => $valor){
             $solicitud=PlataformaSolicitudAp::Where('n_colegiado',$valor->c_cliente)->get()->last();
             if (empty($solicitud)){
@@ -40,7 +40,7 @@ class AuxilioPostumoController extends Controller
             }
         }
         $result=$array;
-        
+
         $banco = PlataformaBanco::all();
         $tipo_cuenta = PlataformaTipoCuenta::all();
         if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
@@ -48,7 +48,7 @@ class AuxilioPostumoController extends Controller
         }else{
             return redirect()->route('resolucion.index');
         }
-        
+
     }
 
     public function getDatosColegiado($no_colegiado)
@@ -67,7 +67,7 @@ class AuxilioPostumoController extends Controller
             $usuario = '1';
         }
             return Response::json(array($consulta, $usuario));
-      
+
     }
 
     public function GuardarSolicitudAp(Request $request)
@@ -80,7 +80,7 @@ class AuxilioPostumoController extends Controller
                 $persona->Nombre1 = $colegiado->n_cliente;
                 $persona->Email = $colegiado->e_mail;
                 $persona->save();
-    
+
                 $usuario = new AdmUsuario;
                 $usuario->Usuario = $colegiado->c_cliente;
                 $usuario->idIdentidad = 1;
@@ -96,19 +96,19 @@ class AuxilioPostumoController extends Controller
                 $usuario->remember_token = str_random(32);
                 $usuario->estado = 1;
                 $usuario->save();
-    
+
                 $adm_colegiado = new AdmColegiado;
                 $adm_colegiado->idUsuario = $usuario->id;
                 $adm_colegiado->numerocolegiado = $colegiado->c_cliente;
                 $adm_colegiado->fechacreacion = DB::raw('NOW()');
                 $adm_colegiado->estado = 1;
                 $adm_colegiado->save();
-    
+
             }
-    
+
             $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
             $cuenta = new PlataformaSolicitudAp;
-    
+
             $cuenta->fecha_solicitud = Now();
             $cuenta->n_colegiado = $request->no_colegiado;
             $cuenta->id_estado_solicitud = '1';
@@ -117,22 +117,22 @@ class AuxilioPostumoController extends Controller
             $cuenta->no_cuenta = $request->no_cuenta;
             $cuenta->id_creacion = 1;
             $cuenta->junta='2019-2021';
-    
+
             if ($solicitud == 0) {
                 $cuenta->no_solicitud = 15;
             } else {
                 $cuenta->no_solicitud = $solicitud + 1;
             }
-    
+
             $cuenta->save();
-    
+
             $colegiado->telefono = $request->telefono;
             $colegiado->update();
-        
+
             event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
-    
+
             return response()->json(array(['mensaje' => 'Resgistrado Correctamente','cuenta'=>$cuenta]));
-       
+
 
     }
 
@@ -140,11 +140,11 @@ class AuxilioPostumoController extends Controller
     {
         $user = Auth::User();
         if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
-            return view('admin.auxilioPostumo.subir_documentos', compact('id')); 
+            return view('admin.auxilioPostumo.subir_documentos', compact('id'));
         }else{
             return redirect()->route('resolucion.index');
         }
-        
+
     }
 
     public function imprimirSolicitud($id)
@@ -165,7 +165,6 @@ class AuxilioPostumoController extends Controller
     public function guardarDocumentosAp(Request $request, $id)
     {
 
-        
         $fecha = date("Y/m/d h:m:s");
         $fecha_actual = date_format(Now(), 'd-m-Y');
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
@@ -178,22 +177,15 @@ class AuxilioPostumoController extends Controller
             'dpi' => 'required'
         ]);
 
-        // $pdfSolicituddb = 'C:\Documents\ap\solicitud/Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        // $pdfSolicitud = 'Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        // request()->solicitud->move('C:\Documents\ap\solicitud', $pdfSolicitud);
+ 
 
-        // $pdfDpidb = 'C:\Documents\ap\dpi/Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        // $pdfDpi = 'Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        // request()->dpi->move('C:\Documents\ap\dpi', $pdfDpi);
-
-        $pdfSolicituddb = '/solicitud/Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
-        $pdfSolicitud = 'Solicitud' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->solicitud->getClientOriginalExtension();
+        $pdfSolicituddb = '/solicitud/Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
+        $pdfSolicitud = 'Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
         request()->solicitud->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\solicitud', $pdfSolicitud);
 
-        $pdfDpidb = '/dpi/Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
-        $pdfDpi = 'Dpi' . $solicitudAP->no_solicitud . $solicitudAP->n_colegiado . '.' . request()->dpi->getClientOriginalExtension();
+        $pdfDpidb = '/dpi/Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
+        $pdfDpi = 'Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
         request()->dpi->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\dpi', $pdfDpi);
-
 
         $solicitudAP->pdf_solicitud_ap = $pdfSolicituddb;
         $solicitudAP->pdf_dpi_ap = $pdfDpidb;
@@ -258,8 +250,8 @@ class AuxilioPostumoController extends Controller
             return ('Usuario ya existe');
             return redirect()->route('crearUsuario.index')->withFlash('Usuario ya existe');
         }
-   
-        
+
+
         return ('save');
     }
 }

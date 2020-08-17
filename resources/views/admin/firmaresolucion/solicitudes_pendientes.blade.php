@@ -49,7 +49,7 @@
 
 
 		</tr>
-
+		@if ($result != 0)
 		@foreach($result as $a1)
 		<tr>
 			<td>{{  $a1->cliente }}</td>
@@ -64,6 +64,9 @@
 
 		</tr>
 		@endforeach
+			
+		@endif
+
 
 	</table>
 	<strong>Fecha y hora de impresión: </strong>{{$mytime}}
