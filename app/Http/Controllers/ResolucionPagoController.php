@@ -320,16 +320,20 @@ class ResolucionPagoController extends Controller
             ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
             ->whereIn('cc00.c_cliente', $cuenta)->orderBy('c_cliente','asc')
             ->get();
+       
+        $List = implode(', ', $cuenta); 
+        if(!empty($List)){
+            $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
+            FROM cc00 U
+            INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente 
+            WHERE  U.c_cliente IN ($List)
+            ORDER BY cliente asc;";
+    
+            $result = DB::connection('sqlsrv')->select($query);
+        }else{
+            $result = 0;
+        }
 
-        $List = implode(', ', $cuenta);
-
-        $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
-        FROM cc00 U
-        INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente
-        WHERE  U.c_cliente IN ($List)
-        ORDER BY cliente asc;";
-
-        $result = DB::connection('sqlsrv')->select($query);
         return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64","result"))
             ->setPaper('legal', 'landscape')
             ->stream('archivo.pdf');
