@@ -403,7 +403,7 @@ class IngresoBodegaController extends Controller
 
     public function pdfRemesa(IngresoBodegaMaestro $id)
     {
-        $newDate = date("d/m/Y", strtotime($id->created_at));
+        $newDate = date("d/m/Y H:i:s", strtotime($id->created_at));
         $nombre = User::select("name")->where("id", $id->usuario_id)->get()->first();
 
         $query1= "SELECT tp.descripcion, id.planchas, id.unidad_por_plancha, id.numeracion_inicial, id.numeracion_final, id.cantidad, id.total FROM sigecig_ingreso_bodega_detalle id

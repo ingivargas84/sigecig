@@ -148,7 +148,7 @@
         </div>
         <br>
         <div class="">
-          <label class="" ><b>GENERÓ LA REMESA: </b>{{$nombre->name}}</label>
+          <label class="" ><b>REPORTE CREADO POR: </b>{{$nombre->name}} <?php echo date("d/m/Y");?></label>
         </div>
         <br>
     </div>
