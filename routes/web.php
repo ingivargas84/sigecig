@@ -137,7 +137,7 @@ Route::group([
         Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@guardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
         Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
-        Route::post('/auxiliopostumo/save','AuxilioPostumoController@saveUsuario');
+        Route::get('/auxiliopostumo/save','HomeController@saveUsuario');
 
 
         //Módulo Reporte Finalizadas
