@@ -121,7 +121,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
                 "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
-                "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                "<i class='fa fa-plus-square' title='Agregar Profesión'></i>" +
                 "</a>" + "</div>"
             }
         },

@@ -18,7 +18,7 @@
                     
                     <div class="row" >
                           <div class="col-sm-5" >
-                            <label for="nombre">Agregar profesión para:</label>
+                            <label for="nombre">Nombres:</label>
                             <input id="nombre" class="form-control" name="nombre" type="text" readonly>  
                           </div>
                           <div class="col-sm-5" >
@@ -55,6 +55,7 @@
           </div>
         </div>
     </div>
+    </form>
 </div>
 @push('scripts')
 <script src="{{asset('js/colegiados/index.js')}}"></script>

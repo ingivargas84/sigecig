@@ -12,10 +12,11 @@
                     
                     <div class="row" >
                           <div class="col-sm-5" >
-                            <label for="nombre">Agregar timbre para:</label>
+                            <label for="nombre">Nombres:</label>
                             <input id="nombre1" class="form-control" name="nombre1" type="text" readonly>  
                           </div>
                           <div class="col-sm-5" >
+                            <label for="dpi1">DPI:</label>
                             <input id="dpi1" class="form-control" name="dpi1" type="text" readonly>  
                         </div>
                     </div>
@@ -39,10 +40,10 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           </div>
         </div>
-
     </div>
+  </form>
 </div>
-@push('scripts')
+{{-- @push('scripts')
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
 <script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
@@ -51,5 +52,5 @@
 
  {{--<script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
 <script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
-<script src="{{asset('/ea/bootstrap.min.js')}}"></script>--}}
-@endpush
+<script src="{{asset('/ea/bootstrap.min.js')}}"></script>
+@endpush --}}
