@@ -196,6 +196,7 @@ class AuxilioPostumoController extends Controller
         $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+        $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));

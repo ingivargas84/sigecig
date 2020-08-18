@@ -37,7 +37,7 @@ class ColegiadosController extends Controller
     public function index()
     {
         $query = "SELECT c_profesion id, IIF (n_profesion='',titulo_masculino,titulo_masculino+' '+n_profesion) as nombre
-        FROM profesion
+        FROM fvhjdfadf
         ORDER BY titulo_masculino+' '+n_profesion";
         $resultado = DB::connection('sqlsrv')->select($query);
         
