@@ -156,7 +156,7 @@ function getDatosProfesionales(tipo) {
       });
   }
   
-  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+/*   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href");
     var tipo = "";
     if(target == '#pagosTimbre') {
@@ -172,7 +172,7 @@ function getDatosProfesionales(tipo) {
       getDatosTimbre();
       getFechaTopeMensualidades();
     }
-  });
+  }); */
   
 $(window).on('load', function(e) {
     $("#idusuario").val(location.hash);
@@ -230,7 +230,7 @@ $(window).on('load', function(e) {
 }
       });
   }); 
-  
+  /* 
   function cargarDatos() {
     getdatos();
     $(".colegiado").val($("#idusuario").val());
@@ -245,7 +245,7 @@ $(window).on('load', function(e) {
       getDatosTimbre();
       getFechaTopeMensualidades();
     }
-  }
+  } */
 
   
 

@@ -243,7 +243,44 @@
                             <input id="fechaMonto" value="No ingresada" class="form-control" name="fechaMonto" type="text" readonly>           
                             @endif
                             </div>
-                        </div>  
+                        </div>
+                        <br>
+                        <legend>Datos de Colegiación</legend>
+                        <div class="row">
+                            <div class="col-sm-3">
+                              <label for="c_colegiado" class="control-label">Número de Colegiado:</label>
+                            @if ($query->c_cliente!=null)
+                               <input id="c_colegiado" value="{{$query->c_cliente}}" class="form-control" name="c_colegiado" type="text" readonly>         
+                            @else
+                             <input id="c_colegiado" value="No ingresado" class="form-control" name="c_colegiado" type="text" readonly>         
+                              @endif
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="fecha_col" class="control-label">Fecha de Colegiación:</label>
+                              @if ($query->fecha_col!=null)
+                              <input id="fecha_col" value="{{$query->fecha_col}}" class="form-control" name="fecha_col" type="text" readonly>           
+                            @else 
+                            <input id="fecha_col" value="No ingresada" class="form-control" name="fecha_col" type="text" readonly>           
+                            @endif
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="col_pagado" class="control-label">Colegio pagado hasta:</label>
+                              @if ($query->f_ult_pago!=null)
+                              <input id="col_pagado" value="{{$query->f_ult_pago}}" class="form-control" name="col_pagado" type="text" readonly>           
+                            @else 
+                            <input id="col_pagado" value="No ingresada" class="form-control" name="col_pagado" type="text" readonly>           
+                            @endif
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="timbre_pagado" class="control-label">Timbre pagado hasta:</label>
+                              @if ($query->f_ult_timbre!=null)
+                              <input id="timbre_pagado" value="{{$query->f_ult_timbre}}" class="form-control" name="timbre_pagado" type="text" readonly>           
+                            @else 
+                            <input id="timbre_pagado" value="No ingresada" class="form-control" name="timbre_pagado" type="text" readonly>           
+                            @endif
+                            </div>
+                        </div>
+                        <br>  
                 </div>
             </div>
         </form>

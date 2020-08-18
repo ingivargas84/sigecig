@@ -56,7 +56,7 @@
                                 <label for="subsede">Subsedes:</label>
                                 <select name="subsede" class="form-control">
                                         @foreach ($sub as $su)
-                                            <option value="{{ $su['id'] }}">{{ $su['nombre_sede'] }}</option>
+                                            <option value="{{ $su->id }}">{{ $su->nombre_sede}}</option>
                                         @endforeach
                                 </select>
                             </div>
