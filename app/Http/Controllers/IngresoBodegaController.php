@@ -416,7 +416,9 @@ class IngresoBodegaController extends Controller
             $total += $datos[$i]->total;
         }
 
-        return \PDF::loadView('admin.remesa.pdfremesa', compact('id', 'nombre', 'datos', 'total', 'newDate'))
+        $creadorRemesa = Auth::user()->name;
+
+        return \PDF::loadView('admin.remesa.pdfremesa', compact('id', 'nombre', 'datos', 'total', 'newDate', 'creadorRemesa'))
         ->setPaper('legal', 'landscape')
         ->stream('Remesa.pdf');
     }

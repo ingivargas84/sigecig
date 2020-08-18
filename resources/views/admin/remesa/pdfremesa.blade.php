@@ -12,6 +12,9 @@
             margin-left: 4rem;
             margin-right: 4rem;
         }
+        label {
+            font-family: "sans-serif";
+        }
         tr:nth-child(even){
             background-color: #eee;
         }
@@ -148,11 +151,10 @@
         </div>
         <br>
         <div class="">
-          <label class="" ><b>REPORTE CREADO POR: </b>{{$nombre->name}} <?php echo date("d/m/Y");?></label>
+          <label class="" ><b>USUARIO QUE GENERÓ LA REMESA: </b>{{$nombre->name}}</label>
         </div>
         <br>
     </div>
-    <br>
     <br>
         <table style="margin-top: 4rem; ">
             <thead >
@@ -186,5 +188,8 @@
                 </tr>
             </thead>
         </table>
+        <div style="margin-left: 4rem;">
+          <label><b>REPORTE CREADO POR: </b>{{$creadorRemesa}} <?php echo date("d/m/Y H:i:s");?></label>
+        </div>
 </body>
 </html>
