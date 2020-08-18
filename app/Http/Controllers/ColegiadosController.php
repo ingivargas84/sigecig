@@ -565,7 +565,14 @@ Log::info("Morir2 ".print_r($aspirante, true));
   }
     public function getJson(Request $params)
      {
-        $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
+        $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
+                    IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
+                    (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
+                    cp.n_profesion as carrera
+                    FROM cc00 CC
+                  INNER JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente
+                UNION
+                  SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
                     FROM aspirante C
                     INNER JOIN profesionAspirante PA ON PA.dpi = C.dpi
                     INNER JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
@@ -574,14 +581,5 @@ Log::info("Morir2 ".print_r($aspirante, true));
         return Response::json( $api_Result );
      }
 }
-/* "SELECT  C.n_cliente, C.c_cliente, C.estado
-        FROM cc00 C
-        "; SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
-        IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
-        (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
-        cp.n_profesion as carrera
-                FROM cc00 CC
-                INNER JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente
-                UNION
-                 */ 
+
 
