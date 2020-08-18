@@ -7,7 +7,7 @@
 
     <style>
         .baner{ background:#03306d; text-align: center; height: 175px; padding-top:30px; }
-        .datos{font-weight: 700; margin-left: 20%;}
+        .datos{font-weight: 700; margin-left: 0%;}
         .alinear{float: right;}
         .rechazo{font-size: 20px;margin-left: 20%; margin-right: 20%;  text-align: justify; }
         .img1{width: 80%; margin-left: 10%}
@@ -83,7 +83,7 @@
         <div class=" datos"><label for="">SOLICITUD: {{$solicitudAP['no_solicitud']}}</label> </div>
         <div class="datos"><label    for="">STATUS: PASO 07/08</label></div><br><br>
         <div  ><img class="img1" src="{{ $message->embed(public_path().'/images/paso7.png') }}" alt="picsum" /></div>
-        <h3> <center>El deposito se encuentra programado para el día:  {{ \Carbon\Carbon::parse($solicitudAP['fecha_pago_ap'])->format('d-m-Y')}} </center> </h3> <br><br>
+        <h3> <center>El depósito se encuentra programado para el día:  {{ \Carbon\Carbon::parse($solicitudAP['fecha_pago_ap'])->format('d-m-Y')}} </center> </h3> <br><br>
         <h4 class="pie" >Puede revisar el proceso de su solicitud en : <a href="https://www2.cig.org.gt/postumo/">https://www2.cig.org.gt/postumo/</a> </h4>
 
 
