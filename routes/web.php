@@ -134,10 +134,10 @@ Route::group([
         Route::get('/auxilioPostumo/{no_colegiado}/getDatosColegiado','AuxilioPostumoController@getDatosColegiado');
         Route::post('/auxilioPostumo/save','AuxilioPostumoController@GuardarSolicitudAp');
         Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
-        Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
+        Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@guardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
         Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
-        Route::post('/auxiliopostumo/save','AuxilioPostumoController@saveUsuario');
+        Route::get('/auxiliopostumo/save','HomeController@saveUsuario');
 
 
         //Módulo Reporte Finalizadas

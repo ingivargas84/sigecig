@@ -412,7 +412,7 @@ class IngresoBodegaController extends Controller
         $datos = DB::select($query1);
 
         $total = 0;
-        for ($i = 1; $i < sizeof($datos); $i++) {
+        for ($i = 0; $i < sizeof($datos); $i++) {
             $total += $datos[$i]->total;
         }
 

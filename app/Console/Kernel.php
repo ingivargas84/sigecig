@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\ActualizarSaldos',
         'App\Console\Commands\HourlyUpdate',
+        'App\Console\Commands\ActualizarTimbresReserva',
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {        
         $schedule->command('saldos:update');
         $schedule->command('hour:update');
+        $schedule->command('update:estadoTimbre');
        
     }
 

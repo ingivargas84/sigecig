@@ -262,7 +262,7 @@ function getTc05(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 27 || codigo == 39){codigo = 31; nombre = 'TC05';}
+            // if (codigo == 27 || codigo == 39){codigo = 31; nombre = 'TC05';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -352,7 +352,7 @@ function getTc10(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 23 || codigo == 40){codigo = 32; nombre = 'TC10';}
+            // if (codigo == 23 || codigo == 40){codigo = 32; nombre = 'TC10';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -442,7 +442,7 @@ function getTc20(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 25 || codigo == 41){codigo = 34; nombre = 'TC20';}
+            // if (codigo == 25 || codigo == 41){codigo = 34; nombre = 'TC20';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -532,7 +532,7 @@ function getTc50(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 28 || codigo == 42){codigo = 36; nombre = 'TC50';}
+            // if (codigo == 28 || codigo == 42){codigo = 36; nombre = 'TC50';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -622,7 +622,7 @@ function getTc100(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 24 || codigo == 43){codigo = 33; nombre = 'TC100';}
+            // if (codigo == 24 || codigo == 43){codigo = 33; nombre = 'TC100';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -712,7 +712,7 @@ function getTc200(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 26 || codigo == 44){codigo = 35; nombre = 'TC200';}
+            // if (codigo == 26 || codigo == 44){codigo = 35; nombre = 'TC200';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",
@@ -802,7 +802,7 @@ function getTc500(){
             var codigo = $($(celdas[0])).text();
             var nombre = $($(celdas[1])).text();
             var cantidad = $($(celdas[2])).text();
-            if (codigo == 29 || codigo == 45){codigo = 37; nombre = 'TC500';}
+            // if (codigo == 29 || codigo == 45){codigo = 37; nombre = 'TC500';}
             $.ajax({
                 type: "POST",
                 url: "/consultaTimbres",

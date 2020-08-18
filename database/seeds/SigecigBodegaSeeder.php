@@ -13,8 +13,8 @@ class SigecigBodegaSeeder extends Seeder
     public function run()
     {
         $bodega=new Bodegas();
-        $bodega->nombre_bodega="Bodega ventas en linea";
-        $bodega->descripcion="Bodega ventas en linea";
+        $bodega->nombre_bodega="Bodega Ventas en Linea";
+        $bodega->descripcion="Bodega Ventas en Linea";
         $bodega->estado=1;
         $bodega->save();
 

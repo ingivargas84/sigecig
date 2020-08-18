@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
-          <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Autorizacion</a></li>
-          <li class="active">Crear</li>
+          <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Resolución</a></li>
+          <li class="active">Revisión</li>
         </ol>      
     </section>
 
@@ -71,19 +71,19 @@
 
                         <div class="col-sm-12">
                             <div class="col-sm-6">
-                                <h4  style="padding: 10px">Solicitud de anticipo firmada <a target="_blank" href="/resolucion/solicitudap/{{$solicitud->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                <h4  style="padding: 10px">Solicitud de anticipo firmada </h4>
                             
                 
-                               <div class="" id="solicitudpdf" style="display: none">
-                                     <embed class="" src="{{ asset('/documentos/ap/solicitudap.pdf') }}" type="application/pdf" width="100%" height="400px" />
+                               <div class="" id="solicitudpdf" style="display: ">
+                                     <embed class="" src="{{$solicitud->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
                                 </div>
                             </div>
                             
                             <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Copiade DPI ambos lados<a target="_blank" href="/resolucion/dpiap/{{$solicitud->id}}" id="" ><img  src="/images/iconover.png" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
+                                    <h4  style="padding: 10px">Copia de DPI ambos lados</h4>
         
-                                <div class="" id="dpipdf"  style="display: none">
-                                    <embed  src="{{ asset('/documentos/ap/solicitudap.pdf') }}" type="application/pdf" width="100%" height="400px" />
+                                <div class="" id="dpipdf"  style="display: ">
+                                    <embed  src="{{$solicitud->pdf_dpi_ap}}" type="application/pdf" width="100%" height="400px" />
                                 </div>
                             </div><br><br>
                         </div>

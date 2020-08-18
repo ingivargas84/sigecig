@@ -16,6 +16,9 @@ use App\IngresoProducto;
 use App\IngresoBodegaDetalle;
 use App\IngresoBodegaMaestro;
 use App\Bodegas;
+use App\Cajas;
+use App\Subsedes;
+use App\Colaborador;
 use App\User;
 use Validator;
 
@@ -629,7 +632,9 @@ class TraspasoController extends Controller
 
     public function pdfTraspaso(TraspasoMaestro $id)
     {
-        $newDate = date("d/m/Y", strtotime($id->created_at)); //fecha de creacion
+        setlocale(LC_TIME, "spanish");
+        $newDate = strftime("%B %d, %Y ", strtotime( $id->created_at) ); //fecha de creacion en formato español
+
         $nombreUsuario = User::select("name")->where("id", $id->usuario_id)->get()->first(); //nombre del usuario que creo el traspaso
 
         $query = "SELECT t.id, b.nombre_bodega as bodega_origen, c.nombre_bodega as bodega_destino, t.cantidad_de_timbres, t.total_en_timbres
@@ -640,22 +645,39 @@ class TraspasoController extends Controller
         $result = DB::select($query);
 
         $bodegaOrigen  = $result[0]->bodega_origen; //bodega de origen
+        $ciudadOrigen  = 'Guatelama';
         $bodegaDestino = $result[0]->bodega_destino; //bodega de destino
 
+        $ciudadDestino = Bodegas::select('descripcion')->where('nombre_bodega', 'LIKE', $bodegaDestino)->get()->first();
 
-        $query1= "SELECT tp.codigo, tp.tipo_de_pago, id.cantidad_a_traspasar FROM sigecig_traspaso_detalle id
-                  INNER JOIN sigecig_tipo_de_pago tp ON id.tipo_pago_timbre_id = tp.id
+
+        $query1= "SELECT tp.descripcion, id.cantidad_a_traspasar, id.numeracion_inicial, id.numeracion_final FROM sigecig_traspaso_detalle id
+                  INNER JOIN sigecig_timbres tp ON id.tipo_pago_timbre_id = tp.id
                   WHERE id.traspaso_maestro_id = $id->id";
         $datos = DB::select($query1);
 
-        // dd($result);
+        $cajas = cajas::select('*')->where('bodega', $id->bodega_destino_id)->get()->first(); // consulta a la tabla de cajas para saber la subsede de la bodega destino
+        $sedeDestino = Subsedes::select('*')->where('id', $cajas->subsede)->get()->first(); // datos sobre la sede de destino
 
-        // $total = 0;
-        // for ($i = 1; $i < sizeof($datos); $i++) {
-        //     $total += $datos[$i]->total;
-        // }
+        $UsuarioDestino = User::select("name")->where("id", $cajas->cajero)->get()->first(); // consulta a tabla usuarios para el cajero que se encarga de la Bodega o sede Destino
+        $nombreUsuarioDestino = $UsuarioDestino->name; //nombre del cajero que se encarga de la Bodega o sede Destino
 
-        return \PDF::loadView('admin.traspaso.pdftraspaso', compact('id', 'nombreUsuario', 'bodegaOrigen', 'bodegaDestino', 'newDate'))
+        $datoCUI = Colaborador::select("dpi")->where("usuario", $cajas->cajero)->get()->first();
+        $cui = $datoCUI->dpi;
+
+        $total = 0;
+        for ($i = 0; $i < sizeof($datos); $i++) { //ciclo para sacar el total en Quetzales del precio de todos los timbres
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q1.00'){ $total += ($datos[$i]->cantidad_a_traspasar * 1); }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q5.00'){ $total += ($datos[$i]->cantidad_a_traspasar * 5); }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q10.00'){ $total += $datos[$i]->cantidad_a_traspasar * 10; }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q20.00'){ $total += $datos[$i]->cantidad_a_traspasar * 20; }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q50.00'){ $total += $datos[$i]->cantidad_a_traspasar * 50; }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q100.00'){ $total += $datos[$i]->cantidad_a_traspasar * 100; }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q200.00'){ $total += $datos[$i]->cantidad_a_traspasar * 200; }
+            if ($datos[$i]->descripcion == 'Timbres de precio de Q500.00'){ $total += $datos[$i]->cantidad_a_traspasar * 500; }
+        }
+
+        return \PDF::loadView('admin.traspaso.pdftraspaso', compact('id', 'nombreUsuario', 'bodegaOrigen', 'ciudadOrigen','bodegaDestino', 'ciudadDestino','newDate', 'datos', 'sedeDestino', 'total', 'nombreUsuarioDestino', 'cui'))
         ->setPaper('legal', 'portrait')
         ->stream('Traspaso.pdf');
     }
