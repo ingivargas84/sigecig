@@ -248,13 +248,12 @@
                             </div>
                         </div>
                         <br>
+                        
                       <div class="text-right m-t-15">
          {{--                <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
  <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
- 
-  <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> 
- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
-                        </div>--}}
+ --}}
+                        </div>
                     </div>
                 </div>
             </div>

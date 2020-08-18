@@ -53,5 +53,19 @@
     </div>
   </div>
 @endrole
+<div class="col-lg-3 col-xs-6">
+  <div class="small-box bg-red">
+      <div class="inner">
+        <h3>4</h3>
 
+        <p>Corte de Caja</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-document-text"></i>
+      </div>
+      <a href="{{route('colaborador.index')}}" class="small-box-footer">
+        Mas info <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
 @stop

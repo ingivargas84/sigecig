@@ -659,11 +659,12 @@ class TraspasoController extends Controller
         $cajas = cajas::select('*')->where('bodega', $id->bodega_destino_id)->get()->first(); // consulta a la tabla de cajas para saber la subsede de la bodega destino
         $sedeDestino = Subsedes::select('*')->where('id', $cajas->subsede)->get()->first(); // datos sobre la sede de destino
 
-        $UsuarioDestino = User::select("name")->where("id", $cajas->cajero)->get()->first(); // consulta a tabla usuarios para el cajero que se encarga de la Bodega o sede Destino
-        $nombreUsuarioDestino = $UsuarioDestino->name; //nombre del cajero que se encarga de la Bodega o sede Destino
+        // $UsuarioDestino = User::select("name")->where("id", $cajas->cajero)->get()->first(); // consulta a tabla usuarios para el cajero que se encarga de la Bodega o sede Destino
+        // $nombreUsuarioDestino = $UsuarioDestino->name; //nombre del cajero que se encarga de la Bodega o sede Destino
 
-        $datoCUI = Colaborador::select("dpi")->where("usuario", $cajas->cajero)->get()->first();
+        $datoCUI = Colaborador::select("dpi","nombre")->where("usuario", $cajas->cajero)->get()->first();
         $cui = $datoCUI->dpi;
+        $nombreUsuarioDestino = $datoCUI->nombre;
 
         $total = 0;
         for ($i = 0; $i < sizeof($datos); $i++) { //ciclo para sacar el total en Quetzales del precio de todos los timbres

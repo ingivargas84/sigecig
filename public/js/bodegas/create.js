@@ -29,14 +29,6 @@ $("#ButtonTipoModal1").click(function(event) {
 	}
 });
 
-$("#ButtonBoleta").click(function(event) {
-	if ($('#BodegaForm').valid()) {
-		$('.loader').addClass("is-active");
-	} else {
-		validator.focusInvalid();
-	}
-});
-
 $.validator.addMethod("nombreunico", function(value, element){
     var valid = false;
     var urlActual = $("input[name='urlActual']").val();
@@ -59,7 +51,7 @@ $.validator.addMethod("nombreunico", function(value, element){
 		var urlActual =  $("input[name='urlActual']").val();
 		$.ajax({
 			type: "POST",
-			headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+			headers: {'X-CSRF-TOKEN': $('#tokenBo').val()},
 			url: "/bodegas/save",
 			data: formData,
 			dataType: "json",
