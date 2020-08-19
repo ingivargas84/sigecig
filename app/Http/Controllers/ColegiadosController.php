@@ -94,24 +94,9 @@ class ColegiadosController extends Controller
       $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
       $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
-<<<<<<< HEAD
       $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get();
       $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get();
 
-=======
- 
-      $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
-      
-      $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get()->first();
-/* dd($profasp);
-      $profesion = Profesion::where('c_profesion', '=', $profasp->c_profesion)->get()->first(); */
-
-      /*
-      $especialidad = Especialidad::where('c_especialidad', '=', $especilidadasp->c_especialidad)->get()->first();
-      $especilidadasp = Especialidad::select('aspirante.n_especialidad')
-            ->join('especialidadAspirante', 'aspirante.dpi', '=', 'especialidadAspirante.dpi')
-            ->get();*/
->>>>>>> 35439299551138ffd17c100abf07d0e00f6b9df8
         return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
     }
 
