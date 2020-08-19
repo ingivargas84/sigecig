@@ -125,7 +125,7 @@
             <input type="text" size="13" name="fax" id="fax" value="{{$sedeDestino->telefono_2}}">
         </div>
         <div style="margin-left: 9rem;">
-            <label><small>Dirección</small> <small style="margin-left: 18rem;">Teléfono</small><small style="margin-left: 8rem;">Fax</small></label>
+            <label><small>Dirección</small> <small style="margin-left: 18rem;">Teléfono</small><small style="margin-left: 7rem;">Fax</small></label>
         </div>
         <br>
         <br>
@@ -201,11 +201,12 @@
                     </div>
                 </td>
                 <td style="border: hidden">
+                <br>
                     <label>RECIBE</label>
                     <input type="text" size="28" name="personaRecibe" id="personaRecibe" value="{{$nombreUsuarioDestino}}">
                     <div style="margin-left: 2rem;">
-                        <label style="margin-left: 4rem;">Expendedor/a de <input type="text" style="border: 0px solid;text-align:left;" id="nombreLugar" value="{{$ciudadDestino->descripcion}}"></label>
-                        <label style="margin-left: 7rem;">Bodega: <input type="text" style="border: 0px solid;text-align:left;" name="noBodega" id="noBodega" value="{{$id->bodega_destino_id}}"></label>
+                        <label style="margin-left: 4rem;">Expendedor/a de <input type="text" style="border: 0px solid;text-align:left;padding-bottom:0px;" id="nombreLugar" value="{{$ciudadDestino->descripcion}}"></label>
+                        <label style="margin-left: 5rem;">Bodega: <input type="text" style="border: 0px solid;text-align:left;padding-bottom:0px;" name="noBodega" id="noBodega" value="{{$bodegaDestino}}"></label>
                     </div>
                 </td>
             </tr>

@@ -124,7 +124,7 @@ var remesas_table = $('#remesas-table').DataTable({
                     "<i class='fa fa-btn fa-edit' title='detalles remesa'></i>" +
                     "</a>" + "</div>" +
                     "<div class='float-rigth col-lg-4'>" +
-                    "<a href='"+urlActual+"/pdf/"+full.id+"/' class='pdf-remesa' >" +
+                    "<a href='"+urlActual+"/pdf/"+full.id+"/' target='_blank' class='pdf-remesa' >" +
                     "<i class='fa fa-file-pdf-o' title='PDF remesa'></i>" +
                     "</a>" + "</div>" ;
         },
