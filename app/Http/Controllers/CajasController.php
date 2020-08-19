@@ -12,10 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Events\ActualizacionBitacora;
 use Carbon\Carbon;
-use App\Cajasbsedes;
 use App\User;
 use App\Cajas;
 use App\Subsedes;
+use App\Bodegas;
 use Validator;
 
 class CajasController extends Controller
@@ -33,21 +33,38 @@ class CajasController extends Controller
      */
     public function index()
     {
-        $subsede = Subsedes::all();
+        //$subsede = Subsedes::all();
+        $datos2 = "SELECT S.id, S.nombre_sede
+        FROM sigecig_subsedes S
+        WHERE S.estado = 1";
+         
+        $subsede = DB::select($datos2);
+
         $caja = Cajas::all();
+
+        //$bodega = Bodegas::all();
        // $user = User::all();
 
         $query= "SELECT U.name, U.id
         FROM sigecig_users U
         INNER JOIN model_has_roles MR ON MR.model_id = U.id
-        WHERE MR.role_id = '18'";
+        WHERE MR.role_id = '18'
+        AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)
+        AND U.estado = 1";
          
         $datos = DB::select($query);
+
+        $querybodega = "SELECT B.id, B.nombre_bodega
+        FROM sigecig_bodega B
+        WHERE B.id NOT IN (SELECT bodega FROM sigecig_cajas)
+        AND B.estado = 1";
+         
+        $datos1 = DB::select($querybodega);
 
         //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
        // $user =User::where('id', '=',  $modelrol->model_id)->get();
        
-        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos'));
+        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos', 'datos1'));
 
     }
 
@@ -73,13 +90,12 @@ class CajasController extends Controller
         $cajas->nombre_caja=$request->get('nombre_caja');
         $cajas->cajero=$request->get('cajero');
         $cajas->subsede=$request->get('subsede');
+        $cajas->bodega=$request->get('bodega');
         $cajas->estado=1; // estado uno representa como activo
         $cajas->save();
 
         event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $cajas, 'Cajas' ));
         return response()->json(['success' => 'Exito']);
-
-      //  return redirect()->route('cajas.index')->with('flash','La Caja ha sido creada correctamente');
     }
 
     /**
@@ -108,12 +124,13 @@ class CajasController extends Controller
      * @param  \App\Cajas  $cajas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cajas $cajas)
+    public function update(Request $request, Cajas $cajas, Subsedes $subsede)
     {
         $nuevos_datos = array(
             'nombre_caja' => $request->nombre_caja,
-            'cajero' => $request->cajero,
             'subsede' => $request->subsede,
+            'cajero' => $request->cajero,
+            'bodega' => $request->bodega,
         );
         $json = json_encode($nuevos_datos);
 
@@ -157,8 +174,8 @@ class CajasController extends Controller
     }
 
     public function nombreDisponible(){
-        $dato = Input::get("nombre_sede");
-        $query = Cajas::where("nombre_sede",$dato)->where('estado', 1)->get();
+        $dato = Input::get("nombre_caja");
+        $query = Cajas::where("nombre_caja",$dato)->where('estado', 1)->get();
              $contador = count($query);
 
         if ($contador == 0 )
@@ -171,12 +188,12 @@ class CajasController extends Controller
         }
     }
 
-    public function nombreDisponibleEdit(){
+    public function nombreDisponibleEdit(Request $request){
 
-        $dato = Input::get("nombre_sede");
-        $id = Input::get("num");
+        $dato = $request->value;
+        $id = $request->id;
 
-        $query = Cajas::where("nombre_sede",$dato)->where("estado", 1)->where("id","!=",$id)->get();
+        $query = Cajas::where("nombre_caja",$dato)->where("id","!=",$id)->get();
 
         $contador = count($query);
         if ($contador == 0 )
@@ -189,19 +206,16 @@ class CajasController extends Controller
         }
     }
 
-
     public function getJson(Request $params)
      {
-         //$api_Recajaslt['data'] = Cajas::where('estado','=',1)->get();
-
-        $query = "SELECT C.id, C.nombre_caja, S.nombre_sede, C.estado, U.name
+        $query = "SELECT C.id, C.nombre_caja, C.cajero, C.bodega, C.subsede, S.nombre_sede, C.estado, U.name, B.nombre_bodega
         FROM sigecig_cajas C
-        INNER JOIN sigecig_subsedes S ON C.id = S.id
-        INNER JOIN sigecig_users U ON C.cajero = U.id";
+        INNER JOIN sigecig_subsedes S ON C.subsede = S.id
+        INNER JOIN sigecig_users U ON C.cajero = U.id
+        INNER JOIN sigecig_bodega B ON B.id = C.bodega";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
      }
-
 }
 

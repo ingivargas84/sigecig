@@ -9,15 +9,15 @@
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li><a href="{{route('colaborador.index')}}"><i class="fa fa-list"></i> Colaboradores</a></li>
-          <li class="active">Crear</li>
+          <li class="active">Editar</li>
         </ol>
     </section>
 @stop
 
 @section('content')
-<form method="POST" id="ColaboradorUpdateForm"  action="{{route('colaborador.update', $colaborador, $puestos, $departamentos)}}">
+<form method="POST" id="ColaboradorUpdateForm1"  action="{{route('colaborador.update', $colaborador, $puestos, $departamentos, $user)}}">
 
-    {{csrf_field()}}
+    {{csrf_field()}} {{ method_field('PUT') }}
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-body">
@@ -56,27 +56,28 @@
                                 <label for="subsede">Subsedes:</label>
                                 <select name="subsede" class="form-control">
                                         @foreach ($sub as $su)
-                                            <option value="{{ $su['id'] }}">{{ $su['nombre_sede'] }}</option>
+                                            <option value="{{ $su->id }}">{{ $su->nombre_sede}}</option>
                                         @endforeach
                                 </select>
                             </div>
                             <div class="col-sm-4">
                                 <label for="usuario">Seleccione un Usuario:</label>
-                                <select name="usuario" class="form-control">
+                                <select name="usuario" class="form-control" id="usuario">
+                                    <option value="">-- Escoja un Usuario--</option>
                                         @foreach ($user as $users)
-                                            <option value="{{ $users['id'] }}">{{ $users['username'] }}</option>
+                                            <option value="{{ $users['id'] }}">{{ $users['username']}}</option>
                                         @endforeach
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label for="telefono">Telefono:</label>
+                                <label for="telefono">Teléfono:</label>
                                 <input type="text" class="form-control" placeholder="Telefono:" name="telefono" value="{{$colaborador->telefono}}">
                             </div>
                     </div>
                 <br>
                 <div class="text-right m-t-15">
-                    <a class='btn btn-primary form-button' href="{{ route('colaborador.index') }}">Regresar</a>
-                    <button class="btn btn-primary form-button" id="ButtonColaboradorUpdate">Guardar</button>
+                    <a class='btn btn-danger form-button' href="{{ route('colaborador.index') }}">Regresar</a>
+                    <button class="btn btn-primary edit" id="ButtonColaboradorUpdate1">Actualizar</button>
                 </div>
 
             </div>

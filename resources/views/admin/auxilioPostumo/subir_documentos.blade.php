@@ -1,14 +1,23 @@
 @extends('admin.layoutadmin')
 
 @section('header')
-
-
+<section class="content-header">
+    <h1><center>
+      DOCUMENTOS AUXILIO PÓSTUMO
+    </center>
+    </h1>
+     <ol class="breadcrumb">
+          <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
+          <li><a href="{{route('resolucion.index')}}"><i class="fa fa-list"></i> Resolución</a></li>
+          <li class="active">Documentos</li>
+        </ol>
+  </section>
+  @stop
 @section('content')
-<div class="box-header">
-</div><br><br>
+
 <div class="col-md-12">
 
-      <div class="col2"> DOCUMENTOS AUXILIO PÓSTUMO </div>
+      <div class="col2">  </div>
 
     <div class=" ">
       <div class="col " style="text-align: center">
@@ -60,13 +69,12 @@
         </div>
     </div>
   </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script>
-    <script src="{{asset('js/resolucion/documentos.js')}}"></script>
+ 
 @endsection
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/pdf.css') }}">
 @endpush
 @push('scripts')
+<script src="{{asset('js/jquery.form.js')}}"></script>
+<script src="{{asset('js/resolucion/documentos.js')}}"></script>
 @endpush
-@stop

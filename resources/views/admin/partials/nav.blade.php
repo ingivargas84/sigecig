@@ -7,7 +7,7 @@
   <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> <span>Inicio</span></a>
   </li>
 
-  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Compras|JefeRRHH")
+  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Contabilidad|Compras|JefeRRHH")
   <li class="treeview {{request()->is('colaboradores*')? 'active': ''}}">
     <a href="#"><i class="fa fa-book"></i> <span>Catálogos Generales</span>
         <span class="pull-right-container">
@@ -40,9 +40,15 @@
       </li>
       @endrole
 
-      @role("Administrador")
+      @role("Administrador|Super-Administrador")
       <li class="{{request()->is('cajas')? 'active': ''}}"><a href="{{route('cajas.index')}}">
         <i class="fa fa-eye"></i>Cajas</a>
+      </li>
+      @endrole
+
+      @role("Administrador|JefeContabilidad|Contabilidad|Super-Administrador")
+      <li class="{{request()->is('bodegas')? 'active': ''}}"><a href="{{route('bodegas.index')}}">
+        <i class="fa fa-eye"></i>Bodegas</a>
       </li>
       @endrole
 
@@ -111,6 +117,12 @@
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
             </li>
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('remesa.index')}}">
+              <i class="fa fa-eye"></i>Ingreso de Timbres</a>
+            </li>
+            <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
+                <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
+            </li>
           </ul>
         @endrole
 
@@ -130,7 +142,7 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          
+
           @role("Super-Administrador|JefeTimbres|Timbre")
           <ul class="treeview-menu">
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
@@ -139,7 +151,7 @@
           </ul>
           @endrole
 
-         
+
 
         </li>
         @endrole
@@ -179,7 +191,17 @@
         </li>
         @endrole
 
+        <li class="{{request()->is('colegiados')? 'active': ''}}" ><a href="{{route('colegiados.index')}}">
+          <i class="fa fa-book"></i> <span>Colegiados</span></a>
+        </li>
 
+
+
+        @role('Super-Administrador|Administrador|Contabilidad')
+              <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">
+                <i class="fa fa-money"></i>Estados de Cuenta</a>
+              </li>
+        @endrole
 
 </ul>
 

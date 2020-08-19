@@ -18,6 +18,7 @@ class CreateSigecigCajasTable extends Migration
             $table->string('nombre_caja');
             $table->string('cajero');
             $table->string('subsede');
+            $table->string('bodega');
             $table->integer('estado'); //este estado es el que nos indica si se encuentra activado (0) o desaactivado (1).
             $table->timestamps();
         });

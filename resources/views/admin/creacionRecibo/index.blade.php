@@ -20,6 +20,7 @@
 <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-body"  id="app">
+        <input type="hidden" name="rol_user" id="rol_user" value="{{auth()->user()->id}}">
             <br>
             <div class="">
                 <div class="col-sm-3 col-md-3 col-lg-5">
@@ -97,6 +98,7 @@
                             <label for="f_ult_timbre" class="control-label">Fecha de último pago de timbre</label>
                             <div>
                                 <input id="f_ult_timbre" disabled type="text" class="form-control" name="f_ult_timbre" style="color: rgb(0, 128, 0)">
+                                <input name="fechaTimbre" id="fechaTimbre" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -105,6 +107,7 @@
                             <label for="f_ult_pago" class="control-label">Fecha de último pago de colegio</label>
                             <div>
                                 <input id="f_ult_pago" disabled type="text" class="form-control" name="f_ult_pago" style="color: rgb(0, 128, 0)">
+                                <input name="fechaColegio" id="fechaColegio" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -197,6 +200,13 @@
                     </div>
                     <br>
                 </div>
+                <div class="row" id="divExistencia">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existencia" id="existencia" class="form-control" style="display:none;" readOnly>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalle">
                         <table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
@@ -230,7 +240,63 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="tipoDePago" class="control-label">TIPO DE PAGO</label>
+                            <div class="col-md-2">
+                                <label for="tipoDePago" class="control-label">TIPO DE PAGO</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-4 form-group" id="datoTc01" style="display: none;">
+                                    <label for="tc01" class="control-label">TC01 / TIM1</label>
+                                    <input id="tc01" disabled type="text" class="form-control" name="tc01" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc05" style="display: none;">
+                                    <label for="tc05" class="control-label">TC05 / TIM5</label>
+                                    <input id="tc05" disabled type="text" class="form-control" name="tc05" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc10" style="display: none;">
+                                    <label for="tc10" class="control-label">TC10 / TIM10</label>
+                                    <input id="tc10" disabled type="text" class="form-control" name="tc10" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc20" style="display: none;">
+                                    <label for="tc20" class="control-label">TC20 / TIM20</label>
+                                    <input id="tc20" disabled type="text" class="form-control" name="tc20" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc50" style="display: none;">
+                                    <label for="tc50" class="control-label">TC50 / TIM 50</label>
+                                    <input id="tc50" disabled type="text" class="form-control" name="tc50" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc100" style="display: none;">
+                                    <label for="tc100" class="control-label">TC100 / TIM100</label>
+                                    <input id="tc100" disabled type="text" class="form-control" name="tc100" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc200" style="display: none;">
+                                    <label for="tc200" class="control-label">TC200 / TIM200</label>
+                                    <input id="tc200" disabled type="text" class="form-control" name="tc200" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc500" style="display: none;">
+                                    <label for="tc500" class="control-label">TC500 / TIM500</label>
+                                    <input id="tc500" disabled type="text" class="form-control" name="tc500" style="text-align:left;">
+                                </div>
+                            </div>
+                            <input id="tc01inicio" type="text" class="form-control" name="tc01inicio" style="display: none;">
+                            <input id="tc05inicio" type="text" class="form-control" name="tc05inicio" style="display: none;">
+                            <input id="tc10inicio" type="text" class="form-control" name="tc10inicio" style="display: none;">
+                            <input id="tc20inicio" type="text" class="form-control" name="tc20inicio" style="display: none;">
+                            <input id="tc50inicio" type="text" class="form-control" name="tc50inicio" style="display: none;">
+                            <input id="tc100inicio" type="text" class="form-control" name="tc100inicio" style="display: none;">
+                            <input id="tc200inicio" type="text" class="form-control" name="tc200inicio" style="display: none;">
+                            <input id="tc500inicio" type="text" class="form-control" name="tc500inicio" style="display: none;">
+                            <input id="tc01fin" type="text" class="form-control" name="tc01fin" style="display: none;">
+                            <input id="tc05fin" type="text" class="form-control" name="tc05fin" style="display: none;">
+                            <input id="tc10fin" type="text" class="form-control" name="tc10fin" style="display: none;">
+                            <input id="tc20fin" type="text" class="form-control" name="tc20fin" style="display: none;">
+                            <input id="tc50fin" type="text" class="form-control" name="tc50fin" style="display: none;">
+                            <input id="tc100fin" type="text" class="form-control" name="tc100fin" style="display: none;">
+                            <input id="tc200fin" type="text" class="form-control" name="tc200fin" style="display: none;">
+                            <input id="tc500fin" type="text" class="form-control" name="tc500fin" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <div>
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePago" id="tipoDePagoEfectivo" onchange="comprobarCheckEfectivo();" value="efectivo">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoCheque" onchange="comprobarCheckCheque();" value="cheque">Cheque</label>
@@ -280,6 +346,20 @@
                                     <option value="">-- Escoja POS --</option>
                                     @foreach ($pos as $po)
                                         <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="banco" class="form-control" id="banco" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -389,6 +469,13 @@
                     </div>
                     <br>
                 </div>
+                <div class="row" id="divExistenciaE">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existenciaE" id="existenciaE" class="form-control" style="display:none;" readOnly>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalleE">
                         <table class="table table-striped table-hover" id="tablaDetalleE"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_id</th><th>Eliminar</th></tr></thead>
@@ -413,7 +500,7 @@
 
                     <div class="col-sm-2 col-sm-offset-8" id="divTotalE" style="display: block;">
                         <div class="form-group">
-                            <label for="totalE" class="control-label">Total</label>
+                            <label for="totalE" class="control-label">Total A Pagar</label>
                             <div>
                                 <input id="totalE" disabled type="text" class="form-control" name="totalE" style="text-align:right;">
                             </div>
@@ -421,9 +508,65 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label for="tipoDePagoE" class="control-label">TIPO DE PAGO</label>
+                            <div class="col-md-2">
+                                <label for="tipoDePagoE" class="control-label">TIPO DE PAGO</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-4 form-group" id="datoTc01E" style="display: none;">
+                                    <label for="tc01E" class="control-label">TE01</label>
+                                    <input id="tc01E" disabled type="text" class="form-control" name="tc01E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc05E" style="display: none;">
+                                    <label for="tc05E" class="control-label">TE05</label>
+                                    <input id="tc05E" disabled type="text" class="form-control" name="tc05E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc10E" style="display: none;">
+                                    <label for="tc10E" class="control-label">TE10</label>
+                                    <input id="tc10E" disabled type="text" class="form-control" name="tc10E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc20E" style="display: none;">
+                                    <label for="tc20E" class="control-label">TE20</label>
+                                    <input id="tc20E" disabled type="text" class="form-control" name="tc20E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc50E" style="display: none;">
+                                    <label for="tc50E" class="control-label">TE50</label>
+                                    <input id="tc50E" disabled type="text" class="form-control" name="tc50E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc100E" style="display: none;">
+                                    <label for="tc100E" class="control-label">TE100</label>
+                                    <input id="tc100E" disabled type="text" class="form-control" name="tc100E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc200E" style="display: none;">
+                                    <label for="tc200E" class="control-label">TE200</label>
+                                    <input id="tc200E" disabled type="text" class="form-control" name="tc200E" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc500E" style="display: none;">
+                                    <label for="tc500E" class="control-label">TE500</label>
+                                    <input id="tc500E" disabled type="text" class="form-control" name="tc500E" style="text-align:left;">
+                                </div>
+                                <input id="tc01inicioE" type="text" class="form-control" name="tc01inicioE" style="display: none;">
+                                <input id="tc05inicioE" type="text" class="form-control" name="tc05inicioE" style="display: none;">
+                                <input id="tc10inicioE" type="text" class="form-control" name="tc10inicioE" style="display: none;">
+                                <input id="tc20inicioE" type="text" class="form-control" name="tc20inicioE" style="display: none;">
+                                <input id="tc50inicioE" type="text" class="form-control" name="tc50inicioE" style="display: none;">
+                                <input id="tc100inicioE" type="text" class="form-control" name="tc100inicioE" style="display: none;">
+                                <input id="tc200inicioE" type="text" class="form-control" name="tc200inicioE" style="display: none;">
+                                <input id="tc500inicioE" type="text" class="form-control" name="tc500inicioE" style="display: none;">
+                                <input id="tc01finE" type="text" class="form-control" name="tc01finE" style="display: none;">
+                                <input id="tc05finE" type="text" class="form-control" name="tc05finE" style="display: none;">
+                                <input id="tc10finE" type="text" class="form-control" name="tc10finE" style="display: none;">
+                                <input id="tc20finE" type="text" class="form-control" name="tc20finE" style="display: none;">
+                                <input id="tc50finE" type="text" class="form-control" name="tc50finE" style="display: none;">
+                                <input id="tc100finE" type="text" class="form-control" name="tc100finE" style="display: none;">
+                                <input id="tc200finE" type="text" class="form-control" name="tc200finE" style="display: none;">
+                                <input id="tc500finE" type="text" class="form-control" name="tc500finE" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <div>
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoEfectivoE" onchange="comprobarCheckEfectivoE();" value="efectivoE">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoChequeE" onchange="comprobarCheckChequeE();" value="chequeE">Cheque</label>
@@ -473,6 +616,20 @@
                                     <option value="">-- Escoja POS --</option>
                                     @foreach ($pos as $po)
                                         <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="bancoE" class="form-control" id="bancoE" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -584,6 +741,13 @@
                     </div>
                     <br>
                 </div>
+                <div class="row" id="divExistenciaP">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="text" name="existenciaP" id="existenciaP" class="form-control" style="display:none;" readOnly>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div style="padding: 0px 26px;" id="detalleP">
                         <table class="table table-striped table-hover" id="tablaDetalleP"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripción</th><th>Subtotal</th><th style="display: none;">categoria_idP</th><th>Eliminar</th></tr></thead>
@@ -608,7 +772,7 @@
 
                     <div class="col-sm-2 col-sm-offset-8" id="divTotalP" style="display: block;">
                         <div class="form-group">
-                            <label for="totalP" class="control-label">Total</label>
+                            <label for="totalP" class="control-label">Total A Pagar</label>
                             <div>
                                 <input id="totalP" disabled type="text" class="form-control" name="totalP" style="text-align:right;">
                             </div>
@@ -616,9 +780,65 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label for="tipoDePagoP" class="control-label">TIPO DE PAGO</label>
+                            <div class="col-md-2">
+                                <label for="tipoDePagoP" class="control-label">TIPO DE PAGO</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-4 form-group" id="datoTc01P" style="display: none;">
+                                    <label for="tc01P" class="control-label">TC01 / TIM1</label>
+                                    <input id="tc01P" disabled type="text" class="form-control" name="tc01P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc05P" style="display: none;">
+                                    <label for="tc05P" class="control-label">TC05 / TIM5</label>
+                                    <input id="tc05P" disabled type="text" class="form-control" name="tc05P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc10P" style="display: none;">
+                                    <label for="tc10P" class="control-label">TC10 / TIM10</label>
+                                    <input id="tc10P" disabled type="text" class="form-control" name="tc10P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc20P" style="display: none;">
+                                    <label for="tc20P" class="control-label">TC20 / TIM20</label>
+                                    <input id="tc20P" disabled type="text" class="form-control" name="tc20P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc50P" style="display: none;">
+                                    <label for="tc50P" class="control-label">TC50 / TIM50</label>
+                                    <input id="tc50P" disabled type="text" class="form-control" name="tc50P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc100P" style="display: none;">
+                                    <label for="tc100P" class="control-label">TC100 / TIM100</label>
+                                    <input id="tc100P" disabled type="text" class="form-control" name="tc100P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc200P" style="display: none;">
+                                    <label for="tc200P" class="control-label">TC200 / TIM200</label>
+                                    <input id="tc200P" disabled type="text" class="form-control" name="tc200P" style="text-align:left;">
+                                </div>
+                                <div class="col-md-4 form-group" id="datoTc500P" style="display: none;">
+                                    <label for="tc500P" class="control-label">TC500 / TIM500</label>
+                                    <input id="tc500P" disabled type="text" class="form-control" name="tc500P" style="text-align:left;">
+                                </div>
+                                <input id="tc01inicioP" type="text" class="form-control" name="tc01inicioP" style="display: none;">
+                                <input id="tc05inicioP" type="text" class="form-control" name="tc05inicioP" style="display: none;">
+                                <input id="tc10inicioP" type="text" class="form-control" name="tc10inicioP" style="display: none;">
+                                <input id="tc20inicioP" type="text" class="form-control" name="tc20inicioP" style="display: none;">
+                                <input id="tc50inicioP" type="text" class="form-control" name="tc50inicioP" style="display: none;">
+                                <input id="tc100inicioP" type="text" class="form-control" name="tc100inicioP" style="display: none;">
+                                <input id="tc200inicioP" type="text" class="form-control" name="tc200inicioP" style="display: none;">
+                                <input id="tc500inicioP" type="text" class="form-control" name="tc500inicioP" style="display: none;">
+                                <input id="tc01finP" type="text" class="form-control" name="tc01finP" style="display: none;">
+                                <input id="tc05finP" type="text" class="form-control" name="tc05finP" style="display: none;">
+                                <input id="tc10finP" type="text" class="form-control" name="tc10finP" style="display: none;">
+                                <input id="tc20finP" type="text" class="form-control" name="tc20finP" style="display: none;">
+                                <input id="tc50finP" type="text" class="form-control" name="tc50finP" style="display: none;">
+                                <input id="tc100finP" type="text" class="form-control" name="tc100finP" style="display: none;">
+                                <input id="tc200finP" type="text" class="form-control" name="tc200finP" style="display: none;">
+                                <input id="tc500finP" type="text" class="form-control" name="tc500finP" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <div>
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoEfectivoP" onchange="comprobarCheckEfectivoP();" value="efectivoP">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoChequeP" onchange="comprobarCheckChequeP();" value="chequeP">Cheque</label>
@@ -668,6 +888,20 @@
                                     <option value="">-- Escoja POS --</option>
                                     @foreach ($pos as $po)
                                         <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="">
+                        <div class="col-sm-offset-2 col-sm-3">
+                            <div class="form-group">
+                                <select name="bancoP" class="form-control" id="bancoP" style="display: none;">
+                                    <option value="">-- Escoja Banco --</option>
+                                    @foreach ($banco as $ba)
+                                        <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -728,6 +962,7 @@
             comprobarCheckEfectivoP();
             comprobarCheckChequeP();
             comprobarCheckTarjetaP();
+            limpiarTimbres()
         });
     });
 </script>

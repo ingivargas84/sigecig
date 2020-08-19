@@ -3,12 +3,16 @@ var validator = $("#CajasForm").validate({
 	onkeyup:false,
 	rules: {
 		nombre_caja:{
-			required: true
+			required: true,
+			nombreunico: true
 		},
 		subsede: {
 			required : true
 		},
 		cajero: {
+			required : true
+		},
+		bodega: {
 			required : true
 		}
 	},
@@ -21,6 +25,9 @@ var validator = $("#CajasForm").validate({
 		},
 		cajero: {
 			required: "Por favor, ingrese el cajero"
+		},
+		bodega: {
+			required: "Por favor, ingrese la bodega"
 		}
 	}
 });
@@ -49,7 +56,7 @@ $.validator.addMethod("nombreunico", function(value, element){
         type: "GET",
         async: false,
         url: "/cajas/nombreDisponible/",
-        data:"nombre_sede=" + value,
+        data:"nombre_caja=" + value,
         dataType: "json",
         success: function (msg) {
             valid=!msg;

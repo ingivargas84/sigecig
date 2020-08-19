@@ -3,12 +3,16 @@ var validator = $("#FormcajasUpdate").validate({
 	onkeyup:false,
 	rules: {
 		nombre_caja:{
-			required: true
+			required: true,
+			nombreunicoedit : true
 		},
 		subsede: {
 			required : true
 		},
 		cajero: {
+			required : true
+		},
+		bodega: {
 			required : true
 		}
 	},
@@ -21,6 +25,9 @@ var validator = $("#FormcajasUpdate").validate({
 		},
 		cajero: {
 			required: "por favor, ingrese el cajero"
+		},
+		bodega: {
+			required: "Por favor, ingrese la bodega"
 		}
 	}
 });
@@ -33,13 +40,14 @@ $('#editUpdateModal1').on('shown.bs.modal', function(event){
 	var nombre_caja = button.data('nombre_caja');
 	var subsede = button.data('subsede');
 	var cajero = button.data('cajero');
-	
+	var bodega = button.data('bodega');
 
 	var modal = $(this);
 	modal.find(".modal-body input[name='test']").val(id);
 	modal.find(".modal-body input[name='nombre_caja']").val(nombre_caja);
-	modal.find(".modal-body input[name='subsede']").val(subsede);
-	modal.find(".modal-body input[name='cajero']").val(cajero);
+	modal.find(".modal-body select[name='subsede']").val(subsede);
+	modal.find(".modal-body select[name='cajero']").val(cajero);
+	modal.find(".modal-body select[name='bodega']").val(bodega);
 	
  });
 
@@ -48,14 +56,14 @@ $('#editUpdateModal1').on('shown.bs.modal', function(event){
 		$(this).val('');
 	});
 };
-
+ 
 $("#ButtonBoletaUpdate").click(function(event) {
 	if ($('#FormcajasUpdate').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
 	}
-});
+}); 
 
 
 $("#ButtonTipoModalUpdate").click(function(event) {
@@ -100,5 +108,21 @@ if(window.location.hash === '#edit')
 
 		$('#editUpdateModal1').on('shown.bs.modal', function(){
 			window.location.hash = '#edit';
-
 	});
+
+	$.validator.addMethod("nombreunicoedit", function(value, element){
+        var valid = false;
+        var id = $("input[name='test']").val();
+        var urlActual = $("input[name='urlActual']").val();
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/cajas/nombreDisponibleEdit/",
+            data: {value, id},
+            dataType: "json",
+            success: function (msg) {
+                valid=!msg;
+            }
+        });
+        return valid;
+        }, "La caja ya está registrada en el sistema");

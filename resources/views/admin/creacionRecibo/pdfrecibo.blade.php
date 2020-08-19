@@ -15,12 +15,6 @@
         tr:nth-child(even){
             background-color: #eee;
         }
-       /*  .body{
-            background: rgb(125, 178, 228);
-            width: 90%;
-            margin-left: 4rem;
-            height: 190px;
-        } */
         .contenedor1{
             font-family: "sans-serif";
             background: repeating-linear-gradient(-45deg,
@@ -50,7 +44,6 @@
             height: 50px;
             display: inline-block;
             vertical-align: top;
-            margin-top: 1rem;
         }
         .texto3 {
             background: #D2D2D2;
@@ -131,8 +124,8 @@
             text-align: center;
             width: 90%;
             font-family: "sans-serif";
-            height: 30px; */
-        }
+            height: 30px;
+        }*/
         .odd th, .odd td {
             background: #eee;
         }
@@ -152,7 +145,7 @@
                             PBX: 2218-2600 / www.cig.org.gt <br>
                             NIT: 299329-5</small></p>
             </div>
-            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
+            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" style="margin-top:1rem;" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
         </div>
     </div>
 </div>
@@ -188,34 +181,25 @@
                 </tr>
             </thead>
             @foreach($datos as $co)
-            @if($co->id%2==0)
-            <tr>
-                <td style="background:white;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
-                <td style="background:white;text-align:center;">{{$co->tipo_de_pago}}</td>
-                <td style="background:white;text-align:center;">{{$co->cantidad}}</td>
-                <td style="background:white;text-align:center;">Q.{{$co->total}}</td>
+            <tr >
+                <td style="background:eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
+                <td style="background:eee;text-align:center;">{{$co->tipo_de_pago}}</td>
+                <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
+                <td style="background:eee;text-align:center;">Q.{{number_format($co->total, 2)}}</td>
             </tr>
-            @else
-            <tr>
-                <td style="background:#eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
-                <td style="background:#eee;text-align:center;">{{$co->tipo_de_pago}}</td>
-                <td style="background:#eee;text-align:center;">{{$co->cantidad}}</td>
-                <td style="background:#eee;text-align:center;">Q.{{$co->total}}</td>
-            </tr>
-            @endif
             @endforeach
         </table>
         <table>
             <thead>
                 <tr>
-                    <th colspan="2" style="border-top: 5px solid #03306D;text-align:left;background: repeating-linear-gradient(-45deg,#d2d2d2 0, #d2d2d2 7%, white 0, white); font-weight:normal;padding: 7px" >TOTAL EN LETRAS: {{$letras}}</th>
+                    <th colspan="2" style="border-top: 5px solid #03306D;text-align:left;background: repeating-linear-gradient(-45deg,#d2d2d2 0, #d2d2d2 7%, white 0, white); font-weight:normal;padding: 7px" >TOTAL EN LETRAS: {{$letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS')}}</th>
                     <th width="15%" style="border-top: 5px solid #03306D;background: #D2D2D2;text-align:center;">TOTAL </th>
-                    <th width="15%" style="border-top: 5px solid #03306D;background: repeating-linear-gradient(-45deg,#03306D 0, #03306D 83%, #d2d2d2 0, #d2d2d2);color: black;text-align:center;">Q.{{$id->monto_total}}</th>
+                    <th width="15%" style="border-top: 5px solid #03306D;background: repeating-linear-gradient(-45deg,#03306D 0, #03306D 83%, #d2d2d2 0, #d2d2d2);color: black;text-align:center;">Q.{{number_format($id->monto_total, 2)}}</th>
                 </tr>
             </thead>
                  <tr class="odd">
-                    <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO: 
-                        @if ($id->monto_efecectivo==true) EFECTIVO                       
+                    <th colspan="4" style="border-bottom: 5px solid #03306D;text-align:left;font-weight:normal;padding: 7px">CONCEPTO:
+                        @if ($id->monto_efecectivo==true) EFECTIVO
                         @endif
                         @if ($id->monto_cheque==true) CHEQUE
                         @endif
@@ -226,7 +210,7 @@
         </table>
         <p class="texto3"><small>Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
             según Numeral 10, Artículo 7, Decreto 27-92, Ley del Impuesto al Valor Agregado. Los cheques se reciben bajo reserva usual de cobro, si el cheque
-        es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
-    administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
+            es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
+            administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
 </body>
 </html>

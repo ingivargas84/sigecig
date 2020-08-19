@@ -11,7 +11,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
 }, "Debe ingresar el número de teléfono con 8 dígitos");// validacion de telefono
 
 
-    function cuiIsValid(cui1){
+    function cuiIsValid(cui){
         var console = window.console;
         if (!cui) {
             console.log("CUI vacío");
@@ -118,7 +118,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
 
 
 
-    var validator = $("#ColaboradorForm").validate({
+    var validator = $("#ColaboradorUpdateForm1").validate({
         ignore: [],
         onkeyup:false,
         rules: {
@@ -134,20 +134,20 @@ $.validator.addMethod("ntelc1", function (value, element ){
                 numero : true
             },
             dpi: {
-                    required : true,
-                    dpi : true,
-                    dpiunico : true
+                required : true,
+                dpi : true,
+                dpiunico : true
 
             },
             departamento: {
                 required: true
             },
-            subsedes: {
+            subsede: {
                 required: true
             },
             telefono:{
                 required: true,
-                ntelc : true
+                ntelc1: true
 
             },
         },
@@ -164,7 +164,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
             departamento: {
                 required: "Por favor, seleccione un departamento"
             },
-            subsedes: {
+            subsede: {
                 required: "Por favor, seleccione una subsede"
             },
             telefono: {
@@ -173,10 +173,13 @@ $.validator.addMethod("ntelc1", function (value, element ){
         }
     });
 
-$("#ButtonColaboradorUpdate").click(function(event) {
-	if ($('#ColaboradorUpdateForm').valid()) {
+$("#ButtonColaboradorUpdate1").click(function(event) {
+  
+	if ($('#ColaboradorUpdateForm1').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
 	}
 });
+
+

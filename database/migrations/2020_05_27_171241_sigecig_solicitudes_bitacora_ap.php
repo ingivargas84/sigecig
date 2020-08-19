@@ -19,6 +19,7 @@ class SigecigSolicitudesBitacoraAp extends Migration
             $table->DateTime('fecha');
             $table->Integer('estado_solicitud');
             $table->Integer('usuario');
+            $table->Integer('id_creacion')->nullable();
             $table->timestamps();
         
     });

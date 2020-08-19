@@ -49,7 +49,7 @@
                         <br>
                         <div class="row">
                             <div class="col-sm-12">
-                                <label for="direccion">Direcciónn:</label>
+                                <label for="direccion">Dirección:</label>
                                 <input type="text" class="form-control" placeholder="Direcciónn:" name="direccion" value="{{old('direccion', $proveedor->direccion)}}">
                             </div>                                
                         </div>
@@ -66,8 +66,8 @@
                         </div>
                         <br>
                         <div class="text-right m-t-15">
-                            <a class='btn btn-primary form-button' href="{{ route('proveedores.index') }}">Regresar</a>
-                            <button class="btn btn-success form-button" id="ButtonProveedorUpdate">Guardar</button>
+                            <a class='btn btn-danger form-button' href="{{ route('proveedores.index') }}">Regresar</a>
+                            <button class="btn btn-primary edit" id="ButtonProveedorUpdate">Actualizar</button>
                         </div>
                                     
                     </div>

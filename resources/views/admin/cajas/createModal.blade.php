@@ -32,6 +32,15 @@
                           @endforeach
                       </select>     
                     </div>
+                    <div class="form-group col-sm-12" >
+                      <label for="bodega">Bodega:</label>
+                      <select name="bodega" class="form-control" id="bodega">
+                        <option value="">-- Escoja la bodega --</option>
+                        @foreach ($datos1 as $bo)
+                            <option value="{{ $bo->id }}">{{ $bo->nombre_bodega }}</option>
+                        @endforeach
+                    </select>     
+                  </div>
                 </div>
               <br>
               <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">

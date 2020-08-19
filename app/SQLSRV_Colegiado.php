@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\IngresoProducto;
 
 class SQLSRV_Colegiado extends Model
 {
@@ -69,6 +70,54 @@ class SQLSRV_Colegiado extends Model
         'monto_timbre',
         'telmovil',
         'auxpost',
-        'updated_at'
     ];
+    protected $updated_at = 'Ymd H: i: s';
+
+      public function codigosTimbrePago($cantidad = 1) {
+        $montoTemp = $this->monto_timbre * $cantidad;
+        $valores = [
+          0=> ['timbre_id'=>'8','precio'=>'500'],
+          1=> ['timbre_id'=>'7','precio'=>'200'],
+          2=> ['timbre_id'=>'6','precio'=>'100'],
+          3=> ['timbre_id'=>'5','precio'=>'50'],
+          4=> ['timbre_id'=>'4','precio'=>'20'],
+          5=> ['timbre_id'=>'3','precio'=>'10'],
+          6=> ['timbre_id'=>'2','precio'=>'5'],
+          7=> ['timbre_id'=>'1','precio'=>'1'],
+        ];
+    
+        $retorno = array();
+        foreach($valores as $valor) {
+    
+          if($montoTemp >= $valor['precio']) {
+            $existenciaTimbre=IngresoProducto::where('tipo_de_pago_id',$valor['timbre_id'])->where('bodega_id',1)->where('cantidad','!=',0)->sum('cantidad');
+            if($existenciaTimbre > 0){
+              $divisionEntera = intdiv($montoTemp, $valor['precio']);
+              if($divisionEntera <= $existenciaTimbre){
+                  $montoTemp -= $valor['precio'] * $divisionEntera;
+                  $detalle = new \stdClass();
+                  $detalle->codigo = 'TC' . str_pad($valor['precio'], 2, '0', STR_PAD_LEFT);
+                  $detalle->descripcion = 'Timbre por cuota de ' . $valor['precio'] . ' quetzales';
+                  $detalle->precioUnitario = $valor['precio'];
+                  $detalle->timbre_id = $valor['timbre_id'];
+                  $detalle->cantidad = $divisionEntera;
+                  $retorno[] = $detalle;
+              }else{
+                  $montoTemp -= $valor['precio'] * $existenciaTimbre;
+                  $detalle = new \stdClass();
+                  $detalle->codigo = 'TC' . str_pad($valor['precio'], 2, '0', STR_PAD_LEFT);
+                  $detalle->descripcion = 'Timbre por cuota de ' . $valor['precio'] . ' quetzales';
+                  $detalle->precioUnitario = $valor['precio'];
+                  $detalle->timbre_id = $valor['timbre_id'];
+                  $detalle->cantidad = $existenciaTimbre;
+                  $retorno[] = $detalle;
+              }
+            }
+    
+    
+          }
+        }
+        return $retorno;
+      }
+    
 }

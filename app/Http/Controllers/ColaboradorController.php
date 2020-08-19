@@ -107,13 +107,21 @@ class ColaboradorController extends Controller
     {
         $puestos = Puesto::all();
         $departamentos = Departamento::all();
-        $user = User::select('sigecig_users.id','sigecig_users.username')
+         $user = User::select('sigecig_users.id','sigecig_users.username')
         ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
         ->wherenull('sigecig_colaborador.usuario')
         ->where('sigecig_users.id', '>=', '2')
-        ->get();
+        ->get(); 
+
+       /*  $query= "SELECT U.username, U.id, SC.usuario
+        FROM sigecig_users U
+        INNER JOIN sigecig_colaborador SC ON SC.usuario = U.id
+        WHERE U.id >= '2' AND SC.usuario IS NULL";
+         
+        $user = DB::select($query);*/
+//dd($departamentos); 
         $sub = Subsedes::all();
-        
+        //dd($user);
 
         return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
 
@@ -133,10 +141,12 @@ class ColaboradorController extends Controller
             'dpi' => $request->dpi,
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
+            'subsede' => $request->subsede,
             'telefono' => $request->telefono,
             'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
+        event(new ActualizacionBitacora(1, Auth::user()->id,'edicion', $colaborador, $json, 'colaborador' ));
 
         $colaborador->update($request->all());
 
@@ -158,7 +168,15 @@ class ColaboradorController extends Controller
 
     public function getJson(Request $params)
      {
-         $api_Result['data'] = Colaborador::where('estado','!=',0)->get();
-         return Response::json( $api_Result );
+          $api_Result['data'] = Colaborador::where('estado','!=',0)->get();
+         return Response::json( $api_Result ); 
+
+        /*  $query = "SELECT T.id, T.nombre, T.dpi, T.puesto, T.departamento, T.subsede, T.telefono, T.usuario, T.estado, U.username, U.id
+         FROM sigecig_colaborador T
+         LEFT JOIN sigecig_users U ON T.usuario = U.id
+         WHERE T.estado != 0";
+ 
+         $api_Result['data'] = DB::select($query);
+          return Response::json( $api_Result ); */
      }
     }

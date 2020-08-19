@@ -57,7 +57,7 @@ var cajas_table = $('#cajas-table').DataTable({
         {
             "title": "Nombre Caja",
             "data": "nombre_caja",
-            "width" : "30%",
+            "width" : "20%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -65,7 +65,7 @@ var cajas_table = $('#cajas-table').DataTable({
         {
             "title": "Subsede",
             "data": "nombre_sede",
-            "width" : "25%",
+            "width" : "20%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -73,7 +73,15 @@ var cajas_table = $('#cajas-table').DataTable({
         {
             "title": "Cajero",
             "data": "name",
-            "width" : "25%",
+            "width" : "20%",
+            "responsivePriority": 2,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
+            "title": "Bodega",
+            "data": "nombre_bodega",
+            "width" : "20%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -81,7 +89,7 @@ var cajas_table = $('#cajas-table').DataTable({
     {
         "title": "Acciones",
         "orderable": false,
-        "width" : "15%",
+        "width" : "10%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
@@ -89,7 +97,7 @@ var cajas_table = $('#cajas-table').DataTable({
             if(full.estado == 1){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-left col-lg-4'>" +
-                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-codigo='" + full.codigo + "' data-tipo_de_pago='"+full.tipo_de_pago+"' data-precio_colegiado='"+full.precio_colegiado+"' data-precio_particular='"+full.precio_particular+"' data-categoria_id='"+full.categoria_id+"'>" +
+                "<a href='#' class='edit-cajas' data-toggle='modal' data-target='#editUpdateModal1' data-id='" + full.id + "' data-nombre_caja='" + full.nombre_caja + "' data-subsede='"+full.subsede+"' data-cajero='"+full.cajero+"' data-bodega='"+full.bodega+"'>" +
                 "<i class='fa fa-btn fa-edit' title='Editar Registro'></i>" +
                 "</a>" + "</div>" +
                 "<div id='" + full.id + "' class='text-center'>" +
