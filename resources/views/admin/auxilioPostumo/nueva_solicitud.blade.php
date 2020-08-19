@@ -12,14 +12,14 @@
 </section>
 @section('content')
 <div class="box-header">
-<div class="pull-right col-md-4 col-sm-6 col-xs-12">
+<div class=" col-md-5 col-sm-6 col-xs-12">
         <select id="colegiado" name="colegiado" class="selectpicker form-control" data-live-search="true">
+          <option selected></option>
           @foreach ($result as $colegiado)
           <option  value="{{$colegiado->c_cliente}}" > {{$colegiado->n_cliente}} </option>
           @endforeach
         </select>
   </div>
-
 
 </div><br><br>
 @include('admin.auxilioPostumo.solicitud')
