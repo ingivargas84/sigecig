@@ -14,12 +14,13 @@ $.validator.addMethod("ntel1", function (value, element ){
 $.validator.addMethod("nombreunicoE", function(value, element){
     var valid = false;
     var id = $("input[name='num']").val();
+    var name = $("input[name='nombre_sede']").val();
     var urlActual = $("input[name='urlActual']").val();
     $.ajax({
         type: "GET",
         async: false,
         url: "/subsedes/nombreDisponibleEdit/",
-        data:"nombre_sede=" + value,
+        data: {id,name},
         dataType: "json",
         success: function (msg) {
             valid=!msg;
