@@ -94,8 +94,8 @@ class ColegiadosController extends Controller
       $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
       $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
-      $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get()->first();
-      $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get()->first();
+      $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get();
+      $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get();
 
         return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
     }
@@ -574,8 +574,8 @@ Log::info("Morir2 ".print_r($aspirante, true));
                 UNION
                   SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
                     FROM aspirante C
-                    INNER JOIN profesionAspirante PA ON PA.dpi = C.dpi
-                    INNER JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+                    LEFT JOIN profesionAspirante PA ON PA.dpi = C.dpi
+                    LEFT JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );

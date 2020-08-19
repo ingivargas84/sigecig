@@ -63,7 +63,7 @@
       <div class="icon">
         <i class="ion ion-document-text"></i>
       </div>
-      <a href="{{route('colaborador.index')}}" class="small-box-footer">
+      <a href="{{route('cortecaja.index')}}" class="small-box-footer">
         Mas info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>

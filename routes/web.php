@@ -265,6 +265,10 @@ Route::group([
         Route::get( '/getBodega/{bodega}', 'TraspasoController@getBodega');
         Route::get('/traspaso/pdf/{id}/', 'TraspasoController@pdfTraspaso')->name('traspaso.pdfTraspaso');
 
+         // Módulo Corte de Caja
+         Route::get('/cortedecaja', 'CorteDeCajaController@index')->name('cortecaja.index');
+         Route::get('/cortedecaja/getJson/', 'CorteDeCajaController@getJson')->name('cortedecaja.getJson');
+
     });
 
 

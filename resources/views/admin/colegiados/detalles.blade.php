@@ -212,19 +212,23 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="Profesión" class="control-label">Profesión:</label>
-                              @if ($profasp!=null)
-                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
+                              @foreach($profasp as $pa)
+                              @if ($pa!=null)
+                              <input id="profesion" value="{{\App\Profesion::find($pa->c_profesion)->titulo_masculino}} {{\App\Profesion::find($pa->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
                               @else
                               <input id="profesion" value="No ingresada" class="form-control" name="profesion" type="text" readonly>                            
                               @endif
+                              @endforeach
                               </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Especialidad:</label>
-                                @if($especialidadasp!= null)
-                                <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
-                              @else 
+                              @foreach($especialidadasp as $ea)
+                                @if($ea!= null)
+                                <input id="especialidad" value="{{\App\Especialidad::find($ea->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
+                                @else 
                                <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
                                @endif   
+                               @endforeach
                             </div>
                         </div>
                         <br>
