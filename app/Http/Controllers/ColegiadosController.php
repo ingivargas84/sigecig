@@ -26,6 +26,8 @@ use App\EstadoCivil;
 use App\CC00;
 use App\CC00prof;
 use App\CC00espec;
+use App\EstadoDeCuentaMaestro;
+use App\EstadoDeCuentaDetalle;
 
 class ColegiadosController extends Controller
 {
@@ -40,9 +42,9 @@ class ColegiadosController extends Controller
         FROM profesion
         ORDER BY titulo_masculino+' '+n_profesion";
         $resultado = DB::connection('sqlsrv')->select($query);
-        
-        $query = "SELECT c_especialidad id, n_especialidad nombre 
-        FROM especialidad 
+
+        $query = "SELECT c_especialidad id, n_especialidad nombre
+        FROM especialidad
         ORDER BY n_especialidad";
     		$esp = DB::connection('sqlsrv')->select($query);
 
@@ -63,14 +65,14 @@ class ColegiadosController extends Controller
         foreach($resultado as $fila) {
           $estadosCivil[$fila->idcivil] = $fila->valcivil;
         }
-  
+
         $query = "SELECT c_sexo idsexo, n_sexo valsexo FROM sexo ORDER BY n_sexo";
         $resultado = DB::connection('sqlsrv')->select($query);
         $sexos = array();
         foreach($resultado as $fila) {
           $sexos[$fila->idsexo] = $fila->valsexo;
         }
-  
+
         $query = "SELECT destino FROM destino_correo ORDER BY destino";
         $resultado = DB::connection('sqlsrv')->select($query);
         $destinos = array();
@@ -116,11 +118,11 @@ class ColegiadosController extends Controller
       $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
       $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
       $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
-      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get()->first(); 
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
 
         return view ('admin.colegiados.detallesCo', compact('query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
     }
-      
+
       public function getDatosAspirante() {
         $aspirante = Input::get('idusuario');
       Log::info("CIG. El usuario " . Auth::user()->name . " ha consultado al aspirante " . $aspirante);
@@ -218,9 +220,9 @@ class ColegiadosController extends Controller
 
   public function setDatosAspirante() {
     DB::beginTransaction();
-   
+
     //Log::info("CIG. Colegio. El usuario " . Auth::user()->name . " ha guardado al aspirante " . print_r(Input::all(), true));
- 
+
     $user = \App\Aspirante::find(Input::get('idusuario'));
     if($user == null) {
       $user = new \App\Aspirante;
@@ -400,7 +402,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
     return json_encode(array('error' => 0, 'montoTimbre' => $user->montoTimbre));
   }
 
-  
+
     public function obtenerFechaTopeMensualidades() {
       $rules = array(
         'idusuario' => 'required|digits:13'
@@ -447,7 +449,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
       return json_encode(array('error' => 0, 'mensaje' => 'Datos guardados correctamente.'));
     }
 
-    
+
     public function asociarColegiado() {
      /*  if (!Hash::check(Input::get('password'), Auth::user()->password)) {
         return json_encode(array('retorno' => 2, 'mensaje' => 'Error de autenticación'));
@@ -543,9 +545,58 @@ Log::info("Morir2 ".print_r($aspirante, true));
 
       $query = "INSERT INTO cc00espec(c_cliente,c_especialidad,n_especialidad) select :colegiado, ea.c_especialidad, isnull(titulo_masculino,'') + ' ' + isnull(n_especialidad,'') from especialidadAspirante ea INNER JOIN especialidad e ON ea.c_especialidad = e.c_especialidad WHERE dpi=:dpi";
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
-      $resultado = DB::connection('sqlsrv')->insert($query, $parametros);  
+      $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
 
       DB::commit();
+
+      //Almacenamiento de Estado de Cuenta
+
+      $cuentaM = new EstadoDeCuentaMaestro;
+      $cuentaM->colegiado_id = Input::get('colegiado');
+      $cuentaM->estado_id = 1;
+      $cuentaM->fecha_creacion = date('Y-m-d h:i:s');
+      $cuentaM->usuario_id = 1;
+      $cuentaM->save();
+
+
+        //calculando datos de timbre
+        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de mes de fecha de timbre
+        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de anio de fecha de timbre
+        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
+        $monto_timbre = $aspirante->montoTimbre; //monto del timbre
+
+        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
+        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
+
+        $capitalTimbre = round($monto_timbre * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)));
+
+                          //calculando datos de colegiatura
+        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de mes de fecha de colegiatura
+        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de anio de fecha de colegiatura
+        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
+
+        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
+        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
+
+        $capitalColegio = round(115.75 * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)),2);
+
+                //Almacenamiento
+        $TotalCapital = $capitalColegio + $capitalTimbre;
+
+        $colegiado = Input::get('colegiado');
+        $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE colegiado_id = $colegiado";
+        $resp = DB::connection('mysql')->select($consulta);
+
+      $cuentaD = new EstadoDeCuentaDetalle;
+      $cuentaD->estado_cuenta_maestro_id = $resp[0]->id;
+      $cuentaD->cantidad = 1;
+      $cuentaD->tipo_pago_id = 61;
+      $cuentaD->recibo_id = 1;
+      $cuentaD->abono = '0.00';
+      $cuentaD->cargo = $TotalCapital;
+      $cuentaD->usuario_id = Auth::user()->id;
+      $cuentaD->estado_id = 1;
+      $cuentaD->save();
 
       return json_encode(array('error' => 0, 'mensaje' => 'Colegiado trasladado correctamente'));
     }
@@ -575,7 +626,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
                   SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
                     FROM aspirante C
                     INNER JOIN profesionAspirante PA ON PA.dpi = C.dpi
-                    INNER JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+                    INNER JOIN profesion P ON PA.c_profesion = P.c_profesion";
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
