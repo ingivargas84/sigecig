@@ -34,6 +34,23 @@
                         <br>
                         <div class="row">
                             <div class="col-sm-6">
+                                <label for="departamentoDPI">Departamento donde se extendió DPI:</label>
+                                <select id="departamentoDPI" name="departamentoDPI" class="selectpicker form-control" data-live-search="true">
+                                <option value="">-- Escoja el Departamento --</option>
+                                    @foreach ($deptosG as $dep)
+                                        <option value="{{ $dep['iddepartamento'] }}">{{ $dep['nombre'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="municipioDPI">Municipio donde se extendió DPI:</label>
+                                <select id="municipioDPI" name="municipioDPI" class="selectpicker form-control" data-live-search="true" id="municipioDPI">
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <label for="puesto">Puesto:</label>
                                 <select name="puesto" class="form-control">
                                 <option value="">-- Escoja el puesto --</option>
@@ -93,10 +110,11 @@
 
 
 @push('styles')
-
+<link rel="stylesheet" href="{{ asset('css/auxilio-postumo/bootstrap-select1.13.css') }}">
 @endpush
 
 
 @push('scripts')
 <script src="{{asset('js/colaboradores/create.js')}}"></script>
+<script src="{{asset('js/auxilio-postumo/bootstrap-select1.13.js')}}"></script>
 @endpush

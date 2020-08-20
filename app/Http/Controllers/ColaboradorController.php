@@ -15,6 +15,8 @@ use App\Colaborador;
 use App\Puesto;
 use App\Departamento;
 use App\Subsedes;
+use App\DeptosGuatemala;
+use App\MunicipiosGuatemala;
 use App\User;
 
 class ColaboradorController extends Controller
@@ -49,8 +51,16 @@ class ColaboradorController extends Controller
         ->where('sigecig_users.id', '>=', '2')
         ->get();
         $sub = Subsedes::all();
+        $deptosG = DeptosGuatemala::all();
 
-        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub', 'user'));
+        return view ('admin.colaborador.create', compact('puestos','departamentos', 'sub', 'user', 'deptosG'));
+    }
+
+    public function getMunicipio($value)
+    {
+        $municipiosG = MunicipiosGuatemala::all()->where('iddepartamento', $value);
+
+        return json_encode($municipiosG);
     }
 
     /**
@@ -61,9 +71,16 @@ class ColaboradorController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data = $request->all();
-        $colaborador = Colaborador::create($data);
+        $colaborador = new Colaborador;
+        $colaborador->nombre = $request->nombre;
+        $colaborador->dpi = $request->dpi;
+        $colaborador->departamento_dpi_id = $request->departamentoDPI;
+        $colaborador->municipio_dpi_id = $request->municipioDPI;
+        $colaborador->puesto = $request->puesto;
+        $colaborador->departamento = $request->departamento;
+        $colaborador->subsede = $request->subsede;
+        $colaborador->telefono = $request->telefono;
+        $colaborador->usuario = $request->usuario;
         $colaborador->estado = 1;
         $colaborador->save();
 
@@ -111,15 +128,15 @@ class ColaboradorController extends Controller
         ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
         ->wherenull('sigecig_colaborador.usuario')
         ->where('sigecig_users.id', '>=', '2')
-        ->get(); 
+        ->get();
 
        /*  $query= "SELECT U.username, U.id, SC.usuario
         FROM sigecig_users U
         INNER JOIN sigecig_colaborador SC ON SC.usuario = U.id
         WHERE U.id >= '2' AND SC.usuario IS NULL";
-         
+
         $user = DB::select($query);*/
-//dd($departamentos); 
+//dd($departamentos);
         $sub = Subsedes::all();
         //dd($user);
 
@@ -169,13 +186,13 @@ class ColaboradorController extends Controller
     public function getJson(Request $params)
      {
           $api_Result['data'] = Colaborador::where('estado','!=',0)->get();
-         return Response::json( $api_Result ); 
+         return Response::json( $api_Result );
 
         /*  $query = "SELECT T.id, T.nombre, T.dpi, T.puesto, T.departamento, T.subsede, T.telefono, T.usuario, T.estado, U.username, U.id
          FROM sigecig_colaborador T
          LEFT JOIN sigecig_users U ON T.usuario = U.id
          WHERE T.estado != 0";
- 
+
          $api_Result['data'] = DB::select($query);
           return Response::json( $api_Result ); */
      }
