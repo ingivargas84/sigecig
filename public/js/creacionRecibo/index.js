@@ -190,18 +190,48 @@ function getTc01(){
                         $('#tc01inicioP').val(response.numeroInicio);
                         $('#tc01finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc01').val(mensaje);
-                        $('#tc01inicio').val(response.numeroInicio);
-                        $('#tc01fin').val(response.numeroFinal);
-                        $('#tc01E').val(mensaje);
-                        $('#tc01inicioE').val(response.numeroInicio);
-                        $('#tc01finE').val(response.numeroFinal);
-                        $('#tc01P').val(mensaje);
-                        $('#tc01inicioP').val(response.numeroInicio);
-                        $('#tc01finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc01').val(mensaje);
+                            $('#tc01inicio').val(response.numeroInicio1);
+                            $('#tc01fin').val(response.numeroFinal1);
+                            $('#tc01E').val(mensaje);
+                            $('#tc01inicioE').val(response.numeroInicio1);
+                            $('#tc01finE').val(response.numeroFinal1);
+                            $('#tc01P').val(mensaje);
+                            $('#tc01inicioP').val(response.numeroInicio1);
+                            $('#tc01finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc01').val(mensaje);
+                            $('#tc01inicio').val(response.numeroInicio1);
+                            $('#tc01fin').val(response.numeroFinal2);
+                            $('#tc01E').val(mensaje);
+                            $('#tc01inicioE').val(response.numeroInicio1);
+                            $('#tc01finE').val(response.numeroFinal2);
+                            $('#tc01P').val(mensaje);
+                            $('#tc01inicioP').val(response.numeroInicio1);
+                            $('#tc01finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc01').val(mensaje);
+                            $('#tc01inicio').val(response.numeroInicio1);
+                            $('#tc01fin').val(response.numeroFinal3);
+                            $('#tc01E').val(mensaje);
+                            $('#tc01inicioE').val(response.numeroInicio1);
+                            $('#tc01finE').val(response.numeroFinal3);
+                            $('#tc01P').val(mensaje);
+                            $('#tc01inicioP').val(response.numeroInicio1);
+                            $('#tc01finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -281,18 +311,48 @@ function getTc05(){
                         $('#tc05inicioP').val(response.numeroInicio);
                         $('#tc05finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc05').val(mensaje);
-                        $('#tc05inicio').val(response.numeroInicio);
-                        $('#tc05fin').val(response.numeroFinal);
-                        $('#tc05E').val(mensaje);
-                        $('#tc05inicioE').val(response.numeroInicio);
-                        $('#tc05finE').val(response.numeroFinal);
-                        $('#tc05P').val(mensaje);
-                        $('#tc05inicioP').val(response.numeroInicio);
-                        $('#tc05finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc05').val(mensaje);
+                            $('#tc05inicio').val(response.numeroInicio1);
+                            $('#tc05fin').val(response.numeroFinal1);
+                            $('#tc05E').val(mensaje);
+                            $('#tc05inicioE').val(response.numeroInicio1);
+                            $('#tc05finE').val(response.numeroFinal1);
+                            $('#tc05P').val(mensaje);
+                            $('#tc05inicioP').val(response.numeroInicio1);
+                            $('#tc05finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc05').val(mensaje);
+                            $('#tc05inicio').val(response.numeroInicio1);
+                            $('#tc05fin').val(response.numeroFinal2);
+                            $('#tc05E').val(mensaje);
+                            $('#tc05inicioE').val(response.numeroInicio1);
+                            $('#tc05finE').val(response.numeroFinal2);
+                            $('#tc05P').val(mensaje);
+                            $('#tc05inicioP').val(response.numeroInicio1);
+                            $('#tc05finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc05').val(mensaje);
+                            $('#tc05inicio').val(response.numeroInicio1);
+                            $('#tc05fin').val(response.numeroFinal3);
+                            $('#tc05E').val(mensaje);
+                            $('#tc05inicioE').val(response.numeroInicio1);
+                            $('#tc05finE').val(response.numeroFinal3);
+                            $('#tc05P').val(mensaje);
+                            $('#tc05inicioP').val(response.numeroInicio1);
+                            $('#tc05finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -371,18 +431,48 @@ function getTc10(){
                         $('#tc10inicioP').val(response.numeroInicio);
                         $('#tc10finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc10').val(mensaje);
-                        $('#tc10inicio').val(response.numeroInicio);
-                        $('#tc10fin').val(response.numeroFinal);
-                        $('#tc10E').val(mensaje);
-                        $('#tc10inicioE').val(response.numeroInicio);
-                        $('#tc10finE').val(response.numeroFinal);
-                        $('#tc10P').val(mensaje);
-                        $('#tc10inicioP').val(response.numeroInicio);
-                        $('#tc10finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc10').val(mensaje);
+                            $('#tc10inicio').val(response.numeroInicio1);
+                            $('#tc10fin').val(response.numeroFinal1);
+                            $('#tc10E').val(mensaje);
+                            $('#tc10inicioE').val(response.numeroInicio1);
+                            $('#tc10finE').val(response.numeroFinal1);
+                            $('#tc10P').val(mensaje);
+                            $('#tc10inicioP').val(response.numeroInicio1);
+                            $('#tc10finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc10').val(mensaje);
+                            $('#tc10inicio').val(response.numeroInicio1);
+                            $('#tc10fin').val(response.numeroFinal2);
+                            $('#tc10E').val(mensaje);
+                            $('#tc10inicioE').val(response.numeroInicio1);
+                            $('#tc10finE').val(response.numeroFinal2);
+                            $('#tc10P').val(mensaje);
+                            $('#tc10inicioP').val(response.numeroInicio1);
+                            $('#tc10finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc10').val(mensaje);
+                            $('#tc10inicio').val(response.numeroInicio1);
+                            $('#tc10fin').val(response.numeroFinal3);
+                            $('#tc10E').val(mensaje);
+                            $('#tc10inicioE').val(response.numeroInicio1);
+                            $('#tc10finE').val(response.numeroFinal3);
+                            $('#tc10P').val(mensaje);
+                            $('#tc10inicioP').val(response.numeroInicio1);
+                            $('#tc10finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -461,18 +551,48 @@ function getTc20(){
                         $('#tc20inicioP').val(response.numeroInicio);
                         $('#tc20finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc20').val(mensaje);
-                        $('#tc20inicio').val(response.numeroInicio);
-                        $('#tc20fin').val(response.numeroFinal);
-                        $('#tc20E').val(mensaje);
-                        $('#tc20inicioE').val(response.numeroInicio);
-                        $('#tc20finE').val(response.numeroFinal);
-                        $('#tc20P').val(mensaje);
-                        $('#tc20inicioP').val(response.numeroInicio);
-                        $('#tc20finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc20').val(mensaje);
+                            $('#tc20inicio').val(response.numeroInicio1);
+                            $('#tc20fin').val(response.numeroFinal1);
+                            $('#tc20E').val(mensaje);
+                            $('#tc20inicioE').val(response.numeroInicio1);
+                            $('#tc20finE').val(response.numeroFinal1);
+                            $('#tc20P').val(mensaje);
+                            $('#tc20inicioP').val(response.numeroInicio1);
+                            $('#tc20finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc20').val(mensaje);
+                            $('#tc20inicio').val(response.numeroInicio1);
+                            $('#tc20fin').val(response.numeroFinal2);
+                            $('#tc20E').val(mensaje);
+                            $('#tc20inicioE').val(response.numeroInicio1);
+                            $('#tc20finE').val(response.numeroFinal2);
+                            $('#tc20P').val(mensaje);
+                            $('#tc20inicioP').val(response.numeroInicio1);
+                            $('#tc20finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc20').val(mensaje);
+                            $('#tc20inicio').val(response.numeroInicio1);
+                            $('#tc20fin').val(response.numeroFinal3);
+                            $('#tc20E').val(mensaje);
+                            $('#tc20inicioE').val(response.numeroInicio1);
+                            $('#tc20finE').val(response.numeroFinal3);
+                            $('#tc20P').val(mensaje);
+                            $('#tc20inicioP').val(response.numeroInicio1);
+                            $('#tc20finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -551,18 +671,48 @@ function getTc50(){
                         $('#tc50inicioP').val(response.numeroInicio);
                         $('#tc50finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc50').val(mensaje);
-                        $('#tc50inicio').val(response.numeroInicio);
-                        $('#tc50fin').val(response.numeroFinal);
-                        $('#tc50E').val(mensaje);
-                        $('#tc50inicioE').val(response.numeroInicio);
-                        $('#tc50finE').val(response.numeroFinal);
-                        $('#tc50P').val(mensaje);
-                        $('#tc50inicioP').val(response.numeroInicio);
-                        $('#tc50finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc50').val(mensaje);
+                            $('#tc50inicio').val(response.numeroInicio1);
+                            $('#tc50fin').val(response.numeroFinal1);
+                            $('#tc50E').val(mensaje);
+                            $('#tc50inicioE').val(response.numeroInicio1);
+                            $('#tc50finE').val(response.numeroFinal1);
+                            $('#tc50P').val(mensaje);
+                            $('#tc50inicioP').val(response.numeroInicio1);
+                            $('#tc50finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc50').val(mensaje);
+                            $('#tc50inicio').val(response.numeroInicio1);
+                            $('#tc50fin').val(response.numeroFinal2);
+                            $('#tc50E').val(mensaje);
+                            $('#tc50inicioE').val(response.numeroInicio1);
+                            $('#tc50finE').val(response.numeroFinal2);
+                            $('#tc50P').val(mensaje);
+                            $('#tc50inicioP').val(response.numeroInicio1);
+                            $('#tc50finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc50').val(mensaje);
+                            $('#tc50inicio').val(response.numeroInicio1);
+                            $('#tc50fin').val(response.numeroFinal3);
+                            $('#tc50E').val(mensaje);
+                            $('#tc50inicioE').val(response.numeroInicio1);
+                            $('#tc50finE').val(response.numeroFinal3);
+                            $('#tc50P').val(mensaje);
+                            $('#tc50inicioP').val(response.numeroInicio1);
+                            $('#tc50finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -641,18 +791,48 @@ function getTc100(){
                         $('#tc100inicioP').val(response.numeroInicio);
                         $('#tc100finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc100').val(mensaje);
-                        $('#tc100inicio').val(response.numeroInicio);
-                        $('#tc100fin').val(response.numeroFinal);
-                        $('#tc100E').val(mensaje);
-                        $('#tc100inicioE').val(response.numeroInicio);
-                        $('#tc100finE').val(response.numeroFinal);
-                        $('#tc100P').val(mensaje);
-                        $('#tc100inicioP').val(response.numeroInicio);
-                        $('#tc100finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc100').val(mensaje);
+                            $('#tc100inicio').val(response.numeroInicio1);
+                            $('#tc100fin').val(response.numeroFinal1);
+                            $('#tc100E').val(mensaje);
+                            $('#tc100inicioE').val(response.numeroInicio1);
+                            $('#tc100finE').val(response.numeroFinal1);
+                            $('#tc100P').val(mensaje);
+                            $('#tc100inicioP').val(response.numeroInicio1);
+                            $('#tc100finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc100').val(mensaje);
+                            $('#tc100inicio').val(response.numeroInicio1);
+                            $('#tc100fin').val(response.numeroFinal2);
+                            $('#tc100E').val(mensaje);
+                            $('#tc100inicioE').val(response.numeroInicio1);
+                            $('#tc100finE').val(response.numeroFinal2);
+                            $('#tc100P').val(mensaje);
+                            $('#tc100inicioP').val(response.numeroInicio1);
+                            $('#tc100finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc100').val(mensaje);
+                            $('#tc100inicio').val(response.numeroInicio1);
+                            $('#tc100fin').val(response.numeroFinal3);
+                            $('#tc100E').val(mensaje);
+                            $('#tc100inicioE').val(response.numeroInicio1);
+                            $('#tc100finE').val(response.numeroFinal3);
+                            $('#tc100P').val(mensaje);
+                            $('#tc100inicioP').val(response.numeroInicio1);
+                            $('#tc100finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -731,18 +911,48 @@ function getTc200(){
                         $('#tc200inicioP').val(response.numeroInicio);
                         $('#tc200finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc200').val(mensaje);
-                        $('#tc200inicio').val(response.numeroInicio);
-                        $('#tc200fin').val(response.numeroFinal);
-                        $('#tc200E').val(mensaje);
-                        $('#tc200inicioE').val(response.numeroInicio);
-                        $('#tc200finE').val(response.numeroFinal);
-                        $('#tc200P').val(mensaje);
-                        $('#tc200inicioP').val(response.numeroInicio);
-                        $('#tc200finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc200').val(mensaje);
+                            $('#tc200inicio').val(response.numeroInicio1);
+                            $('#tc200fin').val(response.numeroFinal1);
+                            $('#tc200E').val(mensaje);
+                            $('#tc200inicioE').val(response.numeroInicio1);
+                            $('#tc200finE').val(response.numeroFinal1);
+                            $('#tc200P').val(mensaje);
+                            $('#tc200inicioP').val(response.numeroInicio1);
+                            $('#tc200finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc200').val(mensaje);
+                            $('#tc200inicio').val(response.numeroInicio1);
+                            $('#tc200fin').val(response.numeroFinal2);
+                            $('#tc200E').val(mensaje);
+                            $('#tc200inicioE').val(response.numeroInicio1);
+                            $('#tc200finE').val(response.numeroFinal2);
+                            $('#tc200P').val(mensaje);
+                            $('#tc200inicioP').val(response.numeroInicio1);
+                            $('#tc200finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc200').val(mensaje);
+                            $('#tc200inicio').val(response.numeroInicio1);
+                            $('#tc200fin').val(response.numeroFinal3);
+                            $('#tc200E').val(mensaje);
+                            $('#tc200inicioE').val(response.numeroInicio1);
+                            $('#tc200finE').val(response.numeroFinal3);
+                            $('#tc200P').val(mensaje);
+                            $('#tc200inicioP').val(response.numeroInicio1);
+                            $('#tc200finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){
@@ -821,18 +1031,48 @@ function getTc500(){
                         $('#tc500inicioP').val(response.numeroInicio);
                         $('#tc500finP').val(response.numeroFinal);
                     } else {
-                        var inicio = response.numeroInicio;
-                        var fin = response.numeroFinal;
-                        var mensaje = ('Timbres entregados: ' + inicio + ' al ' + fin);
-                        $('#tc500').val(mensaje);
-                        $('#tc500inicio').val(response.numeroInicio);
-                        $('#tc500fin').val(response.numeroFinal);
-                        $('#tc500E').val(mensaje);
-                        $('#tc500inicioE').val(response.numeroInicio);
-                        $('#tc500finE').val(response.numeroFinal);
-                        $('#tc500P').val(mensaje);
-                        $('#tc500inicioP').val(response.numeroInicio);
-                        $('#tc500finP').val(response.numeroFinal);
+                        var inicio1 = response.numeroInicio1;
+                        var fin1 = response.numeroFinal1;
+                        var inicio2 = response.numeroInicio2;
+                        var fin2 = response.numeroFinal2;
+                        var inicio3 = response.numeroInicio3;
+                        var fin3 = response.numeroFinal3;
+                        if (response.cantidadDatos == '1') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
+                            $('#tc500').val(mensaje);
+                            $('#tc500inicio').val(response.numeroInicio1);
+                            $('#tc500fin').val(response.numeroFinal1);
+                            $('#tc500E').val(mensaje);
+                            $('#tc500inicioE').val(response.numeroInicio1);
+                            $('#tc500finE').val(response.numeroFinal1);
+                            $('#tc500P').val(mensaje);
+                            $('#tc500inicioP').val(response.numeroInicio1);
+                            $('#tc500finP').val(response.numeroFinal1);
+                        }
+                        if (response.cantidadDatos == '2') {
+                            var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
+                            $('#tc500').val(mensaje);
+                            $('#tc500inicio').val(response.numeroInicio1);
+                            $('#tc500fin').val(response.numeroFinal2);
+                            $('#tc500E').val(mensaje);
+                            $('#tc500inicioE').val(response.numeroInicio1);
+                            $('#tc500finE').val(response.numeroFinal2);
+                            $('#tc500P').val(mensaje);
+                            $('#tc500inicioP').val(response.numeroInicio1);
+                            $('#tc500finP').val(response.numeroFinal2);
+                        }
+                        if (response.cantidadDatos == '3') {
+                            var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
+                            $('#tc500').val(mensaje);
+                            $('#tc500inicio').val(response.numeroInicio1);
+                            $('#tc500fin').val(response.numeroFinal3);
+                            $('#tc500E').val(mensaje);
+                            $('#tc500inicioE').val(response.numeroInicio1);
+                            $('#tc500finE').val(response.numeroFinal3);
+                            $('#tc500P').val(mensaje);
+                            $('#tc500inicioP').val(response.numeroInicio1);
+                            $('#tc500finP').val(response.numeroFinal3);
+                        }
                     }
                 },
                 error: function(response){

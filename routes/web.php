@@ -93,6 +93,7 @@ Route::group([
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
+        Route::get( '/iddepartamento/{value}', 'ColaboradorController@getMunicipio');
 
        // Módulo de Registro de Cajas
        Route::get('/cajas', 'CajasController@index')->name('cajas.index');
