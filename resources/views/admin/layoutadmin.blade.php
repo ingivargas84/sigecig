@@ -21,11 +21,11 @@
 
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{asset('adminlte/bootstrap/css/bootstrap.min.css')}}">
-  <link href="/ea/bootstrap.min.css" rel="stylesheet">
+  {{-- <link href="/ea/bootstrap.min.css" rel="stylesheet"> --}}
   <link rel="stylesheet" href="/ea/jquery-ui.css"/>
 
   <!-- Fonts -->
-	<link href='/ea/font' rel='stylesheet' type='text/css'>
+	{{-- <link href='/ea/font' rel='stylesheet' type='text/css'> --}}
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome-4.5.0/css/font-awesome.min.css')}}">

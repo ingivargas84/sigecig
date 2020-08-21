@@ -8,8 +8,7 @@
 /.vagrant
 /config/database.php
 /config/mail.php
-/public/dpi
-/public/solicitud
+/public/ap
 Homestead.json
 Homestead.yaml
 npm-debug.log
