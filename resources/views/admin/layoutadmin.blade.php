@@ -13,6 +13,12 @@
 
   <script src="{{asset('js/jquery-3.3.1.js')}}"></script>
   <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{asset('font-awesome-4.5.0/css/font-awesome.min.css')}}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{asset('fontawesome/css/all.css') }}">
    <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Muli">
   <link rel="stylesheet" href="{{asset('css/style.css') }}">
@@ -27,12 +33,7 @@
   <!-- Fonts -->
 	{{-- <link href='/ea/font' rel='stylesheet' type='text/css'> --}}
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('font-awesome-4.5.0/css/font-awesome.min.css')}}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
-  <link rel="stylesheet" href="{{asset('fontawesome/css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{asset('fontawesome/css/all.css') }}">
+
 
   @stack('styles')
 
