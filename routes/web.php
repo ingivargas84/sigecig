@@ -89,11 +89,12 @@ Route::group([
         Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
         Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
-        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
+        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiDisponibleEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
         Route::get( '/iddepartamento/{value}', 'ColaboradorController@getMunicipio');
+        Route::get( '/iddepartamentoEdit/{value}', 'ColaboradorController@getDepartamentoEdit');
 
        // Módulo de Registro de Cajas
        Route::get('/cajas', 'CajasController@index')->name('cajas.index');

@@ -87,6 +87,7 @@ function obtenerDatosColegiado()
     comprobarCheckEfectivo();
     comprobarCheckCheque();
     comprobarCheckTarjeta();
+    comprobarCheckDeposito();
     limpiarTimbres();
 }
 
@@ -106,6 +107,7 @@ function limpiarPantallaColegiado()
     comprobarCheckEfectivo();
     comprobarCheckCheque();
     comprobarCheckTarjeta();
+    comprobarCheckDeposito();
 }
 
 $(document).ready(function(){
@@ -1752,6 +1754,26 @@ function comprobarCheckTarjeta()
     }
 }
 
+function comprobarCheckDeposito()
+{
+    if (document.getElementById("tipoDePagoDeposito").checked){
+        document.getElementById('montoDeposito').readOnly = false;
+        document.getElementById('deposito').style.display = "";
+        document.getElementById('fechaDeposito').style.display = "";
+        document.getElementById('bancoDeposito').style.display = "";
+    }
+    else{
+        document.getElementById('montoDeposito').readOnly = true;
+        document.getElementById('deposito').style.display = "none";
+        document.getElementById('fechaDeposito').style.display = "none";
+        document.getElementById('bancoDeposito').style.display = "none";
+        $('input[name="deposito"]').val('');
+        $('input[name="montoDeposito"]').val('');
+        $('input[name="fechaDeposito"]').val('');
+        $('select[name="bancoDeposito"]').val('');
+    }
+}
+
 $(document).ready(function(){
     var validator = $('#colegiadoForm').validate({
         ignore: [],
@@ -1778,6 +1800,7 @@ $("#guardarRecibo").click(function(e){
         var efectivoCorrecto = 0; //el 0 indica que no aplica y devuelve error
         var chequeCorrecto = 0;
         var tarjetaCorrecta = 0;
+        var depositoCorrecto = 0;
 
         if (document.getElementById("tipoDePagoEfectivo").checked){
             if ($('#montoefectivo').val() == 0){
@@ -1809,15 +1832,29 @@ $("#guardarRecibo").click(function(e){
                 alertify.warning('Selector de POS no puede ser vacio...');
                 tarjetaCorrecta = 0;
             } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("si");}
-        } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}
+        } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}//FIN TARJETA
+        if (document.getElementById("tipoDePagoDeposito").checked){
+            if ($('#deposito').val() == 0){
+                alertify.warning('los datos de deposito no pueden ir vacios...');
+            } else {depositoCorrecto = 1;}
+            if ($('#montoDeposito').val() == 0){
+                alertify.warning('el monto de deposito no puede ser 0...');
+                depositoCorrecto = 0;
+            } else {depositoCorrecto = 1;}
+            if ($('#bancoDeposito').val() == 0){
+                alertify.warning('opción de banco no puede estar vacio...');
+                depositoCorrecto = 0;
+            } else {depositoCorrecto = 1; $('#pagoDeposito').val("si");}
+        } else {depositoCorrecto = 1; $('#pagoDeposito').val("no");}
 
-        if ((document.getElementById("tipoDePagoEfectivo").checked != true)  && (document.getElementById("tipoDePagoCheque").checked != true) && (document.getElementById("tipoDePagoTarjeta").checked != true)){
+        if ((document.getElementById("tipoDePagoEfectivo").checked != true)  && (document.getElementById("tipoDePagoCheque").checked != true) && (document.getElementById("tipoDePagoTarjeta").checked != true) && (document.getElementById("tipoDePagoDeposito").checked != true)){
             alertify.warning('Seleccione un tipo de pago');
-        }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+        }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1 && depositoCorrecto == 1){
             var totalEfectivo = $('#montoefectivo').val();
             var totalCheque = $('#montoCheque').val();
             var totalTarjeta = $('#montoTarjeta').val();
-            var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+            var totalDeposito = $('#montoDeposito').val();
+            var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta) + Number(totalDeposito);
             if(totalPago == $("#total").val().substring(2)){
 
                     if(document.getElementById("serieReciboA").checked == true){
@@ -1850,6 +1887,7 @@ $("#guardarRecibo").click(function(e){
 
                     var pos = $('#pos').val();
                     var banco = $('#banco').val();
+                    var bancoDeposito = $('#bancoDeposito').val();
 
                     var config = {};
                     $('input').each(function () {
@@ -1864,7 +1902,7 @@ $("#guardarRecibo").click(function(e){
                     type: "POST",
                     headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                     url: "/creacionRecibo/save",
-                    data: {config, datos, pos, banco, nuevaFechaColegio, totalPrecioTimbre},
+                    data: {config, datos, pos, banco, bancoDeposito, nuevaFechaColegio, totalPrecioTimbre},
                     datatype: "json",
                     success: function() {
                         $('.loader').fadeOut(1000);
@@ -2304,6 +2342,26 @@ function comprobarCheckTarjetaE()
     }
 }
 
+function comprobarCheckDepositoE()
+{
+    if (document.getElementById("tipoDePagoDepositoE").checked){
+        document.getElementById('montoDepositoE').readOnly = false;
+        document.getElementById('depositoE').style.display = "";
+        document.getElementById('fechaDepositoE').style.display = "";
+        document.getElementById('bancoDepositoE').style.display = "";
+    }
+    else{
+        document.getElementById('montoDepositoE').readOnly = true;
+        document.getElementById('depositoE').style.display = "none";
+        document.getElementById('fechaDepositoE').style.display = "none";
+        document.getElementById('bancoDepositoE').style.display = "none";
+        $('input[name="depositoE"]').val('');
+        $('input[name="montoDepositoE"]').val('');
+        $('input[name="fechaDepositoE"]').val('');
+        $('select[name="bancoDepositoE"]').val('');
+    }
+}
+
 $(document).ready(function(){
     var validatorE = $('#empresaForm').validate({
         ignore: [],
@@ -2330,6 +2388,7 @@ $("#guardarReciboE").click(function(e){
     var efectivoCorrecto = 0;
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
+    var depositoCorrecto = 0;
 
     if (document.getElementById("tipoDePagoEfectivoE").checked){
         if ($('#montoefectivoE').val() == 0){
@@ -2361,15 +2420,29 @@ $("#guardarReciboE").click(function(e){
             alertify.warning('Selector de POS no puede ser vacio...');
             tarjetaCorrecta = 0;
         }else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("si");}
-    } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");}
+    } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");} // FIN TARJETA
+    if (document.getElementById("tipoDePagoDepositoE").checked){
+        if ($('#depositoE').val() == 0){
+            alertify.warning('los datos de deposito no pueden ir vacios...');
+        } else {depositoCorrecto = 1;}
+        if ($('#montoDepositoE').val() == 0){
+            alertify.warning('el monto de deposito no puede ser 0...');
+            depositoCorrecto = 0;
+        } else {depositoCorrecto = 1;}
+        if ($('#bancoDepositoE').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            depositoCorrecto = 0;
+        } else {depositoCorrecto = 1; $('#pagoDepositoE').val("si");}
+    } else {depositoCorrecto = 1; $('#pagoDepositoE').val("no");}
 
-    if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true)){
+    if ((document.getElementById("tipoDePagoEfectivoE").checked != true)  && (document.getElementById("tipoDePagoChequeE").checked != true) && (document.getElementById("tipoDePagoTarjetaE").checked != true) && (document.getElementById("tipoDePagoDepositoE").checked != true)){
         alertify.warning('Seleccione un tipo de pago');
-    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1 && depositoCorrecto == 1){
         var totalEfectivo = $('#montoefectivoE').val();
         var totalCheque = $('#montoChequeE').val();
         var totalTarjeta = $('#montoTarjetaE').val();
-        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+        var totalDeposito = $('#montoDepositoE').val();
+        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta) + Number(totalDeposito);
         if(totalPago == $("#totalE").val().substring(2)){
 
                 if(document.getElementById("serieReciboA").checked == true){
@@ -2380,6 +2453,7 @@ $("#guardarReciboE").click(function(e){
 
                 var banco = $('#bancoE').val();
                 var pos = $('#posE').val();
+                var bancoDepositoE = $('#bancoDepositoE').val();
 
                 var config = {};
                 $('input').each(function () {
@@ -2394,7 +2468,7 @@ $("#guardarReciboE").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/empresa",
-                data: {config, datos, pos, banco},
+                data: {config, datos, pos, banco, bancoDepositoE},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -2435,6 +2509,7 @@ function limpiarPantallaE()
     comprobarCheckEfectivoE();
     comprobarCheckChequeE();
     comprobarCheckTarjetaE();
+    comprobarCheckDepositoE();
 }
 
 //Funcionamiento sobre Particular
@@ -2838,6 +2913,26 @@ function comprobarCheckTarjetaP()
     }
 }
 
+function comprobarCheckDepositoP()
+{
+    if (document.getElementById("tipoDePagoDepositoP").checked){
+        document.getElementById('montoDepositoP').readOnly = false;
+        document.getElementById('depositoP').style.display = "";
+        document.getElementById('fechaDepositoP').style.display = "";
+        document.getElementById('bancoDepositoP').style.display = "";
+    }
+    else{
+        document.getElementById('montoDepositoP').readOnly = true;
+        document.getElementById('depositoP').style.display = "none";
+        document.getElementById('fechaDepositoP').style.display = "none";
+        document.getElementById('bancoDepositoP').style.display = "none";
+        $('input[name="depositoP"]').val('');
+        $('input[name="montoDepositoP"]').val('');
+        $('input[name="fechaDepositoP"]').val('');
+        $('select[name="bancoDepositoP"]').val('');
+    }
+}
+
 $(document).ready(function(){
     var validatorP = $('#particularForm').validate({
         ignore: [],
@@ -2876,6 +2971,7 @@ $("#guardarReciboP").click(function(e){
     var efectivoCorrecto = 0;
     var chequeCorrecto = 0;
     var tarjetaCorrecta = 0;
+    var depositoCorrecto = 0;
 
     if (document.getElementById("tipoDePagoEfectivoP").checked){
         if ($('#montoefectivoP').val() == 0){
@@ -2907,15 +3003,29 @@ $("#guardarReciboP").click(function(e){
             alertify.warning('Selector de POS no puede ser vacio...');
             tarjetaCorrecta = 0;
         }else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("si");}
-    } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");}
+    } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");} // FIN TARJETA
+    if (document.getElementById("tipoDePagoDepositoP").checked){
+        if ($('#depositoP').val() == 0){
+            alertify.warning('los datos de deposito no pueden ir vacios...');
+        } else {depositoCorrecto = 1;}
+        if ($('#montoDepositoP').val() == 0){
+            alertify.warning('el monto de deposito no puede ser 0...');
+            depositoCorrecto = 0;
+        } else {depositoCorrecto = 1;}
+        if ($('#bancoDepositoP').val() == 0){
+            alertify.warning('opción de banco no puede estar vacio...');
+            depositoCorrecto = 0;
+        } else {depositoCorrecto = 1; $('#pagoDepositoP').val("si");}
+    } else {depositoCorrecto = 1; $('#pagoDepositoP').val("no");}
 
-    if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true)){
+    if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true) && (document.getElementById("tipoDePagoDepositoP").checked != true)){
         alertify.warning('Seleccione un tipo de pago');
     }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
         var totalEfectivo = $('#montoefectivoP').val();
         var totalCheque = $('#montoChequeP').val();
         var totalTarjeta = $('#montoTarjetaP').val();
-        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta);
+        var totalDeposito = $('#montoDepositoP').val();
+        var totalPago = Number(totalEfectivo) + Number(totalCheque) + Number(totalTarjeta) + Number(totalDeposito);
         if(totalPago == $("#totalP").val().substring(2)){
 
                 if(document.getElementById("serieReciboA").checked == true){
@@ -2926,6 +3036,7 @@ $("#guardarReciboP").click(function(e){
 
                 var banco = $('#bancoP').val();
                 var pos = $('#posP').val();
+                var bancoDepositoP = $('#bancoDepositoP').val();
 
                 var config = {};
                 $('input').each(function () {
@@ -2940,7 +3051,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos, pos, banco},
+                data: {config, datos, pos, banco, bancoDepositoP},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
@@ -2981,4 +3092,5 @@ function limpiarPantallaP()
     comprobarCheckEfectivoP();
     comprobarCheckChequeP();
     comprobarCheckTarjetaP();
+    comprobarCheckDepositoP();
 }
