@@ -1,5 +1,5 @@
-var colegiados_table = $('#colegiados-table').DataTable({
-    "ajax": "/colegiados/getJson",
+var aspirantes_table = $('#aspirantes-table').DataTable({
+    "ajax": "/aspirantes/getJson",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -84,34 +84,32 @@ var colegiados_table = $('#colegiados-table').DataTable({
         "title": "Acciones",
         "data": "estado",
         "orderable": false,
-        "width" : "10%",
+        "width" : "20%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
-          
-                return "<div id='" + full.codigo + "' class='text-center'>" +
-                "<div class='float-right col-lg-3'>" +
-                "<a href='"+urlActual+"/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
-                "<i class='fa fa-info-circle' title='Detalles'></i>" +
-                "</a>" + "</div>" +
-                "<div id='" + full.codigo + "' class='text-center'>" +
-                "<div class='float-right col-lg-3'>" +
-                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
-                "<i class='fa fa-plus-square' title='Agregar Profesión'></i>" +
-                "</a>" + "</div>"
-            
+                    return "<div id='" + full.codigo + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                    "<i class='fa fa-info-circle' title='Detalles'></i>" +
+                    "</a>" + "</div>" +
+                    "<div id='" + full.codigo + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                    "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                    "</a>" + "</div>" +
+    
+                    "<div id='" + full.codigo + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
+                    "<i class='fa fa-info' title='Información de Timbres'></i>" +
+                    "</a>" + "</div>" +
+                    "<div id='" + full.codigo + "' class='text-center'>" +
+                    "<div class='float-right col-lg-3'>" +
+                    "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.codigo+"' data-nombre2='"+full.colegiado+"'>" +
+                    "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
+                    "</a>" + "</div>";
         },
         "responsivePriority": 1
     }]
-
-});
-
-//Confirmar Contraseña para borrar
-$("#btnConfirmarAccion").click(function(event) {
-    event.preventDefault();
-    if ($('#ConfirmarAccionForm').valid()) {
-        confirmarAccion();
-    } else {
-        validator.focusInvalid();
-    }
 });

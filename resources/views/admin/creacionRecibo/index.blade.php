@@ -301,6 +301,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePago" id="tipoDePagoEfectivo" onchange="comprobarCheckEfectivo();" value="efectivo">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoCheque" onchange="comprobarCheckCheque();" value="cheque">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoTarjeta" onchange="comprobarCheckTarjeta();" value="tarjeta">Tarjeta</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoDeposito" onchange="comprobarCheckDeposito();" value="deposito">Depoósito</label>
                             </div>
                         </div>
                     </div>
@@ -326,6 +327,12 @@
                                 <input name="pagoTarjeta" id="pagoTarjeta" value="" style="display: none;">
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="number" id="montoDeposito" name="montoDeposito" class="form-control" min="0" readOnly placeholder="Monto">
+                                <input name="pagoDeposito" id="pagoDeposito" value="" style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -342,12 +349,7 @@
                         </div>
                         <div class="col-sm-3 col-lg-3">
                             <div class="form-group">
-                                <select name="pos" class="form-control" id="pos" style="display: none;">
-                                    <option value="">-- Escoja POS --</option>
-                                    @foreach ($pos as $po)
-                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="number" id="deposito" name="deposito" class="form-control" placeholder="No. de boleta" min="0" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -363,6 +365,33 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <select name="pos" class="form-control" id="pos" style="display: none;">
+                                    <option value="">-- Escoja POS --</option>
+                                    @foreach ($pos as $po)
+                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <input type="date" name="fechaDeposito" id="fechaDeposito" class="form-control" value="<?php echo date('Y-m-d');?>" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-8 col-sm-3">
+                        <div class="form-group">
+                            <select name="bancoDeposito" class="form-control" id="bancoDeposito" style="display: none;">
+                                <option value="">-- Escoja Banco --</option>
+                                @foreach ($banco as $ba)
+                                    <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -571,6 +600,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoEfectivoE" onchange="comprobarCheckEfectivoE();" value="efectivoE">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoChequeE" onchange="comprobarCheckChequeE();" value="chequeE">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoTarjetaE" onchange="comprobarCheckTarjetaE();" value="tarjetaE">Tarjeta</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoDepositoE" onchange="comprobarCheckDepositoE();" value="depositoE">Depoósito</label>
                             </div>
                         </div>
                     </div>
@@ -596,6 +626,12 @@
                                 <input name="pagoTarjetaE" id="pagoTarjetaE" value="" style="display: none;">
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="number" id="montoDepositoE" name="montoDepositoE" class="form-control" min="0" readOnly placeholder="Monto">
+                                <input name="pagoDepositoE" id="pagoDepositoE" value="" style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -612,12 +648,7 @@
                         </div>
                         <div class="col-sm-3 col-lg-3">
                             <div class="form-group">
-                                <select name="posE" class="form-control" id="posE" style="display: none;">
-                                    <option value="">-- Escoja POS --</option>
-                                    @foreach ($pos as $po)
-                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="number" id="depositoE" name="depositoE" class="form-control" placeholder="No. de boleta" min="0" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -633,6 +664,33 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <select name="posE" class="form-control" id="posE" style="display: none;">
+                                    <option value="">-- Escoja POS --</option>
+                                    @foreach ($pos as $po)
+                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <input type="date" name="fechaDepositoE" id="fechaDepositoE" class="form-control" value="<?php echo date('Y-m-d');?>" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-8 col-sm-3">
+                        <div class="form-group">
+                            <select name="bancoDepositoE" class="form-control" id="bancoDepositoE" style="display: none;">
+                                <option value="">-- Escoja Banco --</option>
+                                @foreach ($banco as $ba)
+                                    <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -843,6 +901,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoEfectivoP" onchange="comprobarCheckEfectivoP();" value="efectivoP">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoChequeP" onchange="comprobarCheckChequeP();" value="chequeP">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoTarjetaP" onchange="comprobarCheckTarjetaP();" value="tarjetaP">Tarjeta</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoDepositoP" onchange="comprobarCheckDepositoP();" value="depositoP">Depoósito</label>
                             </div>
                         </div>
                     </div>
@@ -868,6 +927,12 @@
                                 <input name="pagoTarjetaP" id="pagoTarjetaP" value="" style="display: none;">
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="number" id="montoDepositoP" name="montoDepositoP" class="form-control" min="0" readOnly placeholder="Monto">
+                                <input name="pagoDepositoP" id="pagoDepositoP" value="" style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -884,12 +949,7 @@
                         </div>
                         <div class="col-sm-3 col-lg-3">
                             <div class="form-group">
-                                <select name="posP" class="form-control" id="posP" style="display: none;">
-                                    <option value="">-- Escoja POS --</option>
-                                    @foreach ($pos as $po)
-                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="number" id="depositoP" name="depositoP" class="form-control" placeholder="No. de boleta" min="0" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -905,6 +965,33 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <select name="posP" class="form-control" id="posP" style="display: none;">
+                                    <option value="">-- Escoja POS --</option>
+                                    @foreach ($pos as $po)
+                                        <option value="{{ $po->id }}">{{ $po->pos_cobro }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3">
+                            <div class="form-group">
+                                <input type="date" name="fechaDepositoP" id="fechaDepositoP" class="form-control" value="<?php echo date('Y-m-d');?>" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-8 col-sm-3">
+                        <div class="form-group">
+                            <select name="bancoDepositoP" class="form-control" id="bancoDepositoP" style="display: none;">
+                                <option value="">-- Escoja Banco --</option>
+                                @foreach ($banco as $ba)
+                                    <option value="{{ $ba->id }}">{{ $ba->nombre_banco }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

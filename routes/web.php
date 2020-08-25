@@ -89,11 +89,12 @@ Route::group([
         Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
         Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
-        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
+        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiDisponibleEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
         Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
         Route::get( '/iddepartamento/{value}', 'ColaboradorController@getMunicipio');
+        Route::get( '/iddepartamentoEdit/{value}', 'ColaboradorController@getDepartamentoEdit');
 
        // Módulo de Registro de Cajas
        Route::get('/cajas', 'CajasController@index')->name('cajas.index');
@@ -222,7 +223,9 @@ Route::group([
 
         // Modulo de Colegiados
         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+        Route::get( '/aspirantes' , 'ColegiadosController@indexAsp')->name('aspirantes.index');
         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+        Route::get('/aspirantes/getJsonAsp/', 'ColegiadosController@getJsonAsp')->name('aspirantes.getJson');
         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
         Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
         Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
@@ -269,6 +272,9 @@ Route::group([
          // Módulo Corte de Caja
          Route::get('/cortedecaja', 'CorteDeCajaController@index')->name('cortecaja.index');
          Route::get('/cortedecaja/getJson/', 'CorteDeCajaController@getJson')->name('cortedecaja.getJson');
+         Route::get('/cortedecaja/getDetalle/', 'CorteDeCajaController@getDetalle')->name('cortedecaja.getDetalle');
+         Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
+         Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
 
     });
 
