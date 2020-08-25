@@ -1,10 +1,6 @@
-<!-- Modal -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+
+
 
 <div class="modal fade" id="ingresoModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <form method="POST" id="ProfesionForm">
@@ -18,7 +14,7 @@
                     
                     <div class="row" >
                           <div class="col-sm-5" >
-                            <label for="nombre">Agregar profesión para:</label>
+                            <label for="nombre">Nombres:</label>
                             <input id="nombre" class="form-control" name="nombre" type="text" readonly>  
                           </div>
                           <div class="col-sm-5" >
@@ -55,14 +51,5 @@
           </div>
         </div>
     </div>
+    </form>
 </div>
-@push('scripts')
-<script src="{{asset('js/colegiados/index.js')}}"></script>
-<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
-<script src="{{asset('js/colegiados/add.js')}}"></script>
-
- {{--<script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
-<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
-<script src="{{asset('/ea/bootstrap.min.js')}}"></script>--}}
-@endpush

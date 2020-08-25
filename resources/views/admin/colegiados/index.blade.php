@@ -42,12 +42,27 @@
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href='{{ asset('css/bootstrap-select/bootstrap-select1.13.css') }}'>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script> --}}
 @endpush
 @push('scripts')
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('js/colegiados/add.js')}}"></script>
 <script src="{{asset('js/colegiados/timbre.js')}}"></script>
 <script src="{{asset('js/colegiados/asociar.js')}}"></script>
+<script src="{{asset('js/colegiados/index.js')}}"></script>
+<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
+<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
+<script src="{{asset('js/colegiados/add.js')}}"></script>
+<!-- Modal -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
+
+ {{--<script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
+<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
+<script src="{{asset('/ea/bootstrap.min.js')}}"></script>--}}
 
   <script>
     $(document).ready(function() {

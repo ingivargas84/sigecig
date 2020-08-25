@@ -19,7 +19,7 @@
                     </div>
                 </div>
               <br>
-              <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
+              <input type="hidden" name="_token" id="tokenBo" value="{{ csrf_token() }}">
             </div>
             <div class="modal-footer">
               <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button> -->

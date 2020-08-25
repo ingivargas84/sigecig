@@ -107,11 +107,12 @@ class ReciboController extends Controller
                 {
                     $total = $res->cantidad - $request->cantidad;
                     if ($total >= 0) {
-                        $numeroInicio = $res->numeracion_inicial;
-                        $numeroFinal = $res->numeracion_inicial + $request->cantidad - 1;
-                        return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                        $numeroInicio1 = $res->numeracion_inicial;
+                        $numeroFinal1 = $res->numeracion_inicial + $request->cantidad - 1;
+                        return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "cantidadDatos" => "1");
                     } elseif ($total < 0) {
-                        $numeroInicio = $res->numeracion_inicial;
+                        $numeroInicio1 = $res->numeracion_inicial;
+                        $numeroFinal1 = $res->numeracion_final;
                         $cantidad = $total * -1;
 
                         $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
@@ -121,9 +122,12 @@ class ReciboController extends Controller
                         {
                             $total = $dato[$i]->cantidad - $cantidad;
                             if ($total >= 0) {
-                                $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                $numeroInicio2 = $dato[$i]->numeracion_inicial;
+                                $numeroFinal2 = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"cantidadDatos" => "2");
                             } elseif ($total < 0) {
+                                $numeroInicio2 = $dato[$i]->numeracion_inicial;
+                                $numeroFinal2 = $dato[$i]->numeracion_final;
                                 $cantidad = $total * -1;
                                 $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
                                     $dato = DB::select($consulta3);
@@ -131,8 +135,9 @@ class ReciboController extends Controller
                                 {
                                     $total = $dato[$i]->cantidad - $cantidad;
                                     if ($total >= 0) {
-                                        $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                        return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                        $numeroInicio3 = $dato[$i]->numeracion_inicial;
+                                        $numeroFinal3 = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                        return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"numeroInicio3" => $numeroInicio3, "numeroFinal3" => $numeroFinal3, "cantidadDatos" => "3");
                                     } elseif ($total < 0) {
                                         $cantidad = $total * -1;
                                         $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";

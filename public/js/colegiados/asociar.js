@@ -2,70 +2,91 @@ var validator = $("#AsociarForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
-		colegiado:{
-        required: true,
+	    	colegiado:{
+            required: true,
+            colegiadounico: true
         },
         fechaColegiado:{
-        required: true,
-	    }
+            required: true
+      },
+        fechaUltimoPagoColegio:{
+            required: true
+      },
+        fechaUltimoPagoTimbre:{
+            required: true
+      },
 	},
 	messages: {
         colegiado: {
-        required: "Por favor, ingrese el numero de colegiado"
+            required: "Por favor, ingrese el número de colegiado"
         },
         fechaColegiado: {
-        required: "Por favor, ingrese la fecha"
-	    }
+            required: "Por favor, ingrese la fecha"
+        },
+        fechaUltimoPagoColegio: {
+          required: "Campo requerido"
+         },
+        fechaUltimoPagoTimbre: {
+          required: "Campo requerido"
+          }
 	}
 });
+
+$("#ButtonAsociar").click(function(event) {
+  event.preventDefault();
+	if ($("#AsociarForm").valid()) {
+		asociarColegiado();
+	} else {
+		validator.focusInvalid();
+	}
+  }); 
+
+$.validator.addMethod("colegiadounico", function(value, element){
+  var valid = false;
+  var urlActual = $("input[name='urlActual']").val();
+  $.ajax({
+      type: "GET",
+      async: false,
+      url: "/Aspirante/colDisponible/",
+      data:"colegiado=" + value,
+      dataType: "json",
+      success: function (msg) {
+          valid=!msg;
+      }
+  });
+  return valid;
+  }, "El número ya está registrado en el sistema");
+
 
 $('#ingresoModal4').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
     var dpi2 = button.data('dpi2');
-      var nombre2 = button.data('nombre2');
+    var nombre2 = button.data('nombre2');
       
-      var modal = $(this);
+    var modal = $(this);
     modal.find(".modal-body input[name='dpi2']").val(dpi2);
     modal.find(".modal-body input[name='nombre2']").val(nombre2);
 
    });
   
-$("#ButtonTipoModalUpdate").click(function(event) {
-	event.preventDefault();
-	if ($('#AsociarForm').valid()) {
-		updateModal();
-	} else {
-		validator.focusInvalid();
-	}
-});
-
-function updateModal(button) {
-	var formData = $("#AsociarForm").serialize();
-	var id = $("input[name='test']").val();
-	var urlActual =  $("input[name='urlActual']").val();
-	$.ajax({
-		type: "POST",
-		headers: {'X-CSRF-TOKEN': $('#tokenAs').val()},
-		url: "/cajas/"+id+"/update",
-		data: formData,
-		dataType: "json",
-		success: function(data) {
-			BorrarFormularioUpdate();
-			$('#ingresoModal4').modal("hide");
-			colegiados_table.ajax.reload();
-			alertify.set('notifier','position', 'top-center');
-			alertify.success('Colegiado agregado con Éxito!!');
-		},
-	});
-}
+   function cambiarEndDate2(){
+    var inicio=document.getElementById("fechaColegiado").value;
+    
+    var start=new Date(inicio);
+    start.setMonth(start.getMonth()+3);
+    var startf = start.toISOString().slice(0,10).replace(/-/g,"/");
+    document.getElementById("fechaUltimoPagoColegio").value= startf;
+    document.getElementById("fechaUltimoPagoTimbre").value= startf;
+    }
+  
 if(window.location.hash === '#add')
 {
   $('#ingresoModal4').modal('show');
 }
 
 $('#ingresoModal4').on('hide.bs.modal', function(){
-  $("#AsociarForm").validate().resetForm();
-  document.getElementById("AsociarForm").reset();
+  $("#AsociarForm").validate();
+  document.getElementById("AsociarForm");
   window.location.hash = '#';
 });
 
@@ -75,26 +96,26 @@ $('#ingresoModal4').on('shown.bs.modal', function(){
 
    function asociarColegiado() {
     var invitacion = {
-        'idusuario': $("#dpi").val(),
+        'idusuario': $("#dpi2").val(),
         'colegiado': $("#colegiado").val(),
         'fechaColegiado': $("#fechaColegiado").val(),
         'fechaUltimoPagoColegio': $("#fechaUltimoPagoColegio").val(),
         'fechaUltimoPagoTimbre': $("#fechaUltimoPagoTimbre").val(),
-        'observaciones': $("#observaciones").val(),
-        'memo': $("#memo").val(),
-        'password': $("#password").val(),
     };
-    $("#password").val('');
+   // $("#password").val('');
     $.ajax({
       type: "POST",
-      headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+      headers: {'X-CSRF-TOKEN': $('#tokenAs').val()},
       dataType:'JSON',
       url: "Aspirante/asociarColegiado",
       data: invitacion,
       success: function(data){
         if(data.error==0){
-          $("#mensajes").html("Colegiado asociado correctamente.");
-          $("#mensajes").css({'color':'green'});
+         /*  $("#mensajes").html("Colegiado asociado correctamente.");
+          $("#mensajes").css({'color':'green'}); */
+          $('#ingresoModal4').modal("hide");
+          alertify.set('notifier','position', 'top-center');
+          alertify.success('Colegiado asociado correctamente');
   
         } else if(data.error==2){
           $("#mensajes").html("Error de autenticación.");
@@ -102,7 +123,7 @@ $('#ingresoModal4').on('shown.bs.modal', function(){
   
         } else if(data.error==3){
           $("#mensajes").html("Colegiado ya existente.");
-          $("#mensajes").css({'color':'red'});
+          $("#mensajes").css({'color':'blue'});
   
         } else {
           $("#mensajes").html("Error al guardar.");
@@ -114,54 +135,3 @@ $('#ingresoModal4').on('shown.bs.modal', function(){
       }
     });
   }
-
-  $("#ButtonBoletaUpdate").click(function(event) {
-      if ($('#TimbreForm').valid()) {
-          $('.loader').addClass("is-active");
-      } else {
-          validator.focusInvalid();
-      }
-  }); 
-   
-  $("#ButtonTipoModalUpdate").click(function(event) {
-      event.preventDefault();
-      if ($('#TimbreForm').valid()) {
-          updateModal();
-      } else {
-          validator.focusInvalid();
-      }
-  });
-  
-function cargarDatos() {
-    getdatos();
-    $(".colegiado").val($("#idusuario").val());
-    if($('.nav-tabs .active').text() == "Pagos de colegio") {
-      getPagosColegiado("02");
-    } else if($('.nav-tabs .active').text() == "Pagos de timbre") {
-      getPagosColegiado("01");
-    }  else if($('.nav-tabs .active').text() == "Datos profesionales") {
-      getDatosProfesionales("M");
-      getDatosProfesionales("P");
-    } else if($('.nav-tabs .active').text() == "Datos timbre y restricciones") {
-      getDatosTimbre();
-      getFechaTopeMensualidades();
-    }
-  }
-
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var target = $(e.target).attr("href");
-    var tipo = "";
-    if(target == '#pagosTimbre') {
-      tipo = "01";
-      getPagosColegiado(tipo);
-    } else if(target == '#pagosColegio') {
-      tipo = "02";
-      getPagosColegiado(tipo);
-    } else if(target == '#datosProfesionales') {
-      getDatosProfesionales("M");
-      getDatosProfesionales("P");
-    } else if(target == '#datosTimbre') {
-      getDatosTimbre();
-      getFechaTopeMensualidades();
-    }
-  });

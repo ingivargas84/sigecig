@@ -19,6 +19,8 @@ use App\Bodegas;
 use App\Cajas;
 use App\Subsedes;
 use App\Colaborador;
+use App\DeptosGuatemala;
+use App\MunicipiosGuatemala;
 use App\User;
 use Validator;
 
@@ -645,7 +647,6 @@ class TraspasoController extends Controller
         $result = DB::select($query);
 
         $bodegaOrigen  = $result[0]->bodega_origen; //bodega de origen
-        $ciudadOrigen  = 'Guatelama';
         $bodegaDestino = $result[0]->bodega_destino; //bodega de destino
 
         $ciudadDestino = Bodegas::select('descripcion')->where('nombre_bodega', 'LIKE', $bodegaDestino)->get()->first();
@@ -659,11 +660,18 @@ class TraspasoController extends Controller
         $cajas = cajas::select('*')->where('bodega', $id->bodega_destino_id)->get()->first(); // consulta a la tabla de cajas para saber la subsede de la bodega destino
         $sedeDestino = Subsedes::select('*')->where('id', $cajas->subsede)->get()->first(); // datos sobre la sede de destino
 
-        $UsuarioDestino = User::select("name")->where("id", $cajas->cajero)->get()->first(); // consulta a tabla usuarios para el cajero que se encarga de la Bodega o sede Destino
-        $nombreUsuarioDestino = $UsuarioDestino->name; //nombre del cajero que se encarga de la Bodega o sede Destino
+        // $UsuarioDestino = User::select("name")->where("id", $cajas->cajero)->get()->first(); // consulta a tabla usuarios para el cajero que se encarga de la Bodega o sede Destino
+        // $nombreUsuarioDestino = $UsuarioDestino->name; //nombre del cajero que se encarga de la Bodega o sede Destino
 
-        $datoCUI = Colaborador::select("dpi")->where("usuario", $cajas->cajero)->get()->first();
-        $cui = $datoCUI->dpi;
+        $datoCUI = Colaborador::select("dpi","nombre", "departamento_dpi_id", "municipio_dpi_id")->where("usuario", $cajas->cajero)->get()->first();
+        $cui = $datoCUI->dpi; // dpi del usuario destino
+        $nombreUsuarioDestino = $datoCUI->nombre; //nombre del cajero de destino
+        $depOrigenDPI = $datoCUI->departamento_dpi_id; //id del departamento de dpi usuario destino
+        $datoDepto = DeptosGuatemala::select("nombre")->where("iddepartamento", $depOrigenDPI)->get()->first();
+        $depOrigenDPI = $datoDepto->nombre; // nombre del departamento de dpi de usuario de destino
+        $municipioOrigenDPI = $datoCUI->municipio_dpi_id; //id del departamento de dpi usuario desrtino
+        $muniOrigen = MunicipiosGuatemala::select("nombre")->where("idmunicipio", $municipioOrigenDPI)->get()->first();
+        $municipioOrigenDPI = $muniOrigen->nombre;
 
         $total = 0;
         for ($i = 0; $i < sizeof($datos); $i++) { //ciclo para sacar el total en Quetzales del precio de todos los timbres
@@ -677,7 +685,7 @@ class TraspasoController extends Controller
             if ($datos[$i]->descripcion == 'Timbres de precio de Q500.00'){ $total += $datos[$i]->cantidad_a_traspasar * 500; }
         }
 
-        return \PDF::loadView('admin.traspaso.pdftraspaso', compact('id', 'nombreUsuario', 'bodegaOrigen', 'ciudadOrigen','bodegaDestino', 'ciudadDestino','newDate', 'datos', 'sedeDestino', 'total', 'nombreUsuarioDestino', 'cui'))
+        return \PDF::loadView('admin.traspaso.pdftraspaso', compact('id', 'nombreUsuario', 'bodegaOrigen', 'depOrigenDPI', 'municipioOrigenDPI','bodegaDestino', 'ciudadDestino','newDate', 'datos', 'sedeDestino', 'total', 'nombreUsuarioDestino', 'cui'))
         ->setPaper('legal', 'portrait')
         ->stream('Traspaso.pdf');
     }

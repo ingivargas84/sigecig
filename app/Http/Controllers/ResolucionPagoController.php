@@ -92,6 +92,7 @@ class ResolucionPagoController extends Controller
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
         $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+        $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $tipo->id, Now(), $tipo->id_estado_solicitud));
@@ -216,6 +217,7 @@ class ResolucionPagoController extends Controller
             $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+            $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
@@ -248,6 +250,7 @@ class ResolucionPagoController extends Controller
             $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+            $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
@@ -383,6 +386,7 @@ class ResolucionPagoController extends Controller
                        $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
                        $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
                        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo'.$solicitudAP->no_solicitud);
+                       $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
                        Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
                        event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
@@ -413,6 +417,7 @@ class ResolucionPagoController extends Controller
             $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+            $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
              event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id,Now(), $estado_solicitud->id_estado_solicitud));
@@ -439,6 +444,7 @@ class ResolucionPagoController extends Controller
             $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+            $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
                 event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));
@@ -465,6 +471,7 @@ class ResolucionPagoController extends Controller
             $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitudAP->n_colegiado)->get()->first();
             $infoCorreoAp = new \App\Mail\AprobacionDocAp($fecha_actual, $solicitudAP, $colegiado);
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
+            $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $estado_solicitud->id, Now(), $estado_solicitud->id_estado_solicitud));

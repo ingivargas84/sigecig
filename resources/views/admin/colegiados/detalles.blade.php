@@ -212,19 +212,23 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="Profesión" class="control-label">Profesión:</label>
-                              @if ($profasp!=null)
-                              <input id="profesion" value="{{\App\Profesion::find($profasp->c_profesion)->titulo_masculino}} {{\App\Profesion::find($profasp->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
+                              @foreach($profasp as $pa)
+                              @if ($pa!=null)
+                              <input id="profesion" value="{{\App\Profesion::find($pa->c_profesion)->titulo_masculino}} {{\App\Profesion::find($pa->c_profesion)->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
                               @else
                               <input id="profesion" value="No ingresada" class="form-control" name="profesion" type="text" readonly>                            
                               @endif
+                              @endforeach
                               </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Especialidad:</label>
-                                @if($especialidadasp!= null)
-                                <input id="especialidad" value="{{\App\Especialidad::find($especialidadasp->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
-                              @else 
+                              @foreach($especialidadasp as $ea)
+                                @if($ea!= null)
+                                <input id="especialidad" value="{{\App\Especialidad::find($ea->c_especialidad)->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
+                                @else 
                                <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
                                @endif   
+                               @endforeach
                             </div>
                         </div>
                         <br>
@@ -248,13 +252,12 @@
                             </div>
                         </div>
                         <br>
+                        
                       <div class="text-right m-t-15">
          {{--                <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
  <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
- 
-  <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> 
- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
-                        </div>--}}
+ --}}
+                        </div>
                     </div>
                 </div>
             </div>

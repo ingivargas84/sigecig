@@ -1463,3 +1463,18 @@ function mostrarConyugue() {
   }
 }
 
+/* 
+if(window.location.hash === '#add')
+{
+  $('#ingresoModal4').modal('show');
+}
+
+$('#ingresoModal4').on('hide.bs.modal', function(){
+  $("#AsociarForm").validate().resetForm();
+  document.getElementById("AsociarForm").reset();
+  window.location.hash = '#';
+});
+
+$('#ingresoModal4').on('shown.bs.modal', function(){
+  window.location.hash = '#add';
+}); */
