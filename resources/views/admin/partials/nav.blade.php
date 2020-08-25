@@ -4,7 +4,7 @@
   <li class="header">Navegación
   </li>
   <!-- Optionally, you can add icons to the links -->
-  <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> <span>Inicio</span></a>
+  <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer"></i> <span>Inicio</span></a>
   </li>
 
   @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Contabilidad|Compras|JefeRRHH")
@@ -195,11 +195,13 @@
           <i class="fa fa-book"></i> <span>Colegiados</span></a>
         </li>
 
-
+        <li class="{{request()->is('aspirantes')? 'active': ''}}" ><a href="{{route('aspirantes.index')}}">
+          <i class="fa fa-book"></i> <span>Aspirantes</span></a>
+        </li>
 
         @role('Super-Administrador|Administrador|Contabilidad')
               <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">
-                <i class="fa fa-money"></i>Estados de Cuenta</a>
+                <i class="fa fa-credit-card"></i>Estados de Cuenta</a>
               </li>
         @endrole
 

@@ -5,12 +5,12 @@
   <script src="/ea/jquery.min.js"></script>
 
     <h1><center>
-      Colegiados
+      Aspirantes
       </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Colegiados</li>
+      <li class="active">Aspirantes</li>
     </ol>
   </section>
 
@@ -24,10 +24,14 @@
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">
+    <div class="box-header">
+        <a class="btn btn-primary pull-right" data-toggle="modal" href="{{route('aspirante.new')}}">
+            Ingresar aspirante  <i class="fa fa-plus"></i></a>
+    </div>
     <!-- /.box-header -->
     <div class="box-body">
         <input type="hidden" name="rol_user" value="{{auth()->user()->roles[0]->name}}">
-        <table id="colegiados-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
+        <table id="aspirantes-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
         </table>
         <input type="hidden" name="urlActual" value="{{url()->current()}}">
     </div>
@@ -38,34 +42,19 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href='{{ asset('css/bootstrap-select/bootstrap-select1.13.css') }}'>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script> --}}
 @endpush
 @push('scripts')
-<script src="{{asset('js/colegiados/index.js')}}"></script>
+<script src="{{asset('js/colegiados/aspiranteIndex.js')}}"></script>
 <script src="{{asset('js/colegiados/add.js')}}"></script>
 <script src="{{asset('js/colegiados/timbre.js')}}"></script>
 <script src="{{asset('js/colegiados/asociar.js')}}"></script>
-<script src="{{asset('js/colegiados/index.js')}}"></script>
-<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
-<script src="{{asset('js/colegiados/add.js')}}"></script>
-<!-- Modal -->
-<!-- Latest compiled and minified JavaScript -->
-<script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
-
- {{--<script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
-<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
-<script src="{{asset('/ea/bootstrap.min.js')}}"></script>--}}
 
   <script>
     $(document).ready(function() {
       $('.loader').fadeOut(225);
     });
     $(document).ready(function(){
-        colegiados_table.ajax.url("{{route('colegiados.getJson')}}").load();
+        aspirantes_table.ajax.url("{{route('aspirantes.getJson')}}").load();
     });
 </script>
 @endpush

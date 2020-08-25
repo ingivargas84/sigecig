@@ -26,11 +26,10 @@
 @include('admin.auxilioPostumo.solicitud')
 @endsection
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/auxilio-postumo/bootstrap-select1.13.css') }}">
-
+    <link rel="stylesheet" href='{{ asset('css/bootstrap-select/bootstrap-select1.13.css') }}'>
 @endpush
 @push('scripts')
     <script src="{{ asset('js/resolucion/apinterno.js') }}"></script>
-    <script src="{{ asset('js/auxilio-postumo/bootstrap-select1.13.js') }}"></script>
-@endpush
+    <script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
+    @endpush
 @stop
