@@ -35,6 +35,10 @@ class DatabaseSeeder extends Seeder
         $this->call(TimbresSeeder::class);
         $this->call(TiposDeProductosSeeder::class);
         $this->call(SigecigBodegaSeeder::class);
+        $this->call(SigecigSubsedesSeeder::class);
+        $this->call(SigecigCajasSeeder::class);
+
+
 
 
 
