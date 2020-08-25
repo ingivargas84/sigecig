@@ -55,7 +55,7 @@
                               </div>
                               <div class="col-sm-2">
                                 <label for="fechaNacimiento" class="control-label">Fecha Nac.</label>
-                                <input id="fechaNacimiento" value="{{$query->fechaNacimiento}}" class="form-control" name="fechaNacimiento" type="date" readonly>                            
+                                <input id="fechaNacimiento" value="{{date('d-m-Y', strtotime($query->fechaNacimiento))}}" class="form-control" name="fechaNacimiento" type="text" readonly>                            
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
@@ -172,7 +172,7 @@
                         <div class="row">
                             <div class="col-sm-2">
                               <label for="fechaGraduacion" class="control-label">Fecha Graduación</label>
-                              <input id="fechaGraduacion" value="{{$query->fechaGraduacion}}" class="form-control" name="fechaGraduacion" type="date" readonly>
+                              <input id="fechaGraduacion" value="{{date('d-m-Y', strtotime($query->fechaGraduacion))}}" class="form-control" name="fechaGraduacion" type="text" readonly>
                             </div>
                             <div class="col-sm-5">
                               <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
@@ -237,7 +237,7 @@
                             <div class="col-sm-6">
                               <label for="montoTimbre" class="control-label">Monto:</label>
                             @if ($query->montoTimbre!=null)
-                               <input id="montoTimbre" value="{{$query->montoTimbre}}" class="form-control" name="montoTimbre" type="text" readonly>         
+                               <input id="montoTimbre" value="Q.{{number_format($query->montoTimbre,2)}}" class="form-control" name="montoTimbre" type="text" readonly>         
                             @else
                              <input id="montoTimbre" value="No ingresado" class="form-control" name="montoTimbre" type="text" readonly>         
                               @endif
@@ -245,7 +245,7 @@
                             <div class="col-sm-4">
                               <label for="fechaMonto" class="control-label">Fecha:</label>
                               @if ($query->topeFechaPagoCuotas!=null)
-                              <input id="fechaMonto" value="{{$query->topeFechaPagoCuotas}}" class="form-control" name="fechaMonto" type="text" readonly>           
+                              <input id="fechaMonto" value="{{date('d-m-Y', strtotime($query->topeFechaPagoCuotas))}}" class="form-control" name="fechaMonto" type="text" readonly>           
                             @else 
                             <input id="fechaMonto" value="No ingresada" class="form-control" name="fechaMonto" type="text" readonly>           
                             @endif

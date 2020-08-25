@@ -49,11 +49,24 @@ class ColegiadosController extends Controller
         return view ('admin.colegiados.index', compact('resultado', 'esp'));
     }
 
+    public function indexAsp()
+    {
+
+      $query = "SELECT c_profesion id, IIF (n_profesion='',titulo_masculino,titulo_masculino+' '+n_profesion) as nombre
+      FROM profesion
+      ORDER BY titulo_masculino+' '+n_profesion";
+      $resultado = DB::connection('sqlsrv')->select($query);
+      
+      $query = "SELECT c_especialidad id, n_especialidad nombre 
+      FROM especialidad 
+      ORDER BY n_especialidad";
+      $esp = DB::connection('sqlsrv')->select($query);
+      return view ('admin.colegiados.aspirante', compact('resultado', 'esp'));
+    }
+
     public function create()
     {
-       /*  $estadocvl = EstadoCivil::all();
-
-        return view ('admin.colegiados.create', compact('estadocvl')); */
+     
     }
 
     protected function vistaAspirante($colegiado = null) {
@@ -115,8 +128,8 @@ class ColegiadosController extends Controller
       $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->c_deptotrab)->get()->first();
       $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
       $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
-      $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
-      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get()->first(); 
+      $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get();
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get(); 
 
         return view ('admin.colegiados.detallesCo', compact('query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
     }
@@ -447,11 +460,8 @@ Log::info("Morir2 ".print_r($aspirante, true));
 
     
     public function asociarColegiado() {
-      if (!Hash::check(Input::get('password'), Auth::user()->password)) {
-        return json_encode(array('retorno' => 2, 'mensaje' => 'Error de autenticación'));
-      }
+   
       $rules = array(
-//        'idusuario' => 'required|integer',
         'idusuario' => 'required',
         'colegiado' => 'required|integer',
         'fechaColegiado' => 'required|date',
@@ -533,20 +543,49 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->nacionalidad= $aspirante->idnacionalidad;
       $colegiado->telmovil= $aspirante->telefono;
       $colegiado->carrera_afin= $aspirante->carrera_afin;
-
+     
       $colegiado->save();
+
       $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
-      $resultado = DB::insert($query, $parametros);
-
+      $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
+      
       $query = "INSERT INTO cc00espec(c_cliente,c_especialidad,n_especialidad) select :colegiado, ea.c_especialidad, isnull(titulo_masculino,'') + ' ' + isnull(n_especialidad,'') from especialidadAspirante ea INNER JOIN especialidad e ON ea.c_especialidad = e.c_especialidad WHERE dpi=:dpi";
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
-      $resultado = DB::insert($query, $parametros);
+      $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
 
+      $query2 = "DELETE FROM aspirante WHERE dpi= CONVERT(numeric, $colegiado->registro)"; 
+      $resultado = DB::connection('sqlsrv')->delete($query2);
+ 
       DB::commit();
 
       return json_encode(array('error' => 0, 'mensaje' => 'Colegiado trasladado correctamente'));
     }
+
+    public function colegiadoDisponible(){
+      $dato = Input::get("colegiado");
+      $query = CC00::where("c_cliente",$dato)->get();
+           $contador = count($query);
+      if ($contador == 0 )
+      {
+          return 'false';
+      }
+      else
+      {
+          return 'true';
+      }
+  }
+
+  public function getJsonAsp(Request $params)
+  {
+     $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
+                 FROM aspirante C
+                 LEFT JOIN profesionAspirante PA ON PA.dpi = C.dpi
+                 LEFT JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+
+     $api_Result['data'] = DB::connection('sqlsrv')->select($query);
+     return Response::json( $api_Result );
+  }
 
     public function getJson(Request $params)
      {
@@ -555,17 +594,9 @@ Log::info("Morir2 ".print_r($aspirante, true));
         (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
         cp.n_profesion as carrera
                 FROM cc00 CC
-                INNER JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente
-                UNION
-                SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
-                    FROM aspirante C
-                    LEFT JOIN profesionAspirante PA ON PA.dpi = C.dpi
-                    LEFT JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+                LEFT JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
      }
 }
-/* "SELECT  C.n_cliente, C.c_cliente, C.estado
-        FROM cc00 C
-        ";  */ 

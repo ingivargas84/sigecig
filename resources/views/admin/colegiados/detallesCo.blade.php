@@ -48,7 +48,7 @@
                          <div class="row">
                             <div class="col-sm-4">
                               <label for="fechaNacimiento" class="control-label">Fecha Nac.</label>
-                              <input id="fechaNacimiento" value="{{$query->fecha_nac}}" class="form-control" name="fechaNacimiento" type="text" readonly>                            
+                              <input id="fechaNacimiento" value="{{date('d-m-Y', strtotime($query->fecha_nac))}}" class="form-control" name="fechaNacimiento" type="text" readonly>                            
                             </div>
                             <div class='col-sm-4'>
                               <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
@@ -166,7 +166,7 @@
                           <div class="row">
                               <div class="col-sm-2">
                                 <label for="fechaGraduacion" class="control-label">Fecha Graduación</label>
-                                <input id="fechaGraduacion" value="{{$query->fecha_grad}}" class="form-control" name="fechaGraduacion" type="text" readonly>
+                                <input id="fechaGraduacion" value="{{date('d-m-Y', strtotime($query->fecha_grad))}}" class="form-control" name="fechaGraduacion" type="text" readonly>
                               </div>
                               <div class="col-sm-5">
                                 <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
@@ -209,19 +209,23 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="Profesión" class="control-label">Profesión:</label>
-                              @if ($profasp!=null)
-                              <input id="profesion" value="{{$profasp->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
+                              @foreach($profasp as $pa)
+                              @if ($pa!=null || false)
+                              <input id="profesion" value="{{$pa->n_profesion}}" class="form-control" name="profesion" type="text" readonly>                           
                               @else
                               <input id="profesion" value="No ingresada" class="form-control" name="profesion" type="text" readonly>                            
                               @endif
+                              @endforeach
                               </div>
                             <div class="col-sm-4">
                               <label for="especialidad" class="control-label">Especialidad:</label>
-                                 @if($especialidadasp!= null)
-                                <input id="especialidad" value="{{$especialidadasp->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
+                              @foreach($especialidadasp as $ea)
+                                 @if($ea!= null || false)
+                                <input id="especialidad" value="{{$ea->n_especialidad}}" class="form-control" name="especialidad" type="text" readonly>         
                               @else 
                                <input id="especialidad" value="No ingresada" class="form-control" name="especialidad" type="text" readonly>         
-                               @endif    
+                               @endif   
+                               @endforeach 
                             </div>
                         </div>
                         <br>
@@ -230,7 +234,7 @@
                             <div class="col-sm-6">
                               <label for="montoTimbre" class="control-label">Monto:</label>
                             @if ($query->monto_timbre!=null)
-                               <input id="montoTimbre" value="{{$query->monto_timbre}}" class="form-control" name="montoTimbre" type="text" readonly>         
+                               <input id="montoTimbre" value="Q.{{number_format($query->monto_timbre, 2)}}" class="form-control" name="montoTimbre" type="text" readonly>         
                             @else
                              <input id="montoTimbre" value="No ingresado" class="form-control" name="montoTimbre" type="text" readonly>         
                               @endif
@@ -238,7 +242,7 @@
                             <div class="col-sm-4">
                               <label for="fechaMonto" class="control-label">Fecha:</label>
                               @if ($query->f_ult_timbre!=null)
-                              <input id="fechaMonto" value="{{$query->f_ult_timbre}}" class="form-control" name="fechaMonto" type="text" readonly>           
+                              <input id="fechaMonto" value="{{date('d-m-Y', strtotime($query->f_ult_timbre))}}" class="form-control" name="fechaMonto" type="text" readonly>           
                             @else 
                             <input id="fechaMonto" value="No ingresada" class="form-control" name="fechaMonto" type="text" readonly>           
                             @endif
@@ -258,7 +262,7 @@
                             <div class="col-sm-3">
                               <label for="fecha_col" class="control-label">Fecha de Colegiación:</label>
                               @if ($query->fecha_col!=null)
-                              <input id="fecha_col" value="{{$query->fecha_col}}" class="form-control" name="fecha_col" type="text" readonly>           
+                              <input id="fecha_col" value="{{date('d-m-Y', strtotime($query->fecha_col))}}" class="form-control" name="fecha_col" type="text" readonly>           
                             @else 
                             <input id="fecha_col" value="No ingresada" class="form-control" name="fecha_col" type="text" readonly>           
                             @endif
@@ -266,7 +270,7 @@
                             <div class="col-sm-3">
                               <label for="col_pagado" class="control-label">Colegio pagado hasta:</label>
                               @if ($query->f_ult_pago!=null)
-                              <input id="col_pagado" value="{{$query->f_ult_pago}}" class="form-control" name="col_pagado" type="text" readonly>           
+                              <input id="col_pagado" value="{{date('d-m-Y', strtotime($query->f_ult_pago))}}" class="form-control" name="col_pagado" type="text" readonly>           
                             @else 
                             <input id="col_pagado" value="No ingresada" class="form-control" name="col_pagado" type="text" readonly>           
                             @endif
@@ -274,7 +278,7 @@
                             <div class="col-sm-3">
                               <label for="timbre_pagado" class="control-label">Timbre pagado hasta:</label>
                               @if ($query->f_ult_timbre!=null)
-                              <input id="timbre_pagado" value="{{$query->f_ult_timbre}}" class="form-control" name="timbre_pagado" type="text" readonly>           
+                              <input id="timbre_pagado" value="{{date('d-m-Y', strtotime($query->f_ult_timbre))}}" class="form-control" name="timbre_pagado" type="text" readonly>           
                             @else 
                             <input id="timbre_pagado" value="No ingresada" class="form-control" name="timbre_pagado" type="text" readonly>           
                             @endif

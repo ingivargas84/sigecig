@@ -192,10 +192,12 @@
         @endrole
 
         <li class="{{request()->is('colegiados')? 'active': ''}}" ><a href="{{route('colegiados.index')}}">
-          <i class="fa fa-book"></i> <span>Colegiados</span></a>
+          <i class="fa fa-address-card"></i> <span>Colegiados</span></a>
         </li>
 
-
+        <li class="{{request()->is('aspirantes')? 'active': ''}}" ><a href="{{route('aspirantes.index')}}">
+          <i class="fa fa-user-circle"></i> <span>Aspirantes</span></a>
+        </li>
 
         @role('Super-Administrador|Administrador|Contabilidad')
               <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">

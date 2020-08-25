@@ -221,7 +221,9 @@ Route::group([
 
         // Modulo de Colegiados
         Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+        Route::get( '/aspirantes' , 'ColegiadosController@indexAsp')->name('aspirantes.index');
         Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+        Route::get('/aspirantes/getJsonAsp/', 'ColegiadosController@getJsonAsp')->name('aspirantes.getJson');
         Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
         Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
         Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
@@ -268,6 +270,9 @@ Route::group([
          // Módulo Corte de Caja
          Route::get('/cortedecaja', 'CorteDeCajaController@index')->name('cortecaja.index');
          Route::get('/cortedecaja/getJson/', 'CorteDeCajaController@getJson')->name('cortedecaja.getJson');
+         Route::get('/cortedecaja/getDetalle/', 'CorteDeCajaController@getDetalle')->name('cortedecaja.getDetalle');
+         Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
+         Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
 
     });
 
