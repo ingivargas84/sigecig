@@ -179,13 +179,13 @@ class AuxilioPostumoController extends Controller
 
  
 
-        $pdfSolicituddb = '/solicitud/Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
+        $pdfSolicituddb = '/ap/solicitud/Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
         $pdfSolicitud = 'Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
-        request()->solicitud->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\solicitud', $pdfSolicitud);
+        request()->solicitud->move(public_path().'\ap\solicitud', $pdfSolicitud);
 
-        $pdfDpidb = '/dpi/Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
+        $pdfDpidb = '/ap/dpi/Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
         $pdfDpi = 'Dpi'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->dpi->getClientOriginalExtension();
-        request()->dpi->move('C:\Users\iVARGAS-PC\Documents\PROYECTOS\sigecig\public\dpi', $pdfDpi);
+        request()->dpi->move(public_path().'\ap\dpi', $pdfDpi);
 
         $solicitudAP->pdf_solicitud_ap = $pdfSolicituddb;
         $solicitudAP->pdf_dpi_ap = $pdfDpidb;

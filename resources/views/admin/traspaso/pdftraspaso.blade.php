@@ -110,8 +110,8 @@
         <br>
         <div>
             <label>extendida en, </label>
-            <input type="text" size="16" name="departamento" id="departamento" value="{{$ciudadOrigen}}">
-            <input type="text" size="16" name="municipio" id="municipio" value="{{$ciudadOrigen}}">
+            <input type="text" size="16" name="departamento" id="departamento" value="{{$depOrigenDPI}}">
+            <input type="text" size="16" name="municipio" id="municipio" value="{{$municipioOrigenDPI}}">
             <label>ubicado en la Regional de</label>
             <input type="text" size="14" name="nombreLugar" id="nombreLugar" value="{{$ciudadDestino->descripcion}}">
         </div>

@@ -17,6 +17,8 @@ class CreateColaboradorTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('dpi');
+            $table->integer('departamento_dpi_id');
+            $table->integer('municipio_dpi_id');
 
             $table->unsignedInteger('puesto')->nullable();
             $table->foreign('puesto')->references('id')->on('sigecig_puesto')->onDelete('cascade');
