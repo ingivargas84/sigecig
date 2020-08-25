@@ -155,24 +155,7 @@ function getDatosProfesionales(tipo) {
           }
       });
   }
-  
-/*   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var target = $(e.target).attr("href");
-    var tipo = "";
-    if(target == '#pagosTimbre') {
-      tipo = "01";
-      getPagosColegiado(tipo);
-    } else if(target == '#pagosColegio') {
-      tipo = "02";
-      getPagosColegiado(tipo);
-    } else if(target == '#datosProfesionales') {
-      getDatosProfesionales("M");
-      getDatosProfesionales("P");
-    } else if(target == '#datosTimbre') {
-      getDatosTimbre();
-      getFechaTopeMensualidades();
-    }
-  }); */
+
   
 $(window).on('load', function(e) {
     $("#idusuario").val(location.hash);
@@ -230,76 +213,18 @@ $(window).on('load', function(e) {
 }
       });
   }); 
-  /* 
-  function cargarDatos() {
-    getdatos();
-    $(".colegiado").val($("#idusuario").val());
-    if($('.nav-tabs .active').text() == "Pagos de colegio") {
-      getPagosColegiado("02");
-    } else if($('.nav-tabs .active').text() == "Pagos de timbre") {
-      getPagosColegiado("01");
-    }  else if($('.nav-tabs .active').text() == "Datos profesionales") {
-      getDatosProfesionales("M");
-      getDatosProfesionales("P");
-    } else if($('.nav-tabs .active').text() == "Datos timbre y restricciones") {
-      getDatosTimbre();
-      getFechaTopeMensualidades();
-    }
-  } */
-
+ 
   
 
 function agregarProfesionF() {
 	var invitacion = {
 		'idprofesion': $("#idprofesion").val(),
     'idusuario': $("#dpi").val(),
-   /* 'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
  
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    //'tipoSangre': $("#tipoSangre").val(),
-
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    //'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    //'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    //'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    //'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    //'direccionOtro': $("#direccionOtro").val(),
-    //'zonaOtro': $("#zonaOtro").val(),
-    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    //'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val() */
 	};
   $("#mensajes").html("");
+  $('.loader').fadeIn();
+
 	$.ajax({
         type: "POST",
         headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
@@ -324,9 +249,10 @@ function agregarProfesionF() {
         }
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
+      }
+      $('.loader').fadeOut(225);
         alertify.set('notifier','position', 'top-center');
         alertify.success('Profesión agregada con Éxito!!');
-      }
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");
@@ -339,53 +265,10 @@ function agregarEspecialidadF() {
 	var invitacion = {
 		'idespecialidad': $("#idespecialidad").val(),
     'idusuario': $("#dpi").val(),
- /*   'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
- 
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    //'tipoSangre': $("#tipoSangre").val(),
 
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    //'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    //'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    //'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    //'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    //'direccionOtro': $("#direccionOtro").val(),
-    //'zonaOtro': $("#zonaOtro").val(),
-    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    //'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val() */
 	};
   $("#mensajes").html("");
+  $('.loader').fadeIn();
 	$.ajax({
         type: "POST",
         headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
@@ -411,6 +294,7 @@ function agregarEspecialidadF() {
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
       }
+      $('.loader').fadeOut(225);
         colegiados_table.ajax.reload();
         alertify.set('notifier','position', 'top-center');
         alertify.success('Especialidad agregada con Éxito!!');

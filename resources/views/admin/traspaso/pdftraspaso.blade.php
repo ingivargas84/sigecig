@@ -113,7 +113,7 @@
             <input type="text" size="16" name="departamento" id="departamento" value="{{$depOrigenDPI}}">
             <input type="text" size="16" name="municipio" id="municipio" value="{{$municipioOrigenDPI}}">
             <label>ubicado en la Regional de</label>
-            <input type="text" size="14" name="nombreLugar" id="nombreLugar" value="{{$ciudadDestino->descripcion}}">
+            <input type="text" size="14" name="nombreLugar" id="nombreLugar" value="{{$ciudadDestino->nombre_bodega}}">
         </div>
         <div style="margin-left: 9rem;">
             <label><small>Ciudad</small> <small style="margin-left: 8rem;">Municipio</small><small style="margin-left: 15rem;">Nombre del Lugar</small></label>

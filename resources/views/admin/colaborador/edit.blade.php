@@ -23,6 +23,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-8">
+                        <input type="text" style="display: none;" name="id" id="id" value="{{$colaborador->id}}">
                         <label for="nombre">Nombre:</label>
                         <input type="text" class="form-control" name="nombre" value="{{$colaborador->nombre}}">
                     </div>
@@ -30,6 +31,23 @@
                     <label for="dpi">Dpi:</label>
                     <input type="text" class="form-control" name="dpi" value="{{$colaborador->dpi}}">
                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="departamentoDPI">Departamento donde se extendió DPI:</label>
+                        <select id="departamentoDPI" name="departamentoDPI" class="selectpicker form-control" data-live-search="true">
+                        <option value="">-- Escoja el Departamento --</option>
+                            @foreach ($deptosG as $dep)
+                                <option value="{{ $dep['iddepartamento'] }}">{{ $dep['nombre'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="municipioDPI">Municipio donde se extendió DPI:</label>
+                        <select id="municipioDPI" name="municipioDPI" class="selectpicker form-control" data-live-search="true">
+                        </select>
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -63,9 +81,9 @@
                             <div class="col-sm-4">
                                 <label for="usuario">Seleccione un Usuario:</label>
                                 <select name="usuario" class="form-control" id="usuario">
-                                    <option value="">-- Escoja un Usuario--</option>
+                                    <option value="{{$userExist[0]->id}}">{{$userExist[0]->username}}</option>
                                         @foreach ($user as $users)
-                                            <option value="{{ $users['id'] }}">{{ $users['username']}}</option>
+                                            <option value="{{ $users->id }}">{{ $users->username}}</option>
                                         @endforeach
                                 </select>
                             </div>
@@ -91,10 +109,11 @@
 
 
 @push('styles')
-
+<link rel="stylesheet" href="{{ asset('css/auxilio-postumo/bootstrap-select1.13.css') }}">
 @endpush
 
 
 @push('scripts')
 <script src="{{asset('js/colaboradores/edit.js')}}"></script>
+<script src="{{asset('js/auxilio-postumo/bootstrap-select1.13.js')}}"></script>
 @endpush

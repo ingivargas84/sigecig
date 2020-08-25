@@ -114,6 +114,8 @@ $('#ingresoModal4').on('shown.bs.modal', function(){
          /*  $("#mensajes").html("Colegiado asociado correctamente.");
           $("#mensajes").css({'color':'green'}); */
           $('#ingresoModal4').modal("hide");
+          colegiados_table.ajax.reload();
+          aspirantes_table.ajax.reload();
           alertify.set('notifier','position', 'top-center');
           alertify.success('Colegiado asociado correctamente');
   

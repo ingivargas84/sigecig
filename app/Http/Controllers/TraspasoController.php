@@ -649,7 +649,7 @@ class TraspasoController extends Controller
         $bodegaOrigen  = $result[0]->bodega_origen; //bodega de origen
         $bodegaDestino = $result[0]->bodega_destino; //bodega de destino
 
-        $ciudadDestino = Bodegas::select('descripcion')->where('nombre_bodega', 'LIKE', $bodegaDestino)->get()->first();
+        $ciudadDestino = Bodegas::select('descripcion', 'nombre_bodega')->where('nombre_bodega', 'LIKE', $bodegaDestino)->get()->first(); // consulta del nombre de la bodega de destino
 
 
         $query1= "SELECT tp.descripcion, id.cantidad_a_traspasar, id.numeracion_inicial, id.numeracion_final FROM sigecig_traspaso_detalle id
