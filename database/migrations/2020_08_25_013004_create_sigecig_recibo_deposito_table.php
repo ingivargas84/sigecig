@@ -15,7 +15,7 @@ class CreateSigecigReciboDepositoTable extends Migration
     {
         Schema::create('sigecig_recibo_deposito', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('numero_recibo');
+            $table->integer('numero_recibo');
             $table->double('monto',10,2);
             $table->integer('numero_boleta');
             $table->timestamp('fecha');
