@@ -106,7 +106,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
         $.ajax({
             type: "GET",
             async: false,
-            url: "/colaborador/dpiDisponible/",
+            url: "/colaborador/dpiDisponibleEdit/",
             data:"dpi=" + value,
             dataType: "json",
             success: function (msg) {
@@ -116,7 +116,52 @@ $.validator.addMethod("ntelc1", function (value, element ){
         return valid;
         }, "El CUI/DPI ya esta registrado en el sistema");
 
+        $(document).ready(function(){
+            var valor = $("#id").val();
+            $.ajax({
+                type: 'GET',
+                url: '/iddepartamentoEdit/' + valor,
+                dataType: "json",
+                success: function(data){
+                    $('select[name=departamentoDPI]').val(data[0].iddepartamento);
+                    $("#departamentoDPI").selectpicker('refresh');
 
+                    municipio(data[1].idmunicipio);
+                }
+            });
+        });
+
+        $(document).ready(function(){
+            $("#departamentoDPI").change(function() {
+                municipio();
+            });
+        });
+
+        function municipio(municipio)
+        {
+            var valor = $("#departamentoDPI").val();
+            if (valor != "") {
+                $.ajax({
+                    type: 'GET',
+                    url: '/iddepartamento/' + valor,
+                    dataType: "json",
+                    success: function(data){
+                        $("#municipioDPI").empty();
+                        $("#municipioDPI").selectpicker('refresh');
+
+                        for (const valor in data)
+                        {
+                            $("#municipioDPI").selectpicker('refresh').append('<option value="'+data[valor]["idmunicipio"]+'">'+data[valor]["nombre"]+'</option>').selectpicker('refresh').trigger('change');
+                        }
+                        $('select[name=municipioDPI]').val(municipio);
+                        $("#municipioDPI").selectpicker('refresh');
+                    }
+                });
+            } else {
+                $("#municipioDPI").empty();
+                $("#municipioDPI").selectpicker("refresh");
+            }
+        }
 
     var validator = $("#ColaboradorUpdateForm1").validate({
         ignore: [],
@@ -174,7 +219,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
     });
 
 $("#ButtonColaboradorUpdate1").click(function(event) {
-  
+
 	if ($('#ColaboradorUpdateForm1').valid()) {
 		$('.loader').addClass("is-active");
 	} else {

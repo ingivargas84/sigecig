@@ -61,7 +61,14 @@ class UsersSeeder extends Seeder
         $sigecig_users->save();
         $sigecig_users->assignRole($adminRole);
 
-    
-        
+        $sigecig_users = new user;
+        $sigecig_users->name = 'elias_cajero';
+        $sigecig_users->email= 'cig.desarrollo2@gmail.com';
+        $sigecig_users->password = bcrypt('cajero');
+        $sigecig_users->username = 'elias_cajero';
+        $sigecig_users->estado = 1;
+        $sigecig_users->save();
+        $sigecig_users->assignRole($cajaRole);
+
     }
 }

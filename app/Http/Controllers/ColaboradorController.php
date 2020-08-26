@@ -103,6 +103,20 @@ class ColaboradorController extends Controller
         }
     }
 
+    public function dpiDisponibleEdit(){
+        $dato = Input::get("dpi");
+        $query = Colaborador::where("dpi", $dato)->where('estado', 1)->where("dpi", '!=',$dato)->get();
+             $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
+    }
+
     /**
      * Display the specified resource.
      *
@@ -112,6 +126,15 @@ class ColaboradorController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function getDepartamentoEdit(Colaborador $value)
+    {
+        // $dato = Departamento::select("departamento_dpi_id", "municipio_dpi_id")->where('id', $value)->get()->first();
+        $deptoG = DeptosGuatemala::select("iddepartamento")->where('iddepartamento', $value->departamento_dpi_id)->get()->first();
+        $minuG = MunicipiosGuatemala::select("idmunicipio")->where('idmunicipio', $value->municipio_dpi_id)->get()->first();
+
+        return array($deptoG, $minuG);
     }
 
     /**
@@ -130,6 +153,16 @@ class ColaboradorController extends Controller
         ->where('sigecig_users.id', '>=', '2')
         ->get();
 
+        $userExist = User::select('sigecig_users.id','sigecig_users.username')
+        ->leftJoin('sigecig_colaborador','sigecig_users.id','=','sigecig_colaborador.usuario')
+        ->where('sigecig_users.id', '=', $colaborador->usuario)
+        ->get();
+
+        $deptosG = DeptosGuatemala::all();
+
+        // $deptosG = DeptosGuatemala::select("iddepartamento", "nombre")->where('iddepartamento', $colaborador->departamento_dpi_id)->get()->first();
+        // $municipioG = MunicipiosGuatemala::select("idmunicipio", "nombre")->where('idmunicipio', $colaborador->municipio_dpi_id)->get()->first();
+        // dd($deptosG);
        /*  $query= "SELECT U.username, U.id, SC.usuario
         FROM sigecig_users U
         INNER JOIN sigecig_colaborador SC ON SC.usuario = U.id
@@ -140,7 +173,7 @@ class ColaboradorController extends Controller
         $sub = Subsedes::all();
         //dd($user);
 
-        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user'));
+        return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user', 'deptosG', 'userExist'));
 
     }
 
@@ -156,6 +189,8 @@ class ColaboradorController extends Controller
         $nuevos_datos = array(
             'nombre' => $request->nombre,
             'dpi' => $request->dpi,
+            'departamento_dpi_id' => $request->departamentoDPI,
+            'municipio_dpi_id' => $request->municipioDPI,
             'puesto' => $request->puesto,
             'departamento' => $request->departamento,
             'subsede' => $request->subsede,
@@ -163,9 +198,16 @@ class ColaboradorController extends Controller
             'usuario' => $request->usuario
         );
         $json = json_encode($nuevos_datos);
+
         event(new ActualizacionBitacora(1, Auth::user()->id,'edicion', $colaborador, $json, 'colaborador' ));
 
-        $colaborador->update($request->all());
+        $query = "UPDATE sigecig_colaborador SET nombre = :nombre, dpi = :dpi, departamento_dpi_id = :departamento_dpi_id, municipio_dpi_id = :municipio_dpi_id, puesto = :puesto,
+                  departamento = :departamento, subsede= :subsede, telefono = :telefono, usuario = :usuario WHERE id = :id";
+        $parametros = array(':id' => $request->id,  ':nombre' => $request->nombre, ':dpi' => $request->dpi,':departamento_dpi_id' => $request->departamentoDPI, ':municipio_dpi_id' => $request->municipioDPI,
+                            ':puesto' => $request->puesto, ':departamento' => $request->departamento, ':subsede' => $request->subsede, ':telefono' => $request->telefono, ':usuario' => $request->usuario);
+        $result = DB::connection('mysql')->update($query, $parametros);
+
+        // $colaborador->update($request->all());
 
         return redirect()->route('colaborador.index', $colaborador)->with('flash','el colaborador ha sido actualizado');
     }

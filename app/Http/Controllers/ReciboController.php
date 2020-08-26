@@ -20,6 +20,7 @@ use App\Recibo_Detalle;
 use App\SerieRecibo;
 use App\ReciboCheque;
 use App\ReciboTarjeta;
+use App\ReciboDeposito;
 use App\PosCobro;
 use App\Banco;
 use App\VentaDeTimbres;
@@ -217,9 +218,11 @@ class ReciboController extends Controller
             $numeroTarjeta      = $request->input("config.tarjeta");
             $montoTarjeta       = $request->input("config.montoTarjeta");
             $pos_id             = $request->input("pos");
+            $pagoDeposito       = $request->input("config.pagoDeposito");
             $mesesASumar        = $request->input("nuevaFechaColegio");
             $totalPrecioTimbre  = $request->totalPrecioTimbre;
             $banco_id           = $request->banco;
+            $banco_id_deposito  = $request->bancoDeposito;
 
             $tipoDeCliente = 1;
             if ($serieRecibo == 'a') {
@@ -313,6 +316,17 @@ class ReciboController extends Controller
                 $bdTarjeta->save();
             }
 
+            if ($pagoDeposito == 'si'){
+                $bdDeposito = new ReciboDeposito;
+                $bdDeposito->numero_recibo = $reciboMaestro->numero_recibo;
+                $bdDeposito->monto = $request->input("config.montoDeposito");
+                $bdDeposito->numero_boleta = $request->input("config.deposito");
+                $bdDeposito->fecha = date('Y-m-d h:i:s', strtotime($request->input("config.fechaDeposito")));
+                $bdDeposito->banco_id = $banco_id_deposito;
+                $bdDeposito->usuario_id = Auth::user()->id;
+                $bdDeposito->save();
+            }
+
             if($mesesASumar != null){
                 $valMesesASumar = $mesesASumar / 115.75;
                 $fechaPagoColegio = new Carbon($fechaPagoColegio);
@@ -389,7 +403,9 @@ class ReciboController extends Controller
             $numeroTarjetaP      = $request->input("config.tarjetaP");
             $montoTarjetaP       = $request->input("config.montoTarjetaP");
             $pos_idP             = $request->input("pos");
+            $pagoDepositoP       = $request->input("config.pagoDepositoP");
             $banco_id            = $request->banco;
+            $banco_id_depositoP  = $request->bancoDepositoP;
 
             $tipoDeCliente = 2;
             if ($serieReciboP == 'a') {
@@ -450,6 +466,17 @@ class ReciboController extends Controller
                 $bdTarjetaP->save();
             }
 
+            if ($pagoDepositoP == 'si'){
+                $bdDeposito = new ReciboDeposito;
+                $bdDeposito->numero_recibo = $reciboMaestroP->numero_recibo;
+                $bdDeposito->monto = $request->input("config.montoDepositoP");
+                $bdDeposito->numero_boleta = $request->input("config.depositoP");
+                $bdDeposito->fecha = date('Y-m-d h:i:s', strtotime($request->input("config.fechaDepositoP")));
+                $bdDeposito->banco_id = $banco_id_depositoP;
+                $bdDeposito->usuario_id = Auth::user()->id;
+                $bdDeposito->save();
+            }
+
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
             $reciboMaestro = $reciboMaestroP;
@@ -502,7 +529,9 @@ class ReciboController extends Controller
             $numeroTarjetaE      = $request->input("config.tarjetaE");
             $montoTarjetaE       = $request->input("config.montoTarjetaE");
             $pos_idE             = $request->input("pos");
+            $pagoDepositoE       = $request->input("config.pagoDepositoE");
             $banco_id            = $request->banco;
+            $banco_id_depositoE  = $request->bancoDepositoE;
 
             $tipoDeCliente = 3;
             if ($serieReciboE == 'a') {
@@ -560,6 +589,17 @@ class ReciboController extends Controller
                 $bdTarjetaE->pos_cobro_id = $pos_idE;
                 $bdTarjetaE->usuario_id = Auth::user()->id;
                 $bdTarjetaE->save();
+            }
+
+            if ($pagoDepositoE == 'si'){
+                $bdDeposito = new ReciboDeposito;
+                $bdDeposito->numero_recibo = $reciboMaestroE->numero_recibo;
+                $bdDeposito->monto = $request->input("config.montoDepositoE");
+                $bdDeposito->numero_boleta = $request->input("config.depositoE");
+                $bdDeposito->fecha = date('Y-m-d h:i:s', strtotime($request->input("config.fechaDepositoE")));
+                $bdDeposito->banco_id = $banco_id_depositoE;
+                $bdDeposito->usuario_id = Auth::user()->id;
+                $bdDeposito->save();
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);

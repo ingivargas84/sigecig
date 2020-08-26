@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="municipioDPI">Municipio donde se extendió DPI:</label>
-                                <select id="municipioDPI" name="municipioDPI" class="selectpicker form-control" data-live-search="true" id="municipioDPI">
+                                <select id="municipioDPI" name="municipioDPI" class="selectpicker form-control" data-live-search="true">
                                 </select>
                             </div>
                         </div>
