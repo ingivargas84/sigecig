@@ -49,6 +49,8 @@ class CorteDeCajaController extends Controller
 
     public function setDetalleCorteCaja(Request $request)
     {
+        $recibom = \App\Recibo_Maestro::find('id');
+        $cortedecaja = new \App\CorteCaja;
 
         $query = "INSERT INTO sigecig_corte_de_caja (monto_total, total_efectivo, total_cheque
         SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta isnull(n_profesion,'') 
@@ -75,7 +77,14 @@ class CorteDeCajaController extends Controller
    /*      
         $query = "SELECT RM.id
        FROM sigecig_recibo_maestro RM
-       WHERE LEFT (RM.created_at,10)=CURDATE()"; */
+       WHERE LEFT (RM.created_at,10)=CURDATE()"; 
+
+
+       $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal
+       FROM sigecig_recibo_maestro RM
+       WHERE LEFT (RM.created_at,10)=CURDATE()";
+
+       $api_Result['data'] = DB::select($query);*/
 
         $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle');
         return $pdf->stream('DetalleCortedeCaja.pdf');

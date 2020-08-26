@@ -291,7 +291,7 @@ class ColegiadosController extends Controller
 
     $user->save();
     DB::commit();
-    return response()->json(['mensaje' => 'Registrado Correctamente', 'url'=> route('colegiados.index')]);
+    return response()->json(['mensaje' => 'Registrado Correctamente', 'url'=> route('aspirantes.index')]);
   }
 
 
@@ -556,10 +556,9 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
       $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
 
-      $query2 = "DELETE FROM aspirante WHERE dpi= CONVERT(numeric, $colegiado->registro)"; 
-      $resultado = DB::connection('sqlsrv')->delete($query2);
- 
-      DB::commit();
+
+
+      $query2 = "DELETE FROM aspirante WHERE dpi = $colegiado->registro"; 
 
       //Almacenamiento de Estado de Cuenta
 
