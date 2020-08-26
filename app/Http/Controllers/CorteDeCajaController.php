@@ -104,7 +104,7 @@ class CorteDeCajaController extends Controller
     {
        $query = "SELECT CM.id, RM.serie_recibo_id, RM.numero_recibo, RM.monto_total, RM.created_at, RM.monto_efecectivo, RM.monto_tarjeta, RM.monto_cheque
        FROM sigecig_recibo_maestro RM
-       INNER JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
+       LEFT JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
        WHERE LEFT (RM.created_at,10)=CURDATE()";
 
        $api_Result['data'] = DB::select($query);
