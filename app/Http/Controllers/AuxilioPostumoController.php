@@ -263,9 +263,13 @@ class AuxilioPostumoController extends Controller
       } return 'exito';   
     }
     public function adjuntarResolucion(PlataformaSolicitudAp $id){
+        $user = Auth::User();
         $colegiado = SQLSRV_Colegiado::select('c_cliente','n_cliente')->Where("c_cliente", $id->n_colegiado)->get()->first();
-
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
         return view('admin.auxilioPostumo.subir-resolucion',compact('id','colegiado'));
+        }else{
+            return redirect()->route('resolucion.index');
+        }
     }
     public function guardarResolucion(Request $request, $id){
 

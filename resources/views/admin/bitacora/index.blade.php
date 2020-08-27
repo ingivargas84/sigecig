@@ -205,6 +205,7 @@
                                 <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        @if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres');
                         <div class="row">
                             <div class="col-sm-4">
                                 <label  style="padding: 10px;  ">Adjuntar Resolución</label>
@@ -213,6 +214,8 @@
                             <div class="col-sm-4">
                             </div>
                         </div>
+                        @endif
+
                        <br>
                         @endif
 
@@ -270,6 +273,7 @@
                         @endforeach
                         
                             <br>
+                            
                             <div class="col-sm-12 ">
                                 @if ($id->id_estado_solicitud>=2 && $id->pdf_solicitud_ap != null && $id->pdf_dpi_ap != null)
                                 <div class="col-sm-6">
