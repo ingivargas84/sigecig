@@ -240,7 +240,7 @@ function agregarProfesionF() {
         $("#mensajes").css({'color':'green'});
         getDatosProfesionales("P");
       } else if(data.retorno==1) {
-        $("#mensajes").html("Especialidad ya presente.");
+        $("#mensajes").html("Profesión ya presente.");
         $("#mensajes").css({'color':'red'});
       } else {
         var a = "Error en el sistema.";
@@ -295,10 +295,12 @@ function agregarEspecialidadF() {
         $("#mensajes").css({'color':'red'});
       }
       $('.loader').fadeOut(225);
-        colegiados_table.ajax.reload();
+      $('#ingresoModal2').modal("hide");
+      colegiados_table.ajax.reload();
+      aspirantes_table.ajax.reload();
         alertify.set('notifier','position', 'top-center');
         alertify.success('Especialidad agregada con Éxito!!');
-        $('#ingresoModal2').modal("hide");
+      
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");

@@ -93,7 +93,7 @@
       $.ajax({
           type: "GET",
           async: false,
-          url: "/colaborador/dpiDisponible/",
+          url: "/Aspirante/dpiDisponible/",
           data:"dpi=" + value,
           dataType: "json",
           success: function (msg) {
@@ -497,7 +497,7 @@ function guardarAspiranteF() {
 						$("#mensajes").html(data.mensaje + html);
 						$("#mensajes").css({'color':'red'});
 				} else {
-          window.location = "/colegiados";
+          window.location = "/aspirantes";
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Colegiado creado con Éxito!!');
 					/* 	$("#mensajes").html("Datos guardados correctamente.");
