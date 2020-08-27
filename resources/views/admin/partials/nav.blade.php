@@ -192,11 +192,11 @@
         @endrole
 
         <li class="{{request()->is('colegiados')? 'active': ''}}" ><a href="{{route('colegiados.index')}}">
-          <i class="fa fa-book"></i> <span>Colegiados</span></a>
+          <i class="fa fa-check"></i> <span>Colegiados</span></a>
         </li>
 
         <li class="{{request()->is('aspirantes')? 'active': ''}}" ><a href="{{route('aspirantes.index')}}">
-          <i class="fa fa-book"></i> <span>Aspirantes</span></a>
+          <i class="fa fa-user"></i> <span>Aspirantes</span></a>
         </li>
 
         @role('Super-Administrador|Administrador|Contabilidad')
@@ -205,6 +205,21 @@
               </li>
         @endrole
 
+        @role('Super-Administrador|Administrador|Contabilidad|JefeContabilidad')
+        <li class="treeview {{request()->is('reportes')? 'active': ''}}">
+            <a href="#"><i class="fa fa-list"></i> <span>Reportes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+
+            <ul class="treeview-menu">
+              <li class="{{request()->routeIs('negocio.edit')? 'active': ''}}"><a href="{{route('negocio.edit', 1)}}">
+                <i class="fa fa-book"></i>Venta de Timbres</a>
+              </li>
+            </ul>
+        </li>
+        @endrole
 </ul>
 
 <!-- /.sidebar-menu -->

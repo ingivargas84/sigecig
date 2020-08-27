@@ -1,5 +1,5 @@
 var aspirantes_table = $('#aspirantes-table').DataTable({
-    "ajax": "/aspirantes/getJson",
+    "ajax": "/aspirantes/getJsonAsp",
     "responsive": true,
     "processing": true,
     "info": true,
@@ -107,7 +107,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
                     "<div id='" + full.codigo + "' class='text-center'>" +
                     "<div class='float-right col-lg-3'>" +
                     "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.codigo+"' data-nombre2='"+full.colegiado+"'>" +
-                    "<i class='fa fa-sync' title='Asociar Colegiado'></i>" +
+                    "<i class='fa fa-check-square' title='Asociar Colegiado'></i>" +
                     "</a>" + "</div>";
         },
         "responsivePriority": 1

@@ -22,7 +22,6 @@ class CreateSigecigCorteDeCajaTable extends Migration
             $table->double('total_deposito',10,2);
             $table->integer('id_caja');
             $table->integer('id_usuario');
-            $table->integer('id_corte_de_caja');
             $table->DateTime('fecha_corte');
             $table->timestamps();
         });
