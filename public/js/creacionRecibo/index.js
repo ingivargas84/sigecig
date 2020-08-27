@@ -180,17 +180,18 @@ function getTc01(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc01').val(mensaje);
-                        $('#tc01inicio').val(response.numeroInicio);
-                        $('#tc01fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc01').val(response.cantidadDatos);
+                        $('#tc01inicio').val(response.numeroInicio1);
+                        $('#tc01fin').val(response.numeroFinal1);
                         $('#tc01E').val(mensaje);
-                        $('#tc01inicioE').val(response.numeroInicio);
-                        $('#tc01finE').val(response.numeroFinal);
+                        $('#tc01inicioE').val(response.numeroInicio1);
+                        $('#tc01finE').val(response.numeroFinal1);
                         $('#tc01P').val(mensaje);
-                        $('#tc01inicioP').val(response.numeroInicio);
-                        $('#tc01finP').val(response.numeroFinal);
+                        $('#tc01inicioP').val(response.numeroInicio1);
+                        $('#tc01finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -201,38 +202,41 @@ function getTc01(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc01').val(mensaje);
-                            $('#tc01inicio').val(response.numeroInicio1);
-                            $('#tc01fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc01').val(response.cantidadDatos);
+                            $('#tc01inicio').val(response.numeroInicio1);$('#tc01fin').val(response.numeroFinal1);
                             $('#tc01E').val(mensaje);
-                            $('#tc01inicioE').val(response.numeroInicio1);
-                            $('#tc01finE').val(response.numeroFinal1);
+                            $('#tc01inicioE').val(response.numeroInicio1);$('#tc01finE').val(response.numeroFinal1);
                             $('#tc01P').val(mensaje);
-                            $('#tc01inicioP').val(response.numeroInicio1);
-                            $('#tc01finP').val(response.numeroFinal1);
+                            $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc01').val(mensaje);
-                            $('#tc01inicio').val(response.numeroInicio1);
-                            $('#tc01fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc01').val(response.cantidadDatos);
+                            $('#tc01inicio').val(response.numeroInicio1);$('#tc01fin').val(response.numeroFinal1);
+                            $('#tc01inicio2').val(response.numeroInicio2);$('#tc01fin2').val(response.numeroFinal2);
                             $('#tc01E').val(mensaje);
-                            $('#tc01inicioE').val(response.numeroInicio1);
-                            $('#tc01finE').val(response.numeroFinal2);
+                            $('#tc01inicioE').val(response.numeroInicio1);$('#tc01finE').val(response.numeroFinal1);
+                            $('#tc01inicioE2').val(response.numeroInicio2);$('#tc01finE2').val(response.numeroFinal2);
                             $('#tc01P').val(mensaje);
-                            $('#tc01inicioP').val(response.numeroInicio1);
-                            $('#tc01finP').val(response.numeroFinal2);
+                            $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
+                            $('#tc01inicioP2').val(response.numeroInicio2);$('#tc01finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc01').val(mensaje);
-                            $('#tc01inicio').val(response.numeroInicio1);
-                            $('#tc01fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc01').val(response.cantidadDatos);
+                            $('#tc01inicio').val(response.numeroInicio1);$('#tc01fin').val(response.numeroFinal1);
+                            $('#tc01inicio2').val(response.numeroInicio2);$('#tc01fin2').val(response.numeroFinal2);
+                            $('#tc01inicio3').val(response.numeroInicio3);$('#tc01fin3').val(response.numeroFinal3);
                             $('#tc01E').val(mensaje);
-                            $('#tc01inicioE').val(response.numeroInicio1);
-                            $('#tc01finE').val(response.numeroFinal3);
+                            $('#tc01inicioE').val(response.numeroInicio1);$('#tc01finE').val(response.numeroFinal1);
+                            $('#tc01inicioE2').val(response.numeroInicio2);$('#tc01finE2').val(response.numeroFinal2);
+                            $('#tc01inicioE3').val(response.numeroInicio3);$('#tc01finE3').val(response.numeroFinal3);
                             $('#tc01P').val(mensaje);
-                            $('#tc01inicioP').val(response.numeroInicio1);
-                            $('#tc01finP').val(response.numeroFinal3);
+                            $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
+                            $('#tc01inicioP2').val(response.numeroInicio2);$('#tc01finP2').val(response.numeroFinal2);
+                            $('#tc01inicioP3').val(response.numeroInicio3);$('#tc01finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -271,9 +275,9 @@ function getTc01(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc01').style.display = "none";$("input[name='tc01']").val('');$('#tc01inicio').val('');$('#tc01fin').val('');
-                    document.getElementById('datoTc01E').style.display = "none";$("input[name='tc01E']").val('');$('#tc01inicioE').val('');$('#tc01finE').val('');
-                    document.getElementById('datoTc01P').style.display = "none";$("input[name='tc01P']").val('');$('#tc01inicioP').val('');$('#tc01finP').val('');
+                    document.getElementById('datoTc01').style.display = "none";$("input[name='tc01']").val('');$('#tc01inicio').val('');$('#tc01fin').val('');$('#tc01inicio2').val('');$('#tc01fin2').val('');$('#tc01inicio3').val('');$('#tc01fin3').val('');
+                    document.getElementById('datoTc01E').style.display = "none";$("input[name='tc01E']").val('');$('#tc01inicioE').val('');$('#tc01finE').val('');$('#tc01inicioE2').val('');$('#tc01finE2').val('');$('#tc01inicioE3').val('');$('#tc01finE3').val('');
+                    document.getElementById('datoTc01P').style.display = "none";$("input[name='tc01P']").val('');$('#tc01inicioP').val('');$('#tc01finP').val('');$('#tc01inicioP2').val('');$('#tc01finP2').val('');$('#tc01inicioP3').val('');$('#tc01finP3').val('');
                 }
             });
         }
@@ -301,17 +305,18 @@ function getTc05(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc05').val(mensaje);
-                        $('#tc05inicio').val(response.numeroInicio);
-                        $('#tc05fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc05').val(response.cantidadDatos);
+                        $('#tc05inicio').val(response.numeroInicio1);
+                        $('#tc05fin').val(response.numeroFinal1);
                         $('#tc05E').val(mensaje);
-                        $('#tc05inicioE').val(response.numeroInicio);
-                        $('#tc05finE').val(response.numeroFinal);
+                        $('#tc05inicioE').val(response.numeroInicio1);
+                        $('#tc05finE').val(response.numeroFinal1);
                         $('#tc05P').val(mensaje);
-                        $('#tc05inicioP').val(response.numeroInicio);
-                        $('#tc05finP').val(response.numeroFinal);
+                        $('#tc05inicioP').val(response.numeroInicio1);
+                        $('#tc05finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -322,38 +327,41 @@ function getTc05(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc05').val(mensaje);
-                            $('#tc05inicio').val(response.numeroInicio1);
-                            $('#tc05fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc05').val(response.cantidadDatos);
+                            $('#tc05inicio').val(response.numeroInicio1);$('#tc05fin').val(response.numeroFinal1);
                             $('#tc05E').val(mensaje);
-                            $('#tc05inicioE').val(response.numeroInicio1);
-                            $('#tc05finE').val(response.numeroFinal1);
+                            $('#tc05inicioE').val(response.numeroInicio1);$('#tc05finE').val(response.numeroFinal1);
                             $('#tc05P').val(mensaje);
-                            $('#tc05inicioP').val(response.numeroInicio1);
-                            $('#tc05finP').val(response.numeroFinal1);
+                            $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc05').val(mensaje);
-                            $('#tc05inicio').val(response.numeroInicio1);
-                            $('#tc05fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc05').val(response.cantidadDatos);
+                            $('#tc05inicio').val(response.numeroInicio1);$('#tc05fin').val(response.numeroFinal1);
+                            $('#tc05inicio2').val(response.numeroInicio2);$('#tc05fin2').val(response.numeroFinal2);
                             $('#tc05E').val(mensaje);
-                            $('#tc05inicioE').val(response.numeroInicio1);
-                            $('#tc05finE').val(response.numeroFinal2);
+                            $('#tc05inicioE').val(response.numeroInicio1);$('#tc05finE').val(response.numeroFinal1);
+                            $('#tc05inicioE2').val(response.numeroInicio2);$('#tc05finE2').val(response.numeroFinal2);
                             $('#tc05P').val(mensaje);
-                            $('#tc05inicioP').val(response.numeroInicio1);
-                            $('#tc05finP').val(response.numeroFinal2);
+                            $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
+                            $('#tc05inicioP2').val(response.numeroInicio2);$('#tc05finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc05').val(mensaje);
-                            $('#tc05inicio').val(response.numeroInicio1);
-                            $('#tc05fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc05').val(response.cantidadDatos);
+                            $('#tc05inicio').val(response.numeroInicio1);$('#tc05fin').val(response.numeroFinal1);
+                            $('#tc05inicio2').val(response.numeroInicio2);$('#tc05fin2').val(response.numeroFinal2);
+                            $('#tc05inicio3').val(response.numeroInicio3);$('#tc05fin3').val(response.numeroFinal3);
                             $('#tc05E').val(mensaje);
-                            $('#tc05inicioE').val(response.numeroInicio1);
-                            $('#tc05finE').val(response.numeroFinal3);
+                            $('#tc05inicioE').val(response.numeroInicio1);$('#tc05finE').val(response.numeroFinal1);
+                            $('#tc05inicioE2').val(response.numeroInicio2);$('#tc05finE2').val(response.numeroFinal2);
+                            $('#tc05inicioE3').val(response.numeroInicio3);$('#tc05finE3').val(response.numeroFinal3);
                             $('#tc05P').val(mensaje);
-                            $('#tc05inicioP').val(response.numeroInicio1);
-                            $('#tc05finP').val(response.numeroFinal3);
+                            $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
+                            $('#tc05inicioP2').val(response.numeroInicio2);$('#tc05finP2').val(response.numeroFinal2);
+                            $('#tc05inicioP3').val(response.numeroInicio3);$('#tc05finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -391,9 +399,9 @@ function getTc05(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc05').style.display = "none";$("input[name='tc05']").val('');$('#tc05inicio').val('');$('#tc05fin').val('');
-                    document.getElementById('datoTc05E').style.display = "none";$("input[name='tc05E']").val('');$('#tc05inicioE').val('');$('#tc05finE').val('');
-                    document.getElementById('datoTc05P').style.display = "none";$("input[name='tc05P']").val('');$('#tc05inicioP').val('');$('#tc05finP').val('');
+                    document.getElementById('datoTc05').style.display = "none";$("input[name='tc05']").val('');$('#tc05inicio').val('');$('#tc05fin').val('');$('#tc05inicio2').val('');$('#tc05fin2').val('');$('#tc05inicio3').val('');$('#tc05fin3').val('');
+                    document.getElementById('datoTc05E').style.display = "none";$("input[name='tc05E']").val('');$('#tc05inicioE').val('');$('#tc05finE').val('');$('#tc05inicioE2').val('');$('#tc05finE2').val('');$('#tc05inicioE3').val('');$('#tc05finE3').val('');
+                    document.getElementById('datoTc05P').style.display = "none";$("input[name='tc05P']").val('');$('#tc05inicioP').val('');$('#tc05finP').val('');$('#tc05inicioP2').val('');$('#tc05finP2').val('');$('#tc05inicioP3').val('');$('#tc05finP3').val('');
                 }
             });
         }
@@ -421,17 +429,18 @@ function getTc10(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc10').val(mensaje);
-                        $('#tc10inicio').val(response.numeroInicio);
-                        $('#tc10fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc10').val(response.cantidadDatos);
+                        $('#tc10inicio').val(response.numeroInicio1);
+                        $('#tc10fin').val(response.numeroFinal1);
                         $('#tc10E').val(mensaje);
-                        $('#tc10inicioE').val(response.numeroInicio);
-                        $('#tc10finE').val(response.numeroFinal);
+                        $('#tc10inicioE').val(response.numeroInicio1);
+                        $('#tc10finE').val(response.numeroFinal1);
                         $('#tc10P').val(mensaje);
-                        $('#tc10inicioP').val(response.numeroInicio);
-                        $('#tc10finP').val(response.numeroFinal);
+                        $('#tc10inicioP').val(response.numeroInicio1);
+                        $('#tc10finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -442,6 +451,7 @@ function getTc10(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc10').val(mensaje);
+                            $('#cantidadDatosTc10').val(response.cantidadDatos);
                             $('#tc10inicio').val(response.numeroInicio1);
                             $('#tc10fin').val(response.numeroFinal1);
                             $('#tc10E').val(mensaje);
@@ -454,26 +464,31 @@ function getTc10(){
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc10').val(mensaje);
-                            $('#tc10inicio').val(response.numeroInicio1);
-                            $('#tc10fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc10').val(response.cantidadDatos);
+                            $('#tc10inicio').val(response.numeroInicio1);$('#tc10fin').val(response.numeroFinal1);
+                            $('#tc10inicio2').val(response.numeroInicio2);$('#tc10fin2').val(response.numeroFinal2);
                             $('#tc10E').val(mensaje);
-                            $('#tc10inicioE').val(response.numeroInicio1);
-                            $('#tc10finE').val(response.numeroFinal2);
+                            $('#tc10inicioE').val(response.numeroInicio1);$('#tc10finE').val(response.numeroFinal1);
+                            $('#tc10inicioE2').val(response.numeroInicio2);$('#tc10finE2').val(response.numeroFinal2);
                             $('#tc10P').val(mensaje);
-                            $('#tc10inicioP').val(response.numeroInicio1);
-                            $('#tc10finP').val(response.numeroFinal2);
+                            $('#tc10inicioP').val(response.numeroInicio1);$('#tc10finP').val(response.numeroFinal1);
+                            $('#tc10inicioP2').val(response.numeroInicio2);$('#tc10finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc10').val(mensaje);
-                            $('#tc10inicio').val(response.numeroInicio1);
-                            $('#tc10fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc10').val(response.cantidadDatos);
+                            $('#tc10inicio').val(response.numeroInicio1);$('#tc10fin').val(response.numeroFinal1);
+                            $('#tc10inicio2').val(response.numeroInicio2);$('#tc10fin2').val(response.numeroFinal2);
+                            $('#tc10inicio3').val(response.numeroInicio3);$('#tc10fin3').val(response.numeroFinal3);
                             $('#tc10E').val(mensaje);
-                            $('#tc10inicioE').val(response.numeroInicio1);
-                            $('#tc10finE').val(response.numeroFinal3);
+                            $('#tc10inicioE').val(response.numeroInicio1);$('#tc10finE').val(response.numeroFinal1);
+                            $('#tc10inicioE2').val(response.numeroInicio2);$('#tc10finE2').val(response.numeroFinal2);
+                            $('#tc10inicioE3').val(response.numeroInicio3);$('#tc10finE3').val(response.numeroFinal3);
                             $('#tc10P').val(mensaje);
-                            $('#tc10inicioP').val(response.numeroInicio1);
-                            $('#tc10finP').val(response.numeroFinal3);
+                            $('#tc10inicioP').val(response.numeroInicio1);$('#tc10finP').val(response.numeroFinal1);
+                            $('#tc10inicioP2').val(response.numeroInicio2);$('#tc10finP2').val(response.numeroFinal2);
+                            $('#tc10inicioP3').val(response.numeroInicio3);$('#tc10finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -511,9 +526,9 @@ function getTc10(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc10').style.display = "none";$("input[name='tc10']").val('');$('#tc10inicio').val('');$('#tc10fin').val('');
-                    document.getElementById('datoTc10E').style.display = "none";$("input[name='tc10E']").val('');$('#tc10inicioE').val('');$('#tc10finE').val('');
-                    document.getElementById('datoTc10P').style.display = "none";$("input[name='tc10P']").val('');$('#tc10inicioP').val('');$('#tc10finP').val('');
+                    document.getElementById('datoTc10').style.display = "none";$("input[name='tc10']").val('');$('#tc10inicio').val('');$('#tc10fin').val('');$('#tc10inicio2').val('');$('#tc10fin2').val('');$('#tc10inicio3').val('');$('#tc10fin3').val('');
+                    document.getElementById('datoTc10E').style.display = "none";$("input[name='tc10E']").val('');$('#tc10inicioE').val('');$('#tc10finE').val('');$('#tc10inicioE2').val('');$('#tc10finE2').val('');$('#tc10inicioE3').val('');$('#tc10finE3').val('');
+                    document.getElementById('datoTc10P').style.display = "none";$("input[name='tc10P']").val('');$('#tc10inicioP').val('');$('#tc10finP').val('');$('#tc10inicioP2').val('');$('#tc10finP2').val('');$('#tc10inicioP3').val('');$('#tc10finP3').val('');
                 }
             });
         }
@@ -541,17 +556,18 @@ function getTc20(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc20').val(mensaje);
-                        $('#tc20inicio').val(response.numeroInicio);
-                        $('#tc20fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc20').val(response.cantidadDatos);
+                        $('#tc20inicio').val(response.numeroInicio1);
+                        $('#tc20fin').val(response.numeroFinal1);
                         $('#tc20E').val(mensaje);
-                        $('#tc20inicioE').val(response.numeroInicio);
-                        $('#tc20finE').val(response.numeroFinal);
+                        $('#tc20inicioE').val(response.numeroInicio1);
+                        $('#tc20finE').val(response.numeroFinal1);
                         $('#tc20P').val(mensaje);
-                        $('#tc20inicioP').val(response.numeroInicio);
-                        $('#tc20finP').val(response.numeroFinal);
+                        $('#tc20inicioP').val(response.numeroInicio1);
+                        $('#tc20finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -562,38 +578,41 @@ function getTc20(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc20').val(mensaje);
-                            $('#tc20inicio').val(response.numeroInicio1);
-                            $('#tc20fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc20').val(response.cantidadDatos);
+                            $('#tc20inicio').val(response.numeroInicio1);$('#tc20fin').val(response.numeroFinal1);
                             $('#tc20E').val(mensaje);
-                            $('#tc20inicioE').val(response.numeroInicio1);
-                            $('#tc20finE').val(response.numeroFinal1);
+                            $('#tc20inicioE').val(response.numeroInicio1);$('#tc20finE').val(response.numeroFinal1);
                             $('#tc20P').val(mensaje);
-                            $('#tc20inicioP').val(response.numeroInicio1);
-                            $('#tc20finP').val(response.numeroFinal1);
+                            $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc20').val(mensaje);
-                            $('#tc20inicio').val(response.numeroInicio1);
-                            $('#tc20fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc20').val(response.cantidadDatos);
+                            $('#tc20inicio').val(response.numeroInicio1);$('#tc20fin').val(response.numeroFinal1);
+                            $('#tc20inicio2').val(response.numeroInicio2);$('#tc20fin2').val(response.numeroFinal2);
                             $('#tc20E').val(mensaje);
-                            $('#tc20inicioE').val(response.numeroInicio1);
-                            $('#tc20finE').val(response.numeroFinal2);
+                            $('#tc20inicioE').val(response.numeroInicio1);$('#tc20finE').val(response.numeroFinal1);
+                            $('#tc20inicioE2').val(response.numeroInicio2);$('#tc20finE2').val(response.numeroFinal2);
                             $('#tc20P').val(mensaje);
-                            $('#tc20inicioP').val(response.numeroInicio1);
-                            $('#tc20finP').val(response.numeroFinal2);
+                            $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
+                            $('#tc20inicioP2').val(response.numeroInicio2);$('#tc20finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc20').val(mensaje);
-                            $('#tc20inicio').val(response.numeroInicio1);
-                            $('#tc20fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc20').val(response.cantidadDatos);
+                            $('#tc20inicio').val(response.numeroInicio1);$('#tc20fin').val(response.numeroFinal1);
+                            $('#tc20inicio2').val(response.numeroInicio2);$('#tc20fin2').val(response.numeroFinal2);
+                            $('#tc20inicio3').val(response.numeroInicio3);$('#tc20fin3').val(response.numeroFinal3);
                             $('#tc20E').val(mensaje);
-                            $('#tc20inicioE').val(response.numeroInicio1);
-                            $('#tc20finE').val(response.numeroFinal3);
+                            $('#tc20inicioE').val(response.numeroInicio1);$('#tc20finE').val(response.numeroFinal1);
+                            $('#tc20inicioE2').val(response.numeroInicio2);$('#tc20finE2').val(response.numeroFinal2);
+                            $('#tc20inicioE3').val(response.numeroInicio3);$('#tc20finE3').val(response.numeroFinal3);
                             $('#tc20P').val(mensaje);
-                            $('#tc20inicioP').val(response.numeroInicio1);
-                            $('#tc20finP').val(response.numeroFinal3);
+                            $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
+                            $('#tc20inicioP2').val(response.numeroInicio2);$('#tc20finP2').val(response.numeroFinal2);
+                            $('#tc20inicioP3').val(response.numeroInicio3);$('#tc20finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -631,9 +650,9 @@ function getTc20(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc20').style.display = "none";$("input[name='tc20']").val('');$('#tc20inicio').val('');$('#tc20fin').val('');
-                    document.getElementById('datoTc20E').style.display = "none";$("input[name='tc20E']").val('');$('#tc20inicioE').val('');$('#tc20finE').val('');
-                    document.getElementById('datoTc20P').style.display = "none";$("input[name='tc20P']").val('');$('#tc20inicioP').val('');$('#tc20finP').val('');
+                    document.getElementById('datoTc20').style.display = "none";$("input[name='tc20']").val('');$('#tc20inicio').val('');$('#tc20fin').val('');$('#tc20inicio2').val('');$('#tc20fin2').val('');$('#tc20inicio3').val('');$('#tc20fin3').val('');
+                    document.getElementById('datoTc20E').style.display = "none";$("input[name='tc20E']").val('');$('#tc20inicioE').val('');$('#tc20finE').val('');$('#tc20inicioE2').val('');$('#tc20finE2').val('');$('#tc20inicioE3').val('');$('#tc20finE3').val('');
+                    document.getElementById('datoTc20P').style.display = "none";$("input[name='tc20P']").val('');$('#tc20inicioP').val('');$('#tc20finP').val('');$('#tc20inicioP2').val('');$('#tc20finP2').val('');$('#tc20inicioP3').val('');$('#tc20finP3').val('');
                 }
             });
         }
@@ -661,17 +680,18 @@ function getTc50(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc50').val(mensaje);
-                        $('#tc50inicio').val(response.numeroInicio);
-                        $('#tc50fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc50').val(response.cantidadDatos);
+                        $('#tc50inicio').val(response.numeroInicio1);
+                        $('#tc50fin').val(response.numeroFinal1);
                         $('#tc50E').val(mensaje);
-                        $('#tc50inicioE').val(response.numeroInicio);
-                        $('#tc50finE').val(response.numeroFinal);
+                        $('#tc50inicioE').val(response.numeroInicio1);
+                        $('#tc50finE').val(response.numeroFinal1);
                         $('#tc50P').val(mensaje);
-                        $('#tc50inicioP').val(response.numeroInicio);
-                        $('#tc50finP').val(response.numeroFinal);
+                        $('#tc50inicioP').val(response.numeroInicio1);
+                        $('#tc50finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -682,38 +702,41 @@ function getTc50(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc50').val(mensaje);
-                            $('#tc50inicio').val(response.numeroInicio1);
-                            $('#tc50fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc50').val(response.cantidadDatos);
+                            $('#tc50inicio').val(response.numeroInicio1);$('#tc50fin').val(response.numeroFinal1);
                             $('#tc50E').val(mensaje);
-                            $('#tc50inicioE').val(response.numeroInicio1);
-                            $('#tc50finE').val(response.numeroFinal1);
+                            $('#tc50inicioE').val(response.numeroInicio1);$('#tc50finE').val(response.numeroFinal1);
                             $('#tc50P').val(mensaje);
-                            $('#tc50inicioP').val(response.numeroInicio1);
-                            $('#tc50finP').val(response.numeroFinal1);
+                            $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc50').val(mensaje);
-                            $('#tc50inicio').val(response.numeroInicio1);
-                            $('#tc50fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc50').val(response.cantidadDatos);
+                            $('#tc50inicio').val(response.numeroInicio1);$('#tc50fin').val(response.numeroFinal1);
+                            $('#tc50inicio2').val(response.numeroInicio2);$('#tc50fin2').val(response.numeroFinal2);
                             $('#tc50E').val(mensaje);
-                            $('#tc50inicioE').val(response.numeroInicio1);
-                            $('#tc50finE').val(response.numeroFinal2);
+                            $('#tc50inicioE').val(response.numeroInicio1);$('#tc50finE').val(response.numeroFinal1);
+                            $('#tc50inicioE2').val(response.numeroInicio2);$('#tc50finE2').val(response.numeroFinal2);
                             $('#tc50P').val(mensaje);
-                            $('#tc50inicioP').val(response.numeroInicio1);
-                            $('#tc50finP').val(response.numeroFinal2);
+                            $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
+                            $('#tc50inicioP2').val(response.numeroInicio2);$('#tc50finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc50').val(mensaje);
-                            $('#tc50inicio').val(response.numeroInicio1);
-                            $('#tc50fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc50').val(response.cantidadDatos);
+                            $('#tc50inicio').val(response.numeroInicio1);$('#tc50fin').val(response.numeroFinal1);
+                            $('#tc50inicio2').val(response.numeroInicio2);$('#tc50fin2').val(response.numeroFinal2);
+                            $('#tc50inicio3').val(response.numeroInicio3);$('#tc50fin3').val(response.numeroFinal3);
                             $('#tc50E').val(mensaje);
-                            $('#tc50inicioE').val(response.numeroInicio1);
-                            $('#tc50finE').val(response.numeroFinal3);
+                            $('#tc50inicioE').val(response.numeroInicio1);$('#tc50finE').val(response.numeroFinal1);
+                            $('#tc50inicioE2').val(response.numeroInicio2);$('#tc50finE2').val(response.numeroFinal2);
+                            $('#tc50inicioE3').val(response.numeroInicio3);$('#tc50finE3').val(response.numeroFinal3);
                             $('#tc50P').val(mensaje);
-                            $('#tc50inicioP').val(response.numeroInicio1);
-                            $('#tc50finP').val(response.numeroFinal3);
+                            $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
+                            $('#tc50inicioP2').val(response.numeroInicio2);$('#tc50finP2').val(response.numeroFinal2);
+                            $('#tc50inicioP3').val(response.numeroInicio3);$('#tc50finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -751,9 +774,9 @@ function getTc50(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc50').style.display = "none";$("input[name='tc50']").val('');$('#tc50inicio').val('');$('#tc50fin').val('');
-                    document.getElementById('datoTc50E').style.display = "none";$("input[name='tc50E']").val('');$('#tc50inicioE').val('');$('#tc50finE').val('');
-                    document.getElementById('datoTc50P').style.display = "none";$("input[name='tc50P']").val('');$('#tc50inicioP').val('');$('#tc50finP').val('');
+                    document.getElementById('datoTc50').style.display = "none";$("input[name='tc50']").val('');$('#tc50inicio').val('');$('#tc50fin').val('');$('#tc50inicio2').val('');$('#tc50fin2').val('');$('#tc50inicio3').val('');$('#tc50fin3').val('');
+                    document.getElementById('datoTc50E').style.display = "none";$("input[name='tc50E']").val('');$('#tc50inicioE').val('');$('#tc50finE').val('');$('#tc50inicioE2').val('');$('#tc50finE2').val('');$('#tc50inicioE3').val('');$('#tc50finE3').val('');
+                    document.getElementById('datoTc50P').style.display = "none";$("input[name='tc50P']").val('');$('#tc50inicioP').val('');$('#tc50finP').val('');$('#tc50inicioP2').val('');$('#tc50finP2').val('');$('#tc50inicioP3').val('');$('#tc50finP3').val('');
                 }
             });
         }
@@ -781,17 +804,18 @@ function getTc100(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc100').val(mensaje);
-                        $('#tc100inicio').val(response.numeroInicio);
-                        $('#tc100fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc100').val(response.cantidadDatos);
+                        $('#tc100inicio').val(response.numeroInicio1);
+                        $('#tc100fin').val(response.numeroFinal1);
                         $('#tc100E').val(mensaje);
-                        $('#tc100inicioE').val(response.numeroInicio);
-                        $('#tc100finE').val(response.numeroFinal);
+                        $('#tc100inicioE').val(response.numeroInicio1);
+                        $('#tc100finE').val(response.numeroFinal1);
                         $('#tc100P').val(mensaje);
-                        $('#tc100inicioP').val(response.numeroInicio);
-                        $('#tc100finP').val(response.numeroFinal);
+                        $('#tc100inicioP').val(response.numeroInicio1);
+                        $('#tc100finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -802,38 +826,41 @@ function getTc100(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc100').val(mensaje);
-                            $('#tc100inicio').val(response.numeroInicio1);
-                            $('#tc100fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc100').val(response.cantidadDatos);
+                            $('#tc100inicio').val(response.numeroInicio1);$('#tc100fin').val(response.numeroFinal1);
                             $('#tc100E').val(mensaje);
-                            $('#tc100inicioE').val(response.numeroInicio1);
-                            $('#tc100finE').val(response.numeroFinal1);
+                            $('#tc100inicioE').val(response.numeroInicio1);$('#tc100finE').val(response.numeroFinal1);
                             $('#tc100P').val(mensaje);
-                            $('#tc100inicioP').val(response.numeroInicio1);
-                            $('#tc100finP').val(response.numeroFinal1);
+                            $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc100').val(mensaje);
-                            $('#tc100inicio').val(response.numeroInicio1);
-                            $('#tc100fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc100').val(response.cantidadDatos);
+                            $('#tc100inicio').val(response.numeroInicio1);$('#tc100fin').val(response.numeroFinal1);
+                            $('#tc100inicio2').val(response.numeroInicio2);$('#tc100fin2').val(response.numeroFinal2);
                             $('#tc100E').val(mensaje);
-                            $('#tc100inicioE').val(response.numeroInicio1);
-                            $('#tc100finE').val(response.numeroFinal2);
+                            $('#tc100inicioE').val(response.numeroInicio1);$('#tc100finE').val(response.numeroFinal1);
+                            $('#tc100inicioE2').val(response.numeroInicio2);$('#tc100finE2').val(response.numeroFinal2);
                             $('#tc100P').val(mensaje);
-                            $('#tc100inicioP').val(response.numeroInicio1);
-                            $('#tc100finP').val(response.numeroFinal2);
+                            $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
+                            $('#tc100inicioP2').val(response.numeroInicio2);$('#tc100finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc100').val(mensaje);
-                            $('#tc100inicio').val(response.numeroInicio1);
-                            $('#tc100fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc100').val(response.cantidadDatos);
+                            $('#tc100inicio').val(response.numeroInicio1);$('#tc100fin').val(response.numeroFinal1);
+                            $('#tc100inicio2').val(response.numeroInicio2);$('#tc100fin2').val(response.numeroFinal2);
+                            $('#tc100inicio3').val(response.numeroInicio3);$('#tc100fin3').val(response.numeroFinal3);
                             $('#tc100E').val(mensaje);
-                            $('#tc100inicioE').val(response.numeroInicio1);
-                            $('#tc100finE').val(response.numeroFinal3);
+                            $('#tc100inicioE').val(response.numeroInicio1);$('#tc100finE').val(response.numeroFinal1);
+                            $('#tc100inicioE2').val(response.numeroInicio2);$('#tc100finE2').val(response.numeroFinal2);
+                            $('#tc100inicioE3').val(response.numeroInicio3);$('#tc100finE3').val(response.numeroFinal3);
                             $('#tc100P').val(mensaje);
-                            $('#tc100inicioP').val(response.numeroInicio1);
-                            $('#tc100finP').val(response.numeroFinal3);
+                            $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
+                            $('#tc100inicioP2').val(response.numeroInicio2);$('#tc100finP2').val(response.numeroFinal2);
+                            $('#tc100inicioP3').val(response.numeroInicio3);$('#tc100finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -871,9 +898,9 @@ function getTc100(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc100').style.display = "none";$("input[name='tc100']").val('');$('#tc100inicio').val('');$('#tc100fin').val('');
-                    document.getElementById('datoTc100E').style.display = "none";$("input[name='tc100E']").val('');$('#tc100inicioE').val('');$('#tc100finE').val('');
-                    document.getElementById('datoTc100P').style.display = "none";$("input[name='tc100P']").val('');$('#tc100inicioP').val('');$('#tc100finP').val('');
+                    document.getElementById('datoTc100').style.display = "none";$("input[name='tc100']").val('');$('#tc100inicio').val('');$('#tc100fin').val('');$('#tc100inicio2').val('');$('#tc100fin2').val('');$('#tc100inicio3').val('');$('#tc100fin3').val('');
+                    document.getElementById('datoTc100E').style.display = "none";$("input[name='tc100E']").val('');$('#tc100inicioE').val('');$('#tc100finE').val('');$('#tc100inicioE2').val('');$('#tc100finE2').val('');$('#tc100inicioE3').val('');$('#tc100finE3').val('');
+                    document.getElementById('datoTc100P').style.display = "none";$("input[name='tc100P']").val('');$('#tc100inicioP').val('');$('#tc100finP').val('');$('#tc100inicioP2').val('');$('#tc100finP2').val('');$('#tc100inicioP3').val('');$('#tc100finP3').val('');
                 }
             });
         }
@@ -901,17 +928,18 @@ function getTc200(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc200').val(mensaje);
-                        $('#tc200inicio').val(response.numeroInicio);
-                        $('#tc200fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc200').val(response.cantidadDatos);
+                        $('#tc200inicio').val(response.numeroInicio1);
+                        $('#tc200fin').val(response.numeroFinal1);
                         $('#tc200E').val(mensaje);
-                        $('#tc200inicioE').val(response.numeroInicio);
-                        $('#tc200finE').val(response.numeroFinal);
+                        $('#tc200inicioE').val(response.numeroInicio1);
+                        $('#tc200finE').val(response.numeroFinal1);
                         $('#tc200P').val(mensaje);
-                        $('#tc200inicioP').val(response.numeroInicio);
-                        $('#tc200finP').val(response.numeroFinal);
+                        $('#tc200inicioP').val(response.numeroInicio1);
+                        $('#tc200finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -922,38 +950,41 @@ function getTc200(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc200').val(mensaje);
-                            $('#tc200inicio').val(response.numeroInicio1);
-                            $('#tc200fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc200').val(response.cantidadDatos);
+                            $('#tc200inicio').val(response.numeroInicio1);$('#tc200fin').val(response.numeroFinal1);
                             $('#tc200E').val(mensaje);
-                            $('#tc200inicioE').val(response.numeroInicio1);
-                            $('#tc200finE').val(response.numeroFinal1);
+                            $('#tc200inicioE').val(response.numeroInicio1);$('#tc200finE').val(response.numeroFinal1);
                             $('#tc200P').val(mensaje);
-                            $('#tc200inicioP').val(response.numeroInicio1);
-                            $('#tc200finP').val(response.numeroFinal1);
+                            $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc200').val(mensaje);
-                            $('#tc200inicio').val(response.numeroInicio1);
-                            $('#tc200fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc200').val(response.cantidadDatos);
+                            $('#tc200inicio').val(response.numeroInicio1);$('#tc200fin').val(response.numeroFinal1);
+                            $('#tc200inici2').val(response.numeroInicio2);$('#tc200fin2').val(response.numeroFinal2);
                             $('#tc200E').val(mensaje);
-                            $('#tc200inicioE').val(response.numeroInicio1);
-                            $('#tc200finE').val(response.numeroFinal2);
+                            $('#tc200inicioE').val(response.numeroInicio1);$('#tc200finE').val(response.numeroFinal1);
+                            $('#tc200inicioE2').val(response.numeroInicio2);$('#tc200finE2').val(response.numeroFinal2);
                             $('#tc200P').val(mensaje);
-                            $('#tc200inicioP').val(response.numeroInicio1);
-                            $('#tc200finP').val(response.numeroFinal2);
+                            $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
+                            $('#tc200inicioP2').val(response.numeroInicio2);$('#tc200finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc200').val(mensaje);
-                            $('#tc200inicio').val(response.numeroInicio1);
-                            $('#tc200fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc200').val(response.cantidadDatos);
+                            $('#tc200inicio').val(response.numeroInicio1);$('#tc200fin').val(response.numeroFinal1);
+                            $('#tc200inicio2').val(response.numeroInicio2);$('#tc200fin2').val(response.numeroFinal2);
+                            $('#tc200inicio3').val(response.numeroInicio3);$('#tc200fin3').val(response.numeroFinal3);
                             $('#tc200E').val(mensaje);
-                            $('#tc200inicioE').val(response.numeroInicio1);
-                            $('#tc200finE').val(response.numeroFinal3);
+                            $('#tc200inicioE').val(response.numeroInicio1);$('#tc200finE').val(response.numeroFinal1);
+                            $('#tc200inicioE2').val(response.numeroInicio2);$('#tc200finE2').val(response.numeroFinal2);
+                            $('#tc200inicioE3').val(response.numeroInicio3);$('#tc200finE3').val(response.numeroFinal3);
                             $('#tc200P').val(mensaje);
-                            $('#tc200inicioP').val(response.numeroInicio1);
-                            $('#tc200finP').val(response.numeroFinal3);
+                            $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
+                            $('#tc200inicioP2').val(response.numeroInicio2);$('#tc200finP2').val(response.numeroFinal2);
+                            $('#tc200inicioP3').val(response.numeroInicio3);$('#tc200finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -991,9 +1022,9 @@ function getTc200(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc200').style.display = "none";$("input[name='tc200']").val('');$('#tc200inicio').val('');$('#tc200fin').val('');
-                    document.getElementById('datoTc200E').style.display = "none";$("input[name='tc200E']").val('');$('#tc200inicioE').val('');$('#tc200finE').val('');
-                    document.getElementById('datoTc200P').style.display = "none";$("input[name='tc200P']").val('');$('#tc200inicioP').val('');$('#tc200finP').val('');
+                    document.getElementById('datoTc200').style.display = "none";$("input[name='tc200']").val('');$('#tc200inicio').val('');$('#tc200fin').val('');$('#tc200inicio2').val('');$('#tc200fin2').val('');$('#tc200inicio3').val('');$('#tc200fin3').val('');
+                    document.getElementById('datoTc200E').style.display = "none";$("input[name='tc200E']").val('');$('#tc200inicioE').val('');$('#tc200finE').val('');$('#tc200inicioE2').val('');$('#tc200finE2').val('');$('#tc200inicioE3').val('');$('#tc200finE3').val('');
+                    document.getElementById('datoTc200P').style.display = "none";$("input[name='tc200P']").val('');$('#tc200inicioP').val('');$('#tc200finP').val('');$('#tc200inicioP2').val('');$('#tc200finP2').val('');$('#tc200inicioP3').val('');$('#tc200finP3').val('');
                 }
             });
         }
@@ -1021,17 +1052,18 @@ function getTc500(){
                 data: {user, codigo, nombre, cantidad},
                 dataType: 'json',
                 success: function(response){
-                    if (Number(response.numeroInicio) == Number(response.numeroFinal)){
-                        var mensaje = ('Timbre entregado: ' + response.numeroInicio);
+                    if (Number(response.numeroInicio1) == Number(response.numeroFinal1)){
+                        var mensaje = ('Timbre entregado: ' + response.numeroInicio1);
                         $('#tc500').val(mensaje);
-                        $('#tc500inicio').val(response.numeroInicio);
-                        $('#tc500fin').val(response.numeroFinal);
+                        $('#cantidadDatosTc500').val(response.cantidadDatos);
+                        $('#tc500inicio').val(response.numeroInicio1);
+                        $('#tc500fin').val(response.numeroFinal1);
                         $('#tc500E').val(mensaje);
-                        $('#tc500inicioE').val(response.numeroInicio);
-                        $('#tc500finE').val(response.numeroFinal);
+                        $('#tc500inicioE').val(response.numeroInicio1);
+                        $('#tc500finE').val(response.numeroFinal1);
                         $('#tc500P').val(mensaje);
-                        $('#tc500inicioP').val(response.numeroInicio);
-                        $('#tc500finP').val(response.numeroFinal);
+                        $('#tc500inicioP').val(response.numeroInicio1);
+                        $('#tc500finP').val(response.numeroFinal1);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -1042,38 +1074,41 @@ function getTc500(){
                         if (response.cantidadDatos == '1') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1);
                             $('#tc500').val(mensaje);
-                            $('#tc500inicio').val(response.numeroInicio1);
-                            $('#tc500fin').val(response.numeroFinal1);
+                            $('#cantidadDatosTc500').val(response.cantidadDatos);
+                            $('#tc500inicio').val(response.numeroInicio1);$('#tc500fin').val(response.numeroFinal1);
                             $('#tc500E').val(mensaje);
-                            $('#tc500inicioE').val(response.numeroInicio1);
-                            $('#tc500finE').val(response.numeroFinal1);
+                            $('#tc500inicioE').val(response.numeroInicio1);$('#tc500finE').val(response.numeroFinal1);
                             $('#tc500P').val(mensaje);
-                            $('#tc500inicioP').val(response.numeroInicio1);
-                            $('#tc500finP').val(response.numeroFinal1);
+                            $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
                             $('#tc500').val(mensaje);
-                            $('#tc500inicio').val(response.numeroInicio1);
-                            $('#tc500fin').val(response.numeroFinal2);
+                            $('#cantidadDatosTc500').val(response.cantidadDatos);
+                            $('#tc500inicio').val(response.numeroInicio1);$('#tc500fin').val(response.numeroFinal1);
+                            $('#tc500inicio2').val(response.numeroInicio2);$('#tc500fin2').val(response.numeroFinal2);
                             $('#tc500E').val(mensaje);
-                            $('#tc500inicioE').val(response.numeroInicio1);
-                            $('#tc500finE').val(response.numeroFinal2);
+                            $('#tc500inicioE').val(response.numeroInicio1);$('#tc500finE').val(response.numeroFinal1);
+                            $('#tc500inicioE2').val(response.numeroInicio2);$('#tc500finE2').val(response.numeroFinal2);
                             $('#tc500P').val(mensaje);
-                            $('#tc500inicioP').val(response.numeroInicio1);
-                            $('#tc500finP').val(response.numeroFinal2);
+                            $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
+                            $('#tc500inicioP2').val(response.numeroInicio2);$('#tc500finP2').val(response.numeroFinal2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
                             $('#tc500').val(mensaje);
-                            $('#tc500inicio').val(response.numeroInicio1);
-                            $('#tc500fin').val(response.numeroFinal3);
+                            $('#cantidadDatosTc500').val(response.cantidadDatos);
+                            $('#tc500inicio').val(response.numeroInicio1);$('#tc500fin').val(response.numeroFinal1);
+                            $('#tc500inicio2').val(response.numeroInicio2);$('#tc500fin2').val(response.numeroFinal2);
+                            $('#tc500inicio3').val(response.numeroInicio3);$('#tc500fin3').val(response.numeroFinal3);
                             $('#tc500E').val(mensaje);
-                            $('#tc500inicioE').val(response.numeroInicio1);
-                            $('#tc500finE').val(response.numeroFinal3);
+                            $('#tc500inicioE').val(response.numeroInicio1);$('#tc500finE').val(response.numeroFinal1);
+                            $('#tc500inicioE2').val(response.numeroInicio2);$('#tc500finE2').val(response.numeroFinal2);
+                            $('#tc500inicioE3').val(response.numeroInicio3);$('#tc500finE3').val(response.numeroFinal3);
                             $('#tc500P').val(mensaje);
-                            $('#tc500inicioP').val(response.numeroInicio1);
-                            $('#tc500finP').val(response.numeroFinal3);
+                            $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
+                            $('#tc500inicioP2').val(response.numeroInicio2);$('#tc500finP2').val(response.numeroFinal2);
+                            $('#tc500inicioP3').val(response.numeroInicio3);$('#tc500finP3').val(response.numeroFinal3);
                         }
                     }
                 },
@@ -1111,9 +1146,9 @@ function getTc500(){
                     }
 
                     getTotal(); getTotalE(); getTotalP();
-                    document.getElementById('datoTc500').style.display = "none";$("input[name='tc500']").val('');$('#tc500inicio').val('');$('#tc500fin').val('');
-                    document.getElementById('datoTc500E').style.display = "none";$("input[name='tc500E']").val('');$('#tc500inicioE').val('');$('#tc500finE').val('');
-                    document.getElementById('datoTc500P').style.display = "none";$("input[name='tc500P']").val('');$('#tc500inicioP').val('');$('#tc500finP').val('');
+                    document.getElementById('datoTc500').style.display = "none";$("input[name='tc500']").val('');$('#tc500inicio').val('');$('#tc500fin').val('');$('#tc500inicio2').val('');$('#tc500fin2').val('');$('#tc500inicio3').val('');$('#tc500fin3').val('');
+                    document.getElementById('datoTc500E').style.display = "none";$("input[name='tc500E']").val('');$('#tc500inicioE').val('');$('#tc500finE').val('');$('#tc500inicioE2').val('');$('#tc500finE2').val('');$('#tc500inicioE3').val('');$('#tc500finE3').val('');
+                    document.getElementById('datoTc500P').style.display = "none";$("input[name='tc500P']").val('');$('#tc500inicioP').val('');$('#tc500finP').val('');$('#tc500inicioP2').val('');$('#tc500finP2').val('');$('#tc500inicioP3').val('');$('#tc500finP3').val('');
                 }
             });
         }
