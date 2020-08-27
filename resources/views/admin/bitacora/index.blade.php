@@ -179,6 +179,16 @@
                                 <input type="text" class="form-control" value="{{\App\User::find($cambio->usuario)->name}}" readonly>
                             </div>
                         </div>   
+                        <div class="row">
+                            <div class="form-group col-md-4" >
+                                <label>No. de Acta</label>
+                                <input type="text" class="form-control" value='{{$id->no_acta}}' readonly>
+                            </div>
+                            <div class="form-group col-md-4" >
+                                <label>Punto de Acta:</label>
+                                <input type="text" class="form-control" value="{{$id->no_punto_acta}}" readonly>
+                            </div>
+                        </div>  
         
                         @endif
 
@@ -195,6 +205,15 @@
                                 <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label  style="padding: 10px;  ">Adjuntar Resolución</label>
+                                <a type="button" class="btn btn-primary" href="{{ route('ap.adjuntar-resolucion',$id->id)}}" id="" value="Adjuntar" style=" float: right" >Adjuntar</a>
+                            </div>
+                            <div class="col-sm-4">
+                            </div>
+                        </div>
+                       <br>
                         @endif
 
                         @if($cambio ["estado_solicitud"] == 9)
@@ -209,18 +228,27 @@
                                 <label>Configurado por:</label>
                                 <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
-                        <br>
-                            <div class="form-group col-sm-5" >
+                            <div class="form-group col-sm-4" >
                                 <label for="nombre_banco">Banco</label>
                                     <input type="text" class="form-control" value="{{$banco->nombre_banco}}" readonly>
                                 </div>
-                            <div class="form-group col-sm-2" >
+                        </div>
+
+                        <br>
+                           
+                        <div class="row">
+      
+                            <div class="form-group col-sm-4" >
                                 <label for="tipo_cuenta">Tipo de Cuenta</label>
                                 <input type="text" class="form-control" value="{{$tipocuenta->tipo_cuenta}}" readonly>
                                 </div>
-                            <div class="form-group col-sm-5" >
+                            <div class="form-group col-sm-4" >
                                 <label for="no_cuenta" >No. de cuenta</label>
                                 <input type="text" class="form-control" value="{{$id->no_cuenta}}" readonly>
+                                </div>
+                                <div class="form-group col-sm-4" >
+                                <label for="no_cuenta" >Fecha de Pago:</label>
+                                <input type="text" class="form-control" value="{{ \Carbon\Carbon::parse($id->fecha_pago_ap)->format('d/m/Y ')}}" readonly>
                                 </div>
                         </div>
                         @endif
@@ -259,7 +287,10 @@
                                 @endif
                                 @if ($id->id_estado_solicitud >=7)
                                 <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Imprimir Resolución<a target="_blank" href="/pdf/{{$id->id}}" id="" ><i style="float: right" class='fas fa-print' title='Imprimir' ></i></a></h4>
+                                    <h4  style="padding: 10px">Imprimir Resolución<a target="_blank" href="" id="pdfResolucion" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></i></a></h4>
+                                    <div class="" id="resolucionpdf"  style="display: none ">
+                                        <embed  src="{{$id->pdf_resolucion_ap}}" type="application/pdf" width="100%" height="400px" />
+                                    </div>
                                 </div><br><br><br><br>
     
                                 @endif

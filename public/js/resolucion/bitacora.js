@@ -9,3 +9,9 @@ $('#pdfDpi').click(function (e) {
     $('#dpipdf').toggle();
    
 });
+
+$('#pdfResolucion').click(function (e) { 
+    e.preventDefault();
+    $('#resolucionpdf').toggle();
+   
+});

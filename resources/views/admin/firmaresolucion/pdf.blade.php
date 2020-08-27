@@ -6,8 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Archivo Imprimible</title>
     <link rel="stylesheet" href="css/cartapdf.css" />
+
 </head>
 <body>
+        <div class="row" style="font-family: sans-serif; height: 100px; ">
+            <div class="texto" style="font-size: 12px; margin-left: 30%;  ">
+                <img class="lg" src="images/logocig.png"  height="75"  alt="">
+            </div><hr style="height: 2px; background:#67a8ff">
+            <div class="logo" style="height: 17px">
+                <img class="lg" src="images/logocig.png"  height="75"  alt="">
+            </div>
+       
+        </div>
     <div class="principal">
         <div class="fecha">
             <p>Guatemala, {{ date('d-m-Y') }} <br>
@@ -46,12 +56,8 @@
 
         </table>
         <div class="datos">
-            <p> Atentamente,
+            <p> Atentamente,s
         </div>
-            <br>
-            <br>
-            <br>
-            <br>
             <br>
         <div class="datos1">
             <p>Ing. Mónica Pinto Martínez<br>

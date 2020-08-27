@@ -17,6 +17,7 @@ use App\AdmUsuario;
 use App\AdmColegiado;
 use App\AdmPersona;
 use App\Events\ActualizacionBitacoraAp;
+use CreateSigecigSolicitudesApTable;
 use Illuminate\Support\Facades\Auth;
 
 class AuxilioPostumoController extends Controller
@@ -258,15 +259,26 @@ class AuxilioPostumoController extends Controller
             $adm_colegiado->fechacreacion = DB::raw('NOW()');
             $adm_colegiado->estado = 1;
             $adm_colegiado->save();
-            
-            
-           
         }
+      } return 'exito';   
+    }
+    public function adjuntarResolucion(PlataformaSolicitudAp $id){
+        $colegiado = SQLSRV_Colegiado::select('c_cliente','n_cliente')->Where("c_cliente", $id->n_colegiado)->get()->first();
 
-       
-      } return 'exito';
-        
+        return view('admin.auxilioPostumo.subir-resolucion',compact('id','colegiado'));
+    }
+    public function guardarResolucion(Request $request, $id){
 
+        $solicitudAP = PlataformaSolicitudAp::Where("id", $id)->orderBy('id', 'DESC')->first();
+        $colegiado = SQLSRV_Colegiado::Where("c_cliente", $solicitudAP->n_colegiado)->orderBy('id', 'DESC')->first();
+
+        $pdfSolicituddb = '/ap/resolucion/Resolucion'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
+        $pdfSolicitud = 'Resolucion'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
+        request()->solicitud->move(public_path().'\ap\resolucion', $pdfSolicitud);
+
+        $solicitudAP->pdf_resolucion_ap = $pdfSolicituddb;
+        $solicitudAP->update();
       
+        return response()->json(['success' => 'You have successfully upload file.']);
     }
 }

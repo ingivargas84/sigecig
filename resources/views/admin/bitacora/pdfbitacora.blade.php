@@ -88,6 +88,8 @@
                 <div class="texto1">
                  <h4> 7. Ingreso de Acta </h4>
                     <p> Fecha de Configuración:<b> {{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}} </b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
+                    <p> No. de Acta:<b> {{$id->no_acta}} </b>             Punto de Acta: <b>{{$id->no_punto_acta}}</b>
+
                     </div>      
                  @endif 
 
@@ -104,7 +106,8 @@
                 <p> Fecha de Configuración: <b>{{ \Carbon\Carbon::parse($cambio->fecha)->format('d/m/Y H:i:s')}}</b>  Configurado por: <b>{{\App\User::find($cambio->usuario)->name}}</b>
                 <p> Banco: <b>{{$banco->nombre_banco}} </b> 
                     Tipo de cuenta: <b>{{$tipocuenta->tipo_cuenta}} </b> 
-                    No. de cuenta: <b>{{$id->no_cuenta}} </b> 
+                    No. de cuenta: <b>{{$id->no_cuenta}} </b> <br>
+                    Fecha de Pago: <b>{{ \Carbon\Carbon::parse($id->fecha_pago_ap)->format('d/m/Y ')}} </b> 
                 </div>    
                 @endif 
 
