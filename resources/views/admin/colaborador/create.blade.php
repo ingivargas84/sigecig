@@ -36,7 +36,6 @@
                             <div class="col-sm-6">
                                 <label for="departamentoDPI">Departamento donde se extendió DPI:</label>
                                 <select id="departamentoDPI" name="departamentoDPI" class="selectpicker form-control" data-live-search="true">
-                                <option value="">-- Escoja el Departamento --</option>
                                     @foreach ($deptosG as $dep)
                                         <option value="{{ $dep['iddepartamento'] }}">{{ $dep['nombre'] }}</option>
                                     @endforeach

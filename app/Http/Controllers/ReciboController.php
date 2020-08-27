@@ -64,10 +64,10 @@ class ReciboController extends Controller
 
         foreach ($datos as $key => $dato) {
             if ($dato->categoria_id == 1) {
-            $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
-            $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
-            $tamanioArrray =count($numeroTimbres) -1;
-            foreach ($numeroTimbres as $key => $numeroTimbre) {
+                $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                $tamanioArrray =count($numeroTimbres) -1;
+                foreach ($numeroTimbres as $key => $numeroTimbre) {
                     if ($dato->cantidad == 1) {
                         $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
                     }else{
@@ -76,8 +76,8 @@ class ReciboController extends Controller
                     if ($key < $tamanioArrray) {
                         $dato->tipo_de_pago = $dato->tipo_de_pago.',';
                     }
+                }
             }
-        }
         }
 
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
@@ -380,7 +380,7 @@ class ReciboController extends Controller
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
             //Envio de correo creacion de recibo colegiado
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -393,6 +393,25 @@ class ReciboController extends Controller
             $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
             $nit_ = $nit[0];
             $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+
+            foreach ($datos as $key => $dato) {
+                if ($dato->categoria_id == 1) {
+                    $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                    $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                    $tamanioArrray =count($numeroTimbres) -1;
+                    foreach ($numeroTimbres as $key => $numeroTimbre) {
+                        if ($dato->cantidad == 1) {
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                        }else{
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                        }
+                        if ($key < $tamanioArrray) {
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                        }
+                    }
+                }
+            }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -508,7 +527,7 @@ class ReciboController extends Controller
 
             //Envio de correo creacion de recibo Particular
 
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -518,6 +537,25 @@ class ReciboController extends Controller
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+
+                foreach ($datos as $key => $dato) {
+                    if ($dato->categoria_id == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                        $tamanioArrray =count($numeroTimbres) -1;
+                        foreach ($numeroTimbres as $key => $numeroTimbre) {
+                            if ($dato->cantidad == 1) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                            }else{
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                            }
+                            if ($key < $tamanioArrray) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                            }
+                        }
+                    }
+                }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -632,7 +670,7 @@ class ReciboController extends Controller
             //Envio de correo creacion de recibo Empresa
 
             $reciboMaestro =  $reciboMaestroE;
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -645,6 +683,25 @@ class ReciboController extends Controller
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+
+                foreach ($datos as $key => $dato) {
+                    if ($dato->categoria_id == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                        $tamanioArrray =count($numeroTimbres) -1;
+                        foreach ($numeroTimbres as $key => $numeroTimbre) {
+                            if ($dato->cantidad == 1) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                            }else{
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                            }
+                            if ($key < $tamanioArrray) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                            }
+                        }
+                    }
+                }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
