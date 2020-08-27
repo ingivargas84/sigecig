@@ -49,16 +49,13 @@ class CorteDeCajaController extends Controller
 
     public function setDetalleCorteCaja(Request $request)
     {
-        $recibom = \App\Recibo_Maestro::find('id');
-        $cortedecaja = new \App\CorteCaja;
-
-        $query = "INSERT INTO sigecig_corte_de_caja (monto_total, total_efectivo, total_cheque
-        SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta isnull(n_profesion,'') 
+         $query = "INSERT INTO sigecig_corte_de_caja CJ (CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.id_caja = '1')
+        SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta
         from sigecig_recibo_maestro RM
         WHERE LEFT (RM.created_at,10)=CURDATE()";
-        $api_Result['data'] = DB::insert($query);
+        $api_Result['data'] = DB::insert($query);  
 
-       /*  $corte=new CorteCaja;
+     /*    $corte=new CorteCaja;
         $corte->monto_total=$request->get('monto_total');
         $corte->total_efectivo=$request->get('total_efectivo');
         $corte->total_cheque=$request->get('total_cheque');

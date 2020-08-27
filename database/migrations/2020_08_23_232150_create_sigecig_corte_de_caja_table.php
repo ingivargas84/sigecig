@@ -16,10 +16,10 @@ class CreateSigecigCorteDeCajaTable extends Migration
         Schema::create('sigecig_corte_de_caja', function (Blueprint $table) {
             $table->increments('id');
             $table->double('monto_total',10,2);
-            $table->double('total_efectivo',10,2);
-            $table->double('total_cheque',10,2);
-            $table->double('total_tarjeta',10,2);
-            $table->double('total_deposito',10,2);
+            $table->double('total_efectivo',10,2)->nullable();
+            $table->double('total_cheque',10,2)->nullable();
+            $table->double('total_tarjeta',10,2)->nullable();
+            $table->double('total_deposito',10,2)->nullable();
             $table->integer('id_caja');
             $table->integer('id_usuario');
             $table->DateTime('fecha_corte');

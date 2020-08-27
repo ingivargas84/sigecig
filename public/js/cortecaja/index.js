@@ -102,31 +102,3 @@ $("#btnConfirmarAccion").click(function(event) {
         validator.focusInvalid();
     }
 });
-
-function pregunta(){
-    e.preventDefault(); // does not go through with the link.
-    alertify.defaults.theme.ok = "btn btn-confirm";
-    var button = $(e.currentTarget);
-    var montototal = button[0].dataset.montototal;
-  
-    var $this = $(this);
-
-    alertify.confirm('Finalizar Estado', 'Está seguro de realizar el corte de caja con un monto de Q.' + montototal + ' correspondientes a la fecha asignados a la caja X?',
-    function(){
-        $('.loader').fadeIn();
-        $.post({
-            type: $this.data('method'),
-            url: $this.attr('href')
-        }).done(function (data) {
-            $('.loader').fadeOut(225);
-            resolucion_table.ajax.reload();
-                alertify.set('notifier','position', 'top-center');
-                alertify.success('Estado finalizado con exito');
-        });
-        }
-        , function(){
-            alertify.set('notifier','position', 'top-center');
-            alertify.error('Cancelar')
-        });
-}
-

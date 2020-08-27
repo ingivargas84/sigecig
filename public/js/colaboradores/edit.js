@@ -166,6 +166,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
     var validator = $("#ColaboradorUpdateForm1").validate({
         ignore: [],
         onkeyup:false,
+
         rules: {
             nombre:{
                 required: true,
@@ -195,6 +196,13 @@ $.validator.addMethod("ntelc1", function (value, element ){
                 ntelc1: true
 
             },
+            departamentoDPI:{
+                required: true,
+
+            },
+            municipioDPI:{
+                required: true
+            }
         },
         messages: {
             nombre: {
@@ -214,6 +222,12 @@ $.validator.addMethod("ntelc1", function (value, element ){
             },
             telefono: {
                 required: "Por favor, ingrese el telefono"
+            },
+            departamentoDPI:{
+                required: "Por favor, ingrese el departamento"
+            },
+            municipioDPI:{
+                required: "Por favor, ingrese el municipio"
             }
         }
     });
