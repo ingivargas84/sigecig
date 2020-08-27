@@ -277,6 +277,15 @@
                                     <input id="tc500" disabled type="text" class="form-control" name="tc500" style="text-align:left;">
                                 </div>
                             </div>
+                            <input id="cantidadDatosTc01" type="text" class="form-control" name="cantidadDatosTc01" style="display: none;">
+                            <input id="cantidadDatosTc05" type="text" class="form-control" name="cantidadDatosTc05" style="display: none;">
+                            <input id="cantidadDatosTc10" type="text" class="form-control" name="cantidadDatosTc10" style="display: none;">
+                            <input id="cantidadDatosTc20" type="text" class="form-control" name="cantidadDatosTc20" style="display: none;">
+                            <input id="cantidadDatosTc50" type="text" class="form-control" name="cantidadDatosTc50" style="display: none;">
+                            <input id="cantidadDatosTc100" type="text" class="form-control" name="cantidadDatosTc100" style="display: none;">
+                            <input id="cantidadDatosTc200" type="text" class="form-control" name="cantidadDatosTc200" style="display: none;">
+                            <input id="cantidadDatosTc500" type="text" class="form-control" name="cantidadDatosTc500" style="display: none;">
+
                             <input id="tc01inicio" type="text" class="form-control" name="tc01inicio" style="display: none;">
                             <input id="tc05inicio" type="text" class="form-control" name="tc05inicio" style="display: none;">
                             <input id="tc10inicio" type="text" class="form-control" name="tc10inicio" style="display: none;">
@@ -293,6 +302,38 @@
                             <input id="tc100fin" type="text" class="form-control" name="tc100fin" style="display: none;">
                             <input id="tc200fin" type="text" class="form-control" name="tc200fin" style="display: none;">
                             <input id="tc500fin" type="text" class="form-control" name="tc500fin" style="display: none;">
+                            <input id="tc01inicio2" type="text" class="form-control" name="tc01inicio2" style="display: none;">
+                            <input id="tc05inicio2" type="text" class="form-control" name="tc05inicio2" style="display: none;">
+                            <input id="tc10inicio2" type="text" class="form-control" name="tc10inicio2" style="display: none;">
+                            <input id="tc20inicio2" type="text" class="form-control" name="tc20inicio2" style="display: none;">
+                            <input id="tc50inicio2" type="text" class="form-control" name="tc50inicio2" style="display: none;">
+                            <input id="tc100inicio2" type="text" class="form-control" name="tc100inicio2" style="display: none;">
+                            <input id="tc200inicio2" type="text" class="form-control" name="tc200inicio2" style="display: none;">
+                            <input id="tc500inicio2" type="text" class="form-control" name="tc500inicio2" style="display: none;">
+                            <input id="tc01fin2" type="text" class="form-control" name="tc01fin2" style="display: none;">
+                            <input id="tc05fin2" type="text" class="form-control" name="tc05fin2" style="display: none;">
+                            <input id="tc10fin2" type="text" class="form-control" name="tc10fin2" style="display: none;">
+                            <input id="tc20fin2" type="text" class="form-control" name="tc20fin2" style="display: none;">
+                            <input id="tc50fin2" type="text" class="form-control" name="tc50fin2" style="display: none;">
+                            <input id="tc100fin2" type="text" class="form-control" name="tc100fin2" style="display: none;">
+                            <input id="tc200fin2" type="text" class="form-control" name="tc200fin2" style="display: none;">
+                            <input id="tc500fin2" type="text" class="form-control" name="tc500fin2" style="display: none;">
+                            <input id="tc01inicio3" type="text" class="form-control" name="tc01inicio3" style="display: none;">
+                            <input id="tc05inicio3" type="text" class="form-control" name="tc05inicio3" style="display: none;">
+                            <input id="tc10inicio3" type="text" class="form-control" name="tc10inicio3" style="display: none;">
+                            <input id="tc20inicio3" type="text" class="form-control" name="tc20inicio3" style="display: none;">
+                            <input id="tc50inicio3" type="text" class="form-control" name="tc50inicio3" style="display: none;">
+                            <input id="tc100inicio3" type="text" class="form-control" name="tc100inicio3" style="display: none;">
+                            <input id="tc200inicio3" type="text" class="form-control" name="tc200inicio3" style="display: none;">
+                            <input id="tc500inicio3" type="text" class="form-control" name="tc500inicio3" style="display: none;">
+                            <input id="tc01fin3" type="text" class="form-control" name="tc01fin3" style="display: none;">
+                            <input id="tc05fin3" type="text" class="form-control" name="tc05fin3" style="display: none;">
+                            <input id="tc10fin3" type="text" class="form-control" name="tc10fin3" style="display: none;">
+                            <input id="tc20fin3" type="text" class="form-control" name="tc20fin3" style="display: none;">
+                            <input id="tc50fin3" type="text" class="form-control" name="tc50fin3" style="display: none;">
+                            <input id="tc100fin3" type="text" class="form-control" name="tc100fin3" style="display: none;">
+                            <input id="tc200fin3" type="text" class="form-control" name="tc200fin3" style="display: none;">
+                            <input id="tc500fin3" type="text" class="form-control" name="tc500fin3" style="display: none;">
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -301,7 +342,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePago" id="tipoDePagoEfectivo" onchange="comprobarCheckEfectivo();" value="efectivo">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoCheque" onchange="comprobarCheckCheque();" value="cheque">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoTarjeta" onchange="comprobarCheckTarjeta();" value="tarjeta">Tarjeta</label>
-                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoDeposito" onchange="comprobarCheckDeposito();" value="deposito">Depoósito</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePago" id="tipoDePagoDeposito" onchange="comprobarCheckDeposito();" value="deposito">Depósito</label>
                             </div>
                         </div>
                     </div>
@@ -591,6 +632,38 @@
                                 <input id="tc100finE" type="text" class="form-control" name="tc100finE" style="display: none;">
                                 <input id="tc200finE" type="text" class="form-control" name="tc200finE" style="display: none;">
                                 <input id="tc500finE" type="text" class="form-control" name="tc500finE" style="display: none;">
+                                <input id="tc01inicioE2" type="text" class="form-control" name="tc01inicioE2" style="display: none;">
+                                <input id="tc05inicioE2" type="text" class="form-control" name="tc05inicioE2" style="display: none;">
+                                <input id="tc10inicioE2" type="text" class="form-control" name="tc10inicioE2" style="display: none;">
+                                <input id="tc20inicioE2" type="text" class="form-control" name="tc20inicioE2" style="display: none;">
+                                <input id="tc50inicioE2" type="text" class="form-control" name="tc50inicioE2" style="display: none;">
+                                <input id="tc100inicioE2" type="text" class="form-control" name="tc100inicioE2" style="display: none;">
+                                <input id="tc200inicioE2" type="text" class="form-control" name="tc200inicioE2" style="display: none;">
+                                <input id="tc500inicioE2" type="text" class="form-control" name="tc500inicioE2" style="display: none;">
+                                <input id="tc01finE2" type="text" class="form-control" name="tc01finE2" style="display: none;">
+                                <input id="tc05finE2" type="text" class="form-control" name="tc05finE2" style="display: none;">
+                                <input id="tc10finE2" type="text" class="form-control" name="tc10finE2" style="display: none;">
+                                <input id="tc20finE2" type="text" class="form-control" name="tc20finE2" style="display: none;">
+                                <input id="tc50finE2" type="text" class="form-control" name="tc50finE2" style="display: none;">
+                                <input id="tc100finE2" type="text" class="form-control" name="tc100finE2" style="display: none;">
+                                <input id="tc200finE2" type="text" class="form-control" name="tc200finE2" style="display: none;">
+                                <input id="tc500finE2" type="text" class="form-control" name="tc500finE2" style="display: none;">
+                                <input id="tc01inicioE3" type="text" class="form-control" name="tc01inicioE3" style="display: none;">
+                                <input id="tc05inicioE3" type="text" class="form-control" name="tc05inicioE3" style="display: none;">
+                                <input id="tc10inicioE3" type="text" class="form-control" name="tc10inicioE3" style="display: none;">
+                                <input id="tc20inicioE3" type="text" class="form-control" name="tc20inicioE3" style="display: none;">
+                                <input id="tc50inicioE3" type="text" class="form-control" name="tc50inicioE3" style="display: none;">
+                                <input id="tc100inicioE3" type="text" class="form-control" name="tc100inicioE3" style="display: none;">
+                                <input id="tc200inicioE3" type="text" class="form-control" name="tc200inicioE3" style="display: none;">
+                                <input id="tc500inicioE3" type="text" class="form-control" name="tc500inicioE3" style="display: none;">
+                                <input id="tc01finE3" type="text" class="form-control" name="tc01finE3" style="display: none;">
+                                <input id="tc05finE3" type="text" class="form-control" name="tc05finE3" style="display: none;">
+                                <input id="tc10finE3" type="text" class="form-control" name="tc10finE3" style="display: none;">
+                                <input id="tc20finE3" type="text" class="form-control" name="tc20finE3" style="display: none;">
+                                <input id="tc50finE3" type="text" class="form-control" name="tc50finE3" style="display: none;">
+                                <input id="tc100finE3" type="text" class="form-control" name="tc100finE3" style="display: none;">
+                                <input id="tc200finE3" type="text" class="form-control" name="tc200finE3" style="display: none;">
+                                <input id="tc500finE3" type="text" class="form-control" name="tc500finE3" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -600,7 +673,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoEfectivoE" onchange="comprobarCheckEfectivoE();" value="efectivoE">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoChequeE" onchange="comprobarCheckChequeE();" value="chequeE">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoTarjetaE" onchange="comprobarCheckTarjetaE();" value="tarjetaE">Tarjeta</label>
-                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoDepositoE" onchange="comprobarCheckDepositoE();" value="depositoE">Depoósito</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoE" id="tipoDePagoDepositoE" onchange="comprobarCheckDepositoE();" value="depositoE">Depósito</label>
                             </div>
                         </div>
                     </div>
@@ -876,7 +949,7 @@
                                     <label for="tc500P" class="control-label">TC500 / TIM500</label>
                                     <input id="tc500P" disabled type="text" class="form-control" name="tc500P" style="text-align:left;">
                                 </div>
-                                <input id="tc01inicioP" type="text" class="form-control" name="tc01inicioP" style="display: none;">
+                                <input id="tc01inicioP" type="text" class="forsm-control" name="tc01inicioP" style="display: none;">
                                 <input id="tc05inicioP" type="text" class="form-control" name="tc05inicioP" style="display: none;">
                                 <input id="tc10inicioP" type="text" class="form-control" name="tc10inicioP" style="display: none;">
                                 <input id="tc20inicioP" type="text" class="form-control" name="tc20inicioP" style="display: none;">
@@ -892,6 +965,38 @@
                                 <input id="tc100finP" type="text" class="form-control" name="tc100finP" style="display: none;">
                                 <input id="tc200finP" type="text" class="form-control" name="tc200finP" style="display: none;">
                                 <input id="tc500finP" type="text" class="form-control" name="tc500finP" style="display: none;">
+                                <input id="tc01inicioP2" type="text" class="form-control" name="tc01inicioP2" style="display: none;">
+                                <input id="tc05inicioP2" type="text" class="form-control" name="tc05inicioP2" style="display: none;">
+                                <input id="tc10inicioP2" type="text" class="form-control" name="tc10inicioP2" style="display: none;">
+                                <input id="tc20inicioP2" type="text" class="form-control" name="tc20inicioP2" style="display: none;">
+                                <input id="tc50inicioP2" type="text" class="form-control" name="tc50inicioP2" style="display: none;">
+                                <input id="tc100inicioP2" type="text" class="form-control" name="tc100inicioP2" style="display: none;">
+                                <input id="tc200inicioP2" type="text" class="form-control" name="tc200inicioP2" style="display: none;">
+                                <input id="tc500inicioP2" type="text" class="form-control" name="tc500inicioP2" style="display: none;">
+                                <input id="tc01finP2" type="text" class="form-control" name="tc01finP2" style="display: none;">
+                                <input id="tc05finP2" type="text" class="form-control" name="tc05finP2" style="display: none;">
+                                <input id="tc10finP2" type="text" class="form-control" name="tc10finP2" style="display: none;">
+                                <input id="tc20finP2" type="text" class="form-control" name="tc20finP2" style="display: none;">
+                                <input id="tc50finP2" type="text" class="form-control" name="tc50finP2" style="display: none;">
+                                <input id="tc100finP2" type="text" class="form-control" name="tc100finP2" style="display: none;">
+                                <input id="tc200finP2" type="text" class="form-control" name="tc200finP2" style="display: none;">
+                                <input id="tc500finP2" type="text" class="form-control" name="tc500finP2" style="display: none;">
+                                <input id="tc01inicioP3" type="text" class="form-control" name="tc01inicioP3" style="display: none;">
+                                <input id="tc05inicioP3" type="text" class="form-control" name="tc05inicioP3" style="display: none;">
+                                <input id="tc10inicioP3" type="text" class="form-control" name="tc10inicioP3" style="display: none;">
+                                <input id="tc20inicioP3" type="text" class="form-control" name="tc20inicioP3" style="display: none;">
+                                <input id="tc50inicioP3" type="text" class="form-control" name="tc50inicioP3" style="display: none;">
+                                <input id="tc100inicioP3" type="text" class="form-control" name="tc100inicioP3" style="display: none;">
+                                <input id="tc200inicioP3" type="text" class="form-control" name="tc200inicioP3" style="display: none;">
+                                <input id="tc500inicioP3" type="text" class="form-control" name="tc500inicioP3" style="display: none;">
+                                <input id="tc01finP3" type="text" class="form-control" name="tc01finP3" style="display: none;">
+                                <input id="tc05finP3" type="text" class="form-control" name="tc05finP3" style="display: none;">
+                                <input id="tc10finP3" type="text" class="form-control" name="tc10finP3" style="display: none;">
+                                <input id="tc20finP3" type="text" class="form-control" name="tc20finP3" style="display: none;">
+                                <input id="tc50finP3" type="text" class="form-control" name="tc50finP3" style="display: none;">
+                                <input id="tc100finP3" type="text" class="form-control" name="tc100finP3" style="display: none;">
+                                <input id="tc200finP3" type="text" class="form-control" name="tc200finP3" style="display: none;">
+                                <input id="tc500finP3" type="text" class="form-control" name="tc500finP3" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -901,7 +1006,7 @@
                                 <label class="checkbox-inline col-sm-2"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoEfectivoP" onchange="comprobarCheckEfectivoP();" value="efectivoP">Efectivo</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoChequeP" onchange="comprobarCheckChequeP();" value="chequeP">Cheque</label>
                                 <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoTarjetaP" onchange="comprobarCheckTarjetaP();" value="tarjetaP">Tarjeta</label>
-                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoDepositoP" onchange="comprobarCheckDepositoP();" value="depositoP">Depoósito</label>
+                                <label class="checkbox-inline col-sm-3"><input type="checkbox" name="tipoDePagoP" id="tipoDePagoDepositoP" onchange="comprobarCheckDepositoP();" value="depositoP">Depósito</label>
                             </div>
                         </div>
                     </div>
