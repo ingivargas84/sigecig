@@ -93,7 +93,7 @@
       $.ajax({
           type: "GET",
           async: false,
-          url: "/colaborador/dpiDisponible/",
+          url: "/Aspirante/dpiDisponible/",
           data:"dpi=" + value,
           dataType: "json",
           success: function (msg) {

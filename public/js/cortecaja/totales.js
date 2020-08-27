@@ -76,11 +76,11 @@ $(document).on('click', 'a.corte-caja', function(e) {
     e.preventDefault(); // does not go through with the link.
     alertify.defaults.theme.ok = "btn btn-confirm";
     var button = $(e.currentTarget);
-    var montototal = button[0].dataset.montototal;
+    var monto_total = button[0].dataset.monto_total;
   
     var $this = $(this);
 
-    alertify.confirm('Finalizar Estado', 'Está seguro de realizar el corte de caja con un monto de Q.' + montototal + ' correspondientes a la fecha asignados a la caja X?',
+    alertify.confirm('Finalizar Estado', 'Está seguro de realizar el corte de caja con un monto de Q.' + monto_total + ' correspondientes a la fecha asignados a la caja X?',
     function(){
         $('.loader').fadeIn();
         $.post({

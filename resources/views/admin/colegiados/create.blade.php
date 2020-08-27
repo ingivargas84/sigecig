@@ -49,7 +49,7 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="col-sm-4">
                               <label for="dpi">DPI:</label>
-                              <input id="dpi" onchange="cargarDatos()" autofocus="" placeholder="Dpi" class="form-control" name="dpi" type="text">                            
+                              <input id="dpi" autofocus="" placeholder="Dpi" class="form-control" name="dpi" type="text">                            
                             </div>
                             <div class="col-sm-4">
                               <label for="nombre">Nombres:</label>
@@ -212,7 +212,7 @@ $(document).ready(function(){
                         </div>
                         <br>
                         <div class="text-right m-t-15">
-                            <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
+                            <a class='btn btn-danger form-button' href="{{ route('aspirantes.index') }}">Regresar</a>
 {{-- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
  --}}
  {{-- <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> --}}
