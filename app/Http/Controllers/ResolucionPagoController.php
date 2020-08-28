@@ -108,7 +108,10 @@ class ResolucionPagoController extends Controller
     public function index()
     {
         $user = Auth::User();
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres' || $user->roles[0]->name=='Contabilidad' || $user->roles[0]->name=='JefeContabilidad') {
         return view('admin.firmaresolucion.index', compact('user'));
+        }else{
+            return redirect()->route('dashboard');        }
     }
 
     public function bitacora(PlataformaSolicitudAp $id)
@@ -126,7 +129,10 @@ class ResolucionPagoController extends Controller
 
 
         $user = Auth::User();
-        return view('admin.bitacora.index', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg', 'banco', 'tipocuenta', 'usuario_cambio'));
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres' || $user->roles[0]->name=='Contabilidad' || $user->roles[0]->name=='JefeContabilidad') {
+            return view('admin.bitacora.index', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg', 'banco', 'tipocuenta', 'usuario_cambio'));
+        }else{
+                return redirect()->route('dashboard');        }
     }
 
     function imprimirbitacora(PlataformaSolicitudAp $id)
@@ -312,34 +318,41 @@ class ResolucionPagoController extends Controller
 
     public function solicitudesPendientes()
     {
-        $path = 'images/timbre.png';
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
+        $user = Auth::User();
 
-        $mytime = Carbon::now();
-        $ap = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->get();
-        $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->pluck('n_colegiado')->toArray();
-        $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
-            ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
-            ->whereIn('cc00.c_cliente', $cuenta)->orderBy('c_cliente','asc')
-            ->get();
-       
-        $List = implode(', ', $cuenta); 
-        if(!empty($List)){
-            $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
-            FROM cc00 U
-            INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente 
-            WHERE  U.c_cliente IN ($List)
-            ORDER BY cliente asc;";
+        if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
+            $path = 'images/timbre.png';
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
     
-            $result = DB::connection('sqlsrv')->select($query);
+            $mytime = Carbon::now();
+            $ap = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->get();
+            $cuenta = PlataformaSolicitudAp::where("id_estado_solicitud", 4)->orderBy("n_colegiado", "asc")->pluck('n_colegiado')->toArray();
+            $cuenta1 = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac', 'cc00.f_ult_pago', 'cc00.f_ult_timbre')
+                ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
+                ->whereIn('cc00.c_cliente', $cuenta)->orderBy('c_cliente','asc')
+                ->get();
+           
+            $List = implode(', ', $cuenta); 
+            if(!empty($List)){
+                $query = "SELECT CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, S.n_profesion, U.telefono, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
+                FROM cc00 U
+                INNER JOIN cc00prof S ON U.c_cliente=S.c_cliente 
+                WHERE  U.c_cliente IN ($List)
+                ORDER BY cliente asc;";
+        
+                $result = DB::connection('sqlsrv')->select($query);
+            }else{
+                $result = 0;
+            }
+    
+            return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64","result"))
+                ->setPaper('legal', 'landscape')
+                ->stream('archivo.pdf');
         }else{
-            $result = 0;
+            return redirect()->route('resolucion.index');
         }
 
-        return \PDF::loadView('admin.firmaresolucion.solicitudes_pendientes', compact("cuenta1", "ap", "mytime", "base64","result"))
-            ->setPaper('legal', 'landscape')
-            ->stream('archivo.pdf');
     }
 
     public function getJson(Request $params)

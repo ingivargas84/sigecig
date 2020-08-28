@@ -33,7 +33,7 @@
                         <div class="form-group " style="margin-bottom: 50px">
                             <div class=" row">
                                 <div class="tx col-lg-8 col-md-8 col-sm-7">Añadir solicitud de anticipo, firmada, en
-                                    formato</div>
+                                    formato PDF</div>
                                 <div class="col-lg-4 col-md-4 col-sm-5">
                                     <div class="mr " id="div_file">
                                         <p id="texto"><img src="/tracking/STEP2.png" height="20" class="desc"

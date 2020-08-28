@@ -6,8 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Archivo Imprimible</title>
     <link rel="stylesheet" href="css/cartapdf.css" />
+
 </head>
 <body>
+        <div class="row" style="font-family: sans-serif; height: 100px; ">
+            <img style="float: left;" class="lg" src="images/logocig.png"  height="90"  alt="">
+            <div class="" style="float: left; font-size: 10px; margin-left: 15px">
+                <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
+                        7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
+                        PBX: 2218-2600 / www.cig.org.gt <br>
+                        NIT: 299329-5</small></p>
+             </div>
+             
+        </div>
+        <hr style="height: 1px; background:#67a8ff">
     <div class="principal">
         <div class="fecha">
             <p>Guatemala, {{ date('d-m-Y') }} <br>
@@ -46,12 +58,8 @@
 
         </table>
         <div class="datos">
-            <p> Atentamente,
+            <p> Atentamente,s
         </div>
-            <br>
-            <br>
-            <br>
-            <br>
             <br>
         <div class="datos1">
             <p>Ing. Mónica Pinto Martínez<br>
