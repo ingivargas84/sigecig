@@ -291,7 +291,7 @@ class ColegiadosController extends Controller
 
     $user->save();
     DB::commit();
-    return response()->json(['mensaje' => 'Registrado Correctamente', 'url'=> route('colegiados.index')]);
+    return response()->json(['mensaje' => 'Registrado Correctamente', 'url'=> route('aspirantes.index')]);
   }
 
 
@@ -340,8 +340,8 @@ class ColegiadosController extends Controller
 
     $aspirante = \App\Aspirante::find(Input::get('idusuario'));
     if($aspirante == null) {
-//        $this->setDatosAspirante();
-//        $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+        $this->setDatosAspirante();
+        $aspirante = \App\Aspirante::find(Input::get('idusuario'));
     }
 Log::info("Morir2 ".print_r($aspirante, true));
     $aspirante->profesiones()->attach(Input::get('idprofesion'));
@@ -556,11 +556,15 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
       $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
 
-      $query2 = "DELETE FROM aspirante WHERE dpi= CONVERT(numeric, $colegiado->registro)"; 
-      $resultado = DB::connection('sqlsrv')->delete($query2);
- 
-      DB::commit();
+      //Eliminacion de aspirante, profesion y especialidad que se asocia
+      $query3 = "DELETE FROM especialidadAspirante WHERE dpi = '" . $colegiado->registro . "'";
+      $resultado = DB::connection('sqlsrv')->delete($query3);
 
+      $query2 = "DELETE FROM profesionAspirante WHERE dpi = '" . $colegiado->registro . "'";
+      $resultado = DB::connection('sqlsrv')->delete($query2);
+      
+      $query1 = "DELETE FROM aspirante WHERE dpi = '" . $colegiado->registro . "'";
+      $resultado = DB::connection('sqlsrv')->delete($query1);
       //Almacenamiento de Estado de Cuenta
 
       $cuentaM = new EstadoDeCuentaMaestro;
@@ -626,6 +630,20 @@ Log::info("Morir2 ".print_r($aspirante, true));
           return 'true';
       }
   }
+
+  public function dpiDisponible(){
+    $dato = Input::get("dpi");
+    $query = Aspirante::where("dpi",$dato)->get();
+         $contador = count($query);
+    if ($contador == 0 )
+    {
+        return 'false';
+    }
+    else
+    {
+        return 'true';
+    }
+}
 
   public function getJsonAsp(Request $params)
   {

@@ -56,11 +56,30 @@ class ReciboController extends Controller
         $letras = new NumeroALetras;
         $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
-        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
         $datos = DB::select($query1);
+
+        foreach ($datos as $key => $dato) {
+            if ($dato->categoria_id == 1) {
+                $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                $tamanioArrray =count($numeroTimbres) -1;
+                foreach ($numeroTimbres as $key => $numeroTimbre) {
+                    if ($dato->cantidad == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                    }else{
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                    }
+                    if ($key < $tamanioArrray) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                    }
+                }
+            }
+        }
+
        return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
@@ -99,13 +118,13 @@ class ReciboController extends Controller
 
         if ($cantidadTotal >= $request->cantidad){ // si la existencia en bodega es mayor inicia la operacion para desplegar dato de timbre
 
-            $consulta1 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+            $consulta1 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
             $result = DB::select($consulta1);
 
             foreach($result as $res)
             {
-                if ($res->cantidad != 0)
-                {
+                // if ($res->cantidad != 0)
+                // {
                     $total = $res->cantidad - $request->cantidad;
                     if ($total >= 0) {
                         $numeroInicio1 = $res->numeracion_inicial;
@@ -116,43 +135,49 @@ class ReciboController extends Controller
                         $numeroFinal1 = $res->numeracion_final;
                         $cantidad = $total * -1;
 
-                        $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                        $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
                             $dato = DB::select($consulta2);
 
                         for($i = 1; $i < sizeof($dato); $i++)
                         {
-                            $total = $dato[$i]->cantidad - $cantidad;
-                            if ($total >= 0) {
-                                $numeroInicio2 = $dato[$i]->numeracion_inicial;
-                                $numeroFinal2 = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"cantidadDatos" => "2");
-                            } elseif ($total < 0) {
-                                $numeroInicio2 = $dato[$i]->numeracion_inicial;
-                                $numeroFinal2 = $dato[$i]->numeracion_final;
-                                $cantidad = $total * -1;
-                                $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                                    $dato = DB::select($consulta3);
-                                for($i = 2; $i < sizeof($dato); $i++)
-                                {
-                                    $total = $dato[$i]->cantidad - $cantidad;
-                                    if ($total >= 0) {
-                                        $numeroInicio3 = $dato[$i]->numeracion_inicial;
-                                        $numeroFinal3 = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                        return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"numeroInicio3" => $numeroInicio3, "numeroFinal3" => $numeroFinal3, "cantidadDatos" => "3");
-                                    } elseif ($total < 0) {
-                                        $cantidad = $total * -1;
-                                        $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                                            $dato = DB::select($consulta4);
-                                        for($i = 3; $i < sizeof($dato); $i++)
-                                        {
+                            // if ($dato[$i]->cantidad != 0)
+                            // {
+                                $total = $dato[$i]->cantidad - $cantidad;
+                                if ($total >= 0) {
+                                    $numeroInicio2 = $dato[$i]->numeracion_inicial;
+                                    $numeroFinal2 = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                    return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"cantidadDatos" => "2");
+                                } elseif ($total < 0) {
+                                    $numeroInicio2 = $dato[$i]->numeracion_inicial;
+                                    $numeroFinal2 = $dato[$i]->numeracion_final;
+                                    $cantidad = $total * -1;
+                                    $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
+                                        $dato = DB::select($consulta3);
+                                    for($i = 2; $i < sizeof($dato); $i++)
+                                    {
+                                        // if ($dato[$i]->cantidad != 0)
+                                        // {
                                             $total = $dato[$i]->cantidad - $cantidad;
                                             if ($total >= 0) {
-                                                $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                                return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                                $numeroInicio3 = $dato[$i]->numeracion_inicial;
+                                                $numeroFinal3 = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                                return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"numeroInicio3" => $numeroInicio3, "numeroFinal3" => $numeroFinal3, "cantidadDatos" => "3");
+                                            } elseif ($total < 0) {
+                                                $cantidad = $total * -1;
+                                                $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
+                                                    $dato = DB::select($consulta4);
+                                                for($i = 3; $i < sizeof($dato); $i++)
+                                                {
+                                                    $total = $dato[$i]->cantidad - $cantidad;
+                                                    if ($total >= 0) {
+                                                        $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
+                                                        return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
+                                                    }
+                                                }
                                             }
-                                        }
-                                    }
-                                }
+                                //         }
+                                //     }
+                                // }
                             }
                         }
                     }
@@ -355,7 +380,7 @@ class ReciboController extends Controller
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
             //Envio de correo creacion de recibo colegiado
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -368,6 +393,25 @@ class ReciboController extends Controller
             $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
             $nit_ = $nit[0];
             $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
+
+            foreach ($datos as $key => $dato) {
+                if ($dato->categoria_id == 1) {
+                    $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                    $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                    $tamanioArrray =count($numeroTimbres) -1;
+                    foreach ($numeroTimbres as $key => $numeroTimbre) {
+                        if ($dato->cantidad == 1) {
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                        }else{
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                        }
+                        if ($key < $tamanioArrray) {
+                            $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                        }
+                    }
+                }
+            }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -483,7 +527,7 @@ class ReciboController extends Controller
 
             //Envio de correo creacion de recibo Particular
 
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -493,6 +537,25 @@ class ReciboController extends Controller
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+
+                foreach ($datos as $key => $dato) {
+                    if ($dato->categoria_id == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                        $tamanioArrray =count($numeroTimbres) -1;
+                        foreach ($numeroTimbres as $key => $numeroTimbre) {
+                            if ($dato->cantidad == 1) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                            }else{
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                            }
+                            if ($key < $tamanioArrray) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                            }
+                        }
+                    }
+                }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -607,7 +670,7 @@ class ReciboController extends Controller
             //Envio de correo creacion de recibo Empresa
 
             $reciboMaestro =  $reciboMaestroE;
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total
+            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
             FROM sigecig_recibo_detalle rd
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
@@ -620,6 +683,25 @@ class ReciboController extends Controller
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
             $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+
+                foreach ($datos as $key => $dato) {
+                    if ($dato->categoria_id == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                        $tamanioArrray =count($numeroTimbres) -1;
+                        foreach ($numeroTimbres as $key => $numeroTimbre) {
+                            if ($dato->cantidad == 1) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                            }else{
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                            }
+                            if ($key < $tamanioArrray) {
+                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                            }
+                        }
+                    }
+                }
+
             $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
                 ->setPaper('legal', 'landscape');
             $fecha_actual = date_format(Now(), 'd-m-Y');
@@ -647,14 +729,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc01inicio     = $request->input("config.tc01inicio");
-                $tc01fin        = $request->input("config.tc01fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc01");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc01inicio;
-                $insert->numeracion_final = $tc01fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio");
+                    $insert->numeracion_final = $request->input("config.tc01fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio");
+                    $insert->numeracion_final = $request->input("config.tc01fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio2");
+                    $insert->numeracion_final = $request->input("config.tc01fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio");
+                    $insert->numeracion_final = $request->input("config.tc01fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio2");
+                    $insert->numeracion_final = $request->input("config.tc01fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc01inicio3");
+                    $insert->numeracion_final = $request->input("config.tc01fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -696,14 +808,46 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc05inicio     = $request->input("config.tc05inicio");
-                $tc05fin        = $request->input("config.tc05fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc05");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc05inicio;
-                $insert->numeracion_final = $tc05fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio");
+                    $insert->numeracion_final = $request->input("config.tc05fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio");
+                    $insert->numeracion_final = $request->input("config.tc05fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio2");
+                    $insert->numeracion_final = $request->input("config.tc05fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio");
+                    $insert->numeracion_final = $request->input("config.tc05fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio2");
+                    $insert->numeracion_final = $request->input("config.tc05fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc05inicio3");
+                    $insert->numeracion_final = $request->input("config.tc05fin3");
+                    $insert->save();
+                }
+
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -745,14 +889,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc10inicio     = $request->input("config.tc10inicio");
-                $tc10fin        = $request->input("config.tc10fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc10");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc10inicio;
-                $insert->numeracion_final = $tc10fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio");
+                    $insert->numeracion_final = $request->input("config.tc10fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio");
+                    $insert->numeracion_final = $request->input("config.tc10fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio2");
+                    $insert->numeracion_final = $request->input("config.tc10fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio");
+                    $insert->numeracion_final = $request->input("config.tc10fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio2");
+                    $insert->numeracion_final = $request->input("config.tc10fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc10inicio3");
+                    $insert->numeracion_final = $request->input("config.tc10fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -794,14 +968,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc20inicio     = $request->input("config.tc20inicio");
-                $tc20fin        = $request->input("config.tc20fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc20");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc20inicio;
-                $insert->numeracion_final = $tc20fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio");
+                    $insert->numeracion_final = $request->input("config.tc20fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio");
+                    $insert->numeracion_final = $request->input("config.tc20fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio2");
+                    $insert->numeracion_final = $request->input("config.tc20fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio");
+                    $insert->numeracion_final = $request->input("config.tc20fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio2");
+                    $insert->numeracion_final = $request->input("config.tc20fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc20inicio3");
+                    $insert->numeracion_final = $request->input("config.tc20fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -843,14 +1047,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc50inicio     = $request->input("config.tc50inicio");
-                $tc50fin        = $request->input("config.tc50fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc50");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc50inicio;
-                $insert->numeracion_final = $tc50fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio");
+                    $insert->numeracion_final = $request->input("config.tc50fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio");
+                    $insert->numeracion_final = $request->input("config.tc50fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio2");
+                    $insert->numeracion_final = $request->input("config.tc50fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio");
+                    $insert->numeracion_final = $request->input("config.tc50fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio2");
+                    $insert->numeracion_final = $request->input("config.tc50fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc50inicio3");
+                    $insert->numeracion_final = $request->input("config.tc50fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -892,14 +1126,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc100inicio     = $request->input("config.tc100inicio");
-                $tc100fin        = $request->input("config.tc100fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc100");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc100inicio;
-                $insert->numeracion_final = $tc100fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio");
+                    $insert->numeracion_final = $request->input("config.tc100fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio");
+                    $insert->numeracion_final = $request->input("config.tc100fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio2");
+                    $insert->numeracion_final = $request->input("config.tc100fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio");
+                    $insert->numeracion_final = $request->input("config.tc100fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio2");
+                    $insert->numeracion_final = $request->input("config.tc100fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc100inicio3");
+                    $insert->numeracion_final = $request->input("config.tc100fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -941,14 +1205,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc200inicio     = $request->input("config.tc200inicio");
-                $tc200fin        = $request->input("config.tc200fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc200");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc200inicio;
-                $insert->numeracion_final = $tc200fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio");
+                    $insert->numeracion_final = $request->input("config.tc200fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio");
+                    $insert->numeracion_final = $request->input("config.tc200fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio2");
+                    $insert->numeracion_final = $request->input("config.tc200fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio");
+                    $insert->numeracion_final = $request->input("config.tc200fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio2");
+                    $insert->numeracion_final = $request->input("config.tc200fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc200inicio3");
+                    $insert->numeracion_final = $request->input("config.tc200fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
@@ -990,14 +1284,44 @@ class ReciboController extends Controller
                 $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                 $result = DB::select($query);
                 $id = $result[0]->id;
-                $tc500inicio     = $request->input("config.tc500inicio");
-                $tc500fin        = $request->input("config.tc500fin");
+                $cantidadDatos = $request->input("config.cantidadDatosTc500");
 
-                $insert = new VentaDeTimbres;
-                $insert->recibo_detalle_id = $id;
-                $insert->numeracion_inicial = $tc500inicio;
-                $insert->numeracion_final = $tc500fin;
-                $insert->save();
+                if ($cantidadDatos == '1'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio");
+                    $insert->numeracion_final = $request->input("config.tc500fin");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '2'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio");
+                    $insert->numeracion_final = $request->input("config.tc500fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio2");
+                    $insert->numeracion_final = $request->input("config.tc500fin2");
+                    $insert->save();
+                }
+                if ($cantidadDatos == '3'){
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio");
+                    $insert->numeracion_final = $request->input("config.tc500fin");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio2");
+                    $insert->numeracion_final = $request->input("config.tc500fin2");
+                    $insert->save();
+                    $insert = new VentaDeTimbres;
+                    $insert->recibo_detalle_id = $id;
+                    $insert->numeracion_inicial = $request->input("config.tc500inicio3");
+                    $insert->numeracion_final = $request->input("config.tc500fin3");
+                    $insert->save();
+                }
 
                 $user = $request->input("config.rol_user");
                 $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";

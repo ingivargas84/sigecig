@@ -19,8 +19,6 @@
   @section('content')
   @include('admin.users.confirmarAccionModal')
   @include('admin.colegiados.profesionModal', $resultado)
-  @include('admin.colegiados.timbreModal')
-  @include('admin.colegiados.asociarModal')
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">
@@ -44,10 +42,6 @@
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script> --}}
 @endpush
 @push('scripts')
-<script src="{{asset('js/colegiados/index.js')}}"></script>
-<script src="{{asset('js/colegiados/add.js')}}"></script>
-<script src="{{asset('js/colegiados/timbre.js')}}"></script>
-<script src="{{asset('js/colegiados/asociar.js')}}"></script>
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
 <script src="{{asset('/ea/jquery.mask.min.js')}}"></script>

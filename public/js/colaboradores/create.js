@@ -1,7 +1,17 @@
 
 $(document).ready(function(){
+    busquedaMunicipio();
+});
+
+$(document).ready(function(){
     $("#departamentoDPI").change(function() {
-        var valor = $("#departamentoDPI").val();
+        busquedaMunicipio();
+    });
+});
+
+function busquedaMunicipio()
+{
+    var valor = $("#departamentoDPI").val();
         if (valor != "") {
             $.ajax({
                 type: 'GET',
@@ -21,8 +31,7 @@ $(document).ready(function(){
             $("#municipioDPI").empty();
             $("#municipioDPI").selectpicker("refresh");
         }
-    });
-});
+}
 
 $.validator.addMethod("ntelc", function (value, element ){
     var valor = value.length;

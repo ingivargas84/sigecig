@@ -49,14 +49,13 @@ class CorteDeCajaController extends Controller
 
     public function setDetalleCorteCaja(Request $request)
     {
-
-        $query = "INSERT INTO sigecig_corte_de_caja (monto_total, total_efectivo, total_cheque
-        SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta isnull(n_profesion,'') 
+         $query = "INSERT INTO sigecig_corte_de_caja CJ (CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.id_caja = '1')
+        SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta
         from sigecig_recibo_maestro RM
         WHERE LEFT (RM.created_at,10)=CURDATE()";
-        $api_Result['data'] = DB::insert($query);
+        $api_Result['data'] = DB::insert($query);  
 
-       /*  $corte=new CorteCaja;
+     /*    $corte=new CorteCaja;
         $corte->monto_total=$request->get('monto_total');
         $corte->total_efectivo=$request->get('total_efectivo');
         $corte->total_cheque=$request->get('total_cheque');
@@ -75,7 +74,14 @@ class CorteDeCajaController extends Controller
    /*      
         $query = "SELECT RM.id
        FROM sigecig_recibo_maestro RM
-       WHERE LEFT (RM.created_at,10)=CURDATE()"; */
+       WHERE LEFT (RM.created_at,10)=CURDATE()"; 
+
+
+       $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal
+       FROM sigecig_recibo_maestro RM
+       WHERE LEFT (RM.created_at,10)=CURDATE()";
+
+       $api_Result['data'] = DB::select($query);*/
 
         $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle');
         return $pdf->stream('DetalleCortedeCaja.pdf');
@@ -95,7 +101,7 @@ class CorteDeCajaController extends Controller
     {
        $query = "SELECT CM.id, RM.serie_recibo_id, RM.numero_recibo, RM.monto_total, RM.created_at, RM.monto_efecectivo, RM.monto_tarjeta, RM.monto_cheque
        FROM sigecig_recibo_maestro RM
-       INNER JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
+       LEFT JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
        WHERE LEFT (RM.created_at,10)=CURDATE()";
 
        $api_Result['data'] = DB::select($query);

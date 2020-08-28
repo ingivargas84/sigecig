@@ -140,6 +140,10 @@ Route::group([
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
         Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
         Route::get('/auxiliopostumo/save','HomeController@saveUsuario');
+        Route::get('/auxiliopostumo/adjuntar-resolucion/{id}','AuxilioPostumoController@adjuntarResolucion')->name('ap.adjuntar-resolucion');
+        Route::post('/auxilioPostumo/guardar-resolucion/{id}','AuxilioPostumoController@guardarResolucion')->name('ap.guardar-resolucion');
+
+
 
 
         //Módulo Reporte Finalizadas
@@ -235,6 +239,7 @@ Route::group([
         Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
         Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
         Route::get('/Aspirante/colDisponible/', 'ColegiadosController@colegiadoDisponible');
+        Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -248,7 +253,7 @@ Route::group([
 
         Route::post('Aspirante/setdatosaspirante', 'ColegiadosController@setDatosAspirante')->name('colegiados.save');
         Route::post('Aspirante/getdatosaspirante', 'ColegiadosController@getDatosAspirante');
-        Route::get('Aspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
+        Route::get('Aspirante/new', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
         Route::get( 'aspirante/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
         Route::get( 'colegiados/detalles/{codigo}', 'ColegiadosController@detallesCo')->name('colegiado.detalles');
 
@@ -289,8 +294,9 @@ Route::group([
         $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
         $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
         $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
         $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        return $pdf->stream('archivo.pdf');
+        return $pdf->stream('Resolución.pdf');
     });
 
     //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
