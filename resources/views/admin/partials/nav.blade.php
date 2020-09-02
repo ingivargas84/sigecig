@@ -214,8 +214,8 @@
             </a>
 
             <ul class="treeview-menu">
-              <li class="{{request()->routeIs('negocio.edit')? 'active': ''}}"><a href="{{route('negocio.edit', 1)}}">
-                <i class="fa fa-book"></i>Venta de Timbres</a>
+              <li class="">
+                <a href="" id='modal-reporte-timbres' data-toggle="modal" data-target="#modalReporteTimbres"><i class="fa fa-book"></i>Venta de Timbres</a>
               </li>
             </ul>
         </li>

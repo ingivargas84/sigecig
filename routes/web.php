@@ -140,6 +140,10 @@ Route::group([
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
         Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
         Route::get('/auxiliopostumo/save','HomeController@saveUsuario');
+        Route::get('/auxiliopostumo/adjuntar-resolucion/{id}','AuxilioPostumoController@adjuntarResolucion')->name('ap.adjuntar-resolucion');
+        Route::post('/auxilioPostumo/guardar-resolucion/{id}','AuxilioPostumoController@guardarResolucion')->name('ap.guardar-resolucion');
+
+
 
 
         //Módulo Reporte Finalizadas
@@ -281,6 +285,12 @@ Route::group([
          Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
 
+         //Timbres
+         Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
+         Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
+
+
+
     });
 
 
@@ -294,8 +304,9 @@ Route::group([
         $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
         $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
         $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
         $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        return $pdf->stream('archivo.pdf');
+        return $pdf->stream('Resolución.pdf');
     });
 
     //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
