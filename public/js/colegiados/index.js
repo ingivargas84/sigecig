@@ -51,7 +51,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
         {
             "title": "Colegiado",
             "data": "codigo", 
-            "width" : "3%",
+            "width" : "5%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -59,23 +59,15 @@ var colegiados_table = $('#colegiados-table').DataTable({
         {
             "title": "Nombre",
             "data": "colegiado", 
-            "width" : "25%",
+            "width" : "60%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
-        {
-            "title": "Carrera",
-            "data": "carrera", 
-            "width" : "42%",
-            "responsivePriority": 3,
-            "render": function( data, type, full, meta ) {
-                return (data);},
-        }, 
          {
             "title": "Estado",
             "data": "estado",
-            "width" : "10%",
+            "width" : "20%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -84,7 +76,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
         "title": "Acciones",
         "data": "estado",
         "orderable": false,
-        "width" : "10%",
+        "width" : "15%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
@@ -96,7 +88,7 @@ var colegiados_table = $('#colegiados-table').DataTable({
                 "</a>" + "</div>" +
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
-                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModalColProf' data-c_cliente='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-plus-square' title='Agregar Profesión'></i>" +
                 "</a>" + "</div>"
             

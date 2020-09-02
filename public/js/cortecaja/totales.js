@@ -46,30 +46,58 @@ var totales_table = $('#totales-table').DataTable({
       "order": [0, 'desc'],
       "columns": [ 
           {
-              "title": "Total Efectivo",
-              "data": "monto_efectivo",
-              "width" : "30%",
-              "responsivePriority": 1,
-              "render": function( data, type, full, meta ) {
-                  return (data);},
-          },
-          {
-              "title": "Total Cheque",
-              "data": "montocheque",
-              "width" : "30%",
-              "responsivePriority": 1,
-              "render": function( data, type, full, meta ) {
-                  return (data);},
-          },
-          {
-                "title": "Total Tarjeta",
-                "data": "montotarjeta",
-                "width" : "30%",
+                "title": "Total Efectivo",
+                "data": "monto_efectivo",
+                "width" : "25%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
                     return (data);},
-        },]
-  
+          },
+          {
+                "title": "Total Cheque",
+                "data": "montocheque",
+                "width" : "25%",
+                "responsivePriority": 1,
+                "render": function( data, type, full, meta ) {
+                    return (data);},
+          },
+          {
+                "title": "Total Deposito",
+                "data": "montodep",
+                "width" : "25%",
+                "responsivePriority": 1,
+                "render": function( data, type, full, meta ) {
+                    return (data);},
+        },
+
+
+          {
+                "title": "Total Tarjeta",
+                "data": "montotarjeta",
+                "width" : "25%",
+                "responsivePriority": 1,
+                "render": function( data, type, full, meta ) {
+                    return (data);},
+        },
+        {
+            "visible": false,
+            "title": "Acciones",
+            "orderable": false,
+            "width" : "25%",
+            "render": function(data, type, full, meta) {
+                var rol_user = $("input[name='rol_user']").val();
+                var urlActual = $("input[name='urlActual']").val();
+    
+                    return "<div id='" + full.id + "' class='text-center'>" +
+                    "<div class='float-center'>" +
+                    "<a href='/estadocuenta/detallado/"+full.id+"/' class='detalle' data-monto_total='"+full.monto_total+"'>" +
+                    "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
+                    "</a>" + "</div>";
+                    
+            },
+            "responsivePriority": 0,
+
+        }]
   });
   
 $(document).on('click', 'a.corte-caja', function(e) {
@@ -77,10 +105,12 @@ $(document).on('click', 'a.corte-caja', function(e) {
     alertify.defaults.theme.ok = "btn btn-confirm";
     var button = $(e.currentTarget);
     var monto_total = button[0].dataset.monto_total;
-  
+    var caja = button[0].dataset.caja;
+   // var combo = document.getElementById("monto_total");
+    var today = new Date().toLocaleDateString();    
     var $this = $(this);
 
-    alertify.confirm('Finalizar Estado', 'Está seguro de realizar el corte de caja con un monto de Q.' + monto_total + ' correspondientes a la fecha asignados a la caja X?',
+    alertify.confirm('Corte de Caja', 'Está seguro de realizar el corte de caja con un monto de Q.' + monto_total + ' correspondientes a la fecha ' + today + ' asignados a la caja X?',
     function(){
         $('.loader').fadeIn();
         $.post({
@@ -88,9 +118,9 @@ $(document).on('click', 'a.corte-caja', function(e) {
             url: $this.attr('href')
         }).done(function (data) {
             $('.loader').fadeOut(225);
-            resolucion_table.ajax.reload();
+            totales_table.ajax.reload();
                 alertify.set('notifier','position', 'top-center');
-                alertify.success('Estado finalizado con exito');
+                alertify.success('Corte de caja ingresado con exito');
         });
         }
         , function(){

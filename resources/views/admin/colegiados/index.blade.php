@@ -18,8 +18,8 @@
 
   @section('content')
   @include('admin.users.confirmarAccionModal')
-  @include('admin.colegiados.profesionModal', $resultado)
-  
+  @include('admin.colegiados.profesionModalCol', $resultado)
+
 <div class="loader loader-bar is-active"></div>
 <div class="box">
     <!-- /.box-header -->
@@ -45,7 +45,7 @@
 <script src="{{asset('js/colegiados/index.js')}}"></script>
 <script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
 <script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
-<script src="{{asset('js/colegiados/add.js')}}"></script>
+<script src="{{asset('js/colegiados/profesionCol.js')}}"></script>
 <!-- Modal -->
 <!-- Latest compiled and minified JavaScript -->
 <script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
