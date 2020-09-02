@@ -19,7 +19,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'10000',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -31,7 +31,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'8000',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -43,7 +43,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'7000',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -55,7 +55,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'11500',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -67,7 +67,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'6000',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -79,7 +79,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'9500',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -91,7 +91,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'4500',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
@@ -103,7 +103,7 @@ class bodegaDetalleSeeder extends Seeder
             'planchas'=>'0',
             'unidad_por_plancha'=>'0',
             'numeracion_inicial'=>'0',
-            'numeracion_final'=>'0',
+            'numeracion_final'=>'4000',
             'cantidad'=>'0',
             'total'=>'0',
             'usuario_id'=>'1'
