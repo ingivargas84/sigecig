@@ -281,6 +281,12 @@ Route::group([
          Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
 
+         //Timbres
+         Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
+         Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
+
+
+
     });
 
 
