@@ -117,7 +117,9 @@ $('#ingresoModal4').on('shown.bs.modal', function(){
           aspirantes_table.ajax.reload();
           alertify.set('notifier','position', 'top-center');
           alertify.success('Colegiado asociado correctamente');
-  
+          $('.loader').fadeOut(225);
+          window.location.replace("/colegiados");
+
         } else if(data.error==2){
           $("#mensajes").html("Error de autenticación.");
           $("#mensajes").css({'color':'red'});

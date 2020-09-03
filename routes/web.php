@@ -240,6 +240,10 @@ Route::group([
         Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
         Route::get('/Aspirante/colDisponible/', 'ColegiadosController@colegiadoDisponible');
         Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
+        Route::get('/Aspirante/profExist/', 'ColegiadosController@profesionExist');
+        Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
+        Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
+        
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -280,6 +284,12 @@ Route::group([
          Route::get('/cortedecaja/getDetalle/', 'CorteDeCajaController@getDetalle')->name('cortedecaja.getDetalle');
          Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
+
+         //Timbres
+         Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
+         Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
+
+
 
     });
 

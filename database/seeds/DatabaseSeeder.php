@@ -37,6 +37,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SigecigBodegaSeeder::class);
         $this->call(SigecigSubsedesSeeder::class);
         $this->call(SigecigCajasSeeder::class);
+        $this->call(SigecigColaboradorSeeder::class);
+
 
 
 

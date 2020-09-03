@@ -2,8 +2,8 @@
 
 
 
-<div class="modal fade" id="ingresoModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-    <form method="POST" id="ProfesionForm">
+<div class="modal fade" id="ingresoModalColProf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <form method="POST" id="ProfesionColForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,8 +18,8 @@
                             <input id="nombre" class="form-control" name="nombre" type="text" readonly>  
                           </div>
                           <div class="col-sm-5" >
-                            <label for="dpi">DPI:</label>
-                            <input id="dpi" class="form-control" name="dpi" type="text" readonly>  
+                            <label for="dpi">Colegiado:</label>
+                            <input id="c_cliente" class="form-control" name="c_cliente" type="text" readonly>  
                           </div>
                     </div>
                     <div class="row" >      
@@ -31,7 +31,7 @@
                              @endforeach  
                             </select> 
                         </div>
-                        <center><button id="ButtonAgregarProfesion" class="form-button btn btn-primary" type="button">Agregar profesión</button></center>
+                        <center><button id="agregarProfesion" onclick="agregarProfesionColF()" class="form-button btn btn-primary" type="button">Agregar profesión</button></center>
                         <div class="form-group col-sm-12" >
                             <label for="idespecialidad">Especialidad</label>
                             <select class="form-control selectpicker" id="idespecialidad" name="idespecialidad" data-live-search="true">
@@ -40,7 +40,7 @@
                           @endforeach  
                          </select> 
                         </div>
-                        <center><button id="agregarEspecialidad" onclick="agregarEspecialidadF()" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
+                        <center><button id="agregarEspecialidad" onclick="agregarEspecialidadColF()" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
                     </div>
                 </div>
               <br>

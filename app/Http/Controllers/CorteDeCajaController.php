@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
-/* use \App\EstadoDeCuentaMaestro;
-use \App\EstadoDeCuentaDetalle;
-use App\SigecigSaldoColegiados;
-use App\SQLSRV_Colegiado;
-use App\TipoDePago;*/
 use App\Recibo_Maestro; 
+use App\ReciboDeposito; 
+use App\Cajas; 
 use Carbon\Carbon;
 use App\User;
 use App\CorteCaja;
@@ -27,70 +24,48 @@ class CorteDeCajaController extends Controller
         return view('admin.cortecaja.index');
     }
 
-    public function new()
+    public function setDetalleCorteCaja(Request $codigo)
     {
-        $query = "SELECT CM.id, RM.serie_recibo_id, RM.numero_recibo, RM.monto_total, RM.created_at, RM.monto_efecectivo, RM.monto_tarjeta, RM.monto_cheque
-        FROM sigecig_recibo_maestro RM
-        INNER JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
-        WHERE LEFT (RM.created_at,10)=CURDATE()";
- 
-        $api_Result['data'] = DB::select($query);
-        return Response::json( $api_Result );
+       
+        $id = $codigo->id;
+        $recibom = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get();
+        $deposito = ReciboDeposito::whereRaw('Date(created_at) = CURDATE()')->get();
+        $cajaCajero = Cajas::whereRaw('cajero', Auth::user()->id)->get()->first();
+        $fecha = Carbon::now();
 
-        $query2 = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal
-        FROM sigecig_recibo_maestro RM
-        WHERE LEFT (RM.created_at,10)=CURDATE()";
- 
-        $api_Result['data'] = DB::select($query2);
-        return Response::json( $api_Result );
-
-        return view('admin.cortecaja.nuevo', compact ('query', 'query2'));
-    }
-
-    public function setDetalleCorteCaja(Request $request)
-    {
-         $query = "INSERT INTO sigecig_corte_de_caja CJ (CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.id_caja = '1')
-        SELECT SUM(RM.monto_total) as montototal, SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta
-        from sigecig_recibo_maestro RM
-        WHERE LEFT (RM.created_at,10)=CURDATE()";
-        $api_Result['data'] = DB::insert($query);  
-
-     /*    $corte=new CorteCaja;
-        $corte->monto_total=$request->get('monto_total');
-        $corte->total_efectivo=$request->get('total_efectivo');
-        $corte->total_cheque=$request->get('total_cheque');
-        $corte->total_tarjeta=$request->get('total_tarjeta');
-        $corte->total_deposito=$request->get('total_deposito');
-        $corte->id_caja=$request->get('id_caja');
-        $corte->id_usuario=$request->get('id_usuario');
-        $corte->fecha_corte=$request->get('fecha_corte');
-        $corte->save(); */
-
-/*         event(new ActualizacionBitacora(1, Auth::user()->id,'creacion', '', $cajas, 'Cajas' ));
- */        return response()->json(['success' => 'Exito']);
+        $corteCaja=new \App\CorteCaja;
+        $corteCaja->monto_total=$recibom->sum('monto_total');
+        $corteCaja->total_efectivo=$recibom->sum('monto_efecectivo');
+        $corteCaja->total_cheque=$recibom->sum('monto_cheque');
+        $corteCaja->total_tarjeta=$recibom->sum('monto_tarjeta');
+        $corteCaja->total_deposito=$deposito->sum('monto');
+        $corteCaja->id_usuario = Auth::user()->id;
+        $corteCaja->id_caja = $cajaCajero->id;
+        $corteCaja->fecha_corte=$fecha;
+        $recibom->id_corte_de_caja=$corteCaja->id;
+        $corteCaja->save(); 
+        
+      return response()->json(['success' => 'Exito']);
     }
 
     public function pdf() {
-   /*      
-        $query = "SELECT RM.id
-       FROM sigecig_recibo_maestro RM
-       WHERE LEFT (RM.created_at,10)=CURDATE()"; 
 
+        $recibopdf = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get();
 
-       $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal
-       FROM sigecig_recibo_maestro RM
-       WHERE LEFT (RM.created_at,10)=CURDATE()";
+        $totalespdf = CorteCaja::whereRaw('Date(fecha_corte) = CURDATE()')->get();
 
-       $api_Result['data'] = DB::select($query);*/
-
-        $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle');
+        $users = User::where('id', Auth::user()->id)->get()->first();
+        $newDate = Carbon::now();
+        $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle', compact('users', 'recibopdf', 'totalespdf', 'newDate'));
         return $pdf->stream('DetalleCortedeCaja.pdf');
     }
 
+
     public function getDetalle(Request $params)
     {
-       $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal
+       $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal, SUM(RD.monto) as montodep
        FROM sigecig_recibo_maestro RM
+       LEFT JOIN sigecig_recibo_deposito RD ON RD.numero_recibo = RM.numero_recibo
        WHERE LEFT (RM.created_at,10)=CURDATE()";
 
        $api_Result['data'] = DB::select($query);
@@ -99,9 +74,10 @@ class CorteDeCajaController extends Controller
 
     public function getJson(Request $params)
     {
-       $query = "SELECT CM.id, RM.serie_recibo_id, RM.numero_recibo, RM.monto_total, RM.created_at, RM.monto_efecectivo, RM.monto_tarjeta, RM.monto_cheque
+       $query = "SELECT CM.id, RM.serie_recibo_id, RM.numero_recibo, RM.monto_total, RM.created_at, RM.monto_efecectivo, RM.monto_tarjeta, RM.monto_cheque, RD.monto
        FROM sigecig_recibo_maestro RM
        LEFT JOIN sigecig_estado_de_cuenta_maestro CM ON RM.numero_de_identificacion = CM.colegiado_id
+       LEFT JOIN sigecig_recibo_deposito RD ON RD.numero_recibo = RM.numero_recibo
        WHERE LEFT (RM.created_at,10)=CURDATE()";
 
        $api_Result['data'] = DB::select($query);

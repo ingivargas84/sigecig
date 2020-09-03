@@ -1870,10 +1870,10 @@ $("#guardarRecibo").click(function(e){
         } else {tarjetaCorrecta = 1; $('#pagoTarjeta').val("no");}//FIN TARJETA
         if (document.getElementById("tipoDePagoDeposito").checked){
             if ($('#deposito').val() == 0){
-                alertify.warning('los datos de deposito no pueden ir vacios...');
+                alertify.warning('los datos de depósito no pueden ir vacios...');
             } else {depositoCorrecto = 1;}
             if ($('#montoDeposito').val() == 0){
-                alertify.warning('el monto de deposito no puede ser 0...');
+                alertify.warning('el monto de depósito no puede ser 0...');
                 depositoCorrecto = 0;
             } else {depositoCorrecto = 1;}
             if ($('#bancoDeposito').val() == 0){
@@ -2458,10 +2458,10 @@ $("#guardarReciboE").click(function(e){
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaE').val("no");} // FIN TARJETA
     if (document.getElementById("tipoDePagoDepositoE").checked){
         if ($('#depositoE').val() == 0){
-            alertify.warning('los datos de deposito no pueden ir vacios...');
+            alertify.warning('los datos de depósito no pueden ir vacios...');
         } else {depositoCorrecto = 1;}
         if ($('#montoDepositoE').val() == 0){
-            alertify.warning('el monto de deposito no puede ser 0...');
+            alertify.warning('el monto de depósito no puede ser 0...');
             depositoCorrecto = 0;
         } else {depositoCorrecto = 1;}
         if ($('#bancoDepositoE').val() == 0){
@@ -3041,10 +3041,10 @@ $("#guardarReciboP").click(function(e){
     } else {tarjetaCorrecta = 1; $('#pagoTarjetaP').val("no");} // FIN TARJETA
     if (document.getElementById("tipoDePagoDepositoP").checked){
         if ($('#depositoP').val() == 0){
-            alertify.warning('los datos de deposito no pueden ir vacios...');
+            alertify.warning('los datos de depósito no pueden ir vacios...');
         } else {depositoCorrecto = 1;}
         if ($('#montoDepositoP').val() == 0){
-            alertify.warning('el monto de deposito no puede ser 0...');
+            alertify.warning('el monto de depósito no puede ser 0...');
             depositoCorrecto = 0;
         } else {depositoCorrecto = 1;}
         if ($('#bancoDepositoP').val() == 0){

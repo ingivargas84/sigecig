@@ -20,9 +20,9 @@ class CreateSigecigCorteDeCajaTable extends Migration
             $table->double('total_cheque',10,2)->nullable();
             $table->double('total_tarjeta',10,2)->nullable();
             $table->double('total_deposito',10,2)->nullable();
-            $table->integer('id_caja');
-            $table->integer('id_usuario');
-            $table->DateTime('fecha_corte');
+            $table->integer('id_caja')->nullable();
+            $table->integer('id_usuario')->nullable();
+            $table->DateTime('fecha_corte')->nullable();
             $table->timestamps();
         });
     }

@@ -20,18 +20,19 @@
                             <input id="dpi1" class="form-control" name="dpi1" type="text" readonly>  
                         </div>
                     </div>
+                    <br>
                     <div class="row" >      
                         <div class="form-group col-sm-12" >
                             <label for="montoTimbre" class="control-label">Monto de timbre a pagar</label>                            
-                            <input id="montoTimbre" class="form-control" placeholder="100" name="montoTimbre" type="number">
+                            <input id="montoTimbre" class="form-control" value="25.00" name="montoTimbre" type="number">
                         </div>
                         <center><button id="guardarTimbre" onclick="guardarMontoTimbreF()" class="btn btn-primary" type="button">Agregar monto timbre</button></center>                
-                        <div class="form-group col-sm-12" >
+                       {{--  <div class="form-group col-sm-12" >
                             <label for="fechaTopeMensualidades" class="control-label">Fecha tope para mensualidades</label>                            
                             <input id="fechaTopeMensualidades" class="form-control" name="fechaTopeMensualidades" type="date">
                         </div>
                         <center><button id="modificarFecha" onclick="guardarFechaTopeMensualidadesF()" class="btn btn-primary" type="button">Modificar fecha</button></center>            
-                    </div>
+                   --}}  </div>
                 </div>
               <br>
               <input type="hidden" name="_token" id="tokenTim" value="{{ csrf_token() }}">
@@ -43,14 +44,3 @@
     </div>
   </form>
 </div>
-{{-- @push('scripts')
-<script src="{{asset('js/colegiados/index.js')}}"></script>
-<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
-<script src="{{asset('js/colegiados/timbre.js')}}"></script>
-
-
- {{--<script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
-<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
-<script src="{{asset('/ea/bootstrap.min.js')}}"></script>
-@endpush --}}

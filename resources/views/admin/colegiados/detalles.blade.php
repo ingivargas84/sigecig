@@ -3,12 +3,12 @@
 @section('header')
     <section class="content-header">
       <h1>
-          Colegiados
+          Aspirantes
           <small>Detalles</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
-          <li><a href="{{route('colegiados.index')}}"><i class="fa fa-list"></i> Colegiados</a></li>
+          <li><a href="{{route('aspirantes.index')}}"><i class="fa fa-list"></i> Aspirantes</a></li>
           <li class="active">Detalles</li>
         </ol>
     </section>
@@ -17,13 +17,6 @@
 
 
 @push('scripts')
-{{--<script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
- <script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
-<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> 
-<script src="{{asset('/ea/bootstrap.min.js')}}"></script>
-<script src="{{asset('/ea/jquery.mask.min.js')}}"></script>--}}
-
 @endpush 
   
 @section('content')
@@ -254,17 +247,10 @@
                         <br>
                         
                       <div class="text-right m-t-15">
-         {{--                <a class='btn btn-danger form-button' href="{{ route('colegiados.index') }}">Regresar</a>
- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
- --}}
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     <div class="loader loader-bar"></div>
-
 @endsection  
-@push('scripts')
-{{-- <script src="{{asset('js/colegiados/aspirante.js')}}"></script>
- --}}@endpush

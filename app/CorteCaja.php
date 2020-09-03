@@ -19,4 +19,8 @@ class CorteCaja extends Model
         'id_usuario',
         'fecha_corte' 
     ];
+
+    public function reciboMaestro() {
+        return $this->belongsTo('\App\Recibo_Maestro', 'id');
+      }
 }

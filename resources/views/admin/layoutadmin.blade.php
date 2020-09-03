@@ -155,6 +155,7 @@
 
     <!-- Main content -->
     <section class="content">
+      @include('admin.timbres.modal-reporte-timbres')
 
       @if(session()->has('flash'))
         <div class="alert alert-success" id="alert-success">{{ session('flash') }}
@@ -218,6 +219,7 @@
 
 <!-- SELECT2 -->
 <script src="{{asset('adminlte/plugins/select2/select2.full.min.js')}}"></script>
+<script src="{{ asset('js/timbres/modal-timbres.js') }}"></script>
 
 <script>
     alertify.defaults = {
