@@ -31,7 +31,7 @@
         </table>
 
         <div class="text-right m-t-15">
-          <a class="btn btn-primary corte-caja" href="{{route('cortedecaja.save')}}">Corte de Caja</a>
+          <a class="btn btn-primary corte-caja data-monto_total='monto_total+' " href="{{route('cortedecaja.save')}}">Corte de Caja</a>
           <a class="btn btn-primary" href="{{route('cortedecaja.pdfbitacora')}}">Generar PDF</a>
         </div>
 

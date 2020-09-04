@@ -45,9 +45,11 @@
 @endpush
 @push('scripts')
 <script src="{{asset('js/colegiados/aspiranteIndex.js')}}"></script>
-<script src="{{asset('js/colegiados/add.js')}}"></script>
+<script src="{{asset('js/colegiados/profesionAsp.js')}}"></script>
 <script src="{{asset('js/colegiados/timbre.js')}}"></script>
 <script src="{{asset('js/colegiados/asociar.js')}}"></script>
+
+<script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
 
   <script>
     $(document).ready(function() {

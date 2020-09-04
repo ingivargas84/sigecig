@@ -289,9 +289,9 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if ($id->id_estado_solicitud >=7)
+                                @if ($id->id_estado_solicitud >=7 && $id->pdf_resolucion_ap != null)
                                 <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Imprimir Resolución<a target="_blank" href="" id="pdfResolucion" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></i></a></h4>
+                                    <h4  style="padding: 10px">Resolución firmada<a target="_blank" href="" id="pdfResolucion" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></i></a></h4>
                                     <div class="" id="resolucionpdf"  style="display: none ">
                                         <embed  src="{{$id->pdf_resolucion_ap}}" type="application/pdf" width="100%" height="400px" />
                                     </div>
