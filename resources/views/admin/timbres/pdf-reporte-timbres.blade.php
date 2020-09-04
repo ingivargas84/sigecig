@@ -157,7 +157,13 @@
                 <td style="background:eee;">{{$co->nombre}}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
                 <td style="background:eee;">{{$co->tipo_de_pago}}</td>
-                <td style="background:eee;text-align:center;">{{$co->numero_recibo}}</td>
+                <td style="background:eee;text-align:left;">
+                    @if ($co->cantidad == 1)
+                    {{$co->numeracion_inicial}}
+                    @else
+                    {{$co->numeracion_inicial}} - {{$co->numeracion_final}}
+                    @endif
+                    </td>
                 <td style="background:eee;text-align:right;">Q. {{number_format($co->total,2,".","")}} </td>
             </tr>
             @endforeach

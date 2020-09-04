@@ -126,13 +126,14 @@ class TimbresController extends Controller
 
         $query= "SELECT caja.id as id_caja,caja.nombre_caja, colaborador.nombre, usuario.id as id_usuario, reciboMaestro.numero_recibo,
         reciboMaestro.numero_de_identificacion, reciboMaestro.nombre, reciboDetalle.codigo_compra, reciboDetalle.cantidad, reciboDetalle.precio_unitario,
-        reciboDetalle.total, tipoPago.tipo_de_pago, reciboDetalle.created_at
+        reciboDetalle.total, tipoPago.tipo_de_pago, reciboDetalle.created_at, ventaDetalle.numeracion_inicial, ventaDetalle.numeracion_final
         FROM sigecig_cajas caja
         INNER JOIN sigecig_colaborador colaborador ON colaborador.usuario = caja.cajero
         INNER JOIN sigecig_users usuario ON usuario.id = colaborador.usuario
         INNER JOIN sigecig_recibo_maestro reciboMaestro ON reciboMaestro.usuario = usuario.id
         INNER JOIN sigecig_recibo_detalle reciboDetalle ON reciboDetalle.numero_recibo = reciboMaestro.numero_recibo
         INNER JOIN sigecig_tipo_de_pago tipoPago ON tipoPago.codigo = reciboDetalle.codigo_compra
+        INNER JOIN sigecig_venta_de_timbres ventaDetalle ON ventaDetalle.recibo_detalle_id = reciboDetalle.id
         WHERE caja.id = $request->cajaActiva AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE) 
         ORDER BY reciboDetalle.created_at ASC;";
         $datos = DB::select($query);
