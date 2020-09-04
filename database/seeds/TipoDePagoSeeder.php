@@ -587,7 +587,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
             'categoria_id'=>'1',
-            'estado'=>'2',
+            'estado'=>'0',
             'display_plataforma'=>false,
         ]);
     }
