@@ -162,10 +162,10 @@
             </tr>
             @endforeach
         </table>
-
+        <br>
         {{--  --}}
         <div >
-          <label><b>REPORTE CREADO POR: </b> <?php echo date("d/m/Y H:i:s");?></label>
+          <label><b>REPORTE CREADO POR: {{$user->name}}</b> <?php echo date("d/m/Y H:i:s");?></label>
         </div>
 </body>
 </html>
