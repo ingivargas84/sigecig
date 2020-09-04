@@ -75,12 +75,9 @@
         </div>
         <div class="" >
         <label class=""><b>Fecha: </b> </label>
-        <b>{{$fechaInicial}} - {{$fechaFinal}}</b> 
-        </div>
-        <div class="">
-            <label class="" ><b>Total: {{$total}} </b></label>
-            <b></b>
-        </div>
+        <b>        {{ \Carbon\Carbon::parse($fechaInicial)->format('d/m/Y')}} - {{ \Carbon\Carbon::parse($fechaFinal)->format('d/m/Y')}}
+        </b> 
+        </div><br><br>
         <br>
         <br>
     </div>
@@ -98,7 +95,7 @@
                     <th colspan="2" style="background: #D2D2D2;text-align:center;">Saldo Actual</th>
                 </tr>
                 <tr>
-                    <th style="background: #D2D2D2;text-align:center;">Denominacion</th>
+                    <th style="background: #D2D2D2;text-align:center; padding: 4px;">Denominacion</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
                     <th style="background: #D2D2D2;text-align:center;">Valor</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
