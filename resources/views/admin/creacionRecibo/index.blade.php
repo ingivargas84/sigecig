@@ -470,7 +470,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>
@@ -800,7 +800,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>
@@ -1133,7 +1133,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>

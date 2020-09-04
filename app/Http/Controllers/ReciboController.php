@@ -23,6 +23,7 @@ use App\ReciboTarjeta;
 use App\ReciboDeposito;
 use App\PosCobro;
 use App\Banco;
+use App\SigecigMeses;
 use App\VentaDeTimbres;
 use App\TiposDeProductos;
 use App\IngresoProducto;
@@ -58,12 +59,13 @@ class ReciboController extends Controller
 
     public function pdfRecibo(Recibo_Maestro $id)
     {
-        $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
+        $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaRecibo/' . $id->numero_recibo); //link para colegiados version prueba
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
         $letras = new NumeroALetras;
         $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
-        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
         WHERE rd.numero_recibo = $id->numero_recibo";
@@ -83,6 +85,15 @@ class ReciboController extends Controller
                     if ($key < $tamanioArrray) {
                         $dato->tipo_de_pago = $dato->tipo_de_pago.',';
                     }
+                }
+            }
+        }
+
+        foreach ($datos as $key => $dato) {
+            if ($dato->codigo_compra == 'COL092') {
+                $meses = SigecigMeses::select('mes')->where('id',$dato->id_mes)->get();
+                foreach ($meses as $key => $meses) {
+                    $dato->tipo_de_pago = $dato->tipo_de_pago.' ('.$meses->mes.' '.$dato->año.')';
                 }
             }
         }
@@ -422,15 +433,37 @@ class ReciboController extends Controller
             }
             $array = $request->input("datos");
 
+            $numMes = new Carbon($fechaPagoColegio);
+            // $sumademes = 0;
+
             for ($i = 1; $i < sizeof($array); $i++) {
                 if ($array[$i][1] != 'timbre-mensual'){
-                    $reciboDetalle = Recibo_Detalle::create([
-                        'numero_recibo'     => $reciboMaestro->numero_recibo,
-                        'codigo_compra'     => $array[$i][1],
-                        'cantidad'          => $array[$i][2],
-                        'precio_unitario'   => substr($array[$i][3],2),
-                        'total'             => substr($array[$i][5],2),
-                    ]);
+                    if ($array[$i][1] == 'COL092'){
+                        $cant = intval($array[$i][2]);
+                        for ($d = 0; $d < $cant; $d++) {
+                            // $sumademes = $sumademes+1;
+                            $sumadefecha = $numMes->startofMonth()->addMonths(1)->toDateString();
+                            $mes = date("n", strtotime($sumadefecha));
+                            $anio = date("Y", strtotime($sumadefecha));
+                            $reciboDetalle = Recibo_Detalle::create([
+                                'numero_recibo'     => $reciboMaestro->numero_recibo,
+                                'codigo_compra'     => $array[$i][1],
+                                'cantidad'          => 1,
+                                'precio_unitario'   => substr($array[$i][3],2),
+                                'total'             => substr($array[$i][3],2),
+                                'id_mes'            => $mes,
+                                'año'               => $anio,
+                            ]);
+                        }
+                    } else {
+                        $reciboDetalle = Recibo_Detalle::create([
+                            'numero_recibo'     => $reciboMaestro->numero_recibo,
+                            'codigo_compra'     => $array[$i][1],
+                            'cantidad'          => $array[$i][2],
+                            'precio_unitario'   => substr($array[$i][3],2),
+                            'total'             => substr($array[$i][5],2),
+                        ]);
+                    }
                     //agregamos el cobro a el estado de cueta ( cargo)
                     $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
                     if($tipoPago->tipo != 1){
@@ -524,7 +557,8 @@ class ReciboController extends Controller
             INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
             WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
 
-            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
+            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
+            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaRecibo/' . $reciboMaestro->numero_recibo); //link version prueba
             $datos = DB::select($query1);
             $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
             $letras = new NumeroALetras;
@@ -675,7 +709,8 @@ class ReciboController extends Controller
             $nit_ = $id;
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo); //link version prueba
 
                 foreach ($datos as $key => $dato) {
                     if ($dato->categoria_id == 1) {
@@ -821,7 +856,8 @@ class ReciboController extends Controller
 
             $letras = new NumeroALetras;
             $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-            $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
+            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo); //link version prueba
 
                 foreach ($datos as $key => $dato) {
                     if ($dato->categoria_id == 1) {
