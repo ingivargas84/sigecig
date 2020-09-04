@@ -17,11 +17,13 @@ use App\TraspasoDetalle;
 use App\TraspasoMaestro;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Exists;
 
 class TimbresController extends Controller
 {
     public function reporteTimbres(Request $request){
+        $user = Auth::User();
         $fechaInicial=Carbon::parse($request->fechaInicial)->startOfDay()->toDateString();
         $fechaFinal=Carbon::parse($request->fechaFinal)->endOfDay()->toDateString();
         $diaAnteriorInicial=Carbon::parse($request->fechaInicial)->startOfDay()->subSecond()->toDateString();
@@ -121,50 +123,17 @@ class TimbresController extends Controller
         'totalGeneralRemesa'=>$totalGeneralRemesa,'totalGeneralValorRemesa'=>$totalGeneralValorRemesa,'totalGeneralVentaActual'=>$totalGeneralVentaActual,
         'totalGeneralValorVentaActual'=>$totalGeneralValorVentaActual,'totalGeneralSaldoActual'=>$totalGeneralSaldoActual,'totalGeneralValorSaldoActual'=>$totalGeneralValorSaldoActual];
         
-        // $query= "SELECT caja.nombre_caja, ingresoProducto.timbre_id, timbres.descripcion, ingresoProducto.cantidad
-        // FROM sigecig_cajas caja
-        // INNER JOIN sigecig_ingreso_producto ingresoProducto ON ingresoProducto.bodega_id = caja.bodega
-        // INNER JOIN sigecig_timbres timbres ON timbres.id = ingresoProducto.timbre_id
-        // WHERE caja.id = $request->cajaActiva ;";
-        // $saldoAnterior = DB::select($query); dd($saldoAnterior);
-
-        // $query= "SELECT bodega.nombre_bodega, bodegaMaestro.total as totalIngreso, bodegaDetalle.fecha_ingreso, bodegaDetalle.timbre_id , bodegaDetalle.cantidad, bodegaDetalle.numeracion_inicial
-        // ,bodegaDetalle.numeracion_final, bodegaDetalle.fecha_ingreso
-        // FROM sigecig_cajas caja
-        // INNER JOIN sigecig_bodega bodega ON bodega.id = caja.bodega
-        // INNER JOIN sigecig_ingreso_bodega_maestro bodegaMaestro ON bodegaMaestro.codigo_bodega_id = bodega.id
-        // INNER JOIN sigecig_ingreso_bodega_detalle bodegaDetalle ON bodegaDetalle.ingreso_maestro_id = bodegaMaestro.id
-        // WHERE caja.id = $request->cajaActiva ;";
-        // $ingresos = DB::select($query); dd($ingresos);
-
-        // $query1= "SELECT caja.id as id_caja,caja.nombre_caja, colaborador.nombre, usuario.id as id_usuario, reciboMaestro.numero_recibo,
-        // reciboMaestro.numero_de_identificacion, reciboMaestro.nombre, reciboDetalle.codigo_compra, reciboDetalle.cantidad, reciboDetalle.precio_unitario,
-        // reciboDetalle.total, tipoPago.tipo_de_pago, reciboDetalle.created_at
-        // FROM sigecig_cajas caja
-        // INNER JOIN sigecig_colaborador colaborador ON colaborador.usuario = caja.cajero
-        // INNER JOIN sigecig_users usuario ON usuario.id = colaborador.usuario
-        // INNER JOIN sigecig_recibo_maestro reciboMaestro ON reciboMaestro.usuario = usuario.id
-        // INNER JOIN sigecig_recibo_detalle reciboDetalle ON reciboDetalle.numero_recibo = reciboMaestro.numero_recibo
-        // INNER JOIN sigecig_tipo_de_pago tipoPago ON tipoPago.codigo = reciboDetalle.codigo_compra
-        // WHERE caja.id = $request->cajaActiva AND DATE(reciboDetalle.created_at) BETWEEN CAST('$diaAnteriorInicial' AS DATE) AND CAST('$diaAnteriorInicial' AS DATE) 
-        // ORDER BY fecha ASC;";
-        // $datosDiaAnterior = DB::select($query1);
-        // $totalDiaAnterior=0;
-        // foreach ($datosDiaAnterior as $key => $dato) {
-        //     $totalDiaAnterior += $dato->total;
-        // }
-  
-       
 
         $query= "SELECT caja.id as id_caja,caja.nombre_caja, colaborador.nombre, usuario.id as id_usuario, reciboMaestro.numero_recibo,
         reciboMaestro.numero_de_identificacion, reciboMaestro.nombre, reciboDetalle.codigo_compra, reciboDetalle.cantidad, reciboDetalle.precio_unitario,
-        reciboDetalle.total, tipoPago.tipo_de_pago, reciboDetalle.created_at
+        reciboDetalle.total, tipoPago.tipo_de_pago, reciboDetalle.created_at, ventaDetalle.numeracion_inicial, ventaDetalle.numeracion_final
         FROM sigecig_cajas caja
         INNER JOIN sigecig_colaborador colaborador ON colaborador.usuario = caja.cajero
         INNER JOIN sigecig_users usuario ON usuario.id = colaborador.usuario
         INNER JOIN sigecig_recibo_maestro reciboMaestro ON reciboMaestro.usuario = usuario.id
         INNER JOIN sigecig_recibo_detalle reciboDetalle ON reciboDetalle.numero_recibo = reciboMaestro.numero_recibo
         INNER JOIN sigecig_tipo_de_pago tipoPago ON tipoPago.codigo = reciboDetalle.codigo_compra
+        INNER JOIN sigecig_venta_de_timbres ventaDetalle ON ventaDetalle.recibo_detalle_id = reciboDetalle.id
         WHERE caja.id = $request->cajaActiva AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE) 
         ORDER BY reciboDetalle.created_at ASC;";
         $datos = DB::select($query);
@@ -172,11 +141,11 @@ class TimbresController extends Controller
         foreach ($datos as $key => $dato) {
             $total += $dato->total;
         }
-        return \PDF::loadView('admin.timbres.pdf-reporte-timbres',compact('datos','cajero','fechaInicial','fechaFinal','subsede','total','arrayDatos','arrayTotales'))
+        return \PDF::loadView('admin.timbres.pdf-reporte-timbres',compact('datos','cajero','fechaInicial','fechaFinal','subsede','total','arrayDatos','arrayTotales','user'))
         ->setPaper('legal', 'landscape')
         ->stream('Traspaso.pdf');
       
-       return view('admin.timbres.pdf-reporte-timbres',compact('datos','cajero','fechaInicial','fechaFinal','subsede','total','arrayDatos'));
+    //    return view('admin.timbres.pdf-reporte-timbres',compact('datos','cajero','fechaInicial','fechaFinal','subsede','total','arrayDatos'));
 
     
     }
