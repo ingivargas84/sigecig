@@ -348,6 +348,57 @@ Log::info("Morir2 ".print_r($aspirante, true));
     return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
   }
 
+  public function getDatosProfesionalesColegiado() {
+    $rules = array(
+//        'idusuario' => 'required|digits:13',
+      'idusuario' => 'required',
+      'tipo' => 'required|required|in:P,M'
+    );
+    $messages = [
+      'required' => 'El campo :attribute es obligatorio. Por favor revisar.',
+    ];
+    $validator = Validator::make(Input::all(), $rules, $messages);
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      $errors =  json_decode($errors);
+      return json_encode(array('error' => 1, 'mensaje' => 'Datos incompletos', 'infoError' => $errors));
+    }
+
+    $tipo = Input::get('tipo');
+    $colegiado = \App\CC00::find(Input::get('idusuario'));
+    $retorno = array();
+    if($colegiado != null) {
+      if($tipo == 'P') {
+//          $retorno = \App\colegiado::find(Input::get('idusuario'))->profesiones()->get();
+        $retorno = $colegiado->profesiones()->get();
+      } else if($tipo == 'M') {
+        $retorno = \App\colegiado::find(Input::get('idusuario'))->especialidades()->get();
+      }
+    }
+  }
+
+  public function setDatosProfesionalesColegiado() {
+    $rules = array(
+//        'idusuario' => 'required|integer',
+      'idusuario' => 'required',
+      'idprofesion' => 'required'
+    );
+
+    $validator = Validator::make(Input::all(), $rules);
+    if ($validator->fails()) {
+      return json_encode(array('retorno' => 2, 'mensaje' => 'Profesión o colegiado inválido'));
+    }
+
+    $colegiado = \App\CC00::find(Input::get('idusuario'));
+    if($colegiado == null) {
+        $this->setDatoscolegiado();
+        $colegiado = \App\CC00::find(Input::get('idusuario'));
+    }
+Log::info("Morir2 ".print_r($colegiado, true));
+    $colegiado->profesiones()->attach(Input::get('idprofesion'));
+    return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+  }
+
   public function setDatosEspecialidadesAspirante() {
     $rules = array(
       'idusuario' => 'required|integer',
@@ -632,25 +683,40 @@ Log::info("Morir2 ".print_r($aspirante, true));
   }
 
   public function dpiDisponible(){
-    $dato = Input::get("dpi");
+    $dato = Input::get("idusuario");
     $query = Aspirante::where("dpi",$dato)->get();
-         $contador = count($query);
-    if ($contador == 0 )
-    {
-        return 'false';
-    }
-    else
-    {
-        return 'true';
-    }
+    $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
 }
+
+public function profesionExist(){
+
+  $dato = Input::get("dpi");
+  $query = ProfesionAspirante::where("dpi",$dato)->get();
+  $contador = count($query);
+        if ($contador == 0 )
+        {
+            return 'false';
+        }
+        else
+        {
+            return 'true';
+        }
+}
+
 
   public function getJsonAsp(Request $params)
   {
-     $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', CONCAT(P.titulo_masculino, ' ', P.n_profesion) as carrera
+     $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
                  FROM aspirante C
-                 LEFT JOIN profesionAspirante PA ON PA.dpi = C.dpi
-                 LEFT JOIN profesion P ON PA.c_profesion = P.c_profesion"; 
+                 ORDER BY C.dpi ASC"; 
 
      $api_Result['data'] = DB::connection('sqlsrv')->select($query);
      return Response::json( $api_Result );
@@ -660,10 +726,9 @@ Log::info("Morir2 ".print_r($aspirante, true));
      {
         $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
         IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
-        (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado,
-        cp.n_profesion as carrera
+        (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado
                 FROM cc00 CC
-                LEFT JOIN cc00prof cp ON CC.c_cliente = cp.c_cliente"; 
+                ORDER BY CC.c_cliente ASC"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );

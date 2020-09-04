@@ -1,3 +1,36 @@
+var validator = $("#ProfesionForm").validate({
+	ignore: [],
+	onkeyup:false,
+	rules: {
+		idprofesion:{
+      profesionExist: true
+        }
+  },
+	messages: {
+    idprofesion: {
+        required: "Profesion ya ingresadaa"
+    }
+  }
+});
+
+
+$.validator.addMethod("profesionExist", function(value, element){
+  var valid = false;
+  var urlActual = $("input[name='urlActual']").val();
+  $.ajax({
+      type: "GET",
+      async: false,
+      url: "/Aspirante/profExist/",
+      data:"profesion=" + value,
+      dataType: "json",
+      success: function (msg) {
+          valid=!msg;
+      }
+  });
+  return valid;
+  }, "Profesion ya ingresada");
+
+
 $('#ingresoModal2').on('shown.bs.modal', function(event){
   var button = $(event.relatedTarget);
   var dpi = button.data('dpi');
@@ -9,44 +42,6 @@ $('#ingresoModal2').on('shown.bs.modal', function(event){
 
  });
 
- 
-$("#ButtonBoletaUpdate").click(function(event) {
-	if ($('#ProfesionForm').valid()) {
-		$('.loader').addClass("is-active");
-	} else {
-		validator.focusInvalid();
-	}
-}); 
- 
-$("#ButtonTipoModalUpdate").click(function(event) {
-	event.preventDefault();
-	if ($('#ProfesionForm').valid()) {
-		updateModal();
-	} else {
-		validator.focusInvalid();
-	}
-});
-
-function updateModal(button) {
-	var formData = $("#ProfesionForm").serialize();
-	var id = $("input[name='test']").val();
-	var urlActual =  $("input[name='urlActual']").val();
-	$.ajax({
-		type: "POST",
-		headers: {'X-CSRF-TOKEN': $('#cajasToken').val()},
-		url: "/cajas/"+id+"/update",
-		data: formData,
-		dataType: "json",
-		success: function(data) {
-			BorrarFormularioUpdate();
-			$('#ingresoModal2').modal("hide");
-			colegiados_table.ajax.reload();
-			alertify.set('notifier','position', 'top-center');
-			alertify.success('Profesión agregada con Éxito!!');
-		},
-	});
-}
- 
 if(window.location.hash === '#add')
 {
   $('#ingresoModal2').modal('show');
@@ -215,6 +210,13 @@ $(window).on('load', function(e) {
   }); 
  
   
+$("#ButtonAgregarProfesion").click(function(event) {
+	if ($('#ProfesionForm').valid()) {
+    agregarProfesionF();
+	} else {
+		validator.focusInvalid();
+	}
+}); 
 
 function agregarProfesionF() {
 	var invitacion = {
@@ -250,9 +252,10 @@ function agregarProfesionF() {
         $("#mensajes").html(a);
         $("#mensajes").css({'color':'red'});
       }
-      $('.loader').fadeOut(225);
+        $('.loader').fadeOut(225);
         alertify.set('notifier','position', 'top-center');
         alertify.success('Profesión agregada con Éxito!!');
+       // aspirantes_table.ajax.reload();
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");
@@ -282,7 +285,6 @@ function agregarEspecialidadF() {
       if(data.retorno==0) {
         $("#mensajes").html("Especialidad guardada correctamente.");
         $("#mensajes").css({'color':'green'});
-        getDatosProfesionales("M");
       } else if(data.retorno==1) {
         $("#mensajes").html("Especialidad ya presente.");
         $("#mensajes").css({'color':'red'});
@@ -296,11 +298,9 @@ function agregarEspecialidadF() {
       }
       $('.loader').fadeOut(225);
       $('#ingresoModal2').modal("hide");
-      colegiados_table.ajax.reload();
-      aspirantes_table.ajax.reload();
-        alertify.set('notifier','position', 'top-center');
-        alertify.success('Especialidad agregada con Éxito!!');
-      
+      alertify.set('notifier','position', 'top-center');
+      alertify.success('Especialidad agregada con Éxito!!');
+    //  aspirantes_table.ajax.reload();      
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");

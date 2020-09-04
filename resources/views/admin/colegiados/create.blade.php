@@ -33,8 +33,6 @@ $(document).ready(function(){
 @push('scripts')
 <script src="{{asset('/ea/jquery-ui.min.js')}}"></script>
 <script src="{{asset('/ea/jquery.mask.min.js')}}"></script>
-{{-- <script src="{{asset('ea/jquery.auto-complete.js')}}"></script>
-<script src="{{asset('/ea/jquery.auto-complete.min.js')}}"></script> --}}
 <script src="{{asset('/ea/bootstrap.min.js')}}"></script>
 
 @endpush 
@@ -205,18 +203,17 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="nombreContactoEmergencia" class="control-label">Nombre contacto de emergencia</label>
-                              <input id="nombreContactoEmergencia" required="" class="form-control" placeholder="Nombres" name="nombreContactoEmergencia" type="text">                            </div>
+                              <input id="nombreContactoEmergencia" required="" class="form-control" placeholder="Nombres" name="nombreContactoEmergencia" type="text">                            
+                            </div>
                             <div class="col-sm-4">
                               <label for="telefonoContactoEmergencia" class="control-label">Teléfono</label>
-                              <input id="telefonoContactoEmergencia" required="" class="form-control" placeholder="Teléfono" name="telefonoContactoEmergencia" type="tel">                            </div>
+                              <input id="telefonoContactoEmergencia" required="" class="form-control" placeholder="Teléfono" name="telefonoContactoEmergencia" type="tel">                            
+                            </div>
                         </div>
                         <br>
                         <div class="text-right m-t-15">
                             <a class='btn btn-danger form-button' href="{{ route('aspirantes.index') }}">Regresar</a>
-{{-- <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
- --}}
- {{-- <button class="btn btn-primary form-button"  id="ButtonColegiado">Guardar</button> --}}
-                          <button id="guardarAspirante" onclick="guardarAspiranteF()" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
+                          <button id="ButtonGuardarAspirante" class="form-button btn btn-success" type="button">Guardar Aspirante</button>
                         </div>
                     </div>
                 </div>
@@ -226,6 +223,7 @@ $(document).ready(function(){
 
 @endsection
 @push('scripts')
-<script src="{{asset('js/colegiados/aspirante.js')}}"></script>
+<script src="{{asset('js/colegiados/create.js')}}"></script>
+
 @endpush
 

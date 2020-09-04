@@ -113,7 +113,8 @@ function guardarMontoTimbreF()
         $("#mensajes").html("Datos guardados correctamente.");
         $("#mensajes").css({'color':'green'});
         alertify.set('notifier','position', 'top-center');
-				alertify.success('Monto agregado con Éxito!!');
+        alertify.success('Monto agregado con Éxito!!');
+        $('#ingresoModal3').modal("hide");
       }
       
     },
@@ -122,7 +123,7 @@ function guardarMontoTimbreF()
     }
   });
 }
-
+/* 
 function guardarFechaTopeMensualidadesF(){
 var invitacion = {
     'fechaTopeMensualidades': $("#fechaTopeMensualidades").val(),
@@ -196,4 +197,4 @@ $.ajax({
             $("#mensajes").html("Error en el sistema.");
     }
 });
-}
+} */

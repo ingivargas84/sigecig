@@ -51,7 +51,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         {
             "title": "Colegiado",
             "data": "codigo", 
-            "width" : "3%",
+            "width" : "5%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -59,23 +59,15 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         {
             "title": "Nombre",
             "data": "colegiado", 
-            "width" : "25%",
+            "width" : "45%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
         },
-        {
-            "title": "Carrera",
-            "data": "carrera", 
-            "width" : "42%",
-            "responsivePriority": 3,
-            "render": function( data, type, full, meta ) {
-                return (data);},
-        }, 
          {
             "title": "Estado",
             "data": "estado",
-            "width" : "10%",
+            "width" : "20%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -84,7 +76,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         "title": "Acciones",
         "data": "estado",
         "orderable": false,
-        "width" : "20%",
+        "width" : "30%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();

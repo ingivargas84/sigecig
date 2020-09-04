@@ -95,7 +95,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'75.75',
             'precio_particular'=>'0',
             'categoria_id'=>'3',
-            'estado'=>'0',
+            'estado'=>'1',
             'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -578,6 +578,15 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
             'categoria_id'=>'9',
+            'estado'=>'2',
+            'display_plataforma'=>false,
+        ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'timbre-mensual',
+            'tipo_de_pago'=>'pago de mensualidades de cuota de timbre',
+            'precio_colegiado'=>'0',
+            'precio_particular'=>'0',
+            'categoria_id'=>'1',
             'estado'=>'2',
             'display_plataforma'=>false,
         ]);
