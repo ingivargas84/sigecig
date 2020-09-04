@@ -199,8 +199,8 @@ Route::group([
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
         Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
-        Route::get( '/tipo/ajax/{tipo}', 'ReciboController@SerieDePagoA');
-        Route::get( '/tipo/ajax/B/{tipo}', 'ReciboController@SerieDePagoB');
+        Route::get( '/tipo/ajax/A', 'ReciboController@SerieDePagoA');
+        Route::get( '/tipo/ajax/B', 'ReciboController@SerieDePagoB');
         Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
         Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
@@ -210,6 +210,7 @@ Route::group([
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
         Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
+        Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
