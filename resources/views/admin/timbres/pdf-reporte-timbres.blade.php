@@ -75,12 +75,9 @@
         </div>
         <div class="" >
         <label class=""><b>Fecha: </b> </label>
-        <b>{{$fechaInicial}} - {{$fechaFinal}}</b> 
-        </div>
-        <div class="">
-            <label class="" ><b>Total: {{$total}} </b></label>
-            <b></b>
-        </div>
+        <b>        {{ \Carbon\Carbon::parse($fechaInicial)->format('d/m/Y')}} - {{ \Carbon\Carbon::parse($fechaFinal)->format('d/m/Y')}}
+        </b> 
+        </div><br><br>
         <br>
         <br>
     </div>
@@ -98,7 +95,7 @@
                     <th colspan="2" style="background: #D2D2D2;text-align:center;">Saldo Actual</th>
                 </tr>
                 <tr>
-                    <th style="background: #D2D2D2;text-align:center;">Denominacion</th>
+                    <th style="background: #D2D2D2;text-align:center; padding: 4px;">Denominacion</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
                     <th style="background: #D2D2D2;text-align:center;">Valor</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
@@ -157,15 +154,21 @@
                 <td style="background:eee;">{{$co->nombre}}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
                 <td style="background:eee;">{{$co->tipo_de_pago}}</td>
-                <td style="background:eee;text-align:center;">{{$co->numero_recibo}}</td>
+                <td style="background:eee;text-align:left;">
+                    @if ($co->cantidad == 1)
+                    {{$co->numeracion_inicial}}
+                    @else
+                    {{$co->numeracion_inicial}} - {{$co->numeracion_final}}
+                    @endif
+                    </td>
                 <td style="background:eee;text-align:right;">Q. {{number_format($co->total,2,".","")}} </td>
             </tr>
             @endforeach
         </table>
-
+        <br>
         {{--  --}}
         <div >
-          <label><b>REPORTE CREADO POR: </b> <?php echo date("d/m/Y H:i:s");?></label>
+          <label><b>REPORTE CREADO POR: {{$user->name}}</b> <?php echo date("d/m/Y H:i:s");?></label>
         </div>
 </body>
 </html>

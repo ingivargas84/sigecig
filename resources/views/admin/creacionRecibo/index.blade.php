@@ -286,6 +286,31 @@
                             <input id="cantidadDatosTc200" type="text" class="form-control" name="cantidadDatosTc200" style="display: none;">
                             <input id="cantidadDatosTc500" type="text" class="form-control" name="cantidadDatosTc500" style="display: none;">
 
+                            <input id="tmCantTc01" type="text" class="form-control" name="tmCantTc01" style="display: none;">
+                            <input id="tmCantTc01_2" type="text" class="form-control" name="tmCantTc01_2" style="display: none;">
+                            <input id="tmCantTc01_3" type="text" class="form-control" name="tmCantTc01_3" style="display: none;">
+                            <input id="tmCantTc05" type="text" class="form-control" name="tmCantTc05" style="display: none;">
+                            <input id="tmCantTc05_2" type="text" class="form-control" name="tmCantTc05_2" style="display: none;">
+                            <input id="tmCantTc05_3" type="text" class="form-control" name="tmCantTc05_3" style="display: none;">
+                            <input id="tmCantTc10" type="text" class="form-control" name="tmCantTc10" style="display: none;">
+                            <input id="tmCantTc10_2" type="text" class="form-control" name="tmCantTc10_2" style="display: none;">
+                            <input id="tmCantTc10_3" type="text" class="form-control" name="tmCantTc10_3" style="display: none;">
+                            <input id="tmCantTc20" type="text" class="form-control" name="tmCantTc20" style="display: none;">
+                            <input id="tmCantTc20_2" type="text" class="form-control" name="tmCantTc20_2" style="display: none;">
+                            <input id="tmCantTc20_3" type="text" class="form-control" name="tmCantTc20_3" style="display: none;">
+                            <input id="tmCantTc50" type="text" class="form-control" name="tmCantTc50" style="display: none;">
+                            <input id="tmCantTc50_2" type="text" class="form-control" name="tmCantTc50_2" style="display: none;">
+                            <input id="tmCantTc50_3" type="text" class="form-control" name="tmCantTc50_3" style="display: none;">
+                            <input id="tmCantTc100" type="text" class="form-control" name="tmCantTc100" style="display: none;">
+                            <input id="tmCantTc100_2" type="text" class="form-control" name="tmCantTc100_2" style="display: none;">
+                            <input id="tmCantTc100_3" type="text" class="form-control" name="tmCantTc100_3" style="display: none;">
+                            <input id="tmCantTc200" type="text" class="form-control" name="tmCantTc200" style="display: none;">
+                            <input id="tmCantTc200_2" type="text" class="form-control" name="tmCantTc200_2" style="display: none;">
+                            <input id="tmCantTc200_3" type="text" class="form-control" name="tmCantTc200_3" style="display: none;">
+                            <input id="tmCantTc500" type="text" class="form-control" name="tmCantTc500" style="display: none;">
+                            <input id="tmCantTc500_2" type="text" class="form-control" name="tmCantTc500_2" style="display: none;">
+                            <input id="tmCantTc500_3" type="text" class="form-control" name="tmCantTc500_3" style="display: none;">
+
                             <input id="tc01inicio" type="text" class="form-control" name="tc01inicio" style="display: none;">
                             <input id="tc05inicio" type="text" class="form-control" name="tc05inicio" style="display: none;">
                             <input id="tc10inicio" type="text" class="form-control" name="tc10inicio" style="display: none;">
@@ -445,7 +470,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;" id="nuevoRecibo" name="nuevoRecibo">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>
@@ -775,7 +800,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>
@@ -1108,7 +1133,7 @@
                             </a>
                         </div>
                         <div class="col-md-3">
-                            <a class="btn btn-primary" style="padding: 6px 16px 6px 46px;">
+                            <a class="btn btn-primary" onclick="todoNuevo()" style="padding: 6px 16px 6px 46px;">
                                 NUEVO <i class="blue-icon fa fa-plus-square" style="margin-left: 25px;"></i>
                             </a>
                         </div>
@@ -1154,7 +1179,8 @@
             comprobarCheckEfectivoP();
             comprobarCheckChequeP();
             comprobarCheckTarjetaP();
-            limpiarTimbres()
+            limpiarTimbres();
+            cambioSerie();
         });
     });
 </script>
