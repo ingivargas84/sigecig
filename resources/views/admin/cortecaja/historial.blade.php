@@ -3,12 +3,12 @@
 @section('header')
 <section class="content-header">
     <h1><center>
-      Corte de Caja Diario
+     Historial
       </center>
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Inicio</a></li>
-      <li class="active">Corte de Caja</li>
+      <li class="active">Historial</li>
     </ol>
   </section>
   @endsection
@@ -19,20 +19,16 @@
 <div class="box">
     <!-- /.box-header -->
     <div class="box-body">
-      <legend><center>Detalles</center></legend>
+     
+        <legend ><center>Historial de Corte de Caja </center></legend>
 
-        <input type="hidden" name="rol_user" value="{{auth()->user()->id}}">
-        <table id="cortedecaja-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
-        </table>
-      <legend ><center>Total Recibido </center></legend>
-
-        <input type="hidden" name="rol_user" value="{{auth()->user()->id}}">
-        <table id="totales-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
+      <input type="hidden" name="rol_user" value="{{auth()->user()->id}}">
+        <table id="historial-table" class="table table-striped table-bordered no-margin-bottom dt-responsive nowrap"  width="100%">
         </table>
 
         <div class="text-right m-t-15">
           <a class="btn btn-primary corte-caja data-monto_total='monto_total+' " href="{{route('cortedecaja.save')}}">Corte de Caja</a>
-   {{--        <a class="btn btn-primary" href="{{route('cortedecaja.pdfbitacora')}}">Generar PDF</a> --}}
+        {{--   <a class="btn btn-primary" href="{{route('cortedecaja.pdfbitacora')}}">Generar PDF</a> --}}
         </div>
 
         <input type="hidden" name="urlActual" value="{{url()->current()}}">
@@ -49,8 +45,6 @@
 @endpush
 
 @push('scripts')
-<script src="{{asset('js/cortecaja/index.js')}}"></script>
-<script src="{{asset('js/cortecaja/totales.js')}}"></script>
 <script src="{{asset('js/cortecaja/historial.js')}}"></script>
 
   <script>
@@ -58,10 +52,7 @@
       $('.loader').fadeOut(225);
     });
     $(document).ready(function(){
-      cortedecaja_table.ajax.url("{{route('cortedecaja.getJson')}}").load();
-      totales_table.ajax.url("{{route('cortedecaja.getDetalle')}}").load();
       historial_table.ajax.url("{{route('cortedecaja.getHistorial')}}").load();
-
     });
 </script>
 @endpush

@@ -378,27 +378,12 @@ Log::info("Morir2 ".print_r($aspirante, true));
   }
 
   public function setDatosProfesionalesColegiado() {
-    $rules = array(
-//        'idusuario' => 'required|integer',
-      'idusuario' => 'required',
-      'idprofesion' => 'required'
-    );
 
-    $validator = Validator::make(Input::all(), $rules);
-    if ($validator->fails()) {
-      return json_encode(array('retorno' => 2, 'mensaje' => 'Profesión o colegiado inválido'));
-    }
-
-    $colegiado = \App\CC00::find(Input::get('idusuario'));
-    if($colegiado == null) {
-        $this->setDatoscolegiado();
-        $colegiado = \App\CC00::find(Input::get('idusuario'));
-    }
-Log::info("Morir2 ".print_r($colegiado, true));
-    $colegiado->profesiones()->attach(Input::get('idprofesion'));
-    return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+    $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
+    $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
+    $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
+    
   }
-
   public function setDatosEspecialidadesAspirante() {
     $rules = array(
       'idusuario' => 'required|integer',
@@ -683,7 +668,7 @@ Log::info("Morir2 ".print_r($colegiado, true));
   }
 
   public function dpiDisponible(){
-    $dato = Input::get("idusuario");
+    $dato = Input::get("dpi");
     $query = Aspirante::where("dpi",$dato)->get();
     $contador = count($query);
         if ($contador == 0 )

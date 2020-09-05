@@ -199,6 +199,10 @@
           <i class="fa fa-user"></i> <span>Aspirantes</span></a>
         </li>
 
+        <li class="{{request()->is('historial')? 'active': ''}}" ><a href="{{route('cortecaja.historial')}}">
+          <i class="fa fa-history"></i> <span>Historial</span></a>
+        </li>
+
         @role('Super-Administrador|Administrador|Contabilidad')
               <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">
                 <i class="fa fa-credit-card"></i>Estados de Cuenta</a>

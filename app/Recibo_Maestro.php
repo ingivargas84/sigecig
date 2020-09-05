@@ -21,7 +21,8 @@ class Recibo_Maestro extends Model
         'monto_cheque',
         'usuario',
         'monto_total',
-        'e_mail'
+        'e_mail',
+        'id_corte_de_caja'
     ];
     public function corte() {
         return $this->belongsTo('\App\CorteCaja', 'id');

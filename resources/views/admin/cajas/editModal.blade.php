@@ -53,5 +53,5 @@
             </div>
           </div>
     </div>
-    {!! Form::close() !!}
+</form>
 </div>
