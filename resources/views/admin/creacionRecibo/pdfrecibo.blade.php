@@ -117,15 +117,6 @@
             margin: 20 auto;
             font-family: "sans-serif";
         }
-      /*   table, td, th {
-            border-collapse: collapse;
-            border: 1px solid black;
-            margin: 20 auto;
-            text-align: center;
-            width: 90%;
-            font-family: "sans-serif";
-            height: 30px;
-        }*/
         .odd th, .odd td {
             background: #eee;
         }
@@ -163,12 +154,24 @@
         </div>
     </div>
     <div class="row colegiado2">
+        @if($id->tipo_de_cliente_id == 1)
         <div class="">
           <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>
         </div>
-        <div class="">
-          <label for="" >NIT: {{$nit_->nit}}</label>
-        </div>
+            <div class="">
+                 <label for="" >NIT: {{$nit_->nit}}</label>
+            </div>
+        @endif
+        @if($id->tipo_de_cliente_id == 2)
+            <div class="">
+                <label for="" class=" ">DPI: {{$id->numero_de_identificacion}} </label>
+            </div>
+         @endif
+        @if($id->tipo_de_cliente_id == 3)
+            <div class="">
+                <label for="" class=" ">NIT: {{$id->numero_de_identificacion}} </label>
+            </div>
+        @endif
     </div>
       <br>
         <table>

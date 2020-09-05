@@ -14,6 +14,8 @@ class Recibo_Detalle extends Model
         'codigo_compra',
         'cantidad',
         'precio_unitario',
-        'total'
+        'total',
+        'id_mes',
+        'año'
     ];
 }

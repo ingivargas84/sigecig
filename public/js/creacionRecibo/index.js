@@ -157,6 +157,10 @@ $(document).ready(function () {
     });
 });
 
+function todoNuevo() {
+    window.location.href = window.location.href;
+}
+
 // FUNCION DE TIMBRES buttonAgregar
 
 function getTc01(){
@@ -1184,14 +1188,16 @@ $(document).ready(function(){
     });
 });
 
-// $(document).ready(function(){
-//     $("input[name$='tipoCliente']").change(function() {
-//         cambioSerie();
-//     });
-// });
+$(document).ready(function(){
+    $("input[name$='tipoCliente']").change(function() {
+        cambioSerie();
+    });
+});
 
 function cambioSerie () {
-    $("input[name='codigo']").empty();
+    $("select[name='codigo']").empty();
+    $("select[name='codigoE']").empty();
+    $("select[name='codigoP']").empty();
         $("tbody").children().remove();
         getTotal();
         var stateID = $("input[name$='serieRecibo']").val();
@@ -1203,11 +1209,28 @@ function cambioSerie () {
                 data: {stateID, datoSelected},
                 dataType: "json",
                 success:function(data) {
-                    $("#codigo").empty();
-                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigo').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                    // $("#codigo").empty();
+                    if ($('input[name=tipoCliente]:checked').val() == 'c') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigo').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                        }
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                        }
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                        }
                     }
                 }
             });
@@ -1218,14 +1241,31 @@ function cambioSerie () {
                 data: {stateID, datoSelected},
                 dataType: "json",
                 success:function(data) {
-                    $("#codigo").empty();
-                    $('#codigo').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigo').append($('<option>', {
-                            value: data[i]["id"],
-                            text: data[i]["codigo"]
-                        }));
+                    // $("#codigo").empty();
+                    if ($('input[name=tipoCliente]:checked').val() == 'c') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigo').append($('<option>', {
+                                value: data[i]["id"],
+                                text: data[i]["codigo"]
+                            }));
+                        }
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                        }
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'p') {
+                        $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
+                        $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                        for (i = 0; i < data.length; i++)
+                        {
+                            $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                        }
                     }
                 }
             });
@@ -2416,48 +2456,6 @@ function limpiarTimbres()
 
 //Funcionamiento sobre EMPRESA
 
-$(document).ready(function(){
-    $("input[name$='serieRecibo']").change(function() {
-        $("input[name='codigoE']").empty();
-        var stateID = $("input[name$='serieRecibo']").val();
-        var datoSelected = $('input[name=tipoCliente]:checked').val();
-        if(document.getElementById("serieReciboA").checked) {
-            $.ajax({
-                type: "GET",
-                url: '/tipo/ajax/A',
-                data: {stateID, datoSelected},
-                dataType: "json",
-                success:function(data) {
-                    $("#codigoE").empty();
-                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
-                    }
-                }
-            });
-        }else if(document.getElementById("serieReciboB").checked) {
-            $.ajax({
-                type: "GET",
-                url: '/tipo/ajax/B',
-                data: {stateID, datoSelected},
-                dataType: "json",
-                success:function(data) {
-                    $("#codigoE").empty();
-                    $('#codigoE').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigoE').append($('<option>', {
-                            value: data[i]["id"],
-                            text: data[i]["codigo"]
-                        }));
-                    }
-                }
-            });
-        }
-    });
-});
-
 $(document).ready(function () {
     $("#codigoE").change (function () {
         var valor = $("#codigoE").val();
@@ -2988,48 +2986,6 @@ function limpiarPantallaE()
 }
 
 //Funcionamiento sobre Particular
-
-$(document).ready(function(){
-    $("input[name$='serieRecibo']").change(function() {
-        $("input[name='codigoP']").empty();
-        var stateID = $("input[name$='serieRecibo']").val();
-        var datoSelected = $('input[name=tipoCliente]:checked').val();
-        if(document.getElementById("serieReciboA").checked) {
-            $.ajax({
-                type: "GET",
-                url: '/tipo/ajax/A',
-                data: {stateID, datoSelected},
-                dataType: "json",
-                success:function(data) {
-                    $("#codigoP").empty();
-                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
-                    }
-                }
-            });
-        }else if(document.getElementById("serieReciboB").checked) {
-            $.ajax({
-                type: "GET",
-                url: '/tipo/ajax/B',
-                data: {stateID, datoSelected},
-                dataType: "json",
-                success:function(data) {
-                    $("#codigoP").empty();
-                    $('#codigoP').append( '<option value="">-- Escoja --</option>' );
-                    for (i = 0; i < data.length; i++)
-                    {
-                        $('#codigoP').append($('<option>', {
-                            value: data[i]["id"],
-                            text: data[i]["codigo"]
-                        }));
-                    }
-                }
-            });
-        }
-    });
-});
 
 $(document).ready(function () {
     $("#codigoP").change (function () {

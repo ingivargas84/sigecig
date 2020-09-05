@@ -20,6 +20,8 @@ class CreateReciboDetalleTable extends Migration
             $table->integer('cantidad');
             $table->double('precio_unitario',10,2);
             $table->double('total',10,2);
+            $table->integer('id_mes')->nullable();
+            $table->string('año',10)->nullable();
             $table->timestamps();
         });
     }

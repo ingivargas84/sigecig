@@ -185,7 +185,6 @@ class SubsedesController extends Controller
 
     public function getJson(Request $params)
      {
-         //$api_Result['data'] = Subsedes::where('estado','=',1)->get();
          $api_Result['data'] = Subsedes::all();
          return Response::json( $api_Result );
      }

@@ -23,6 +23,10 @@ class CorteDeCajaController extends Controller
     {
         return view('admin.cortecaja.index');
     }
+    public function historial(Recibo_Maestro $id)
+    {
+        return view('admin.cortecaja.historial');
+    }
 
     public function setDetalleCorteCaja(Request $codigo)
     {
@@ -42,24 +46,34 @@ class CorteDeCajaController extends Controller
         $corteCaja->id_usuario = Auth::user()->id;
         $corteCaja->id_caja = $cajaCajero->id;
         $corteCaja->fecha_corte=$fecha;
-        $recibom->id_corte_de_caja=$corteCaja->id;
-        $corteCaja->save(); 
         
+        $corteCaja->save(); 
+        $ca = CorteCaja::whereRaw('Date(created_at) = CURDATE()')->get()->first();
+        $data = DB::table('sigecig_recibo_maestro')->whereRaw('Date(created_at) = CURDATE()')->update(['id_corte_de_caja' =>$ca->id]);
+
       return response()->json(['success' => 'Exito']);
     }
 
-    public function pdf() {
+    public function pdf(CorteCaja $id) {
 
-        $recibopdf = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get();
+         $rec = Recibo_Maestro::where('id_corte_de_caja', $id->id)->get();
+         $id = CorteCaja::where('id', $id->id)->get()->first();
+         $user = User::where('id', $id->id_usuario)->get()->first();
 
-        $totalespdf = CorteCaja::whereRaw('Date(fecha_corte) = CURDATE()')->get();
-
-        $users = User::where('id', Auth::user()->id)->get()->first();
-        $newDate = Carbon::now();
-        $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle', compact('users', 'recibopdf', 'totalespdf', 'newDate'));
+        $pdf = \PDF::loadView('admin.cortecaja.pdfdetalle', compact('id', 'user', 'rec'));
         return $pdf->stream('DetalleCortedeCaja.pdf');
     }
 
+    public function getHistorial(Request $params)
+    {
+       $query = "SELECT CJ.id, CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.total_deposito, U.name, C.nombre_caja, CJ.fecha_corte
+       FROM sigecig_corte_de_caja CJ
+       LEFT JOIN sigecig_users U ON U.id = CJ.id_usuario
+       LEFT JOIN sigecig_cajas C ON U.id = C.cajero";
+
+       $api_Result['data'] = DB::select($query);
+       return Response::json( $api_Result );
+    }
 
     public function getDetalle(Request $params)
     {

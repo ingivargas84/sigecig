@@ -281,9 +281,11 @@ Route::group([
 
          // Módulo Corte de Caja
          Route::get('/cortedecaja', 'CorteDeCajaController@index')->name('cortecaja.index');
+         Route::get('/cortedecaja/historial', 'CorteDeCajaController@historial')->name('cortecaja.historial');
          Route::get('/cortedecaja/getJson/', 'CorteDeCajaController@getJson')->name('cortedecaja.getJson');
          Route::get('/cortedecaja/getDetalle/', 'CorteDeCajaController@getDetalle')->name('cortedecaja.getDetalle');
-         Route::get('/cortedecaja/pdf/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
+         Route::get('/cortedecaja/getHistorial/', 'CorteDeCajaController@getHistorial')->name('cortedecaja.getHistorial');
+         Route::get('/cortedecaja/historial/pdf/{id}/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
 
          //Timbres
