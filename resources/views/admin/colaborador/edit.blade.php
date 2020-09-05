@@ -55,7 +55,11 @@
                             <label for="puesto">Puesto:</label>
                             <select name="puesto" class="form-control">
                                 @foreach ($puestos as $puesto)
-                                    <option value="{{ $puesto['id'] }}">{{ $puesto['puesto'] }}</option>
+                                    @if ($puesto->id==$colaborador->puesto)
+                                        <option value="{{$puesto['id']}}" selected>{{ $puesto['puesto'] }}</option>
+                                    @else
+                                        <option value="{{ $puesto['id'] }}">{{ $puesto['puesto'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +67,11 @@
                             <label for="departamento">Departamento:</label>
                             <select name="departamento" class="form-control">
                                 @foreach ($departamentos as $departamento)
-                                    <option value="{{ $departamento['id'] }}">{{ $departamento['nombre_departamento'] }}</option>
+                                    @if ($departamento->id==$colaborador->departamento)
+                                        <option value="{{$departamento['id']}}" selected>{{ $departamento['nombre_departamento'] }}</option>
+                                    @else
+                                        <option value="{{ $departamento['id'] }}">{{ $departamento['nombre_departamento'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -74,7 +82,11 @@
                                 <label for="subsede">Subsedes:</label>
                                 <select name="subsede" class="form-control">
                                         @foreach ($sub as $su)
-                                            <option value="{{ $su->id }}">{{ $su->nombre_sede}}</option>
+                                            @if ($su->id==$colaborador->subsede)
+                                                <option value="{{ $su['id'] }}" selected>{{ $su['nombre_sede'] }}</option>
+                                            @else
+                                                <option value="{{ $su->id }}">{{ $su->nombre_sede}}</option>
+                                            @endif
                                         @endforeach
                                 </select>
                             </div>
