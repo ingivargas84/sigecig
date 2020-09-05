@@ -157,6 +157,10 @@ $(document).ready(function () {
     });
 });
 
+function todoNuevo() {
+    window.location.href = window.location.href;
+}
+
 // FUNCION DE TIMBRES buttonAgregar
 
 function getTc01(){
