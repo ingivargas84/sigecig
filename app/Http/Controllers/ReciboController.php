@@ -652,15 +652,17 @@ class ReciboController extends Controller
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
+            
 
-            try {
-                $this->envioReciboElectronico($dpi,$tipoDeCliente,$reciboMaestroP->numero_recibo,$reciboMaestro->e_mail);
 
-                return response()->json(['success' => 'Exito']);
-            } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
-            }
-
+                try {
+                    $this->envioReciboElectronico($dpi,$tipoDeCliente,$reciboMaestroP->numero_recibo,$reciboMaestroP->e_mail);
+                    return response()->json(['success' => 'Exito']);
+                } catch (\Throwable $th) {
+                    return response()->json(['success' => 'Exito-No se envio correo']);
+                }
+        
+       
 
         } elseif ($emisionDeRecibo == 'empresa'){
                 // almacen de datos de EMPRESA
