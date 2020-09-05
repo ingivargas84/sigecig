@@ -14,17 +14,17 @@
 <body>
    
 <div class="baner">
-    <img src="{{ $message->embed(public_path().'/images/logo.png') }}" alt="picsum" width="150" /> 
+    {{-- <img src="{{ $message->embed(public_path().'/images/logo.png') }}" alt="picsum" width="150" />  --}}
 </div><br>
 
-    @if ($tipoDeCliente==1)
-    <h3 class="">Estimado agremiado: {{$datos_colegiado[0]->n_cliente}}</h3>
+    @if ($tipo==1)
+    <h3 class="">Estimado agremiado: {{$reciboMaestro['nombre']}}</h3>
     <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>
-    @elseif($tipoDeCliente==2)
-    <h3 class="">Estimado cliente: {{$datos_colegiado->nombre}}</h3>
+    @elseif($tipo==2)
+    <h3 class="">Estimado cliente: {{$reciboMaestro->nombre}}</h3>
     <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3>  
-    @elseif($tipoDeCliente==3)
-    <h3 class="">Estimado cliente: {{$datos_colegiado[0]->EMPRESA}}</h3>
+    @elseif($tipo==3)
+    <h3 class="">Estimado cliente: {{$reciboMaestro->nombre}}</h3>
     <h3 class="">Adjunto su recibo No. {{$reciboMaestro['numero_recibo']}} </h3> 
     @endif
 
