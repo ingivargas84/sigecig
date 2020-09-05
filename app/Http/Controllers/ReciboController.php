@@ -1047,6 +1047,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -1212,6 +1218,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -1375,6 +1387,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -1538,6 +1556,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -1702,6 +1726,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -1865,6 +1895,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -2028,6 +2064,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
@@ -2193,6 +2235,12 @@ class ReciboController extends Controller
                     {
                         $total = $res->cantidad - $cantidad;
                         if ($total >= 0) {
+                            if ($total == 0){
+                                $query = "UPDATE sigecig_ingreso_producto SET cantidad = 0, numeracion_inicial = 0, numeracion_final = 0 WHERE id = :id";
+                                $parametros = array(':id' => $res->id );
+                                $result = DB::connection('mysql')->update($query, $parametros);
+                                break;
+                            }
                             $nuevoInicio = $res->numeracion_inicial + $cantidad;
                             $query = "UPDATE sigecig_ingreso_producto SET cantidad = :total, numeracion_inicial = :nuevoinicio WHERE id = :id";
                             $parametros = array(':total' => $total, ':id' => $res->id, ':nuevoinicio' => $nuevoInicio );
