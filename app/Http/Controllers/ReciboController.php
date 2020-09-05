@@ -28,8 +28,8 @@ use App\VentaDeTimbres;
 use App\TiposDeProductos;
 use App\IngresoProducto;
 use Validator;
-//use NumeroALetras;
-use Luecano\NumeroALetras\NumeroALetras;
+use NumeroALetras;
+// use Luecano\NumeroALetras\NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReciboController extends Controller
@@ -552,7 +552,7 @@ class ReciboController extends Controller
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
             try {
                 $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
-                envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
+                $this->envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
                 return response()->json(['success' => 'Todo Correcto']);
             } catch (\Throwable $th) {
                 return response()->json(['success' => 'Exito-No se envio correo']);
@@ -654,7 +654,7 @@ class ReciboController extends Controller
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
             try {
-                envioReciboElectronico($dpi,$tipoDeCliente,$reciboMaestro->numero_recibo,$reciboMaestro->e_mail);
+                $this->envioReciboElectronico($dpi,$tipoDeCliente,$reciboMaestroP->numero_recibo,$reciboMaestro->e_mail);
 
                 return response()->json(['success' => 'Exito']);
             } catch (\Throwable $th) {
@@ -755,14 +755,17 @@ class ReciboController extends Controller
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
-            try {
-                $empresa1 = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
-                envioReciboElectronico($nit,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
          
 
-            } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
-            }
+               try {
+                $empresa1 = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
+                $this-> envioReciboElectronico($nit,$tipoDeCliente,$reciboMaestroE->numero_recibo,$empresa1[0]->e_mail);
+
+                return response()->json(['success' => 'Exito-Correo Enviado']);
+                } catch (\Throwable $th) {
+                    return response()->json(['success' => 'Exito- No se pudo enviar el correo electronico']);
+                }
+
 
         }
     }
@@ -2316,7 +2319,6 @@ class ReciboController extends Controller
         return $suma;
     }
     public function envioReciboElectronico($identificacion,$tipo,$recibo,$correo){
-        
         $reciboMaestro = \App\Recibo_Maestro::where('numero_recibo', $recibo)->first();
 
         //Esta consulta nos devuelve los datos para generar el recibo electronico
