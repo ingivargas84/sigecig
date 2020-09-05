@@ -6,12 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Detalle de Corte de Caja</title>
     <style>
-       /*  p {
-            font-family: "sans-serif";
-            text-align: left;
-            margin-left: 4rem;
-            margin-right: 4rem;
-        } */
         tr:nth-child(even){
             background-color: #eee;
         }
@@ -49,13 +43,13 @@
         .colegiado{
             font-family: "sans-serif";
             font-size:1rem;
-            margin-left: 4rem;
+            margin-left: 2rem;
             float:left;
         }
     </style>   
 </head>
 <body>
-    <div class="container body" style="margin-bottom: 25px; border-bottom: 4px solid #03306d; height: 22%;">
+    <div class="container body" style="margin-bottom: 25px; border-bottom: 4px solid #03306d; height: 12%;">
         <div class="row" style="font-family: sans-serif; height: 190px; margin-left: 1rem;">
             <img class="lg" src="images/logocig.png"  height="60"  alt="">
             <div class="texto">
@@ -72,7 +66,7 @@
    
     <br>
      <h3 style="color: #03306d;text-align: center; font-family: sans-serif;"> Detalles </h3>
-    <table style="width: 90%; margin: 20 auto; font-family: sans-serif; margin-top: 4rem; ">
+    <table style="width: 90%; margin: 20 auto; font-family: sans-serif; ">
         <thead>
             <tr>
                 <th width="33%" style="background: #D2D2D2;text-align:center;">No. Recibo</th>
@@ -80,13 +74,13 @@
                 <th width="33%" style="background: #D2D2D2;text-align:center;">Serie</th>
             </tr>
         </thead>
-        @foreach ($recibopdf as $rp)
-        <tr>
-            <td>{{$rp->numero_recibo}}</td>
-            <td>Q. {{$rp->monto_total}}</td>
-            <td>{{$rp->serie_recibo_id}}</td>
-        </tr>
-        @endforeach
+             @foreach ($rec as $rp)
+            <tr>
+                <td>{{$rp->numero_recibo}}</td>
+                <td>Q. {{number_format($rp->monto_total,2)}}</td>
+                <td>{{$rp->serie_recibo_id}}</td>
+            </tr>
+            @endforeach 
     </table>
 <br>
 <h3 style="color: #03306d;text-align: center; font-family: sans-serif;"> Total Recibido </h3>
@@ -96,28 +90,28 @@
                 <th width="25%" style="background: #D2D2D2;text-align:center;">Total Efectivo</th>
                 <th width="25%" style="background: #D2D2D2;text-align:center;">Total Cheque</th>
                 <th width="25%" style="background: #D2D2D2;text-align:center;">Total Tarjeta</th>
-                <th width="25%" style="background: #D2D2D2;text-align:center;">Total Deposito</th>
+                <th width="25%" style="background: #D2D2D2;text-align:center;">Total Depósito</th>
             </tr>
         </thead>
-        @foreach ($totalespdf as $tp)
-        <tr>
-            <td>Q. {{$tp->total_efectivo}}</td>
-            <td>Q. {{$tp->total_cheque}}</td>
-            <td>Q. {{$tp->total_tarjeta}}</td>
-            <td>Q. {{$tp->total_monto}}</td>
-        </tr>
-        @endforeach
+            <tr>
+                <td>Q. {{number_format($id->total_efectivo,2)}}</td>
+                <td>Q. {{number_format($id->total_cheque,2)}}</td>
+                <td>Q. {{number_format($id->total_tarjeta,2)}}</td>
+                <td>Q. {{number_format($id->total_deposito,2)}}</td>
+            </tr>
     </table>
     <div class="row colegiado">
         <div class="" >
-          <label class=""><b>FECHA DE CREACIÓN: </b>{{$newDate}} </label>
+          <label class="" style="margin: 20 auto; margin-left: 2rem;"><b>FECHA DE CREACIÓN: </b> {{$id->fecha_corte}}</label>
         </div>
     </div>
     <br>
     <br>
     <br>
-        <p style="text-align: center">_______________________
+    <br>
+    <br>
+        <p style="text-align: center">__________________________
         <p style="text-align: center; font-family: sans-serif;">Firma de Cajero
-        <p style="text-align: center; font-family: sans-serif;"> {{$users->name}}
+        <p style="text-align: center; font-family: sans-serif;"> {{$user->name}}
 </body>
 </html>
