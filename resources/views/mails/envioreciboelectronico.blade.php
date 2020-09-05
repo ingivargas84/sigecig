@@ -14,7 +14,7 @@
 <body>
    
 <div class="baner">
-    {{-- <img src="{{ $message->embed(public_path().'/images/logo.png') }}" alt="picsum" width="150" />  --}}
+    <img src="{{ $message->embed(public_path().'/images/logo.png') }}" alt="picsum" width="150" /> 
 </div><br>
 
     @if ($tipo==1)

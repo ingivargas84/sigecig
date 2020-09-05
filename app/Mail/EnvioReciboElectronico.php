@@ -24,7 +24,7 @@ class EnvioReciboElectronico extends Mailable
     {
         $this->fecha_actual = $fecha_actual;
         $this->reciboMaestro = $reciboMaestro;
-        $this->tipoDeCliente =  $tipo;
+        $this->tipo =  $tipo;
     }
 
     /**
