@@ -1224,7 +1224,7 @@ function cambioSerie () {
                         {
                             $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
                         }
-                    }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'p') {
                         $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                         $('#codigoP').append( '<option value="">-- Escoja --</option>' );
                         for (i = 0; i < data.length; i++)
@@ -1551,7 +1551,6 @@ $(document).ready(function(){
                 subTotal = cantidad * precioU;
 
                 $("#subtotal").val('Q.'+subTotal.toFixed(2));
-
     });
 });
 
@@ -1893,7 +1892,7 @@ function mensualidadTimbre(indicador) {
 function agregarproductof() {
     $("#codigo").change();
 
-    $("#cantidad").change();
+    // $("#cantidad").change();
     if($.isNumeric($("#cantidad").val()) && $("#subtotal").val().substring(2) != 0) {
 
         validateRow();
@@ -1906,7 +1905,7 @@ function validateRow(){
         var combo = document.getElementById("codigo");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalle tr").length;
-        if((nFilas == 1) && ($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigo').val() != "")){
             if ($('#codigo').val() == 62){
                 var indicador = $('#subtotal').val().substring(2);
                 mensualidadTimbre(indicador);
@@ -1975,7 +1974,7 @@ function validateRow(){
                         if (arrayColCatId.includes($('#categoria_id').val()) && arrayColCodigo.includes($('#codigo').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
+                        }else if(($('#codigo').val() != "")){
                             addnewrow();
                             getTimbres(selected);
                             limpiarFilaDetalle();
@@ -1988,6 +1987,11 @@ function validateRow(){
 }
 
   function addnewrow() {
+    if ($("#precioU").val().substring(-1,2) == 'Q.'){
+        var precioU = $("#precioU").val();
+    }else {
+        var precioU = 'Q.'+($("#precioU").val());
+    }
 
 	if(!$('#tablaDetalle').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -2011,7 +2015,7 @@ function validateRow(){
 	resultado += '</td>';
 
 	resultado += '<td class="precioU" id="precioU">';
-	resultado += $("#precioU").val();
+	resultado += precioU;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPago">';
@@ -2458,6 +2462,7 @@ function limpiarTimbres()
 
 $(document).ready(function () {
     $("#codigoE").change (function () {
+        $("input[name='precioUE']").prop('disabled', true);
         var valor = $("#codigoE").val();
         if(document.getElementById("serieReciboA").checked == true){
             $.ajax({
@@ -2465,12 +2470,22 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idE']").val(response.categoria_id);
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUE']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
 
-                        $("#cantidadE").val(1);
+                            $("#cantidadE").val(1);
+
+                        } else {
+                            $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
+
+                            $("#cantidadE").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -2487,13 +2502,23 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idE']").val(response.categoria_id);
-                        consultaTimbre();
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUE']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
 
-                        $("#cantidadE").val(1);
+                            $("#cantidadE").val(1);
+
+                        } else {
+                            $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
+                            consultaTimbre();
+
+                            $("#cantidadE").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -2516,21 +2541,43 @@ $(document).ready(function () {
 $(document).ready(function(){
     $("#cantidadE").change(function() {
 
-        var subTotalE = 0;
+        if ($("input[name='precioUE']").prop('disabled') == true){
+            var subTotal = 0;
 
-        var precioUE = $("#precioUE").val().substring(2); // Convertir el valor a un entero (número).
-        var cantidadE = $("#cantidadE").val();
+            var precioU = $("#precioUE").val().substring(2); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
 
-            subTotalE = cantidadE * precioUE;
+                subTotal = cantidad * precioU;
 
-            $("#subtotalE").val('Q.'+subTotalE);
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
+        }else {
+            var subTotal = 0;
+
+            var precioU = $("#precioUE").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
+        }
+    });
+    $("#precioUE").change(function() {
+
+            var subTotal = 0;
+
+            var precioU = $("#precioUE").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
     });
 });
 
   function agregarproductofE() {
     $("#codigoE").change();
 
-    $("#cantidadE").change();
+    // $("#cantidadE").change();
     if($.isNumeric($("#cantidadE").val()) && $("#subtotalE").val().substring(2) != 0) {
 
         validateRowE();
@@ -2543,7 +2590,7 @@ $(document).ready(function(){
         var combo = document.getElementById("codigoE");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleE tr").length;
-        if((nFilas == 1) && ($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigoE').val() != "")){
             addnewrowE();
             getTimbres(selected);
         }else if (nFilas > 1){
@@ -2597,7 +2644,7 @@ $(document).ready(function(){
                         if (arrayColCatId.includes($('#categoria_idE').val()) && arrayColCodigo.includes($('#codigoE').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
+                        }else if(($('#codigoE').val() != "")){
                             addnewrowE();
                             getTimbres(selected);
                             limpiarFilaDetalleE();
@@ -2610,6 +2657,11 @@ $(document).ready(function(){
 }
 
   function addnewrowE() {
+    if ($("#precioUE").val().substring(-1,2) == 'Q.'){
+        var precioUE = $("#precioUE").val();
+    }else {
+        var precioUE = 'Q.'+($("#precioUE").val());
+    }
 
 	if(!$('#tablaDetalleE').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -2633,7 +2685,7 @@ $(document).ready(function(){
 	resultado += '</td>';
 
 	resultado += '<td>';
-	resultado += $("#precioUE").val();
+	resultado += precioUE;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPagoE">';
@@ -2674,7 +2726,7 @@ function getTotalE() {
   function limpiarFilaDetalleE() {
     $("select[name='codigoE']").val('');
     $("input[name='cantidadE']").val(1);
-    $("input[name='precioUE']").val('');
+    $("input[name='precioUE']").val('').prop('disabled', true);
     $("input[name='descTipoPagoE']").val('');
     $("input[name='subtotalE']").val('');
     $("#codigoE").focus();
@@ -2989,6 +3041,7 @@ function limpiarPantallaE()
 
 $(document).ready(function () {
     $("#codigoP").change (function () {
+        $("input[name='precioUP']").prop('disabled', true);
         var valor = $("#codigoP").val();
         if(document.getElementById("serieReciboA").checked == true){
             $.ajax({
@@ -2996,12 +3049,22 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idP']").val(response.categoria_id);
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUP']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
 
-                        $("#cantidadP").val(1);
+                            $("#cantidadE").val(1);
+                        } else {
+
+                            $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
+
+                            $("#cantidadP").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -3018,13 +3081,23 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idP']").val(response.categoria_id);
-                        consultaTimbre();
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUP']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
 
-                        $("#cantidadP").val(1);
+                            $("#cantidadP").val(1);
+                        } else {
+
+                            $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
+                            consultaTimbre();
+
+                            $("#cantidadP").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -3044,25 +3117,46 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function(){
     $("#cantidadP").change(function() {
 
-        var subTotal = 0;
+        if ($("input[name='precioUP']").prop('disabled') == true){
+            var subTotal = 0;
 
-        var precioU = $("#precioUP").val().substring(2); // Convertir el valor a un entero (número).
-        var cantidad = $("#cantidadP").val();
+            var precioU = $("#precioUP").val().substring(2); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
 
-            subTotal = cantidad * precioU;
+                subTotal = cantidad * precioU;
 
-            $("#subtotalP").val('Q.'+subTotal);
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
+        }else {
+            var subTotal = 0;
+
+            var precioU = $("#precioUP").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
+        }
+    });
+    $("#precioUP").change(function() {
+
+            var subTotal = 0;
+
+            var precioU = $("#precioUP").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
     });
 });
 
 function agregarproductofP() {
     $("#codigoP").change();
 
-    $("#cantidadP").change();
+    // $("#cantidadP").change();
     if($.isNumeric($("#cantidadP").val()) && $("#subtotalP").val().substring(2) != 0) {
 
         validateRowP();
@@ -3075,7 +3169,7 @@ function agregarproductofP() {
         var combo = document.getElementById("codigoP");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleP tr").length;
-        if((nFilas == 1) && ($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigoP').val() != "")){
             addnewrowP();
             getTimbres(selected);
         }else if (nFilas > 1){
@@ -3129,7 +3223,7 @@ function agregarproductofP() {
                         if (arrayColCatId.includes($('#categoria_idP').val()) && arrayColCodigo.includes($('#codigoP').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
+                        }else if(($('#codigoP').val() != "")){
                             addnewrowP();
                             getTimbres(selected);
                             limpiarFilaDetalleP();
@@ -3142,6 +3236,11 @@ function agregarproductofP() {
 }
 
   function addnewrowP() {
+    if ($("#precioUP").val().substring(-1,2) == 'Q.'){
+        var precioUP = $("#precioUP").val();
+    }else {
+        var precioUP = 'Q.'+($("#precioUP").val());
+    }
 
 	if(!$('#tablaDetalleP').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -3165,7 +3264,7 @@ function agregarproductofP() {
 	resultado += '</td>';
 
 	resultado += '<td>';
-	resultado += $("#precioUP").val();
+	resultado += precioUP;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPagoP">';
@@ -3206,7 +3305,7 @@ function getTotalP() {
   function limpiarFilaDetalleP() {
     $("select[name='codigoP']").val('');
     $("input[name='cantidadP']").val(1);
-    $("input[name='precioUP']").val('');
+    $("input[name='precioUP']").val('').prop('disabled', true);;
     $("input[name='descTipoPagoP']").val('');
     $("input[name='subtotalP']").val('');
     $("#codigoP").focus();

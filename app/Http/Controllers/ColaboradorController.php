@@ -160,18 +160,7 @@ class ColaboradorController extends Controller
 
         $deptosG = DeptosGuatemala::all();
 
-        // $deptosG = DeptosGuatemala::select("iddepartamento", "nombre")->where('iddepartamento', $colaborador->departamento_dpi_id)->get()->first();
-        // $municipioG = MunicipiosGuatemala::select("idmunicipio", "nombre")->where('idmunicipio', $colaborador->municipio_dpi_id)->get()->first();
-        // dd($deptosG);
-       /*  $query= "SELECT U.username, U.id, SC.usuario
-        FROM sigecig_users U
-        INNER JOIN sigecig_colaborador SC ON SC.usuario = U.id
-        WHERE U.id >= '2' AND SC.usuario IS NULL";
-
-        $user = DB::select($query);*/
-//dd($departamentos);
         $sub = Subsedes::all();
-        //dd($user);
 
         return view ('admin.colaborador.edit', compact('colaborador','puestos','departamentos', 'sub', 'user', 'deptosG', 'userExist'));
 
