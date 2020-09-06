@@ -28,8 +28,8 @@ use App\VentaDeTimbres;
 use App\TiposDeProductos;
 use App\IngresoProducto;
 use Validator;
-use NumeroALetras;
-// use Luecano\NumeroALetras\NumeroALetras;
+// use NumeroALetras;
+use Luecano\NumeroALetras\NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReciboController extends Controller
@@ -2400,7 +2400,9 @@ class ReciboController extends Controller
          }
 
          $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
-         $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
+        //  $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
+         $letras = new NumeroALetras;
+         $letras->toMoney($reciboMaestro->monto_total, 2, 'QUETZALES', 'CENTAVOS');
          $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))
          ->setPaper('legal', 'landscape');
 
