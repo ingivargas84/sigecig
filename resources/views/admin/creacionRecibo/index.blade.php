@@ -1168,6 +1168,9 @@
             $('select[name="codigoP"]').val('');
             $("tbody").children().remove();
             $('input[name="tipoDePago"]').prop('checked', false);
+            document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+            document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+            document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
             comprobarCheckEfectivo();
             comprobarCheckCheque();
             comprobarCheckTarjeta();
