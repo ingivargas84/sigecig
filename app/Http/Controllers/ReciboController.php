@@ -28,8 +28,8 @@ use App\VentaDeTimbres;
 use App\TiposDeProductos;
 use App\IngresoProducto;
 use Validator;
-//use NumeroALetras;
-use Luecano\NumeroALetras\NumeroALetras;
+use NumeroALetras;
+// use Luecano\NumeroALetras\NumeroALetras;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReciboController extends Controller
@@ -555,52 +555,9 @@ class ReciboController extends Controller
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
-
-            //Envio de correo creacion de recibo colegiado
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
-            FROM sigecig_recibo_detalle rd
-            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-
-            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $reciboMaestro->numero_recibo);
-            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaRecibo/' . $reciboMaestro->numero_recibo); //link version prueba
-            $datos = DB::select($query1);
-            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-            $letras = new NumeroALetras;
-            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-            $nit = SQLSRV_Colegiado::select('nit')->where('c_cliente', $colegiado)->get();
-            $nit_ = $nit[0];
-            $rdetalle1 = Recibo_Detalle::where('numero_recibo', $reciboMaestro['numero_recibo'])->get();
-
-            foreach ($datos as $key => $dato) {
-                if ($dato->categoria_id == 1) {
-                    $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
-                    $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
-                    $tamanioArrray =count($numeroTimbres) -1;
-                    foreach ($numeroTimbres as $key => $numeroTimbre) {
-                        if ($dato->cantidad == 1) {
-                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
-                        }else{
-                            $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
-                        }
-                        if ($key < $tamanioArrray) {
-                            $dato->tipo_de_pago = $dato->tipo_de_pago.',';
-                        }
-                    }
-                }
-            }
-
-            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-                ->setPaper('legal', 'landscape');
-            $fecha_actual = date_format(Now(), 'd-m-Y');
-            $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
             try {
-                $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-                $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-                $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$colegiado.'.pdf', ['mime' => 'application / pdf ']);
-                //Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-
+                $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
+                $this->envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
                 return response()->json(['success' => 'Todo Correcto']);
             } catch (\Throwable $th) {
                 return response()->json(['success' => 'Exito-No se envio correo']);
@@ -700,58 +657,17 @@ class ReciboController extends Controller
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
+            
 
-            $reciboMaestro = $reciboMaestroP;
 
-            //Envio de correo creacion de recibo Particular
-
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
-            FROM sigecig_recibo_detalle rd
-            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-            $datos = DB::select($query1);
-            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-            $nit_ = $id;
-            $letras = new NumeroALetras;
-            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
-            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo); //link version prueba
-
-                foreach ($datos as $key => $dato) {
-                    if ($dato->categoria_id == 1) {
-                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
-                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
-                        $tamanioArrray =count($numeroTimbres) -1;
-                        foreach ($numeroTimbres as $key => $numeroTimbre) {
-                            if ($dato->cantidad == 1) {
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
-                            }else{
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
-                            }
-                            if ($key < $tamanioArrray) {
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
-                            }
-                        }
-                    }
+                try {
+                    $this->envioReciboElectronico($dpi,$tipoDeCliente,$reciboMaestroP->numero_recibo,$reciboMaestroP->e_mail);
+                    return response()->json(['success' => 'Exito']);
+                } catch (\Throwable $th) {
+                    return response()->json(['success' => 'Exito-No se envio correo']);
                 }
-
-            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-                ->setPaper('legal', 'landscape');
-            $fecha_actual = date_format(Now(), 'd-m-Y');
-            $datos_colegiado = $id;
-            try {
-                $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-                $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-                $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'.pdf', ['mime' => 'application / pdf ']);
-
-                Mail::to($reciboMaestro->e_mail)->send($infoCorreoRecibo);
-
-                return response()->json(['success' => 'Exito']);
-            } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
-            }
-
+        
+       
 
         } elseif ($emisionDeRecibo == 'empresa'){
                 // almacen de datos de EMPRESA
@@ -849,57 +765,17 @@ class ReciboController extends Controller
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
-            //Envio de correo creacion de recibo Empresa
+         
 
-            $reciboMaestro =  $reciboMaestroE;
-            $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id
-            FROM sigecig_recibo_detalle rd
-            INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-            WHERE rd.numero_recibo = $reciboMaestro->numero_recibo";
-            $datos = DB::select($query1);
+               try {
+                $empresa1 = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
+                $this-> envioReciboElectronico($nit,$tipoDeCliente,$reciboMaestroE->numero_recibo,$empresa1[0]->e_mail);
 
-            $id = Recibo_Maestro::where("numero_recibo", $reciboMaestro['numero_recibo'])->get()->first();
-            $nit = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
-            $nit_ = $nit[0];
-
-            $letras = new NumeroALetras;
-            $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
-            // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo);
-            $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaReciboGeneral/' . $reciboMaestro->numero_recibo); //link version prueba
-
-                foreach ($datos as $key => $dato) {
-                    if ($dato->categoria_id == 1) {
-                        $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
-                        $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
-                        $tamanioArrray =count($numeroTimbres) -1;
-                        foreach ($numeroTimbres as $key => $numeroTimbre) {
-                            if ($dato->cantidad == 1) {
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
-                            }else{
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
-                            }
-                            if ($key < $tamanioArrray) {
-                                $dato->tipo_de_pago = $dato->tipo_de_pago.',';
-                            }
-                        }
-                    }
+                return response()->json(['success' => 'Exito-Correo Enviado']);
+                } catch (\Throwable $th) {
+                    return response()->json(['success' => 'Exito- No se pudo enviar el correo electronico']);
                 }
 
-            $pdf = \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'datos', 'codigoQR', 'letras'))
-                ->setPaper('legal', 'landscape');
-            $fecha_actual = date_format(Now(), 'd-m-Y');
-            $datos_colegiado = $nit;
-            try {
-                $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $datos_colegiado, $reciboMaestro, $tipoDeCliente);
-                $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro['numero_recibo']);
-                $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-                $infoCorreoRecibo->attachData($pdf->output(),''.'Recibo_'.$reciboMaestro['numero_recibo'].'_'.$nit[0]->NIT.'.pdf', ['mime' => 'application / pdf ']);
-
-                Mail::to($datos_colegiado[0]->e_mail)->send($infoCorreoRecibo);
-
-            } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito']);
-            }
 
         }
     }
@@ -3332,4 +3208,50 @@ class ReciboController extends Controller
         $suma = $montoBase * ($suma - $cuotasAtrasadas);
         return $suma;
     }
+    public function envioReciboElectronico($identificacion,$tipo,$recibo,$correo){
+        $reciboMaestro = \App\Recibo_Maestro::where('numero_recibo', $recibo)->first();
+
+        //Esta consulta nos devuelve los datos para generar el recibo electronico
+        $query1 = "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
+        FROM sigecig_recibo_detalle rd
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $recibo";
+
+         $datos = DB::select($query1);
+         foreach ($datos as $key => $dato) {
+            $tipoPago = \App\TipoDePago::where('codigo',$dato->codigo_compra)->first();
+         if ($dato->categoria_id == 1) {
+         $dato->tipo_de_pago = $dato->tipo_de_pago . ' No.';
+         $numeroTimbres = \App\SegecigRegistroVentaTimbres::where('recibo_detalle_id', $dato->id)->get();
+         $tamanioArrray = count($numeroTimbres) - 1;
+         foreach ($numeroTimbres as $key => $numeroTimbre) {
+         if ($dato->cantidad == 1) {
+         $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbre->numeracion_inicial;
+         } else {
+         $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbre->numeracion_inicial . '-' . $numeroTimbre->numeracion_final;
+         }
+         }
+         }
+         if($tipoPago->id == 11){
+            $mes = \App\SigecigMeses::where('id',$dato->id_mes)->first();
+            $dato->tipo_de_pago = $dato->tipo_de_pago . ' (' . $mes->mes.' '.$dato->año.')';
+        }
+
+         }
+
+         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
+         $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
+         $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))
+         ->setPaper('legal', 'landscape');
+
+         //envio de recibo por correo al colegiado
+         $fecha_actual = date_format(Now(), 'd-m-Y');
+         $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $reciboMaestro, $tipo);
+         $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro->numero_recibo);
+         $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+         $infoCorreoRecibo->attachData($pdf->output(), '' . 'Recibo_' . $reciboMaestro->numero_recibo . '_' . $identificacion . '.pdf', ['mime' => 'application / pdf ']);
+         Mail::to($correo)->send($infoCorreoRecibo);
+        ////
+    }
 }
+
