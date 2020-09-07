@@ -78,7 +78,7 @@
             <tr>
                 <td>{{$rp->numero_recibo}}</td>
                 <td>Q. {{number_format($rp->monto_total,2)}}</td>
-                <td>{{$rp->serie_recibo_id}}</td>
+                <td>{{\App\SerieRecibo::find($rp->serie_recibo_id)->serie_recibo}}</td>
             </tr>
             @endforeach 
     </table>
