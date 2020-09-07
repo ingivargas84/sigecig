@@ -90,7 +90,7 @@ var totales_table = $('#totales-table').DataTable({
     
                     return "<div id='" + full.id + "' class='text-center'>" +
                     "<div class='float-center'>" +
-                    "<a href='/estadocuenta/detallado/"+full.id+"/' class='detalle' data-monto_total='"+full.monto_total+"'>" +
+                    "<a href='/estadocuenta/detallado/"+full.id+"/' class='detalle' data-method='post'>" +
                     "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                     "</a>" + "</div>";
                     
@@ -104,13 +104,13 @@ $(document).on('click', 'a.corte-caja', function(e) {
     e.preventDefault(); // does not go through with the link.
     alertify.defaults.theme.ok = "btn btn-confirm";
     var button = $(e.currentTarget);
-    var monto_total = button[0].dataset.monto_total;
-    var caja = button[0].dataset.caja;
-   // var combo = document.getElementById("monto_total");
+    var mt = document.getElementById('monto_total').value;
+    
+    var cj = document.getElementById('caja').value;
     var today = new Date().toLocaleDateString();    
     var $this = $(this);
 
-    alertify.confirm('Corte de Caja', 'Está seguro de realizar el corte de caja con un monto de Q.' + monto_total + ' correspondientes a la fecha ' + today + ' asignados a la caja X?',
+    alertify.confirm('Corte de Caja', 'Está seguro de realizar el corte de caja con un monto de <strong>Q.' + mt + '</strong> correspondientes a la fecha <strong>' + today + '</strong> asignados a la caja: <strong>' + cj + '</strong>?',
     function(){
         $('.loader').fadeIn();
         $.post({
@@ -118,7 +118,7 @@ $(document).on('click', 'a.corte-caja', function(e) {
             url: $this.attr('href')
         }).done(function (data) {
             $('.loader').fadeOut(225);
-            totales_table.ajax.reload();
+            window.location = "/cortedecaja/historial";
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Corte de caja ingresado con exito');
         });

@@ -16,12 +16,25 @@ use App\Cajas;
 use Carbon\Carbon;
 use App\User;
 use App\CorteCaja;
+use DateTime;
 
 class CorteDeCajaController extends Controller
 {
-    public function index(Recibo_Maestro $id)
+    public function index()
     {
-        return view('admin.cortecaja.index');
+        $corte = CorteCaja::whereRaw('Date(created_at) = CURDATE()')->get()->first();
+        $recibom = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get();
+        $id = $recibom->sum('monto_total');
+      
+     //   $corte =  $corte->fecha_corte;
+      //  $corte =  date("Y/m/d", strtotime($corte));
+       // $hoy = Carbon::today();
+      // dd($corte);
+        $hoy = Carbon::now();
+ 
+        $hoy = $hoy->format('Y-m-d');
+       
+        return view('admin.cortecaja.index', compact('id', 'hoy', 'corte'));
     }
     public function historial(Recibo_Maestro $id)
     {
