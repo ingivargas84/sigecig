@@ -74,7 +74,7 @@ $('#ingresoModal4').on('shown.bs.modal', function(event){
     
     var start=new Date(inicio);
     start.setMonth(start.getMonth()+3);
-    var startf = start.toLocaleDateString();
+    var startf = start.toISOString().slice(0,10).replace(/-/g,"/");
     document.getElementById("fechaUltimoPagoColegio").value= startf;
     document.getElementById("fechaUltimoPagoTimbre").value= startf;
     }
