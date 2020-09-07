@@ -104,6 +104,9 @@ function limpiarPantallaColegiado()
     $('input[name="montoTarjeta"]').val('');
     $("tbody").children().remove();
     $('input[name="tipoDePago"]').prop('checked', false);
+    document.getElementById('existencia').style.display = "none";$('#existencia').val('');
+    document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
+    document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
     comprobarCheckEfectivo();
     comprobarCheckCheque();
     comprobarCheckTarjeta();
@@ -196,6 +199,7 @@ function getTc01(){
                         $('#tc01P').val(mensaje);
                         $('#tc01inicioP').val(response.numeroInicio1);
                         $('#tc01finP').val(response.numeroFinal1);
+                        $('#tmCantTc01').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -212,6 +216,7 @@ function getTc01(){
                             $('#tc01inicioE').val(response.numeroInicio1);$('#tc01finE').val(response.numeroFinal1);
                             $('#tc01P').val(mensaje);
                             $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
+                            $('#tmCantTc01').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -225,6 +230,7 @@ function getTc01(){
                             $('#tc01P').val(mensaje);
                             $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
                             $('#tc01inicioP2').val(response.numeroInicio2);$('#tc01finP2').val(response.numeroFinal2);
+                            $('#tmCantTc01').val(response.cantidad);$('#tmCantTc01_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -241,6 +247,7 @@ function getTc01(){
                             $('#tc01inicioP').val(response.numeroInicio1);$('#tc01finP').val(response.numeroFinal1);
                             $('#tc01inicioP2').val(response.numeroInicio2);$('#tc01finP2').val(response.numeroFinal2);
                             $('#tc01inicioP3').val(response.numeroInicio3);$('#tc01finP3').val(response.numeroFinal3);
+                            $('#tmCantTc01').val(response.cantidad);$('#tmCantTc01_2').val(response.cantidad2);$('#tmCantTc01_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -321,6 +328,7 @@ function getTc05(){
                         $('#tc05P').val(mensaje);
                         $('#tc05inicioP').val(response.numeroInicio1);
                         $('#tc05finP').val(response.numeroFinal1);
+                        $('#tmCantTc05').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -337,6 +345,7 @@ function getTc05(){
                             $('#tc05inicioE').val(response.numeroInicio1);$('#tc05finE').val(response.numeroFinal1);
                             $('#tc05P').val(mensaje);
                             $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
+                            $('#tmCantTc05').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -350,6 +359,7 @@ function getTc05(){
                             $('#tc05P').val(mensaje);
                             $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
                             $('#tc05inicioP2').val(response.numeroInicio2);$('#tc05finP2').val(response.numeroFinal2);
+                            $('#tmCantTc05').val(response.cantidad);$('#tmCantTc05_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -366,6 +376,7 @@ function getTc05(){
                             $('#tc05inicioP').val(response.numeroInicio1);$('#tc05finP').val(response.numeroFinal1);
                             $('#tc05inicioP2').val(response.numeroInicio2);$('#tc05finP2').val(response.numeroFinal2);
                             $('#tc05inicioP3').val(response.numeroInicio3);$('#tc05finP3').val(response.numeroFinal3);
+                            $('#tmCantTc05').val(response.cantidad);$('#tmCantTc05_2').val(response.cantidad2);$('#tmCantTc05_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -445,6 +456,7 @@ function getTc10(){
                         $('#tc10P').val(mensaje);
                         $('#tc10inicioP').val(response.numeroInicio1);
                         $('#tc10finP').val(response.numeroFinal1);
+                        $('#tmCantTc10').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -464,6 +476,7 @@ function getTc10(){
                             $('#tc10P').val(mensaje);
                             $('#tc10inicioP').val(response.numeroInicio1);
                             $('#tc10finP').val(response.numeroFinal1);
+                            $('#tmCantTc10').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -477,6 +490,7 @@ function getTc10(){
                             $('#tc10P').val(mensaje);
                             $('#tc10inicioP').val(response.numeroInicio1);$('#tc10finP').val(response.numeroFinal1);
                             $('#tc10inicioP2').val(response.numeroInicio2);$('#tc10finP2').val(response.numeroFinal2);
+                            $('#tmCantTc10').val(response.cantidad);$('#tmCantTc10_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -493,6 +507,7 @@ function getTc10(){
                             $('#tc10inicioP').val(response.numeroInicio1);$('#tc10finP').val(response.numeroFinal1);
                             $('#tc10inicioP2').val(response.numeroInicio2);$('#tc10finP2').val(response.numeroFinal2);
                             $('#tc10inicioP3').val(response.numeroInicio3);$('#tc10finP3').val(response.numeroFinal3);
+                            $('#tmCantTc10').val(response.cantidad);$('#tmCantTc10_2').val(response.cantidad2);$('#tmCantTc10_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -572,6 +587,7 @@ function getTc20(){
                         $('#tc20P').val(mensaje);
                         $('#tc20inicioP').val(response.numeroInicio1);
                         $('#tc20finP').val(response.numeroFinal1);
+                        $('#tmCantTc20').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -588,6 +604,7 @@ function getTc20(){
                             $('#tc20inicioE').val(response.numeroInicio1);$('#tc20finE').val(response.numeroFinal1);
                             $('#tc20P').val(mensaje);
                             $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
+                            $('#tmCantTc20').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -601,6 +618,7 @@ function getTc20(){
                             $('#tc20P').val(mensaje);
                             $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
                             $('#tc20inicioP2').val(response.numeroInicio2);$('#tc20finP2').val(response.numeroFinal2);
+                            $('#tmCantTc20').val(response.cantidad);$('#tmCantTc20_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -617,6 +635,7 @@ function getTc20(){
                             $('#tc20inicioP').val(response.numeroInicio1);$('#tc20finP').val(response.numeroFinal1);
                             $('#tc20inicioP2').val(response.numeroInicio2);$('#tc20finP2').val(response.numeroFinal2);
                             $('#tc20inicioP3').val(response.numeroInicio3);$('#tc20finP3').val(response.numeroFinal3);
+                            $('#tmCantTc20').val(response.cantidad);$('#tmCantTc20_2').val(response.cantidad2);$('#tmCantTc20_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -696,6 +715,7 @@ function getTc50(){
                         $('#tc50P').val(mensaje);
                         $('#tc50inicioP').val(response.numeroInicio1);
                         $('#tc50finP').val(response.numeroFinal1);
+                        $('#tmCantTc50').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -712,6 +732,7 @@ function getTc50(){
                             $('#tc50inicioE').val(response.numeroInicio1);$('#tc50finE').val(response.numeroFinal1);
                             $('#tc50P').val(mensaje);
                             $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
+                            $('#tmCantTc50').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -725,6 +746,7 @@ function getTc50(){
                             $('#tc50P').val(mensaje);
                             $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
                             $('#tc50inicioP2').val(response.numeroInicio2);$('#tc50finP2').val(response.numeroFinal2);
+                            $('#tmCantTc50').val(response.cantidad);$('#tmCantTc50_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -741,6 +763,7 @@ function getTc50(){
                             $('#tc50inicioP').val(response.numeroInicio1);$('#tc50finP').val(response.numeroFinal1);
                             $('#tc50inicioP2').val(response.numeroInicio2);$('#tc50finP2').val(response.numeroFinal2);
                             $('#tc50inicioP3').val(response.numeroInicio3);$('#tc50finP3').val(response.numeroFinal3);
+                            $('#tmCantTc50').val(response.cantidad);$('#tmCantTc50_2').val(response.cantidad2);$('#tmCantTc50_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -820,6 +843,7 @@ function getTc100(){
                         $('#tc100P').val(mensaje);
                         $('#tc100inicioP').val(response.numeroInicio1);
                         $('#tc100finP').val(response.numeroFinal1);
+                        $('#tmCantTc100').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -836,6 +860,7 @@ function getTc100(){
                             $('#tc100inicioE').val(response.numeroInicio1);$('#tc100finE').val(response.numeroFinal1);
                             $('#tc100P').val(mensaje);
                             $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
+                            $('#tmCantTc100').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -849,6 +874,7 @@ function getTc100(){
                             $('#tc100P').val(mensaje);
                             $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
                             $('#tc100inicioP2').val(response.numeroInicio2);$('#tc100finP2').val(response.numeroFinal2);
+                            $('#tmCantTc100').val(response.cantidad);$('#tmCantTc100_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -865,6 +891,7 @@ function getTc100(){
                             $('#tc100inicioP').val(response.numeroInicio1);$('#tc100finP').val(response.numeroFinal1);
                             $('#tc100inicioP2').val(response.numeroInicio2);$('#tc100finP2').val(response.numeroFinal2);
                             $('#tc100inicioP3').val(response.numeroInicio3);$('#tc100finP3').val(response.numeroFinal3);
+                            $('#tmCantTc100').val(response.cantidad);$('#tmCantTc100_2').val(response.cantidad2);$('#tmCantTc100_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -944,6 +971,7 @@ function getTc200(){
                         $('#tc200P').val(mensaje);
                         $('#tc200inicioP').val(response.numeroInicio1);
                         $('#tc200finP').val(response.numeroFinal1);
+                        $('#tmCantTc200').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -960,6 +988,7 @@ function getTc200(){
                             $('#tc200inicioE').val(response.numeroInicio1);$('#tc200finE').val(response.numeroFinal1);
                             $('#tc200P').val(mensaje);
                             $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
+                            $('#tmCantTc200').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -973,6 +1002,7 @@ function getTc200(){
                             $('#tc200P').val(mensaje);
                             $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
                             $('#tc200inicioP2').val(response.numeroInicio2);$('#tc200finP2').val(response.numeroFinal2);
+                            $('#tmCantTc200').val(response.cantidad);$('#tmCantTc200_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -989,6 +1019,7 @@ function getTc200(){
                             $('#tc200inicioP').val(response.numeroInicio1);$('#tc200finP').val(response.numeroFinal1);
                             $('#tc200inicioP2').val(response.numeroInicio2);$('#tc200finP2').val(response.numeroFinal2);
                             $('#tc200inicioP3').val(response.numeroInicio3);$('#tc200finP3').val(response.numeroFinal3);
+                            $('#tmCantTc200').val(response.cantidad);$('#tmCantTc200_2').val(response.cantidad2);$('#tmCantTc200_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -1068,6 +1099,7 @@ function getTc500(){
                         $('#tc500P').val(mensaje);
                         $('#tc500inicioP').val(response.numeroInicio1);
                         $('#tc500finP').val(response.numeroFinal1);
+                        $('#tmCantTc500').val(response.cantidad);
                     } else {
                         var inicio1 = response.numeroInicio1;
                         var fin1 = response.numeroFinal1;
@@ -1084,6 +1116,7 @@ function getTc500(){
                             $('#tc500inicioE').val(response.numeroInicio1);$('#tc500finE').val(response.numeroFinal1);
                             $('#tc500P').val(mensaje);
                             $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
+                            $('#tmCantTc500').val(response.cantidad);
                         }
                         if (response.cantidadDatos == '2') {
                             var mensaje = ('Timbres entregados: ' + inicio1 + ' al ' + fin1 + ' y ' + inicio2 + ' al ' + fin2);
@@ -1097,6 +1130,7 @@ function getTc500(){
                             $('#tc500P').val(mensaje);
                             $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
                             $('#tc500inicioP2').val(response.numeroInicio2);$('#tc500finP2').val(response.numeroFinal2);
+                            $('#tmCantTc500').val(response.cantidad);$('#tmCantTc500_2').val(response.cantidad2);
                         }
                         if (response.cantidadDatos == '3') {
                             var mensaje = ('Timbres de: ' + inicio1 + ' al ' + fin1 + ', ' + inicio2 + ' al ' + fin2 + ' y ' + inicio3 + ' al ' + fin3);
@@ -1113,6 +1147,7 @@ function getTc500(){
                             $('#tc500inicioP').val(response.numeroInicio1);$('#tc500finP').val(response.numeroFinal1);
                             $('#tc500inicioP2').val(response.numeroInicio2);$('#tc500finP2').val(response.numeroFinal2);
                             $('#tc500inicioP3').val(response.numeroInicio3);$('#tc500finP3').val(response.numeroFinal3);
+                            $('#tmCantTc500').val(response.cantidad);$('#tmCantTc500_2').val(response.cantidad2);$('#tmCantTc500_3').val(response.cantidad3);
                         }
                     }
                 },
@@ -1224,7 +1259,7 @@ function cambioSerie () {
                         {
                             $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
                         }
-                    }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
+                    }else if ($('input[name=tipoCliente]:checked').val() == 'p') {
                         $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                         $('#codigoP').append( '<option value="">-- Escoja --</option>' );
                         for (i = 0; i < data.length; i++)
@@ -1488,15 +1523,18 @@ $(document).ready(function () {
 });
 
 function consultaTimbre(){
-    var combo = document.getElementById("codigo");
-    var selected = combo.options[combo.selectedIndex].text;
-    if (selected == '-- Escoja --'){var combo = document.getElementById("codigoE");var selected = combo.options[combo.selectedIndex].text;}
-    if (selected == '-- Escoja --'){var combo = document.getElementById("codigoP");var selected = combo.options[combo.selectedIndex].text;}
+    // var combo = document.getElementById("codigo");
+    // var selected = combo.options[combo.selectedIndex].text;
+    var selected = $("#codigo option:selected").text();
+    if (selected == '') { selected = $("#codigoE option:selected").text(); }
+    if (selected == '') { selected = $("#codigoP option:selected").text(); }
+    // if (selected == '-- Escoja --'){var combo = document.getElementById("codigoE");var selected = combo.options[combo.selectedIndex].text;}
+    // if (selected == '-- Escoja --'){var combo = document.getElementById("codigoP");var selected = combo.options[combo.selectedIndex].text;}
     if (selected.substring(0,2) == 'TC' || selected.substring(0,2) == 'TE' || selected.substring(0,3) == 'TIM'){
         var user = $('#rol_user').val();
         var codigo = $('#codigo').val();
-        if (codigo == ''){codigo = $('#codigoE').val();}
-        if (codigo == ''){codigo = $('#codigoP').val();}
+        if (codigo == null){codigo = $('#codigoE').val();}
+        if (codigo == null){codigo = $('#codigoP').val();}
         var nombre = selected;
         $.ajax({
             type: "POST",
@@ -1514,6 +1552,13 @@ function consultaTimbre(){
                 }
             }
         });
+    } else {
+        document.getElementById('existencia').style.display = "none";
+        $('#existencia').val('');
+        document.getElementById('existenciaE').style.display = "none";
+        $('#existenciaE').val('');
+        document.getElementById('existenciaP').style.display = "none";
+        $('#existenciaP').val('');
     }
 }
 
@@ -1551,7 +1596,6 @@ $(document).ready(function(){
                 subTotal = cantidad * precioU;
 
                 $("#subtotal").val('Q.'+subTotal.toFixed(2));
-
     });
 });
 
@@ -1893,7 +1937,7 @@ function mensualidadTimbre(indicador) {
 function agregarproductof() {
     $("#codigo").change();
 
-    $("#cantidad").change();
+    // $("#cantidad").change();
     if($.isNumeric($("#cantidad").val()) && $("#subtotal").val().substring(2) != 0) {
 
         validateRow();
@@ -1906,7 +1950,7 @@ function validateRow(){
         var combo = document.getElementById("codigo");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalle tr").length;
-        if((nFilas == 1) && ($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigo').val() != "")){
             if ($('#codigo').val() == 62){
                 var indicador = $('#subtotal').val().substring(2);
                 mensualidadTimbre(indicador);
@@ -1975,7 +2019,7 @@ function validateRow(){
                         if (arrayColCatId.includes($('#categoria_id').val()) && arrayColCodigo.includes($('#codigo').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigo').val() != "") && ($('#precioU').val().substring(2) != "")){
+                        }else if(($('#codigo').val() != "")){
                             addnewrow();
                             getTimbres(selected);
                             limpiarFilaDetalle();
@@ -1988,6 +2032,11 @@ function validateRow(){
 }
 
   function addnewrow() {
+    if ($("#precioU").val().substring(-1,2) == 'Q.'){
+        var precioU = $("#precioU").val();
+    }else {
+        var precioU = 'Q.'+($("#precioU").val());
+    }
 
 	if(!$('#tablaDetalle').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -2011,7 +2060,7 @@ function validateRow(){
 	resultado += '</td>';
 
 	resultado += '<td class="precioU" id="precioU">';
-	resultado += $("#precioU").val();
+	resultado += precioU;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPago">';
@@ -2458,6 +2507,7 @@ function limpiarTimbres()
 
 $(document).ready(function () {
     $("#codigoE").change (function () {
+        $("input[name='precioUE']").prop('disabled', true);
         var valor = $("#codigoE").val();
         if(document.getElementById("serieReciboA").checked == true){
             $.ajax({
@@ -2465,12 +2515,22 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idE']").val(response.categoria_id);
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUE']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
 
-                        $("#cantidadE").val(1);
+                            $("#cantidadE").val(1);
+
+                        } else {
+                            $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
+
+                            $("#cantidadE").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -2487,13 +2547,23 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoE").val() != ""){
-                        $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
-                        $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idE']").val(response.categoria_id);
-                        consultaTimbre();
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUE']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
 
-                        $("#cantidadE").val(1);
+                            $("#cantidadE").val(1);
+
+                        } else {
+                            $("input[name='precioUE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoE']").val(response.tipo_de_pago);
+                            $("input[name='subtotalE']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idE']").val(response.categoria_id);
+                            consultaTimbre();
+
+                            $("#cantidadE").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -2516,21 +2586,43 @@ $(document).ready(function () {
 $(document).ready(function(){
     $("#cantidadE").change(function() {
 
-        var subTotalE = 0;
+        if ($("input[name='precioUE']").prop('disabled') == true){
+            var subTotal = 0;
 
-        var precioUE = $("#precioUE").val().substring(2); // Convertir el valor a un entero (número).
-        var cantidadE = $("#cantidadE").val();
+            var precioU = $("#precioUE").val().substring(2); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
 
-            subTotalE = cantidadE * precioUE;
+                subTotal = cantidad * precioU;
 
-            $("#subtotalE").val('Q.'+subTotalE);
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
+        }else {
+            var subTotal = 0;
+
+            var precioU = $("#precioUE").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
+        }
+    });
+    $("#precioUE").change(function() {
+
+            var subTotal = 0;
+
+            var precioU = $("#precioUE").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadE").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalE").val('Q.'+subTotal.toFixed(2));
     });
 });
 
   function agregarproductofE() {
     $("#codigoE").change();
 
-    $("#cantidadE").change();
+    // $("#cantidadE").change();
     if($.isNumeric($("#cantidadE").val()) && $("#subtotalE").val().substring(2) != 0) {
 
         validateRowE();
@@ -2543,7 +2635,7 @@ $(document).ready(function(){
         var combo = document.getElementById("codigoE");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleE tr").length;
-        if((nFilas == 1) && ($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigoE').val() != "")){
             addnewrowE();
             getTimbres(selected);
         }else if (nFilas > 1){
@@ -2597,7 +2689,7 @@ $(document).ready(function(){
                         if (arrayColCatId.includes($('#categoria_idE').val()) && arrayColCodigo.includes($('#codigoE').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoE').val() != "") && ($('#precioUE').val().substring(2) != "")){
+                        }else if(($('#codigoE').val() != "")){
                             addnewrowE();
                             getTimbres(selected);
                             limpiarFilaDetalleE();
@@ -2610,6 +2702,11 @@ $(document).ready(function(){
 }
 
   function addnewrowE() {
+    if ($("#precioUE").val().substring(-1,2) == 'Q.'){
+        var precioUE = $("#precioUE").val();
+    }else {
+        var precioUE = 'Q.'+($("#precioUE").val());
+    }
 
 	if(!$('#tablaDetalleE').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -2633,7 +2730,7 @@ $(document).ready(function(){
 	resultado += '</td>';
 
 	resultado += '<td>';
-	resultado += $("#precioUE").val();
+	resultado += precioUE;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPagoE">';
@@ -2674,7 +2771,7 @@ function getTotalE() {
   function limpiarFilaDetalleE() {
     $("select[name='codigoE']").val('');
     $("input[name='cantidadE']").val(1);
-    $("input[name='precioUE']").val('');
+    $("input[name='precioUE']").val('').prop('disabled', true);
     $("input[name='descTipoPagoE']").val('');
     $("input[name='subtotalE']").val('');
     $("#codigoE").focus();
@@ -2989,6 +3086,7 @@ function limpiarPantallaE()
 
 $(document).ready(function () {
     $("#codigoP").change (function () {
+        $("input[name='precioUP']").prop('disabled', true);
         var valor = $("#codigoP").val();
         if(document.getElementById("serieReciboA").checked == true){
             $.ajax({
@@ -2996,12 +3094,22 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoA/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idP']").val(response.categoria_id);
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUP']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
 
-                        $("#cantidadP").val(1);
+                            $("#cantidadE").val(1);
+                        } else {
+
+                            $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
+
+                            $("#cantidadP").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -3018,13 +3126,23 @@ $(document).ready(function () {
                 url: '/tipoPagoColegiadoB/' + valor,
                 success: function(response){
                     if($("#codigoP").val() != ""){
-                        $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
-                        $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
-                        $("input[name='categoria_idP']").val(response.categoria_id);
-                        consultaTimbre();
+                        if (response.precio_particular == 0){
+                            $("input[name='precioUP']").prop('disabled', false).val('');
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
 
-                        $("#cantidadP").val(1);
+                            $("#cantidadP").val(1);
+                        } else {
+
+                            $("input[name='precioUP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='descTipoPagoP']").val(response.tipo_de_pago);
+                            $("input[name='subtotalP']").val('Q.'+response.precio_particular.toFixed(2));
+                            $("input[name='categoria_idP']").val(response.categoria_id);
+                            consultaTimbre();
+
+                            $("#cantidadP").val(1);
+                        }
                     }
                 },
                 error: function() {
@@ -3044,25 +3162,46 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function(){
     $("#cantidadP").change(function() {
 
-        var subTotal = 0;
+        if ($("input[name='precioUP']").prop('disabled') == true){
+            var subTotal = 0;
 
-        var precioU = $("#precioUP").val().substring(2); // Convertir el valor a un entero (número).
-        var cantidad = $("#cantidadP").val();
+            var precioU = $("#precioUP").val().substring(2); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
 
-            subTotal = cantidad * precioU;
+                subTotal = cantidad * precioU;
 
-            $("#subtotalP").val('Q.'+subTotal);
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
+        }else {
+            var subTotal = 0;
+
+            var precioU = $("#precioUP").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
+        }
+    });
+    $("#precioUP").change(function() {
+
+            var subTotal = 0;
+
+            var precioU = $("#precioUP").val(); // Convertir el valor a un entero (número).
+            var cantidad = $("#cantidadP").val();
+
+                subTotal = cantidad * precioU;
+
+                $("#subtotalP").val('Q.'+subTotal.toFixed(2));
     });
 });
 
 function agregarproductofP() {
     $("#codigoP").change();
 
-    $("#cantidadP").change();
+    // $("#cantidadP").change();
     if($.isNumeric($("#cantidadP").val()) && $("#subtotalP").val().substring(2) != 0) {
 
         validateRowP();
@@ -3075,7 +3214,7 @@ function agregarproductofP() {
         var combo = document.getElementById("codigoP");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleP tr").length;
-        if((nFilas == 1) && ($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
+        if((nFilas == 1) && ($('#codigoP').val() != "")){
             addnewrowP();
             getTimbres(selected);
         }else if (nFilas > 1){
@@ -3129,7 +3268,7 @@ function agregarproductofP() {
                         if (arrayColCatId.includes($('#categoria_idP').val()) && arrayColCodigo.includes($('#codigoP').val())){
                             alertify.warning('/.tipo de pago ya ha sido ingresado./');
                             finish();
-                        }else if(($('#codigoP').val() != "") && ($('#precioUP').val().substring(2) != "")){
+                        }else if(($('#codigoP').val() != "")){
                             addnewrowP();
                             getTimbres(selected);
                             limpiarFilaDetalleP();
@@ -3142,6 +3281,11 @@ function agregarproductofP() {
 }
 
   function addnewrowP() {
+    if ($("#precioUP").val().substring(-1,2) == 'Q.'){
+        var precioUP = $("#precioUP").val();
+    }else {
+        var precioUP = 'Q.'+($("#precioUP").val());
+    }
 
 	if(!$('#tablaDetalleP').length) {
 		var resultado = '<table class="table table-striped table-hover" id="tablaDetalle"><thead><tr><th style="display: none;">Código</th><th>Código</th><th>Cantidad</th><th>Precio U.</th><th>Descripcion</th><th>Subtotal</th><th style:"display: none;">categoria_id</th><th>Eliminar</th></tr></thead><tbody>';
@@ -3165,7 +3309,7 @@ function agregarproductofP() {
 	resultado += '</td>';
 
 	resultado += '<td>';
-	resultado += $("#precioUP").val();
+	resultado += precioUP;
 	resultado += '</td>';
 
 	resultado += '<td class="descTipoPagoP">';
@@ -3206,7 +3350,7 @@ function getTotalP() {
   function limpiarFilaDetalleP() {
     $("select[name='codigoP']").val('');
     $("input[name='cantidadP']").val(1);
-    $("input[name='precioUP']").val('');
+    $("input[name='precioUP']").val('').prop('disabled', true);;
     $("input[name='descTipoPagoP']").val('');
     $("input[name='subtotalP']").val('');
     $("#codigoP").focus();
