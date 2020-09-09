@@ -555,13 +555,13 @@ class ReciboController extends Controller
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
-            try {
+            // try {
                 $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
                 $this->envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
                 return response()->json(['success' => 'Todo Correcto']);
-            } catch (\Throwable $th) {
-                return response()->json(['success' => 'Exito-No se envio correo']);
-            }
+            // } catch (\Throwable $th) {
+            //     return response()->json(['success' => 'Exito-No se envio correo']);
+            // }
 
 
         } elseif ($emisionDeRecibo == 'particular'){
@@ -657,7 +657,7 @@ class ReciboController extends Controller
             }
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
-            
+
 
 
                 try {
@@ -666,8 +666,8 @@ class ReciboController extends Controller
                 } catch (\Throwable $th) {
                     return response()->json(['success' => 'Exito-No se envio correo']);
                 }
-        
-       
+
+
 
         } elseif ($emisionDeRecibo == 'empresa'){
                 // almacen de datos de EMPRESA
@@ -765,7 +765,7 @@ class ReciboController extends Controller
 
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request);
 
-         
+
 
                try {
                 $empresa1 = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
@@ -3241,8 +3241,9 @@ class ReciboController extends Controller
 
          $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
         //  $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
-         $letras = new NumeroALetras;
-         $letras->toMoney($reciboMaestro->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+        
+        $letra = new NumeroALetras;
+        $letras = $letra->toMoney($reciboMaestro->monto_total, 2, 'QUETZALES', 'CENTAVOS');
          $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))
          ->setPaper('legal', 'landscape');
 

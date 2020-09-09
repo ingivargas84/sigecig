@@ -223,9 +223,8 @@
               </li>
             </ul>
         </li>
-        @endrole
-
-        
+        @endrole  
 </ul>
+
 
 <!-- /.sidebar-menu -->
