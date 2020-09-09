@@ -201,6 +201,7 @@ Route::group([
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
         Route::get( '/tipo/ajax/A', 'ReciboController@SerieDePagoA');
         Route::get( '/tipo/ajax/B', 'ReciboController@SerieDePagoB');
+        Route::get( '/tipo/ajax/aspirante', 'ReciboController@SerieDePagoAspirante');
         Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
         Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');

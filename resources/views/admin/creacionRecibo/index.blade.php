@@ -844,6 +844,16 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="monto_timbreP" class="control-label">Pago timbre</label>
+                            <div>
+                                <input type="text" id="monto_timbreP" name="monto_timbreP" readOnly class="form-control" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-2 col-lg 2" id="divColegioP" style="display: block;">
                         <div class="form-group">
                             <label for="codigoP" class="control-label">Código</label>
@@ -1194,6 +1204,7 @@
             cambioSerie();
             if ($('input[name=tipoCliente]:checked').val() == "p"){ document.getElementById('divAspirante').style.display = "";
             } else { document.getElementById('divAspirante').style.display = "none"; }
+            $("#aspirante").prop('checked', false);
         });
     });
 </script>

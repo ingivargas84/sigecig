@@ -117,7 +117,7 @@ class ReciboController extends Controller
             return json_encode($tipo);
         }
         if ($cliente == 'p'){
-            $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 1)->get();
+            $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 1)->where('categoria_id', '!=', 3)->get();
             return json_encode($tipo);
         }
 
@@ -147,6 +147,28 @@ class ReciboController extends Controller
             return json_encode($tipo);
         }
         if ($cliente == 'p'){
+            $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->where('id', '!=', '22')->where('id', '!=', '23')
+                            ->where('id', '!=', '24')->where('id', '!=', '25')->where('id', '!=', '26')
+                            ->where('id', '!=', '27')->where('id', '!=', '28')->where('id', '!=', '29')
+                            ->where('id', '!=', '30')->where('id', '!=', '31')
+                            ->where('id', '!=', '32')->where('id', '!=', '33')->where('id', '!=', '34')
+                            ->where('id', '!=', '35')->where('id', '!=', '36')->where('id', '!=', '37')
+                            ->where('id', '!=', '38')->where('id', '!=', '39')
+                            ->where('id', '!=', '40')->where('id', '!=', '41')->where('id', '!=', '42')
+                            ->where('id', '!=', '43')->where('id', '!=', '44')->where('id', '!=', '45')
+                            ->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
+            return json_encode($tipo);
+        }
+    }
+
+    public function SerieDePagoAspirante(Request $request)
+    {
+        $serie = $request->stateID;
+        if ($serie == 'a'){
+            $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '!=', 1)->where('categoria_id', '!=', 3)->orWhere('id', '=', '11')->orWhere('id', '=', '12')->get();
+            return json_encode($tipo);
+        }
+        if ($serie == 'b'){
             $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->where('id', '!=', '22')->where('id', '!=', '23')
                             ->where('id', '!=', '24')->where('id', '!=', '25')->where('id', '!=', '26')
                             ->where('id', '!=', '27')->where('id', '!=', '28')->where('id', '!=', '29')
@@ -618,13 +640,15 @@ class ReciboController extends Controller
             $array = $request->input("datos");
 
             for ($i = 1; $i < sizeof($array); $i++) {
-                $reciboDetalleP = Recibo_Detalle::create([
-                    'numero_recibo'     => $reciboMaestroP->numero_recibo,
-                    'codigo_compra'     => $array[$i][1],
-                    'cantidad'          => $array[$i][2],
-                    'precio_unitario'   => substr($array[$i][3],2),
-                    'total'             => substr($array[$i][5],2),
-                ]);
+                if ($array[$i][1] != 'timbre-mensual'){
+                    $reciboDetalleP = Recibo_Detalle::create([
+                        'numero_recibo'     => $reciboMaestroP->numero_recibo,
+                        'codigo_compra'     => $array[$i][1],
+                        'cantidad'          => $array[$i][2],
+                        'precio_unitario'   => substr($array[$i][3],2),
+                        'total'             => substr($array[$i][5],2),
+                    ]);
+                }
             }
 
             if ($esAspirante == 'si') {
@@ -796,6 +820,8 @@ class ReciboController extends Controller
     {
         $lastValue = Recibo_Maestro::pluck('numero_recibo')->last();
         $colegiado = $request->input("config.c_cliente");
+        $emisionDeRecibo    = $request->input("config.emisionDeRecibo");
+
         $tc01      = $request->input("config.tc01");
             if ($tc01 != null){
                 $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
@@ -993,16 +1019,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 30,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 1 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 30,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 1 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1279,16 +1307,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 31,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 5 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 31,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 5 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1567,16 +1597,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 32,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 10 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 32,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 10 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1853,16 +1885,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 34,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 20 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 34,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 20 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2139,17 +2173,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 36,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 50 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
-
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 36,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 50 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2426,16 +2461,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 33,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 100 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 33,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 100 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2712,16 +2749,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 35,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 200 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 35,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 200 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2998,16 +3037,18 @@ class ReciboController extends Controller
                         $id3 = $result3[0]->id;
                     }
                     //agregamos el pago al estado de cuenta (abono)
-                    $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                        'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                        'cantidad'                      => $totalCantidad,
-                        'tipo_pago_id'                  => 35,
-                        'recibo_id'                     => $lastValue,
-                        'abono'                         => 500 * $totalCantidad,
-                        'cargo'                         => '0',
-                        'usuario_id'                    => '1',
-                        'estado_id'                     => '1',
-                    ]);
+                    if($emisionDeRecibo == 'colegiado'){
+                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                            'cantidad'                      => $totalCantidad,
+                            'tipo_pago_id'                  => 35,
+                            'recibo_id'                     => $lastValue,
+                            'abono'                         => 500 * $totalCantidad,
+                            'cargo'                         => '0',
+                            'usuario_id'                    => '1',
+                            'estado_id'                     => '1',
+                        ]);
+                    }
                 }
 
                 $cantidadDatos = $request->input("config.cantidadDatosTc500");
