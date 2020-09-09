@@ -211,6 +211,7 @@ Route::group([
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
         Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
         Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');
+        Route::get('/getAsporante/existenciaDpi/{valid}', 'ReciboController@existenciaDpi');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
@@ -244,7 +245,7 @@ Route::group([
         Route::get('/Aspirante/profExist/', 'ColegiadosController@profesionExist');
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
-        
+
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');

@@ -3084,6 +3084,30 @@ function limpiarPantallaE()
 
 //Funcionamiento sobre Particular
 
+function getAspirante() {
+    if ($('#aspirante').prop('checked') == true) {
+        var valid = $('#dpi').val();
+        $.ajax({
+            type: "GET",
+            url: "/getAsporante/existenciaDpi/"+valid,
+            dataType: "json",
+            success: function (msg) {
+                // valid=!msg;
+                if(msg == false) {
+                    alertify.error('DPI no pertenece a Aspirante');
+                    alertify.set('notifier','position', 'top-center');
+                    $('#dpi').val('')
+                } else {
+                    $('#nombreP').val(msg[0].nombre + ' ' + msg[0].apellidos);
+                    $('#emailp').val(msg[0].correo);
+                }
+            }
+        });
+    } else {
+        var esAspirante = 'no';
+    }
+}
+
 $(document).ready(function () {
     $("#codigoP").change (function () {
         $("input[name='precioUP']").prop('disabled', true);
@@ -3598,7 +3622,7 @@ $("#guardarReciboP").click(function(e){
 
     if ((document.getElementById("tipoDePagoEfectivoP").checked != true)  && (document.getElementById("tipoDePagoChequeP").checked != true) && (document.getElementById("tipoDePagoTarjetaP").checked != true) && (document.getElementById("tipoDePagoDepositoP").checked != true)){
         alertify.warning('Seleccione un tipo de pago');
-    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1){
+    }else if (efectivoCorrecto == 1 && chequeCorrecto == 1 && tarjetaCorrecta == 1 && depositoCorrecto == 1){
         var totalEfectivo = $('#montoefectivoP').val();
         var totalCheque = $('#montoChequeP').val();
         var totalTarjeta = $('#montoTarjetaP').val();
@@ -3621,6 +3645,8 @@ $("#guardarReciboP").click(function(e){
                 config[this.name] = this.value;
                 });
 
+                if ($('#aspirante').prop('checked') == true) {var esAspirante = 'si';} else { var esAspirante = 'no';}
+
                 let datos = [].map.call(document.getElementById('tablaDetalleP').rows,
                 tr => [tr.cells[0].textContent, tr.cells[1].textContent, tr.cells[2].textContent, tr.cells[3].textContent, tr.cells[4].textContent, tr.cells[5].textContent, tr.cells[6].textContent]);
 
@@ -3629,7 +3655,7 @@ $("#guardarReciboP").click(function(e){
                 type: "POST",
                 headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
                 url: "/creacionRecibo/save/particular",
-                data: {config, datos, pos, banco, bancoDepositoP},
+                data: {config, datos, pos, banco, bancoDepositoP, esAspirante},
                 datatype: "json",
                 success: function() {
                     $('.loader').fadeOut(1000);
