@@ -156,9 +156,9 @@
         </li>
         @endrole
 
-        @role('Super-Administrador|JefeInformatica|SoporteInformatica')
+        @role('Super-Administrador|JefeInformatica|SoporteInformatica|Administrador')
         <li class="treeview {{request()->is('users*')? 'active': ''}}">
-          <a href="#"><i class="fa fa-users"></i> <span>Gestion Usuarios</span>
+          <a href="#"><i class="fa fa-users"></i> <span>Gestión Usuarios</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -223,7 +223,8 @@
               </li>
             </ul>
         </li>
-        @endrole
+        @endrole  
 </ul>
+
 
 <!-- /.sidebar-menu -->

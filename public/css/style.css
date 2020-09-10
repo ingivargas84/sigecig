@@ -92,3 +92,6 @@
     border: 3px solid #3864AD;
     background-color: transparent;
   }
+  .sidebar-menu .treeview-menu>li>a{
+      font-size: 11px !important;
+  }
