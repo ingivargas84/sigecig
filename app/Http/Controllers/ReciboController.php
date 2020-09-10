@@ -516,6 +516,16 @@ class ReciboController extends Controller
                                 'usuario_id'                    => '1',
                                 'estado_id'                     => '1',
                             ]);
+                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                                'cantidad'                      => $array[$i][2],
+                                'tipo_pago_id'                  => $array[$i][0],
+                                'recibo_id'                     => $reciboMaestro->numero_recibo,
+                                'abono'                         => substr($array[$i][5],2),
+                                'cargo'                         => '0',
+                                'usuario_id'                    => '1',
+                                'estado_id'                     => '1',
+                            ]);
                         }
                     }
                 }
@@ -888,7 +898,17 @@ class ReciboController extends Controller
                                 'cantidad'                      => $totalCantidad,
                                 'tipo_pago_id'                  => 30,
                                 'recibo_id'                     => $lastValue,
-                                'abono'                         => 1 * $totalCantidad,
+                                'abono'                         => '0',
+                                'cargo'                         => 1 * $totalCantidad,
+                                'usuario_id'                    => '1',
+                                'estado_id'                     => '1',
+                            ]);
+                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
+                                'cantidad'                      => $totalCantidad,
+                                'tipo_pago_id'                  => 30,
+                                'recibo_id'                     => $lastValue,
+                                'abono'                         => '0',
                                 'cargo'                         => 1 * $totalCantidad,
                                 'usuario_id'                    => '1',
                                 'estado_id'                     => '1',
