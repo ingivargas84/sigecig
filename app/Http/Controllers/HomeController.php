@@ -45,8 +45,8 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::User();
-
-        return view('admin.dashboard');
+        $rec = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get()->first();
+        return view('admin.dashboard', compact('rec'));
         
     }   
 

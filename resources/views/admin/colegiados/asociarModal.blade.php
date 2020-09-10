@@ -39,7 +39,7 @@
                             <label for="fechaUltimoPagoTimbre" class="control-label">Timbre pagado hasta:</label>                            
                             <input id="fechaUltimoPagoTimbre" class="form-control" name="fechaUltimoPagoTimbre" type="text" required readonly>                      
                           </div>
-                      <center><button id="ButtonAsociar" onclick="asociarColegiado()" class="form-button btn btn-success" type="button">Guardar Aspirante</button> </center>                   
+                      <center><button id="ButtonAsociar" class="form-button btn btn-success" type="button">Asociar Aspirante</button> </center>                   
                   </div>
                 </div>
               <br>

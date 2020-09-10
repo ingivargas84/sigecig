@@ -118,9 +118,10 @@ $(document).on('click', 'a.corte-caja', function(e) {
             url: $this.attr('href')
         }).done(function (data) {
             $('.loader').fadeOut(225);
+            alertify.set('notifier','position', 'top-center');
+            alertify.success('Corte de caja ingresado con exito');
             window.location = "/cortedecaja/historial";
-                alertify.set('notifier','position', 'top-center');
-                alertify.success('Corte de caja ingresado con exito');
+                
         });
         }
         , function(){

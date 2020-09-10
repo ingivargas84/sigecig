@@ -11,5 +11,9 @@ class Profesion extends Model
   protected $primaryKey = 'c_profesion';
   public $timestamps = false;
   protected $keyType = 'string';
+
+  protected $fillable = [
+    'titulo_masculino',
+];
     //
 }

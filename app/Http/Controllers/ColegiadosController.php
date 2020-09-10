@@ -377,13 +377,49 @@ Log::info("Morir2 ".print_r($aspirante, true));
     }
   }
 
-  public function setDatosProfesionalesColegiado() {
+  public function setDatosEspecialidadesColegiado() {
+    $rules = array(
+            'idusuario' => 'required',
+            'idespecialidad' => 'required'
+          );
+          $especialidadColegiado = new CC00espec;
+          $especialidadColegiado->c_cliente = Input::get('idusuario');
+          $especialidadColegiado->c_especialidad = Input::get('idespecialidad');
+       
+          $especialidadColegiado->save();  
+          $query = "UPDATE cc00espec
+          SET cc00espec.n_especialidad = especialidad.n_especialidad
+          FROM cc00espec
+          INNER JOIN especialidad
+          ON cc00espec.c_especialidad = especialidad.c_especialidad";
+          $resultado = DB::connection('sqlsrv')->update($query);
 
-    $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
-    $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
-    $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
-    
-  }
+         ///dd($data);
+           //$resultado = DB::connection('sqlsrv')->update($data);
+          
+          return json_encode(array('retorno' => 0, 'mensaje' => 'Especialidad guardada correctamente'));
+        }
+
+        public function setDatosProfesionalesColegiado() {
+          $rules = array(
+                  'idusuario' => 'required',
+                  'idprofesion' => 'required'
+                );
+                $profesionColegiado = new CC00prof;
+                $profesionColegiado->c_cliente = Input::get('idusuario');
+                $profesionColegiado->c_profesion = Input::get('idprofesion');
+             
+                $profesionColegiado->save();  
+                $query = "UPDATE cc00prof 
+                SET cc00prof.n_profesion = profesion.titulo_masculino+' '+profesion.n_profesion
+                FROM cc00prof
+                INNER JOIN profesion
+                ON cc00prof.c_profesion = profesion.c_profesion";
+                $rs = DB::connection('sqlsrv')->update($query);
+                
+                return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+              }
+
   public function setDatosEspecialidadesAspirante() {
     $rules = array(
       'idusuario' => 'required|integer',
@@ -699,9 +735,9 @@ public function profesionExist(){
 
   public function getJsonAsp(Request $params)
   {
-     $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
+     $query = "SELECT C.id, C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
                  FROM aspirante C
-                 ORDER BY C.dpi ASC"; 
+                 ORDER BY C.id ASC"; 
 
      $api_Result['data'] = DB::connection('sqlsrv')->select($query);
      return Response::json( $api_Result );
@@ -709,11 +745,11 @@ public function profesionExist(){
 
     public function getJson(Request $params)
      {
-        $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
+        $query = "SELECT CC.id, CC.c_cliente as codigo, CC.n_cliente as colegiado,
         IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
         (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado
                 FROM cc00 CC
-                ORDER BY CC.c_cliente ASC"; 
+                ORDER BY CC.id ASC"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );
