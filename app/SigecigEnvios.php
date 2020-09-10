@@ -15,6 +15,7 @@ class SigecigEnvios extends Model
         'id_municipio',
         'id_departamento',
         'detalle_direccion',
+        'referencias',
         'telefono',
         'encargado',
         'dpi_encargado',
