@@ -42,8 +42,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-offset-5 col-sm-2 col-lg-2">
-                    <div class="form-group">
+                <div class="col-md-offset-4 col-sm-3 col-lg-3">
+                    <div class="col-md-4" id="divAspirante" style="display:none;">
+                        <label for="aspirante" class="control-label">Aspirante
+                            <div>
+                                <input type="checkbox" id="aspirante" name="aspirante" onchange="getAspirante();" style="display: block;margin-left: auto;margin-right: auto;">
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="col-md-8">
                         <label for="serieRecibo" class="control-label">Serie de Recibo</label>
                         <div>
                             <label class="radio-inline">
@@ -818,7 +826,7 @@
                         <div class="form-group">
                             <label for="dpi" class="control-label">DPI</label>
                             <div>
-                                <input type="number" id="dpi" name="dpi" required class="form-control">
+                                <input type="number" id="dpi" name="dpi" min="0" onchange="getAspirante();" required class="form-control">
                             </div>
                         </div>
                     </div>
@@ -833,6 +841,16 @@
                     <div class="col-sm-3">
                         <label for="emailp" class="control-label">Email</label>
                         <input type="text" id="emailp" name="emailp" required class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="monto_timbreP" class="control-label">Pago timbre</label>
+                            <div>
+                                <input type="text" id="monto_timbreP" name="monto_timbreP" readOnly class="form-control" style="display: none;">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -1184,6 +1202,9 @@
             comprobarCheckTarjetaP();
             limpiarTimbres();
             cambioSerie();
+            if ($('input[name=tipoCliente]:checked').val() == "p"){ document.getElementById('divAspirante').style.display = "";
+            } else { document.getElementById('divAspirante').style.display = "none"; }
+            $("#aspirante").prop('checked', false);
         });
     });
 </script>

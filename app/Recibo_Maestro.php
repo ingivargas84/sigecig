@@ -19,6 +19,7 @@ class Recibo_Maestro extends Model
         'monto_efecectivo',
         'monto_tarjeta',
         'monto_cheque',
+        'monto_deposito',
         'usuario',
         'monto_total',
         'e_mail',
