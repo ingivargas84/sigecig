@@ -9,8 +9,7 @@
         p {
             font-family: "sans-serif";
             text-align: left;
-            margin-left: 4rem;
-            margin-right: 4rem;
+
         }
         tr:nth-child(even){
             background-color: #eee;
@@ -32,6 +31,7 @@
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
+  
         .texto{
             display: inline-block;
             vertical-align: top;
@@ -113,7 +113,7 @@
             margin-top: 3%;
         }
         table {
-            width: 90%;
+            width: 100%;
             margin: 20 auto;
             font-family: "sans-serif";
         }
@@ -127,19 +127,23 @@
     </style>
 </head>
 <body>
-<div class="container body" style="margin-bottom: 15px;">
-    <div class="row" style="font-family: sans-serif; margin-bottom:3rem; height: 190px; margin-left: 4rem;">
-            <img class="lg" src="images/logo.png"  height="190"  alt="">
-            <div class="texto">
+    <div class="row" style="font-family: sans-serif; height: 100px; ">
+        <img style="float: left;"  src="images/logocig.png"  height="90"  alt="">
+        <div class="" style="float: left; font-size: 12px; margin-right: 150px; margin-left: 30px;">
             <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
-                            7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
-                            PBX: 2218-2600 / www.cig.org.gt <br>
-                            NIT: 299329-5</small></p>
+                    7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
+                    PBX: 2218-2600 / www.cig.org.gt <br>
+                    NIT: 299329-5</small></p>
+         </div>
+             <div class="texto1" style="float: right; color: white; background: #03306d;height: 95px; width: 10%; align-items: center ">
+                <img id="qr" style="height: 80%; margin-right: 10px; margin-top: 10px" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}">
             </div>
-            <div class="texto1" style="color: white; background: #03306d;height: 160px; width: 35%; margin-right: 4rem;"><h1> RECIBO <img id="qr" style="margin-top:1rem;" src="data:image/png;base64,{!! base64_encode($codigoQR) !!}"></h1></div>
+            <div style="float: right; background: #03306d;height: 95px; color: white; width: 20%; font-size: 20px; text-indent: 20%">
+                <h1>RECIBO</h1>
+             </div>
         </div>
-    </div>
-</div>
+    <hr style="height: 1px; background:#67a8ff">
+
     <div class="row colegiado ">
         <div class="">
           <label for="" class="interesado">RECIBIMOS DE: {{$id->nombre}} </label>
@@ -185,8 +189,8 @@
             </thead>
             @foreach($datos as $co)
             <tr >
-                <td style="background:eee;text-align:center;padding: 7px;">{{$co->codigo_compra}}</td>
-                <td style="background:eee;text-align:center;">{{$co->tipo_de_pago}}</td>
+                <td style="background:eee;text-align:left;padding: 4px;" >{{$co->codigo_compra}}</td>
+                <td style="background:eee;text-align:left;">{{$co->tipo_de_pago}}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
                 <td style="background:eee;text-align:center;">Q.{{number_format($co->total, 2)}}</td>
             </tr>
@@ -211,8 +215,8 @@
                     </th>
             </tr>
         </table>
-        <p class="texto3"><small>Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
-            según Numeral 10, Artículo 7, Decreto 27-92, Ley del Impuesto al Valor Agregado. Los cheques se reciben bajo reserva usual de cobro, si el cheque
+        <p class="texto3" style="text-align: justify;"> <small > Exento ISR según Numeral 1, Artículo 11, Decreto 10-2012, Ley de Actualización Tributaria, Exento IVA
+            según Numeral 10, Artículo 7, Decreto 27-92, Ley del Impuesto al Valor Agregado. Los  cheques se reciben bajo reserva usual de cobro, si el cheque
             es devuelto, la operación que amparó este comprobante no tendrá validez de conformidad con el Artículo 1394 del Código Civil. Por cada cheque rechazado el colegio cobrará Q100.00 por gastos
             administrativos y quedará anulado el cobro. Los pagos de cuotas ordinaria, incluyen auxilio póstumo, colegios profesionales y cuota universitaria.</small></p>
 </body>

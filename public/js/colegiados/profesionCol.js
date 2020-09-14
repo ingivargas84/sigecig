@@ -60,6 +60,14 @@ $('#ingresoModalColProf').on('shown.bs.modal', function(){
 });
 
 
+$("#ButtonAgregarProfesionCol").click(function(event) {
+	if ($('#ProfesionColForm').valid()) {
+    agregarProfesionColF();
+	} else {
+		validator.focusInvalid();
+	}
+}); 
+
 function agregarProfesionColF() {
 	var invitacion = {
 		'idprofesion': $("#idprofesion").val(),
@@ -73,7 +81,7 @@ function agregarProfesionColF() {
         type: "POST",
         headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
 		dataType:'JSON',
-		url: "Aspirante/setDatosProfesionalesColegiado",
+		url: "colegiado/setDatosProfesionalesColegiado",
 		xhrFields: {
 				withCredentials: true
 		},
@@ -95,10 +103,10 @@ function agregarProfesionColF() {
         $("#mensajes").css({'color':'red'});
       }
         $('.loader').fadeOut(225);
+        $('#ingresoModalColProf').modal("hide");
         alertify.set('notifier','position', 'top-center');
         alertify.success('Profesión agregada con Éxito!!');
         colegiados_table.ajax.reload();
-       
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");
@@ -107,11 +115,19 @@ function agregarProfesionColF() {
 	});
 }
   
+
+$("#ButtonAgregarEspecialidadCol").click(function(event) {
+	if ($('#ProfesionColForm').valid()) {
+    agregarEspecialidadColF();
+	} else {
+		validator.focusInvalid();
+	}
+}); 
+
 function agregarEspecialidadColF() {
 	var invitacion = {
 		'idespecialidad': $("#idespecialidad").val(),
-    'idusuario': $("#dpi").val(),
-
+    'idusuario': $("#c_cliente").val(),
 	};
   $("#mensajes").html("");
   $('.loader').fadeIn();
@@ -119,7 +135,7 @@ function agregarEspecialidadColF() {
         type: "POST",
         headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
 		dataType:'JSON',
-		url: "Aspirante/setDatosEspecialidadesAspirante",
+		url: "colegiado/setDatosEspecialidadesColegiado",
 		xhrFields: {
 				withCredentials: true
 		},

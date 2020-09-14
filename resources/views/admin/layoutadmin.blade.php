@@ -29,7 +29,7 @@
   <!-- Fonts -->
   {{-- <link href='/ea/font' rel='stylesheet' type='text/css'> --}}
      <!-- Ionicons -->
-     <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
+  <link rel="stylesheet" href="{{asset('ionicons-2.0.1/css/ionicons.min.css')}}">
 
 
 
@@ -60,6 +60,7 @@
   <!-- SELECT2 -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/select2/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('adminlte/css/alt/AdminLTE-select2.min.css')}}">
+
 
 </head>
 

@@ -104,7 +104,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "width" : "10%",
         "responsivePriority": 4,
         "render": function( data, type, full, meta ) {
-            return (data );},
+            return ('Q.'+data.toFixed(2) );},
     },
 
     {
@@ -113,7 +113,7 @@ var tipodepago_table = $('#tipodepago-table').DataTable({
         "width" : "10%",
         "responsivePriority": 5,
         "render": function( data, type, full, meta ) {
-            return (data );},
+            return ('Q.'+data.toFixed(2) );},
     },
 
     {

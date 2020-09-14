@@ -24,17 +24,19 @@ class CorteDeCajaController extends Controller
     {
         $corte = CorteCaja::whereRaw('Date(created_at) = CURDATE()')->get()->first();
         $recibom = Recibo_Maestro::whereRaw('Date(created_at) = CURDATE()')->get();
+       
         $id = $recibom->sum('monto_total');
       
-     //   $corte =  $corte->fecha_corte;
-      //  $corte =  date("Y/m/d", strtotime($corte));
-       // $hoy = Carbon::today();
-      // dd($corte);
-        $hoy = Carbon::now();
- 
-        $hoy = $hoy->format('Y-m-d');
+         if ($corte == true )
+        {
+            return redirect()->route('cortecaja.historial')->withFlash('Ya existe un corte de caja registrado!');
+        }
+
+        else
+        {
+            return view('admin.cortecaja.index', compact('id', 'corte', 'recibom'));
+        } 
        
-        return view('admin.cortecaja.index', compact('id', 'hoy', 'corte'));
     }
     public function historial(Recibo_Maestro $id)
     {

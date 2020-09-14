@@ -119,10 +119,7 @@ $( document ).ready(function() {
     
     });
     
-    $("#enviar").click(function(event) {
 
-    });
-    
     
     });
     

@@ -22,6 +22,8 @@ class CreateSigecigEstadoDeCuentaDetalleTable extends Migration
             $table->double('abono',10,2);
             $table->double('cargo',10,2);
             $table->integer('usuario_id');
+            $table->integer('id_mes')->nullable();
+            $table->string('año',10)->nullable();
             $table->integer('estado_id');
             $table->timestamps();
         });

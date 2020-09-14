@@ -49,6 +49,15 @@ var colegiados_table = $('#colegiados-table').DataTable({
     "order": [0, 'desc'],
     "columns": [ 
         {
+            "visible": false,
+            "title": "Id",
+            "data": "id", 
+            "width" : "1%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
             "title": "Colegiado",
             "data": "codigo", 
             "width" : "5%",
