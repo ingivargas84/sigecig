@@ -59,7 +59,7 @@ var historial_table = $('#historial-table').DataTable({
                 "width" : "8%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    return('Q.'+data.toFixed(2));},
           },
           {
                 "title": "Efectivo",
@@ -67,7 +67,7 @@ var historial_table = $('#historial-table').DataTable({
                 "width" : "8%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    return('Q.'+data.toFixed(2));},
         },
           {
                 "title": "Cheque",
@@ -75,7 +75,7 @@ var historial_table = $('#historial-table').DataTable({
                 "width" : "8%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    return('Q.'+data.toFixed(2));},
         },
             {
                 "title": "Tarjeta",
@@ -83,7 +83,7 @@ var historial_table = $('#historial-table').DataTable({
                 "width" : "8%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    return('Q.'+data.toFixed(2));},
         },
             {
                 "title": "Depósito",
@@ -91,7 +91,7 @@ var historial_table = $('#historial-table').DataTable({
                 "width" : "8%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    return('Q.'+data.toFixed(2));},
         },
             {
                 "title": "Usuario",

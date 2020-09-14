@@ -17,8 +17,7 @@
  
 <div class="loader loader-bar is-active"></div>
 <div class="box">
-{{--    @if($corte->corte_fecha->format('Y-m-d') != $hoy) 
- --}}    <!-- /.box-header -->
+    <!-- /.box-header -->
     <div class="box-body">
       <legend><center>Detalles</center></legend>
 
@@ -33,21 +32,14 @@
 
         <input id="monto_total" type="hidden" name="monto_total" value="{{$id}}">
         <input id="caja" type="hidden" name="caja" value="{{\App\Cajas::where('cajero', Auth::user()->id)->pluck('nombre_caja')->first()}}">
-     {{--   \App\User::where(['name' => $posts->username])->pluck('avatar')->first();
-         {{\App\Cajas::find($rp->serie_recibo_id)->serie_recibo}} --}}
+
         <div class="text-right m-t-15">
           <a class="btn btn-primary corte-caja data-method='post'" href="{{route('cortedecaja.save')}}">Corte de Caja</a>
         </div>
-
         <input type="hidden" name="urlActual" value="{{url()->current()}}">
     </div>
     <!-- /.box-body -->
-   {{--   @endif
-    @if($corte->corte_fecha->format('Y-m-d') == $hoy) 
-    <h3> Corte de caja ya realizado </h3>
-    @endif  --}}
-
-
+      
   </div>
   <!-- /.box -->
 

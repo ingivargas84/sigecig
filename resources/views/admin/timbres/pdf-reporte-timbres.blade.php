@@ -95,7 +95,7 @@
                     <th colspan="2" style="background: #D2D2D2;text-align:center;">Saldo Actual</th>
                 </tr>
                 <tr>
-                    <th style="background: #D2D2D2;text-align:center; padding: 4px;">Denominacion</th>
+                    <th style="background: #D2D2D2;text-align:center; padding: 4px;">Denominación</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
                     <th style="background: #D2D2D2;text-align:center;">Valor</th>
                     <th style="background: #D2D2D2;text-align:center;">Cantidad</th>
@@ -144,7 +144,7 @@
                     <th width="33%" style="background: #D2D2D2;text-align:center;">Nombre</th>
                     <th width="5%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
                     <th width="33%" style="background: #D2D2D2;text-align:center;">Timbre</th>
-                    <th width="15%" style="background: #D2D2D2;text-align:center;">Numeracion Asignada</th>
+                    <th width="15%" style="background: #D2D2D2;text-align:center;">Numeración Asignada</th>
                     <th width="8%" style="background: #D2D2D2;text-align:center;">Total</th>
                 </tr>
             </thead>

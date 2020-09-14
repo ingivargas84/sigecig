@@ -201,6 +201,7 @@ Route::group([
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
         Route::get( '/tipo/ajax/A', 'ReciboController@SerieDePagoA');
         Route::get( '/tipo/ajax/B', 'ReciboController@SerieDePagoB');
+        Route::get( '/tipo/ajax/aspirante', 'ReciboController@SerieDePagoAspirante');
         Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
         Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
@@ -211,6 +212,7 @@ Route::group([
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
         Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
         Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');
+        Route::get('/getAsporante/existenciaDpi/{valid}', 'ReciboController@existenciaDpi');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
@@ -244,7 +246,8 @@ Route::group([
         Route::get('/Aspirante/profExist/', 'ColegiadosController@profesionExist');
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
-        
+        Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
+        Route::post('colegiado/setDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesColegiado']);
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');

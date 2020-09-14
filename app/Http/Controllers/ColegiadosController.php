@@ -28,6 +28,9 @@ use App\CC00prof;
 use App\CC00espec;
 use App\EstadoDeCuentaMaestro;
 use App\EstadoDeCuentaDetalle;
+use App\Recibo_Maestro;
+use App\Recibo_Detalle;
+use App\TipoDePago;
 
 class ColegiadosController extends Controller
 {
@@ -58,9 +61,9 @@ class ColegiadosController extends Controller
       FROM profesion
       ORDER BY titulo_masculino+' '+n_profesion";
       $resultado = DB::connection('sqlsrv')->select($query);
-      
-      $query = "SELECT c_especialidad id, n_especialidad nombre 
-      FROM especialidad 
+
+      $query = "SELECT c_especialidad id, n_especialidad nombre
+      FROM especialidad
       ORDER BY n_especialidad";
       $esp = DB::connection('sqlsrv')->select($query);
       return view ('admin.colegiados.aspirante', compact('resultado', 'esp'));
@@ -68,7 +71,7 @@ class ColegiadosController extends Controller
 
     public function create()
     {
-     
+
     }
 
     protected function vistaAspirante($colegiado = null) {
@@ -131,7 +134,7 @@ class ColegiadosController extends Controller
       $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
       $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
       $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get();
-      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get(); 
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get();
 
         return view ('admin.colegiados.detallesCo', compact('query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
     }
@@ -377,13 +380,49 @@ Log::info("Morir2 ".print_r($aspirante, true));
     }
   }
 
-  public function setDatosProfesionalesColegiado() {
+  public function setDatosEspecialidadesColegiado() {
+    $rules = array(
+            'idusuario' => 'required',
+            'idespecialidad' => 'required'
+          );
+          $especialidadColegiado = new CC00espec;
+          $especialidadColegiado->c_cliente = Input::get('idusuario');
+          $especialidadColegiado->c_especialidad = Input::get('idespecialidad');
+       
+          $especialidadColegiado->save();  
+          $query = "UPDATE cc00espec
+          SET cc00espec.n_especialidad = especialidad.n_especialidad
+          FROM cc00espec
+          INNER JOIN especialidad
+          ON cc00espec.c_especialidad = especialidad.c_especialidad";
+          $resultado = DB::connection('sqlsrv')->update($query);
 
-    $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
-    $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
-    $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
-    
-  }
+         ///dd($data);
+           //$resultado = DB::connection('sqlsrv')->update($data);
+          
+          return json_encode(array('retorno' => 0, 'mensaje' => 'Especialidad guardada correctamente'));
+        }
+
+        public function setDatosProfesionalesColegiado() {
+          $rules = array(
+                  'idusuario' => 'required',
+                  'idprofesion' => 'required'
+                );
+                $profesionColegiado = new CC00prof;
+                $profesionColegiado->c_cliente = Input::get('idusuario');
+                $profesionColegiado->c_profesion = Input::get('idprofesion');
+             
+                $profesionColegiado->save();  
+                $query = "UPDATE cc00prof 
+                SET cc00prof.n_profesion = profesion.titulo_masculino+' '+profesion.n_profesion
+                FROM cc00prof
+                INNER JOIN profesion
+                ON cc00prof.c_profesion = profesion.c_profesion";
+                $rs = DB::connection('sqlsrv')->update($query);
+                
+                return json_encode(array('retorno' => 0, 'mensaje' => 'Profesión guardada correctamente'));
+              }
+
   public function setDatosEspecialidadesAspirante() {
     $rules = array(
       'idusuario' => 'required|integer',
@@ -498,7 +537,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
 
 
     public function asociarColegiado() {
-   
+
       $rules = array(
         'idusuario' => 'required',
         'colegiado' => 'required|integer',
@@ -506,6 +545,99 @@ Log::info("Morir2 ".print_r($aspirante, true));
         'fechaUltimoPagoColegio' => 'required|date',
         'fechaUltimoPagoTimbre' => 'required|date'
       );
+
+      //Almacenamiento de Estado de Cuenta
+      $aspirante = \App\Aspirante::find(Input::get('idusuario'));
+
+      $cuentaM = new EstadoDeCuentaMaestro;
+      $cuentaM->colegiado_id = Input::get('colegiado');
+      $cuentaM->estado_id = 1;
+      $cuentaM->fecha_creacion = date('Y-m-d h:i:s');
+      $cuentaM->usuario_id = 1;
+      $cuentaM->save();
+
+        //calculando datos de timbre
+        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de mes de fecha de timbre
+        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de anio de fecha de timbre
+        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
+        $monto_timbre = $aspirante->montoTimbre; //monto del timbre
+
+        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
+        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
+
+        $capitalTimbre = round($monto_timbre * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)));
+
+                          //calculando datos de colegiatura
+        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de mes de fecha de colegiatura
+        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de anio de fecha de colegiatura
+        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
+
+        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
+        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
+
+        $capitalColegio = round(115.75 * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)),2);
+
+                //Almacenamiento
+        $TotalCapital = $capitalColegio + $capitalTimbre;
+
+        $colegiado = Input::get('colegiado');
+        $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE colegiado_id = $colegiado";
+        $resp = DB::connection('mysql')->select($consulta);
+
+      $cuentaD = new EstadoDeCuentaDetalle;
+      $cuentaD->estado_cuenta_maestro_id = $resp[0]->id;
+      $cuentaD->cantidad = 1;
+      $cuentaD->tipo_pago_id = 61;
+      $cuentaD->recibo_id = 1;
+      $cuentaD->abono = '0.00';
+      $cuentaD->cargo = $TotalCapital;
+      $cuentaD->usuario_id = Auth::user()->id;
+      $cuentaD->estado_id = 1;
+      $cuentaD->save();
+
+      //actualizacion de recibos
+      $consulta = "SELECT * FROM sigecig_recibo_maestro WHERE numero_de_identificacion like $aspirante->dpi";
+      $info = DB::connection('mysql')->select($consulta);
+
+      if(!empty($info)){
+        foreach ($info as $cons){
+            $query = "UPDATE sigecig_recibo_maestro SET numero_de_identificacion = :colegiado, tipo_de_cliente_id = 1 WHERE id = $cons->id";
+                    $parametros = array(
+                        ':colegiado' => Input::get('colegiado')
+                    );
+                    $result = DB::connection('mysql')->update($query, $parametros);
+
+            $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $cons->id";
+            $detalle = DB::connection('mysql')->select($query2);
+
+            foreach ($detalle as $det) {
+                $tipo = TipoDePago::where('codigo',  $det->codigo_compra)->get()->first();
+                if ($tipo->id==11||$tipo->id==30||$tipo->id==31||$tipo->id==32||$tipo->id==33||$tipo->id==34||$tipo->id==35||$tipo->id==36||$tipo->id==37){
+                    $totalAbono = $det->total;
+                    $totalCargo = '0.00';
+                } else {
+                    $totalAbono = '0.00';
+                    $totalCargo = $det->total;
+                }
+                if ($tipo->id==22||$tipo->id==23||$tipo->id==24||$tipo->id==25||$tipo->id==26||$tipo->id==27||$tipo->id==28||$tipo->id==29){
+                    $totalAbono = $det->total;
+                    $totalCargo = $det->total;
+                }
+
+                $cuentaD = new EstadoDeCuentaDetalle;
+                $cuentaD->estado_cuenta_maestro_id = $resp[0]->id;
+                $cuentaD->cantidad = $det->cantidad;
+                $cuentaD->tipo_pago_id = $tipo->id;
+                $cuentaD->recibo_id = $cons->id;
+                $cuentaD->abono = $totalAbono;
+                $cuentaD->cargo = $totalCargo;
+                $cuentaD->usuario_id = Auth::user()->id;
+                $cuentaD->estado_id = 1;
+                $cuentaD->save();
+            }
+        }
+    }
+
       $validator = Validator::make(Input::all(), $rules);
       if ($validator->fails()) {
         return json_encode(array('retorno' => 2, 'mensaje' => 'Especialidad o colegiado inválido'));
@@ -581,74 +713,28 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->nacionalidad= $aspirante->idnacionalidad;
       $colegiado->telmovil= $aspirante->telefono;
       $colegiado->carrera_afin= $aspirante->carrera_afin;
-     
+
       $colegiado->save();
 
       $query = "INSERT INTO cc00prof(c_cliente,c_profesion,n_profesion) select :colegiado, pa.c_profesion, isnull(titulo_masculino,'') + ' ' + isnull(n_profesion,'') from profesionAspirante pa INNER JOIN profesion p ON pa.c_profesion = p.c_profesion WHERE dpi=:dpi";
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
       $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
-      
+
       $query = "INSERT INTO cc00espec(c_cliente,c_especialidad,n_especialidad) select :colegiado, ea.c_especialidad, isnull(titulo_masculino,'') + ' ' + isnull(n_especialidad,'') from especialidadAspirante ea INNER JOIN especialidad e ON ea.c_especialidad = e.c_especialidad WHERE dpi=:dpi";
       $parametros = array(':colegiado' => Input::get('colegiado'), ':dpi' => Input::get('idusuario'));
       $resultado = DB::connection('sqlsrv')->insert($query, $parametros);
 
       //Eliminacion de aspirante, profesion y especialidad que se asocia
-      $query3 = "DELETE FROM especialidadAspirante WHERE dpi = '" . $colegiado->registro . "'";
-      $resultado = DB::connection('sqlsrv')->delete($query3);
+       $query3 = "DELETE FROM especialidadAspirante WHERE dpi = '" . $colegiado->registro . "'";
+       $resultado = DB::connection('sqlsrv')->delete($query3);
 
-      $query2 = "DELETE FROM profesionAspirante WHERE dpi = '" . $colegiado->registro . "'";
-      $resultado = DB::connection('sqlsrv')->delete($query2);
-      
-      $query1 = "DELETE FROM aspirante WHERE dpi = '" . $colegiado->registro . "'";
-      $resultado = DB::connection('sqlsrv')->delete($query1);
-      //Almacenamiento de Estado de Cuenta
+       $query2 = "DELETE FROM profesionAspirante WHERE dpi = '" . $colegiado->registro . "'";
+       $resultado = DB::connection('sqlsrv')->delete($query2);
 
-      $cuentaM = new EstadoDeCuentaMaestro;
-      $cuentaM->colegiado_id = Input::get('colegiado');
-      $cuentaM->estado_id = 1;
-      $cuentaM->fecha_creacion = date('Y-m-d h:i:s');
-      $cuentaM->usuario_id = 1;
-      $cuentaM->save();
+       $query1 = "DELETE FROM aspirante WHERE dpi = '" . $colegiado->registro . "'";
+       $resultado = DB::connection('sqlsrv')->delete($query1);
 
 
-        //calculando datos de timbre
-        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de mes de fecha de timbre
-        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoTimbre'))); //calculo de anio de fecha de timbre
-        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
-        $monto_timbre = $aspirante->montoTimbre; //monto del timbre
-
-        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
-        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
-
-        $capitalTimbre = round($monto_timbre * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)));
-
-                          //calculando datos de colegiatura
-        $mes_origen = date("m", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de mes de fecha de colegiatura
-        $anio_origen = date("Y", strtotime(Input::get('fechaUltimoPagoColegio'))); //calculo de anio de fecha de colegiatura
-        $fecha_hasta_donde_paga = date('Y-m-t', strtotime(date('Y') . '-' . date('m') . '-01')); //fecha de ultimo dia del mes actual
-
-        $mes_fin = date("m", strtotime($fecha_hasta_donde_paga));
-        $anio_fin = date("Y", strtotime($fecha_hasta_donde_paga));
-
-        $capitalColegio = round(115.75 * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)),2);
-
-                //Almacenamiento
-        $TotalCapital = $capitalColegio + $capitalTimbre;
-
-        $colegiado = Input::get('colegiado');
-        $consulta = "SELECT id FROM sigecig_estado_de_cuenta_maestro WHERE colegiado_id = $colegiado";
-        $resp = DB::connection('mysql')->select($consulta);
-
-      $cuentaD = new EstadoDeCuentaDetalle;
-      $cuentaD->estado_cuenta_maestro_id = $resp[0]->id;
-      $cuentaD->cantidad = 1;
-      $cuentaD->tipo_pago_id = 61;
-      $cuentaD->recibo_id = 1;
-      $cuentaD->abono = '0.00';
-      $cuentaD->cargo = $TotalCapital;
-      $cuentaD->usuario_id = Auth::user()->id;
-      $cuentaD->estado_id = 1;
-      $cuentaD->save();
 
       return json_encode(array('error' => 0, 'mensaje' => 'Colegiado trasladado correctamente'));
     }
@@ -699,9 +785,9 @@ public function profesionExist(){
 
   public function getJsonAsp(Request $params)
   {
-     $query = "SELECT C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
+     $query = "SELECT C.id, C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
                  FROM aspirante C
-                 ORDER BY C.dpi ASC"; 
+                 ORDER BY C.id ASC"; 
 
      $api_Result['data'] = DB::connection('sqlsrv')->select($query);
      return Response::json( $api_Result );
@@ -709,11 +795,11 @@ public function profesionExist(){
 
     public function getJson(Request $params)
      {
-        $query = "SELECT CC.c_cliente as codigo, CC.n_cliente as colegiado,
+        $query = "SELECT CC.id, CC.c_cliente as codigo, CC.n_cliente as colegiado,
         IIF ((DATEDIFF(MONTH, CC.f_ult_pago, GETDATE()) <= 3 AND DATEDIFF(MONTH, CC.f_ult_timbre, GETDATE()) <= 3),'Activo',
         (IIF ((cc.f_fallecido is NULL and CC.fallecido = 'N'),'Inactivo','Fallecido'))) as estado
                 FROM cc00 CC
-                ORDER BY CC.c_cliente ASC"; 
+                ORDER BY CC.id ASC"; 
 
         $api_Result['data'] = DB::connection('sqlsrv')->select($query);
         return Response::json( $api_Result );

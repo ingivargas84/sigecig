@@ -49,6 +49,15 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
     "order": [0, 'desc'],
     "columns": [ 
         {
+            "visible": false,
+            "title": "Id",
+            "data": "id", 
+            "width" : "1%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
             "title": "Colegiado",
             "data": "codigo", 
             "width" : "5%",
@@ -59,7 +68,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         {
             "title": "Nombre",
             "data": "colegiado", 
-            "width" : "45%",
+            "width" : "40%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},

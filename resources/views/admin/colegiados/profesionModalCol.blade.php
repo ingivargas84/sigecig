@@ -31,7 +31,7 @@
                              @endforeach  
                             </select> 
                         </div>
-                        <center><button id="agregarProfesion" onclick="agregarProfesionColF()" class="form-button btn btn-primary" type="button">Agregar profesión</button></center>
+                        <center><button id="ButtonAgregarProfesionCol" class="form-button btn btn-primary" type="button">Agregar profesión</button></center>
                         <div class="form-group col-sm-12" >
                             <label for="idespecialidad">Especialidad</label>
                             <select class="form-control selectpicker" id="idespecialidad" name="idespecialidad" data-live-search="true">
@@ -40,7 +40,7 @@
                           @endforeach  
                          </select> 
                         </div>
-                        <center><button id="agregarEspecialidad" onclick="agregarEspecialidadColF()" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
+                        <center><button id="ButtonAgregarEspecialidadCol" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
                     </div>
                 </div>
               <br>

@@ -180,7 +180,11 @@
                         <div class="row">
                             <div class="col-sm-6">
                               <label for="valUniversidadIncorporado" class="control-label">Universidad incorporado</label>
+                              @if ($id->universidadIncorporado==null)
+                              <input id="valUniversidadIncorporado" value="Ninguna o Desconocida" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadIncorporado" type="text" autocomplete="off" value="Ninguna o Desconocida" readonly>
+                              @else
                               <input id="valUniversidadIncorporado" value="{{$uniinc->n_universidad}}" class="form-control ui-autocomplete-input" placeholder="Universidad" name="valUniversidadIncorporado" type="text" autocomplete="off" value="Ninguna o Desconocida" readonly>
+                              @endif
                             </div>
                             <div class="col-sm-6">
                               <label for="tituloTesis" class="control-label">Título tesis</label>

@@ -16,6 +16,8 @@ class EstadoDeCuentaDetalle extends Model
         'abono',
         'cargo',
         'usuario_id',
+        'id_mes',
+        'año',
         'estado_id'
     ];
 }
