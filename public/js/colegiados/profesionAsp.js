@@ -253,9 +253,10 @@ function agregarProfesionF() {
         $("#mensajes").css({'color':'red'});
       }
         $('.loader').fadeOut(225);
+        $('#ingresoModal2').modal("hide");
         alertify.set('notifier','position', 'top-center');
         alertify.success('Profesión agregada con Éxito!!');
-       // aspirantes_table.ajax.reload();
+        aspirantes_table.ajax.reload();
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");
@@ -300,7 +301,7 @@ function agregarEspecialidadF() {
       $('#ingresoModal2').modal("hide");
       alertify.set('notifier','position', 'top-center');
       alertify.success('Especialidad agregada con Éxito!!');
-    //  aspirantes_table.ajax.reload();      
+      aspirantes_table.ajax.reload();      
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");

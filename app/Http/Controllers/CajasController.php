@@ -43,7 +43,7 @@ class CajasController extends Controller
         $caja = Cajas::all();
 
         //$bodega = Bodegas::all();
-       // $user = User::all();
+        //$datos = User::all();
 
         $query= "SELECT U.name, U.id
         FROM sigecig_users U
