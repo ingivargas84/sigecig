@@ -485,10 +485,10 @@ class ReciboController extends Controller
                             $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
                             $cuentaD = \App\EstadoDeCuentaDetalle::create([
                                 'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $array[$i][2],
+                                'cantidad'                      => 1,
                                 'tipo_pago_id'                  => $array[$i][0],
                                 'recibo_id'                     => $reciboMaestro->numero_recibo,
-                                'abono'                         => substr($array[$i][5],2),
+                                'abono'                         => substr($array[$i][3],2),
                                 'cargo'                         => '0',
                                 'usuario_id'                    => '1',
                                 'id_mes'                        => $mes,
