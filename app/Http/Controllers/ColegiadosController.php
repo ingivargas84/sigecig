@@ -29,6 +29,8 @@ use App\CC00espec;
 use App\EstadoDeCuentaMaestro;
 use App\EstadoDeCuentaDetalle;
 use App\Recibo_Maestro;
+use App\Recibo_Detalle;
+use App\TipoDePago;
 
 class ColegiadosController extends Controller
 {
@@ -582,6 +584,35 @@ Log::info("Morir2 ".print_r($aspirante, true));
                         ':colegiado' => Input::get('colegiado')
                     );
                     $result = DB::connection('mysql')->update($query, $parametros);
+
+            $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $cons->id";
+            $detalle = DB::connection('mysql')->select($query2);
+
+            foreach ($detalle as $det) {
+                $tipo = TipoDePago::where('codigo',  $det->codigo_compra)->get()->first();
+                if ($tipo->id==11||$tipo->id==30||$tipo->id==31||$tipo->id==32||$tipo->id==33||$tipo->id==34||$tipo->id==35||$tipo->id==36||$tipo->id==37){
+                    $totalAbono = $det->total;
+                    $totalCargo = '0.00';
+                } else {
+                    $totalAbono = '0.00';
+                    $totalCargo = $det->total;
+                }
+                if ($tipo->id==22||$tipo->id==23||$tipo->id==24||$tipo->id==25||$tipo->id==26||$tipo->id==27||$tipo->id==28||$tipo->id==29){
+                    $totalAbono = $det->total;
+                    $totalCargo = $det->total;
+                }
+
+                $cuentaD = new EstadoDeCuentaDetalle;
+                $cuentaD->estado_cuenta_maestro_id = $resp[0]->id;
+                $cuentaD->cantidad = $det->cantidad;
+                $cuentaD->tipo_pago_id = $tipo->id;
+                $cuentaD->recibo_id = $cons->id;
+                $cuentaD->abono = $totalAbono;
+                $cuentaD->cargo = $totalCargo;
+                $cuentaD->usuario_id = Auth::user()->id;
+                $cuentaD->estado_id = 1;
+                $cuentaD->save();
+            }
         }
     }
 

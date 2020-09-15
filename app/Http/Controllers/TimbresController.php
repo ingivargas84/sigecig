@@ -27,54 +27,7 @@ class TimbresController extends Controller
     public function reporteTimbres(Request $request){
 
         ////
-        $identificacion= '2413155-5';
-        $tipo = 2;
-        $recibo = 13;
-        $correo = 'cig.desarrollo2@gmail.com';
-        $reciboMaestro = \App\Recibo_Maestro::where('numero_recibo', $recibo)->first();
 
-        //Esta consulta nos devuelve los datos para generar el recibo electronico
-        $query1 = "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
-        FROM sigecig_recibo_detalle rd
-        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
-        WHERE rd.numero_recibo = $recibo";
-
-         $datos = DB::select($query1);
-         foreach ($datos as $key => $dato) {
-            $tipoPago = \App\TipoDePago::where('codigo',$dato->codigo_compra)->first();
-         if ($dato->categoria_id == 1) {
-         $dato->tipo_de_pago = $dato->tipo_de_pago . ' No.';
-         $numeroTimbres = \App\SegecigRegistroVentaTimbres::where('recibo_detalle_id', $dato->id)->get();
-         $tamanioArrray = count($numeroTimbres) - 1;
-         foreach ($numeroTimbres as $key => $numeroTimbre) {
-         if ($dato->cantidad == 1) {
-         $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbre->numeracion_inicial;
-         } else {
-         $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbre->numeracion_inicial . '-' . $numeroTimbre->numeracion_final;
-         }
-         }
-         }
-         if($tipoPago->id == 11){
-            $mes = \App\SigecigMeses::where('id',$dato->id_mes)->first();
-            $dato->tipo_de_pago = $dato->tipo_de_pago . ' (' . $mes->mes.' '.$dato->año.')';
-        }
-
-         }
-
-         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
-         $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
-         $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))
-         ->setPaper('legal', 'landscape');
-
-         //envio de recibo por correo al colegiado
-         $fecha_actual = date_format(Now(), 'd-m-Y');
-         $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $reciboMaestro, $tipo);
-         $infoCorreoRecibo->subject('Recibo Electrónico No.' . $reciboMaestro->numero_recibo);
-         $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-         $infoCorreoRecibo->attachData($pdf->output(), '' . 'Recibo_' . $reciboMaestro->numero_recibo . '_' . $identificacion . '.pdf', ['mime' => 'application / pdf ']);
-         Mail::to($correo)->send($infoCorreoRecibo);
-
-        ////
         $user = Auth::User();
         $fechaInicial=Carbon::parse($request->fechaInicial)->startOfDay()->toDateString();
         $fechaFinal=Carbon::parse($request->fechaFinal)->endOfDay()->toDateString();
