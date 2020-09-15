@@ -21,11 +21,11 @@
                         </div>
                     </div>
                     <div class="row" >      
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-6" >
                             <label for="colegiado" class="control-label">Numero de colegiado:</label>                            
                             <input id="colegiado" class="form-control" name="colegiado" type="text">
                         </div>
-                        <div class="form-group col-sm-12" >
+                        <div class="form-group col-sm-6" >
                             <label for="fechaColegiado" class="control-label">Fecha colegiado:</label>                            
                             <input id="fechaColegiado" class="form-control" name="fechaColegiado" onchange="cambiarEndDate2()" type="date">                        
                         </div>

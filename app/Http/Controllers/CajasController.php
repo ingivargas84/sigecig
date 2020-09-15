@@ -33,38 +33,75 @@ class CajasController extends Controller
      */
     public function index()
     {
-        //$subsede = Subsedes::all();
         $datos2 = "SELECT S.id, S.nombre_sede
         FROM sigecig_subsedes S
         WHERE S.estado = 1";
-         
         $subsede = DB::select($datos2);
 
-        $caja = Cajas::all();
+        //$caja = Cajas::all();
 
-        //$bodega = Bodegas::all();
-        //$datos = User::all();
-
+        //Obtener las subsedes
         $query= "SELECT U.name, U.id
         FROM sigecig_users U
         INNER JOIN model_has_roles MR ON MR.model_id = U.id
         WHERE MR.role_id = '18'
         AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)
         AND U.estado = 1";
-         
         $datos = DB::select($query);
 
+        //Obtener bodegas
         $querybodega = "SELECT B.id, B.nombre_bodega
         FROM sigecig_bodega B
-        WHERE B.id NOT IN (SELECT bodega FROM sigecig_cajas)
-        AND B.estado = 1";
-         
+        WHERE B.estado = 1";
         $datos1 = DB::select($querybodega);
+
+        $bodegaExiste = Bodegas::select('nombre_bodega')->get()->first();
+
+        $cj = Cajas::all();
+        $bds = Bodegas::all();
+                       // dd($cj);
+      /*   $boExis = Bodegas::select('sigecig_bodega.id','sigecig_bodega.nombre_bodega')
+                ->leftJoin('sigecig_cajas','sigecig_bodega.id','=','sigecig_cajas.bodega')
+                ->where('sigecig_bodega.id', '=', $cj->bodega)
+                ->get(); */
+       // dd($boExis);
+
+        //$bodega = Bodegas::all();
+        //$datos = User::all();
+
+
+       /*  $datos1 = Bodegas::select('sigecig_bodega.id','sigecig_bodega.nombre_bodega')
+        ->leftJoin('sigecig_cajas','sigecig_bodega.id','=','sigecig_cajas.bodega')
+        ->get(); */
+       // ->where('sigecig_bodega.id', '=', $cajas->bodega)
+       // ->whereNotIn('sigecig_bodega.id', DB::table('sigecig_cajas')->select('bodega'))
+
+        
+
+      //  ->whereNotIn('id', DB::table('curses')->select('id_user')->where('id_user', '=', $id)->get()->toArray())
+
+
+        
+
+       /*  $userExist = User::where('sigecig_users.id', '=', $cajas->cajero)
+        ->leftJoin('sigecig_cajas','sigecig_users.id','=','sigecig_cajas.cajero')
+        ->get()->first(); */
+
+          
+
+         /*  $da = "SELECT B.id, B.nombre_bodega, C.bodega
+        FROM sigecig_bodega B
+        INNER JOIN sigecig_cajas C
+        WHERE B.id = C.bodega";
+        $bodegaExiste = DB::select($da); */
+
+        // $bodegaExiste = Bodegas::select('id', $cajas->bodega)->get()->first();
+ 
 
         //$rol = Roles::where('id', '=', $modelrol->role_id)->get();
        // $user =User::where('id', '=',  $modelrol->model_id)->get();
        
-        return view('admin.cajas.index', compact( 'subsede', 'caja', 'datos', 'datos1'));
+        return view('admin.cajas.index', compact( 'subsede', 'datos', 'datos1', 'bodegaExiste'));
 
     }
 

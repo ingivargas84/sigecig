@@ -195,9 +195,11 @@
           <i class="fa fa-check"></i> <span>Colegiados</span></a>
         </li>
 
+        @role('Super-Administrador|Administrador|NuevosColegiados')
         <li class="{{request()->is('aspirantes')? 'active': ''}}" ><a href="{{route('aspirantes.index')}}">
           <i class="fa fa-user"></i> <span>Aspirantes</span></a>
         </li>
+        @endrole
 
         <li class="{{request()->is('historial')? 'active': ''}}" ><a href="{{route('cortecaja.historial')}}">
           <i class="fa fa-history"></i> <span>Historial</span></a>

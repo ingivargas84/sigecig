@@ -1,4 +1,4 @@
-var validator = $("#ProfesionColForm").validate({
+/* var validator = $("#ProfesionColForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
@@ -29,7 +29,7 @@ $.validator.addMethod("profesionExist", function(value, element){
   });
   return valid;
   }, "Profesion ya ingresada");
-
+ */
 
   $('#ingresoModalColProf').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
@@ -39,10 +39,7 @@ $.validator.addMethod("profesionExist", function(value, element){
     var modal = $(this);
     modal.find(".modal-body input[name='c_cliente']").val(c_cliente);
     modal.find(".modal-body input[name='nombre']").val(nombre);
-  
    });
-
-   
 
 if(window.location.hash === '#add')
 {
@@ -58,7 +55,6 @@ $('#ingresoModalColProf').on('hide.bs.modal', function(){
 $('#ingresoModalColProf').on('shown.bs.modal', function(){
   window.location.hash = '#add';
 });
-
 
 $("#ButtonAgregarProfesionCol").click(function(event) {
 	if ($('#ProfesionColForm').valid()) {
@@ -106,7 +102,7 @@ function agregarProfesionColF() {
         $('#ingresoModalColProf').modal("hide");
         alertify.set('notifier','position', 'top-center');
         alertify.success('Profesión agregada con Éxito!!');
-        colegiados_table.ajax.reload();
+        //colegiados_table.ajax.reload();
 		},
 		error: function(response) {
 				$("#mensajes").html("Error en el sistema.");
@@ -159,7 +155,7 @@ function agregarEspecialidadColF() {
       $('#ingresoModalColProf').modal("hide");
       alertify.set('notifier','position', 'top-center');
       alertify.success('Especialidad agregada con Éxito!!');
-      colegiados_table.ajax.reload();
+    //  colegiados_table.ajax.reload();
       
 		},
 		error: function(response) {
