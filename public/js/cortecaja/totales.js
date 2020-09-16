@@ -119,7 +119,7 @@ $(document).on('click', 'a.corte-caja', function(e) {
         }).done(function (data) {
             $('.loader').fadeOut(225);
             alertify.set('notifier','position', 'top-center');
-            alertify.success('Corte de caja ingresado con exito');
+            alertify.success('Corte de caja ingresado con éxito');
             window.location = "/cortedecaja/historial";
                 
         });

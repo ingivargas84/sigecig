@@ -66,7 +66,11 @@ class ColegiadosController extends Controller
       FROM especialidad
       ORDER BY n_especialidad";
       $esp = DB::connection('sqlsrv')->select($query);
-      return view ('admin.colegiados.aspirante', compact('resultado', 'esp'));
+
+      $query3 = "SELECT TOP 1 (c_cliente + 1) as colegiado FROM cc00 ORDER BY id DESC";
+      $ult = DB::connection('sqlsrv')->select($query3);
+
+      return view ('admin.colegiados.aspirante', compact('resultado', 'esp', 'ult'));
     }
 
     public function create()
@@ -253,40 +257,23 @@ class ColegiadosController extends Controller
     $user->idmunicipionacimiento = Input::get('idMunicipioNacimiento');
     $user->iddepartamentonacimiento = Input::get('idDepartamentoNacimiento');
     $user->idPaisNacimiento = Input::get('idPaisNacimiento');
-    //$user->tiposangre = Input::get('tipoSangre');
-
     $user->idnacionalidad = Input::get('idNacionalidad');
     $user->telefono = Input::get('telefono');
     $user->telefonotrabajo = Input::get('telTrabajo');
     $user->correo = Input::get('email');
-    //$user->nit = Input::get('nit');
     $user->estadocivil = Input::get('estadoCivil');
-
-   // $user->conyugue = Input::get('conyugue');
-
     $user->direccioncasa = Input::get('direccion');
     $user->zona = Input::get('zona');
     $user->idmunicipiocasa = Input::get('idMunicipioCasa');
     $user->iddepartamentocasa = Input::get('idDepartamentoCasa');
-    //$user->codigopostal = Input::get('codigoPostal');
-
     $user->direcciontrabajo = Input::get('direccionTrabajo');
     $user->zonatrabajo = Input::get('zonaTrabajo');
     $user->iddepartamentotrabajo = Input::get('idDepartamentoTrabajo');
     $user->idmunicipiotrabajo = Input::get('idMunicipioTrabajo');
-   // $user->lugar = Input::get('lugarTrabajo');
-
-   // $user->direccionotro = Input::get('direccionOtro');
-   // $user->zonaotro = Input::get('zonaOtro');
-  //  $user->iddepartamentootro = Input::get('idDepartamentoOtro');
-   // $user->idmunicipiootro = Input::get('idMunicipioOtro');
     $user->destinocorreo = Input::get('destino');
-
     $user->fechagraduacion = Input::get('fechaGraduacion');
     $user->universidadgraduado = Input::get('idUniversidadGraduado');
     $user->universidadincorporado = Input::get('idUniversidadIncorporado');
-    //$user->creditos = Input::get('creditos');
-
     $user->titulotesis = Input::get('tituloTesis');
     $user->telefonocontactoemergencia = Input::get('telefonoContactoEmergencia');
     $user->nombrecontactoemergencia = Input::get('nombreContactoEmergencia');
@@ -397,9 +384,6 @@ Log::info("Morir2 ".print_r($aspirante, true));
           ON cc00espec.c_especialidad = especialidad.c_especialidad";
           $resultado = DB::connection('sqlsrv')->update($query);
 
-         ///dd($data);
-           //$resultado = DB::connection('sqlsrv')->update($data);
-          
           return json_encode(array('retorno' => 0, 'mensaje' => 'Especialidad guardada correctamente'));
         }
 
@@ -542,8 +526,6 @@ Log::info("Morir2 ".print_r($aspirante, true));
         'idusuario' => 'required',
         'colegiado' => 'required|integer',
         'fechaColegiado' => 'required|date',
-        'fechaUltimoPagoColegio' => 'required|date',
-        'fechaUltimoPagoTimbre' => 'required|date'
       );
 
       //Almacenamiento de Estado de Cuenta
@@ -658,36 +640,28 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->apellidos= $aspirante->apellidos;
       $colegiado->telefono= $aspirante->telefono;
       $colegiado->e_mail= $aspirante->correo;
-      $colegiado->f_ult_pago= Input::get('fechaUltimoPagoColegio');
-      $colegiado->f_ult_timbre= Input::get('fechaUltimoPagoTimbre');
       $colegiado->fecha_col= Input::get('fechaColegiado');
+      $colegiado->f_ult_pago = date("Y-m-d", strtotime($colegiado->fecha_col . "+3 months"));
+      $colegiado->f_ult_timbre = date("Y-m-d", strtotime($colegiado->fecha_col . "+3 months"));
       $colegiado->fallecido= 'N';
       $colegiado->c_depto= $aspirante->iddepartamentonacimiento;
       $colegiado->c_mpo= $aspirante->idmunicipionacimiento;
       $colegiado->direccion= $aspirante->direccionCasa;
       $colegiado->dir_trabajo= $aspirante->direccionTrabajo;
-      //$colegiado->contacto1= $aspirante->direccionOtro;
       $colegiado->c_mpocasa= $aspirante->idMunicipioCasa;
       $colegiado->c_deptocasa= $aspirante->idDepartamentoCasa;
       $colegiado->c_mpotrab= $aspirante->idMunicipioTrabajo;
       $colegiado->c_deptotrab= $aspirante->idDepartamentoTrabajo;
-      //$colegiado->c_mpootro= $aspirante->idMunicipioOtro;
-     // $colegiado->c_deptootro= $aspirante->idDepartamentoOtro;
       $colegiado->zona= $aspirante->zona;
       $colegiado->zona_trabajo= $aspirante->zonatrabajo;
-      //$colegiado->zona_otra= $aspirante->zonaotro;
       $colegiado->registro= $aspirante->dpi;
-     // $colegiado->nit= $aspirante->nit;
       $colegiado->estado_junta= '01';
       $colegiado->sexo= $aspirante->sexo;
       $colegiado->e_civil= $aspirante->estadocivil;
       $colegiado->destino_correo= $aspirante->destinoCorreo;
-      //$colegiado->cod_postal= $aspirante->codigopostal;
       $colegiado->fax= $aspirante->telefonoTrabajo;
-      //$colegiado->contacto2= $aspirante->lugar;
       $colegiado->c_pais= $aspirante->idPaisNacimiento;
       $colegiado->fecha_nac= $aspirante->fechaNacimiento;
-      //$colegiado->tipo_sangre= $aspirante->tipoSangre;
       $colegiado->max_constancias= 130;
       $colegiado->telefonocontactoemergencia= $aspirante->telefonoContactoEmergencia;
       $colegiado->nombrecontactoemergencia= $aspirante->nombreContactoEmergencia;

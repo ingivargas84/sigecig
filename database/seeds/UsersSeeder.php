@@ -42,6 +42,7 @@ class UsersSeeder extends Seeder
         $ceducaRole = Role::create(['name' => 'Ceduca']);
         $jefetimbresRole = Role::create(['name' => 'JefeTimbres']);
         $timbreRole = Role::create(['name' => 'Timbre']);
+        $nuevocolegiadoRole = Role::create(['name' => 'NuevosColegiados']);
 
         $sigecig_users = new user;
         $sigecig_users->name = 'Super Administrador';

@@ -40,7 +40,7 @@
                           @endforeach  
                          </select> 
                         </div>
-                        <center><button id="agregarEspecialidad" onclick="agregarEspecialidadF()" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
+                        <center><button id="agregarEspecialidad" class="form-button btn btn-primary" type="button">Agregar especialidad</button></center>            
                     </div>
                 </div>
               <br>

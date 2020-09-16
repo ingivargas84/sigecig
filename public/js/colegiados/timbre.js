@@ -5,18 +5,12 @@ var validator = $("#TimbreForm").validate({
 	rules: {
 		montoTimbre:{
       required: true
-		},
-		fechaTopeMensualidades: {
-			required : true
-        }
+		}
 	},
 	messages: {
 		montoTimbre: {
 			required: "Por favor, ingrese el monto"
-		},
-		fechaTopeMensualidades: {
-			required: "Por favor, ingrese la fecha"
-        }
+		}
 	}
 });
 
@@ -39,14 +33,6 @@ $('#ingresoModal3').on('shown.bs.modal', function(event){
           validator.focusInvalid();
       }
   }); 
-  $("#modificarFecha").click(function(event) {
-      event.preventDefault();
-      if ($('#TimbreForm').valid()) {
-          guardarFechaTopeMensualidadesF();
-      } else {
-          validator.focusInvalid();
-      }
-  });
  
 function guardarMontoTimbreF()
 {
@@ -55,50 +41,34 @@ function guardarMontoTimbreF()
     'montoTimbre': $("#montoTimbre").val(),
     'nombres': $("#nombres").val(),
     'apellidos': $("#apellidos").val(),
-
     'sexo': $("#sexo").val(),
     'fechaNacimiento': $("#fechaNacimiento").val(),
     'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
     'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
     'idPaisNacimiento': $("#idPais").val(),
-    //'tipoSangre': $("#tipoSangre").val(),
-
     'idNacionalidad': $("#idNacionalidad").val(),
     'telefono': $("#telefono").val(),
     'telTrabajo': $("#telTrabajo").val(),
     'email': $("#email").val(),
-    //'nit': $("#nit").val(),
     'estadoCivil': $("#estadoCivil").val(),
-
-    //'conyugue': $("#conyugue").val(),
-
     'direccion': $("#direccion").val(),
     'zona': $("#zona").val(),
     'idDepartamentoCasa': $("#idDepartamento").val(),
     'idMunicipioCasa': $("#idMunicipio").val(),
-    //'codigoPostal': $("#codigoPostal").val(),
-
     'direccionTrabajo': $("#direccionTrabajo").val(),
     'zonaTrabajo': $("#zonaTrabajo").val(),
     'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
     'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    //'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    //'direccionOtro': $("#direccionOtro").val(),
-    //'zonaOtro': $("#zonaOtro").val(),
-    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
     'destino': $("#destino").val(),
-
     'fechaGraduacion': $("#fechaGraduacion").val(),
     'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
     'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    //'creditos': $("#creditos").val(),
-
     'tituloTesis': $("#tituloTesis").val(),
     'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
     'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
   };
+  $('.loader').fadeIn();
+
   $.ajax({
     type: "POST",
     headers: {'X-CSRF-TOKEN': $('#tokenTim').val()},
@@ -112,6 +82,8 @@ function guardarMontoTimbreF()
       } else {
         $("#mensajes").html("Datos guardados correctamente.");
         $("#mensajes").css({'color':'green'});
+        $('.loader').fadeOut(225);
+
         alertify.set('notifier','position', 'top-center');
         alertify.success('Monto agregado con Éxito!!');
         $('#ingresoModal3').modal("hide");
@@ -123,78 +95,3 @@ function guardarMontoTimbreF()
     }
   });
 }
-/* 
-function guardarFechaTopeMensualidadesF(){
-var invitacion = {
-    'fechaTopeMensualidades': $("#fechaTopeMensualidades").val(),
-    'idusuario': $("#dpi1").val(),
-    'nombres': $("#nombres").val(),
-    'apellidos': $("#apellidos").val(),
-
-    'sexo': $("#sexo").val(),
-    'fechaNacimiento': $("#fechaNacimiento").val(),
-    'idDepartamentoNacimiento': $("#idDepartamentoNacimiento").val(),
-    'idMunicipioNacimiento': $("#idMunicipioNacimiento").val(),
-    'idPaisNacimiento': $("#idPais").val(),
-    //'tipoSangre': $("#tipoSangre").val(),
-
-    'idNacionalidad': $("#idNacionalidad").val(),
-    'telefono': $("#telefono").val(),
-    'telTrabajo': $("#telTrabajo").val(),
-    'email': $("#email").val(),
-    //'nit': $("#nit").val(),
-    'estadoCivil': $("#estadoCivil").val(),
-
-    //'conyugue': $("#conyugue").val(),
-
-    'direccion': $("#direccion").val(),
-    'zona': $("#zona").val(),
-    'idDepartamentoCasa': $("#idDepartamento").val(),
-    'idMunicipioCasa': $("#idMunicipio").val(),
-    //'codigoPostal': $("#codigoPostal").val(),
-
-    'direccionTrabajo': $("#direccionTrabajo").val(),
-    'zonaTrabajo': $("#zonaTrabajo").val(),
-    'idDepartamentoTrabajo': $("#idDepartamentoTrabajo").val(),
-    'idMunicipioTrabajo': $("#idMunicipioTrabajo").val(),
-    //'lugarTrabajo': $("#lugarTrabajo").val(),
-
-    //'direccionOtro': $("#direccionOtro").val(),
-    //'zonaOtro': $("#zonaOtro").val(),
-    //'idDepartamentoOtro': $("#idDepartamentoOtro").val(),
-    //'idMunicipioOtro': $("#idMunicipioOtro").val(),
-    'destino': $("#destino").val(),
-
-    'fechaGraduacion': $("#fechaGraduacion").val(),
-    'idUniversidadGraduado': $("#idUniversidadGraduado").val(),
-    'idUniversidadIncorporado': $("#idUniversidadIncorporado").val(),
-    //'creditos': $("#creditos").val(),
-
-    'tituloTesis': $("#tituloTesis").val(),
-    'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
-    'nombreContactoEmergencia': $("#nombreContactoEmergencia").val()
-};
-$.ajax({
-    type: "POST",
-    headers: {'X-CSRF-TOKEN': $('#tokenTim').val()},
-    dataType:'JSON',
-    url: "Aspirante/guardarFechaTopeMensualidades",
-    data: invitacion,
-    success: function(data){
-            if(data.error==1){
-                    $("#mensajes").html("Error al guardar.");
-                    $("#mensajes").css({'color':'red'});
-            } else {
-                    $("#mensajes").html("Datos guardados correctamente.");
-                    $("#mensajes").css({'color':'green'});
-                    alertify.set('notifier','position', 'top-center');
-                    alertify.success('Fecha agregada con Éxito!!');
-                    $('#ingresoModal3').modal("hide");
-            }
-            
-    },
-    error: function(response) {
-            $("#mensajes").html("Error en el sistema.");
-    }
-});
-} */
