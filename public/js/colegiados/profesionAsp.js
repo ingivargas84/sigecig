@@ -1,4 +1,4 @@
-var validator = $("#ProfesionForm").validate({
+/* var validator = $("#ProfesionForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
@@ -30,7 +30,7 @@ $.validator.addMethod("profesionExist", function(value, element){
   return valid;
   }, "Profesion ya ingresada");
 
-
+ */
 $('#ingresoModal2').on('shown.bs.modal', function(event){
   var button = $(event.relatedTarget);
   var dpi = button.data('dpi');
@@ -39,7 +39,6 @@ $('#ingresoModal2').on('shown.bs.modal', function(event){
 	var modal = $(this);
   modal.find(".modal-body input[name='dpi']").val(dpi);
   modal.find(".modal-body input[name='nombre']").val(nombre);
-
  });
 
 if(window.location.hash === '#add')
@@ -57,6 +56,113 @@ $('#ingresoModal2').on('shown.bs.modal', function(){
   window.location.hash = '#add';
 });
 
+$("#ButtonAgregarProfesion").click(function(event) {
+	if ($('#ProfesionForm').valid()) {
+    agregarProfesionF();
+	} else {
+		validator.focusInvalid();
+	}
+}); 
+
+function agregarProfesionF() {
+	var invitacion = {
+		'idprofesion': $("#idprofesion").val(),
+    'idusuario': $("#dpi").val(),
+ 
+	};
+  $("#mensajes").html("");
+  $('.loader').fadeIn();
+
+	$.ajax({
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+		dataType:'JSON',
+		url: "Aspirante/setDatosProfesionalesAspirante",
+		xhrFields: {
+				withCredentials: true
+		},
+		data: invitacion,
+		success: function(data){
+      if(data.retorno==0) {
+        $("#mensajes").html("Profesión guardada correctamente.");
+        $("#mensajes").css({'color':'green'});
+        getDatosProfesionales("P");
+      } else if(data.retorno==1) {
+        $("#mensajes").html("Profesión ya presente.");
+        $("#mensajes").css({'color':'red'});
+      } else {
+        var a = "Error en el sistema.";
+        if(data.hasOwnProperty("mensaje")) {
+          a += " " + data.mensaje;
+        }
+        $("#mensajes").html(a);
+        $("#mensajes").css({'color':'red'});
+      }
+        $('.loader').fadeOut(225);
+        $('#ingresoModal2').modal("hide");
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('Profesión agregada con Éxito!!');
+        //aspirantes_table.ajax.reload();
+		},
+		error: function(response) {
+				$("#mensajes").html("Error en el sistema.");
+        $("#mensajes").css({'color':'red'});
+		}
+	});
+}
+
+
+$("#agregarEspecialidad").click(function(event) {
+	if ($('#ProfesionForm').valid()) {
+    agregarEspecialidadF();
+	} else {
+		validator.focusInvalid();
+	}
+}); 
+
+function agregarEspecialidadF() {
+	var invitacion = {
+		'idespecialidad': $("#idespecialidad").val(),
+    'idusuario': $("#dpi").val(),
+	};
+  $("#mensajes").html("");
+  $('.loader').fadeIn();
+	$.ajax({
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
+		dataType:'JSON',
+		url: "Aspirante/setDatosEspecialidadesAspirante",
+		xhrFields: {
+				withCredentials: true
+		},
+		data: invitacion,
+		success: function(data){
+      if(data.retorno==0) {
+        $("#mensajes").html("Especialidad guardada correctamente.");
+        $("#mensajes").css({'color':'green'});
+      } else if(data.retorno==1) {
+        $("#mensajes").html("Especialidad ya presente.");
+        $("#mensajes").css({'color':'red'});
+      } else {
+        var a = "Error en el sistema.";
+        if(data.hasOwnProperty("mensaje")) {
+          a += " " + data.mensaje;
+        }
+        $("#mensajes").html(a);
+        $("#mensajes").css({'color':'red'});
+      }
+      $('.loader').fadeOut(225);
+      $('#ingresoModal2').modal("hide");
+      alertify.set('notifier','position', 'top-center');
+      alertify.success('Especialidad agregada con Éxito!!');
+    //  aspirantes_table.ajax.reload();      
+		},
+		error: function(response) {
+				$("#mensajes").html("Error en el sistema.");
+        $("#mensajes").css({'color':'red'});
+		}
+	});
+}
 
 function getDatosProfesionales(tipo) {
     divACambiar="";
@@ -152,160 +258,3 @@ function getDatosProfesionales(tipo) {
   }
 
   
-$(window).on('load', function(e) {
-    $("#idusuario").val(location.hash);
-      if($("#idusuario").val()) {
-        getdatos();
-      }
-      $(".nombreEspecialidad").autocomplete({
-        source: "General/busquedaEspecialidadAutocomplete",
-        focus: function(event, ui) {
-          // prevent autocomplete from updating the textbox
-          event.preventDefault();
-          // manually update the textbox
-          $(this).val(ui.item.label);
-        },
-        select: function(event, ui) {
-          // prevent autocomplete from updating the textbox
-          event.preventDefault();
-          // manually update the textbox and hidden field
-  
-          $(this).val(ui.item.label);
-          $('#idespecialidad').val(ui.item.value);
-          //$(this).nextAll('input').first().val(ui.item.value);
-        }
-      });
-  
-      $(document).ready(function() {
-        $('.selectpicker').selectpicker({
-          style: 'btn btn-light',
-          size: 4
-        });
-   });
-
-      $(".nombreProfesion").autocomplete({
-        source: "General/busquedaProfesionAutocomplete",
-        focus: function(event, ui) {
-          // prevent autocomplete from updating the textbox
-          event.preventDefault();
-          // manually update the textbox
-          $(this).val(ui.item.label);
-        },
-        select: function(event, ui) {
-          // prevent autocomplete from updating the textbox
-          event.preventDefault();
-          // manually update the textbox and hidden field
-  
-          $('#nombreProfesion').val(ui.item.label);
-          $('#idprofesion').val(ui.item.value);
-          return false;
-
-          //$(this).nextAll('input').first().val(ui.item.value);
-        },
-        success: function(data)
-{
-     $("#nombreProfesion").selectpicker('refresh');
-}
-      });
-  }); 
- 
-  
-$("#ButtonAgregarProfesion").click(function(event) {
-	if ($('#ProfesionForm').valid()) {
-    agregarProfesionF();
-	} else {
-		validator.focusInvalid();
-	}
-}); 
-
-function agregarProfesionF() {
-	var invitacion = {
-		'idprofesion': $("#idprofesion").val(),
-    'idusuario': $("#dpi").val(),
- 
-	};
-  $("#mensajes").html("");
-  $('.loader').fadeIn();
-
-	$.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-		dataType:'JSON',
-		url: "Aspirante/setDatosProfesionalesAspirante",
-		xhrFields: {
-				withCredentials: true
-		},
-		data: invitacion,
-		success: function(data){
-      if(data.retorno==0) {
-        $("#mensajes").html("Profesión guardada correctamente.");
-        $("#mensajes").css({'color':'green'});
-        getDatosProfesionales("P");
-      } else if(data.retorno==1) {
-        $("#mensajes").html("Profesión ya presente.");
-        $("#mensajes").css({'color':'red'});
-      } else {
-        var a = "Error en el sistema.";
-        if(data.hasOwnProperty("mensaje")) {
-          a += " " + data.mensaje;
-        }
-        $("#mensajes").html(a);
-        $("#mensajes").css({'color':'red'});
-      }
-        $('.loader').fadeOut(225);
-        $('#ingresoModal2').modal("hide");
-        alertify.set('notifier','position', 'top-center');
-        alertify.success('Profesión agregada con Éxito!!');
-        aspirantes_table.ajax.reload();
-		},
-		error: function(response) {
-				$("#mensajes").html("Error en el sistema.");
-        $("#mensajes").css({'color':'red'});
-		}
-	});
-}
-  
-function agregarEspecialidadF() {
-	var invitacion = {
-		'idespecialidad': $("#idespecialidad").val(),
-    'idusuario': $("#dpi").val(),
-
-	};
-  $("#mensajes").html("");
-  $('.loader').fadeIn();
-	$.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
-		dataType:'JSON',
-		url: "Aspirante/setDatosEspecialidadesAspirante",
-		xhrFields: {
-				withCredentials: true
-		},
-		data: invitacion,
-		success: function(data){
-      if(data.retorno==0) {
-        $("#mensajes").html("Especialidad guardada correctamente.");
-        $("#mensajes").css({'color':'green'});
-      } else if(data.retorno==1) {
-        $("#mensajes").html("Especialidad ya presente.");
-        $("#mensajes").css({'color':'red'});
-      } else {
-        var a = "Error en el sistema.";
-        if(data.hasOwnProperty("mensaje")) {
-          a += " " + data.mensaje;
-        }
-        $("#mensajes").html(a);
-        $("#mensajes").css({'color':'red'});
-      }
-      $('.loader').fadeOut(225);
-      $('#ingresoModal2').modal("hide");
-      alertify.set('notifier','position', 'top-center');
-      alertify.success('Especialidad agregada con Éxito!!');
-      aspirantes_table.ajax.reload();      
-		},
-		error: function(response) {
-				$("#mensajes").html("Error en el sistema.");
-        $("#mensajes").css({'color':'red'});
-		}
-	});
-}

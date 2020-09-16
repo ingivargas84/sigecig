@@ -26,13 +26,8 @@
                             <label for="montoTimbre" class="control-label">Monto de timbre a pagar</label>                            
                             <input id="montoTimbre" class="form-control" value="25.00" name="montoTimbre" type="number">
                         </div>
-                        <center><button id="guardarTimbre" onclick="guardarMontoTimbreF()" class="btn btn-primary" type="button">Agregar monto timbre</button></center>                
-                       {{--  <div class="form-group col-sm-12" >
-                            <label for="fechaTopeMensualidades" class="control-label">Fecha tope para mensualidades</label>                            
-                            <input id="fechaTopeMensualidades" class="form-control" name="fechaTopeMensualidades" type="date">
-                        </div>
-                        <center><button id="modificarFecha" onclick="guardarFechaTopeMensualidadesF()" class="btn btn-primary" type="button">Modificar fecha</button></center>            
-                   --}}  </div>
+                        <center><button id="guardarTimbre" class="btn btn-primary" type="button">Agregar monto timbre</button></center>                
+                         </div>
                 </div>
               <br>
               <input type="hidden" name="_token" id="tokenTim" value="{{ csrf_token() }}">
