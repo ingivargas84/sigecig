@@ -23,7 +23,7 @@
                     <div class="row" >      
                         <div class="form-group col-sm-6" >
                             <label for="colegiado" class="control-label">Numero de colegiado:</label>                            
-                            <input id="colegiado" class="form-control" name="colegiado" type="text">
+                            <input id="colegiado" class="form-control" name="colegiado" type="text" value="{{$ult[0]->colegiado}}">
                         </div>
                         <div class="form-group col-sm-6" >
                             <label for="fechaColegiado" class="control-label">Fecha colegiado:</label>                            

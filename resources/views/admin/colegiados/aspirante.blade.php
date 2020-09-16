@@ -20,7 +20,7 @@
   @include('admin.users.confirmarAccionModal')
   @include('admin.colegiados.profesionModal', $resultado)
   @include('admin.colegiados.timbreModal')
-  @include('admin.colegiados.asociarModal')
+  @include('admin.colegiados.asociarModal', $ult)
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">

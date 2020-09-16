@@ -89,27 +89,47 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
-                    return "<div id='" + full.codigo + "' class='text-center'>" +
-                    "<div class='float-right col-lg-3'>" +
-                    "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
-                    "<i class='fa fa-info-circle' title='Detalles'></i>" +
-                    "</a>" + "</div>" +
-                    "<div id='" + full.codigo + "' class='text-center'>" +
-                    "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
-                    "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
-                    "</a>" + "</div>" +
-    
-                    "<div id='" + full.codigo + "' class='text-center'>" +
-                    "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
-                    "<i class='fa fa-info' title='Información de Timbres'></i>" +
-                    "</a>" + "</div>" +
-                    "<div id='" + full.codigo + "' class='text-center'>" +
-                    "<div class='float-right col-lg-3'>" +
-                    "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.codigo+"' data-nombre2='"+full.colegiado+"'>" +
-                    "<i class='fa fa-check-square' title='Asociar Colegiado'></i>" +
-                    "</a>" + "</div>";
+            if (parseInt(full.activo)== 1) {
+                return "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-info-circle' title='Detalles'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                "</a>" + "</div>" +
+
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
+                "<i class='fa fa-info' title='Información de Timbres'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-asociar' data-toggle='modal' data-target='#ingresoModal4' data-dpi2='"+full.codigo+"' data-nombre2='"+full.colegiado+"'>" +
+                "<i class='fa fa-check-square' title='Asociar Colegiado'></i>" +
+                "</a>" + "</div>";
+            }else{
+                return "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-info-circle' title='Detalles'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
+                "</a>" + "</div>" +
+
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
+                "<i class='fa fa-info' title='Información de Timbres'></i>" +
+                "</a>" + "</div>";
+            }
+
         },
         "responsivePriority": 1
     }]
