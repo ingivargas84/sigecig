@@ -40,8 +40,8 @@
                         <label for="bodega">Bodega:</label>
                         <select name="bodega" class="form-control" id="bodega">
                           <option value="">-- Escoja la bodega --</option>
-                          <option value="{{$bodegaExiste->id}}">{{$bodegaExiste->nombre_bodega}}</option>
-                          @foreach ($datos1 as $bo)
+{{--                           <option value="{{$bodegaExiste->id}}">{{$bodegaExiste->nombre_bodega}}</option>
+ --}}                          @foreach ($datos1 as $bo)
                               <option value="{{ $bo->id }}">{{ $bo->nombre_bodega }}</option>
                           @endforeach
                       </select>     
