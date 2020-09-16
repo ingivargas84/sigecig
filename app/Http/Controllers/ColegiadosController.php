@@ -66,7 +66,11 @@ class ColegiadosController extends Controller
       FROM especialidad
       ORDER BY n_especialidad";
       $esp = DB::connection('sqlsrv')->select($query);
-      return view ('admin.colegiados.aspirante', compact('resultado', 'esp'));
+
+      $query3 = "SELECT TOP 1 (c_cliente + 1) as colegiado FROM cc00 ORDER BY id DESC";
+      $ult = DB::connection('sqlsrv')->select($query3);
+
+      return view ('admin.colegiados.aspirante', compact('resultado', 'esp', 'ult'));
     }
 
     public function create()
