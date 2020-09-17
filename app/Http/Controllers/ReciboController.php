@@ -3437,7 +3437,7 @@ class ReciboController extends Controller
 
          $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
         //  $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
-        
+
         $letra = new NumeroALetras;
         $letras = $letra->toMoney($reciboMaestro->monto_total, 2, 'QUETZALES', 'CENTAVOS');
          $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))
