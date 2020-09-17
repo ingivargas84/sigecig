@@ -759,11 +759,28 @@ public function profesionExist(){
 
   public function getJsonAsp(Request $params)
   {
-     $query = "SELECT C.id, C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante'
+     $query = "SELECT C.id, C.dpi as codigo, C.nombre as colegiado, estado = 'Aspirante', activo = '0'
                  FROM aspirante C
                  ORDER BY C.id ASC"; 
 
-     $api_Result['data'] = DB::connection('sqlsrv')->select($query);
+
+    $datos =  DB::connection('sqlsrv')->select($query);
+    foreach ($datos as $key => $dato) {
+      $query1 = "SELECT rd.id
+      FROM sigecig_recibo_detalle rd
+      INNER JOIN sigecig_recibo_maestro rm ON rd.numero_recibo=rm.numero_recibo
+      WHERE rm.numero_de_identificacion = '$dato->codigo' AND rd.codigo_compra = 'COLE01'
+      ORDER BY rd.id DESC";
+      $pagos = DB::select($query1);
+
+      if(!empty($pagos)){
+        $dato->activo = '1';
+      }
+
+    }
+
+     $api_Result['data'] =$datos;
+
      return Response::json( $api_Result );
   }
 
