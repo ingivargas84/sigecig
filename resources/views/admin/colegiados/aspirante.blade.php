@@ -20,7 +20,7 @@
   @include('admin.users.confirmarAccionModal')
   @include('admin.colegiados.profesionModal', $resultado)
   @include('admin.colegiados.timbreModal')
-  @include('admin.colegiados.asociarModal')
+  @include('admin.colegiados.asociarModal', $ult)
   
 <div class="loader loader-bar is-active"></div>
 <div class="box">
@@ -42,6 +42,7 @@
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href='{{ asset('css/bootstrap-select/bootstrap-select1.13.css') }}'>
 @endpush
 @push('scripts')
 <script src="{{asset('js/colegiados/aspiranteIndex.js')}}"></script>

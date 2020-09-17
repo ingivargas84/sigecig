@@ -77,8 +77,8 @@
              @foreach ($rec as $rp)
             <tr>
                 <td>{{$rp->numero_recibo}}</td>
-                <td>Q. {{number_format($rp->monto_total,2)}}</td>
-                <td>{{\App\SerieRecibo::find($rp->serie_recibo_id)->serie_recibo}}</td>
+                <td style="text-align:right">Q. {{number_format($rp->monto_total,2)}}</td>
+                <td style="text-align:right">{{\App\SerieRecibo::find($rp->serie_recibo_id)->serie_recibo}}</td>
             </tr>
             @endforeach 
     </table>
@@ -94,10 +94,10 @@
             </tr>
         </thead>
             <tr>
-                <td>Q. {{number_format($id->total_efectivo,2)}}</td>
-                <td>Q. {{number_format($id->total_cheque,2)}}</td>
-                <td>Q. {{number_format($id->total_tarjeta,2)}}</td>
-                <td>Q. {{number_format($id->total_deposito,2)}}</td>
+                <td style="text-align:right">Q. {{number_format($id->total_efectivo,2)}}</td>
+                <td style="text-align:right">Q. {{number_format($id->total_cheque,2)}}</td>
+                <td style="text-align:right">Q. {{number_format($id->total_tarjeta,2)}}</td>
+                <td style="text-align:right">Q. {{number_format($id->total_deposito,2)}}</td>
             </tr>
     </table>
     <div class="row colegiado">

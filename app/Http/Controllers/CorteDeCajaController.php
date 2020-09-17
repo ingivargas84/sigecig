@@ -81,15 +81,26 @@ class CorteDeCajaController extends Controller
 
     public function getHistorial(Request $params)
     {
-       $query = "SELECT CJ.id, CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.total_deposito, U.name, C.nombre_caja, CJ.fecha_corte
-       FROM sigecig_corte_de_caja CJ
-       LEFT JOIN sigecig_users U ON U.id = CJ.id_usuario
-       LEFT JOIN sigecig_cajas C ON U.id = C.cajero";
-
-       $api_Result['data'] = DB::select($query);
-       return Response::json( $api_Result );
+       $user = auth()->user()->id;
+       if ($user  <= 2) {
+            $query = "SELECT CJ.id, CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.total_deposito, U.name, C.nombre_caja, CJ.fecha_corte
+            FROM sigecig_corte_de_caja CJ
+            LEFT JOIN sigecig_users U ON U.id = CJ.id_usuario
+            LEFT JOIN sigecig_cajas C ON U.id = C.cajero";
+            $api_Result['data'] = DB::select($query);
+            return Response::json( $api_Result );
+       }
+        else {
+            $query = "SELECT CJ.id, CJ.monto_total, CJ.total_efectivo, CJ.total_cheque, CJ.total_tarjeta, CJ.total_deposito, U.name, C.nombre_caja, CJ.fecha_corte
+            FROM sigecig_corte_de_caja CJ
+            LEFT JOIN sigecig_users U ON U.id = CJ.id_usuario
+            LEFT JOIN sigecig_cajas C ON U.id = C.cajero
+            WHERE U.id = $user";
+            $api_Result['data'] = DB::select($query);
+            return Response::json( $api_Result );
+        }
     }
-
+    
     public function getDetalle(Request $params)
     {
        $query = "SELECT SUM(RM.monto_efecectivo) as monto_efectivo, SUM(RM.monto_cheque) as montocheque, SUM(RM.monto_tarjeta) as montotarjeta, SUM(RM.monto_total) as montototal, SUM(RD.monto) as montodep
