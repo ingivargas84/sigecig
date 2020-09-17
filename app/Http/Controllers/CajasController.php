@@ -68,6 +68,31 @@ class CajasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function editBodegaCaja(Cajas $id)
+    {
+        $da = "SELECT B.id, B.nombre_bodega
+        FROM sigecig_bodega B
+       
+        WHERE B.id  NOT IN (SELECT bodega FROM sigecig_cajas)
+        AND B.estado = 1
+        OR B.id = $id->bodega";
+        $datos1 = DB::select($da); 
+
+        $query= "SELECT U.name, U.id
+        FROM sigecig_users U
+        INNER JOIN model_has_roles MR ON MR.model_id = U.id
+        WHERE MR.role_id = '18'
+        AND U.id  NOT IN (SELECT cajero FROM sigecig_cajas)
+        AND U.estado = 1
+        OR U.id = $id->cajero";
+        $datos = DB::select($query);
+
+        return array($datos1, $datos);
+      //  $bodega = Bodegas::where('id', $id->bodega)->get()->first();
+//
+    }
+
     public function create()
     {
         return view('admin.cajas.create');
