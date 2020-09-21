@@ -14,7 +14,7 @@ var validator = $("#AsociarForm").validate({
       },
         fechaUltimoPagoTimbre:{
             required: true
-      },
+      }
 	},
 	messages: {
         colegiado: {
@@ -74,10 +74,10 @@ $('#ingresoModal4').on('shown.bs.modal', function(event){
     
     var start=new Date(inicio);
     start.setMonth(start.getMonth()+3);
-   // var startf = start.toISOString().slice(0,10).replace(/-/g,"/");
-    var startf = start.toLocaleDateString();
-    document.getElementById("fechaUltimoPagoColegio").value= startf;
-    document.getElementById("fechaUltimoPagoTimbre").value= startf;
+    var b = start.toISOString().slice(0,10);
+    var a = b.split('-').reverse().join('/');
+    document.getElementById("fechaUltimoPagoColegio").value= a;
+    document.getElementById("fechaUltimoPagoTimbre").value= a;
     }
   
 if(window.location.hash === '#add')

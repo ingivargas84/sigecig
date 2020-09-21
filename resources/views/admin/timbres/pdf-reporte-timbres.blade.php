@@ -47,6 +47,7 @@
         width: 100%;
         border-collapse: separate;
         }
+        td{font-size: 13px;}
 
     </style>
 </head>
@@ -140,18 +141,20 @@
                     <th colspan="6" style="background: white;text-align:center;">REPORTE DETALLADO</th>
                 </tr>
                 <tr>
-                    <th width="7%" style="background: #D2D2D2;text-align:center;">Colegiado</th>
-                    <th width="33%" style="background: #D2D2D2;text-align:center;">Nombre</th>
-                    <th width="5%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
-                    <th width="33%" style="background: #D2D2D2;text-align:center;">Timbre</th>
+                    <th width="6%" style="background: #D2D2D2;text-align:center;">Colegiado</th>
+                    <th width="30%" style="background: #D2D2D2;text-align:center;">Nombre</th>
+                    <th width="11%" style="background: #D2D2D2;text-align:center;">Fecha</th>
+                    <th width="4%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
+                    <th width="23%" style="background: #D2D2D2;text-align:center;">Timbre</th>
                     <th width="15%" style="background: #D2D2D2;text-align:center;">Numeración Asignada</th>
-                    <th width="8%" style="background: #D2D2D2;text-align:center;">Total</th>
+                    <th width="11%" style="background: #D2D2D2;text-align:center;">Total</th>
                 </tr>
             </thead>
             @foreach($datos as $co)
             <tr >
                 <td style="background:eee;">{{$co->numero_de_identificacion}}</td>
                 <td style="background:eee;">{{$co->nombre}}</td>
+                <td style="background:eee;">{{ \Carbon\Carbon::parse($co->created_at)->format('d/m/Y H:i:s') }}</td>
                 <td style="background:eee;text-align:center;">{{$co->cantidad}}</td>
                 <td style="background:eee;">{{$co->tipo_de_pago}}</td>
                 <td style="background:eee;text-align:left;">

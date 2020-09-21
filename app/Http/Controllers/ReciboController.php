@@ -3418,7 +3418,7 @@ class ReciboController extends Controller
             $tipoPago = \App\TipoDePago::where('codigo',$dato->codigo_compra)->first();
          if ($dato->categoria_id == 1) {
          $dato->tipo_de_pago = $dato->tipo_de_pago . ' No.';
-         $numeroTimbres = \App\SegecigRegistroVentaTimbres::where('recibo_detalle_id', $dato->id)->get();
+         $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id', $dato->id)->get();
          $tamanioArrray = count($numeroTimbres) - 1;
          foreach ($numeroTimbres as $key => $numeroTimbre) {
          if ($dato->cantidad == 1) {
@@ -3437,7 +3437,7 @@ class ReciboController extends Controller
 
          $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
         //  $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
-        
+
         $letra = new NumeroALetras;
         $letras = $letra->toMoney($reciboMaestro->monto_total, 2, 'QUETZALES', 'CENTAVOS');
          $pdf = \PDF::loadView('admin.correoRecibo.pdfRecibo', compact('reciboMaestro', 'datos', 'codigoQR', 'letras','tipo'))

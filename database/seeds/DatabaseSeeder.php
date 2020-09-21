@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SigecigCajasSeeder::class);
         $this->call(SigecigColaboradorSeeder::class);
         $this->call(SigecigFormaEntregaTimbresSeeder::class);
+        $this->call(CatalogoErroresSeeder::class);
         
 
 
