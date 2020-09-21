@@ -73,28 +73,9 @@ $('#ingresoModal4').on('shown.bs.modal', function(event){
     var inicio=document.getElementById("fechaColegiado").value;
     
     var start=new Date(inicio);
-    
-    //var startf = new Date(start).add(3).month();
-    /* year = date.getFullYear();
-    month = date.getMonth()+1;
-    dt = date.getDate();
-    
-    if (dt < 10) {
-      dt = '0' + dt;
-    }
-    if (month < 10) {
-      month = '0' + month;
-    }
-    
-    console.log(year+'-' + month + '-'+dt); */
-
-    //var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-
     start.setMonth(start.getMonth()+3);
-    var a = start.toISOString().slice(0,10).replace(/-/g,"/")
-   // var startf = start.toLocaleDateString();
-   // console.log(a);
-   // var a = (start.getDate()+'/' + start.getMonth() + '/'+start.getFullYear());
+    var b = start.toISOString().slice(0,10);
+    var a = b.split('-').reverse().join('/');
     document.getElementById("fechaUltimoPagoColegio").value= a;
     document.getElementById("fechaUltimoPagoTimbre").value= a;
     }
