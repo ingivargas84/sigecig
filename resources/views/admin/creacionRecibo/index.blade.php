@@ -252,35 +252,35 @@
                                 <label for="tipoDePago" class="control-label">TIPO DE PAGO</label>
                             </div>
                             <div class="col-md-10">
-                                <div class="col-md-4 form-group" id="datoTc01" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc01" style="display: none;">
                                     <label for="tc01" class="control-label">TC01 / TIM1</label>
                                     <input id="tc01" disabled type="text" class="form-control" name="tc01" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc05" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc05" style="display: none;">
                                     <label for="tc05" class="control-label">TC05 / TIM5</label>
                                     <input id="tc05" disabled type="text" class="form-control" name="tc05" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc10" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc10" style="display: none;">
                                     <label for="tc10" class="control-label">TC10 / TIM10</label>
                                     <input id="tc10" disabled type="text" class="form-control" name="tc10" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc20" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc20" style="display: none;">
                                     <label for="tc20" class="control-label">TC20 / TIM20</label>
                                     <input id="tc20" disabled type="text" class="form-control" name="tc20" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc50" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc50" style="display: none;">
                                     <label for="tc50" class="control-label">TC50 / TIM 50</label>
                                     <input id="tc50" disabled type="text" class="form-control" name="tc50" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc100" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc100" style="display: none;">
                                     <label for="tc100" class="control-label">TC100 / TIM100</label>
                                     <input id="tc100" disabled type="text" class="form-control" name="tc100" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc200" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc200" style="display: none;">
                                     <label for="tc200" class="control-label">TC200 / TIM200</label>
                                     <input id="tc200" disabled type="text" class="form-control" name="tc200" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc500" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc500" style="display: none;">
                                     <label for="tc500" class="control-label">TC500 / TIM500</label>
                                     <input id="tc500" disabled type="text" class="form-control" name="tc500" style="text-align:left;">
                                 </div>
