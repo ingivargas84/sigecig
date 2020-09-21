@@ -122,16 +122,21 @@ $(document).ready(function(){
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <label for="zona" class="control-label">Zona</label>
                               <input id="zona" class="form-control" placeholder="Zona" name="zona" type="tel">                            
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                               <label for="valMunicipio" class="control-label">Municipio Casa</label>
                               <input id="valMunicipio" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off">
                               <input type="hidden" id="idMunicipio" name="idMunicipio">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
+                              <label for="valDepartamento" class="control-label">Departamento Casa</label>
+                              <input id="valDepartamento" list="countries" class="form-control ui-autocomplete-input" placeholder="Departamento" name="valDepartamento" type="text" autocomplete="off">
+                              <input type="hidden" id="idDepartamento" name="idDepartamento">
+                            </div>
+                            <div class="col-sm-3">
                               <label for="destino" class="control-label">Destino correo</label>
                               <select class="form-control" id="destino" name="destino">
                                 <option value="Casa">Casa</option>

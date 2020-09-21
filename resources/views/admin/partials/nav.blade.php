@@ -224,6 +224,11 @@
                 <a href="" id='modal-reporte-timbres' data-toggle="modal" data-target="#modalReporteTimbres"><i class="fa fa-book"></i>Venta de Timbres</a>
               </li>
             </ul>
+            <ul class="treeview-menu">
+              <li class="">
+                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Rango por colegiado</a>
+              </li>
+            </ul>
         </li>
         @endrole  
 </ul>
