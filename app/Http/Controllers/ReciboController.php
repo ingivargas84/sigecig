@@ -377,6 +377,11 @@ class ReciboController extends Controller
             }
         }
 
+        if(empty($retorno1)){
+            $detalle1 = new \stdClass();
+            $detalle1->haydatos = "no";
+            $retorno1[] = $detalle1;
+        }
 
         return json_encode($retorno1);
       }
