@@ -205,7 +205,7 @@
                     <label>RECIBE</label>
                     <input type="text" size="28" name="personaRecibe" id="personaRecibe" value="{{$nombreUsuarioDestino}}">
                     <div style="margin-left: 2rem;">
-                        <label style="margin-left: 4rem;">Expendedor/a de <input type="text" style="border: 0px solid;text-align:left;padding-bottom:0px;" id="nombreLugar" value="{{$ciudadDestino->descripcion}}"></label>
+                        <label style="margin-left: 4rem;">Expendedor/a de <input type="text" style="border: 0px solid;text-align:left;padding-bottom:0px;" id="nombreLugar" value="{{$sedeDestino->nombre_sede}}"></label>
                         <label style="margin-left: 5rem;">Bodega: <input type="text" style="border: 0px solid;text-align:left;padding-bottom:0px;" name="noBodega" id="noBodega" value="{{$bodegaDestino}}"></label>
                     </div>
                 </td>
