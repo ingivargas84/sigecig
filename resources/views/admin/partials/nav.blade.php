@@ -224,6 +224,11 @@
                 <a href="" id='modal-reporte-timbres' data-toggle="modal" data-target="#modalReporteTimbres"><i class="fa fa-book"></i>Venta de Timbres</a>
               </li>
             </ul>
+            <ul class="treeview-menu">
+              <li class="">
+                <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
+              </li>
+            </ul>
         </li>
         @endrole  
 </ul>
