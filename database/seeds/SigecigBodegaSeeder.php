@@ -23,5 +23,11 @@ class SigecigBodegaSeeder extends Seeder
         $bodega->descripcion="Bodega Central";
         $bodega->estado=1;
         $bodega->save();
+
+        $bodega=new Bodegas();
+        $bodega->nombre_bodega="Bodega Banrural";
+        $bodega->descripcion="Bodega para uso de ventas de agencias Banrural";
+        $bodega->estado=1;
+        $bodega->save();
     }
 }

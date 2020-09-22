@@ -60,7 +60,7 @@
                             </div>
                             <div class='col-sm-4'>
                                 <label for="valDepartamentoNacimiento" class="control-label">Depto. Nac.</label>
-                                @if ($depnac->c_dpto!=null)
+                                @if ($depnac->c_depto!=null)
                               <input id="valDepartamentoNacimiento" value="{{$depnac->n_depto}}" class="form-control" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly> 
                               @else
                               <input id="valDepartamentoNacimiento" value="No ingresado" class="form-control" placeholder="Departamento" name="valDepartamentoNacimiento" type="text" autocomplete="on" readonly> 

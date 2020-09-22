@@ -35,6 +35,9 @@ var validator = $("#FormcajasUpdate").validate({
 
 
 $('#editUpdateModal1').on('shown.bs.modal', function(event){
+	$(".modal-body select[name='cajero']").empty();
+	$(".modal-body select[name='bodega']").empty();
+
 	var button = $(event.relatedTarget);
 	var id = button.data('id');
 	var nombre_caja = button.data('nombre_caja');
@@ -48,8 +51,33 @@ $('#editUpdateModal1').on('shown.bs.modal', function(event){
 	modal.find(".modal-body select[name='subsede']").val(subsede);
 	modal.find(".modal-body select[name='cajero']").val(cajero);
 	modal.find(".modal-body select[name='bodega']").val(bodega);
-	
+	cambioSerie (id, cajero, bodega);
  });
+
+
+ function cambioSerie (id, cajero, bodega) {
+	$.ajax({
+			type: 'GET',
+			url:  '/edit/bodega/' + id,
+			success: function(response){
+				for (i = 0; i < response[0].length; i++){
+						if(response[0][i].id == bodega){
+							$(".modal-body select[name='bodega']").append( '<option selected="true" value="'+response[0][i].id+'">'+response[0][i].nombre_bodega+'</option>' );
+
+						} else {
+						$(".modal-body select[name='bodega']").append( '<option value="'+response[0][i].id+'">'+response[0][i].nombre_bodega+'</option>' );
+						}
+					}
+				for (i = 0; i < response[1].length; i++){
+						if(response[1][i].id == cajero){
+							$(".modal-body select[name='cajero']").append( '<option selected="true" value="'+response[1][i].id+'">'+response[1][i].name+'</option>' );
+						} else {
+							$(".modal-body select[name='cajero']").append( '<option value="'+response[1][i].id+'">'+response[1][i].name+'</option>' );
+						}
+				}
+			}
+	});
+}
 
  function BorrarFormularioUpdate() {
 	$("#FormcajasUpdate :input").each(function () {
@@ -88,9 +116,10 @@ function updateModal(button) {
 		success: function(data) {
 			BorrarFormularioUpdate();
 			$('#editUpdateModal1').modal("hide");
-			cajas_table.ajax.reload();
+			//cajas_table.ajax.reload();
 			alertify.set('notifier','position', 'top-center');
 			alertify.success('Caja editada con Éxito!!');
+			window.location = "/cajas";
 		},
 	});
 }
@@ -125,4 +154,6 @@ if(window.location.hash === '#edit')
             }
         });
         return valid;
-        }, "La caja ya está registrada en el sistema");
+		}, "La caja ya está registrada en el sistema");
+		
+	

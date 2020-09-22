@@ -199,4 +199,3 @@ $(document).on('click', 'a.delete-Cajas', function(e) {
         });
 });
 
-

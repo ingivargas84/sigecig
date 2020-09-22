@@ -108,7 +108,7 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-1">
                               <label for="zona" class="control-label">Zona</label>
                               <input id="zona" value="{{$query->zona}}" class="form-control" placeholder="Zona" name="zona" type="tel" readonly>                            
                             </div>
@@ -121,6 +121,14 @@
                                 @endif
                             </div>
                             <div class="col-sm-4">
+                              <label for="valMunicipio" class="control-label">Depto. Casa</label>
+                              @if ($id->idDepartamentoCasa==null)
+                              <input id="valMunicipio" value="No ingresado" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
+                               @else
+                             <input id="valMunicipio" value="{{$depcasa->n_depto}}" list="countries" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
+                               @endif
+                           </div>
+                            <div class="col-sm-3">
                               <label for="destino" class="control-label">Destino correo</label>
                               <input id="destino" value="{{$query->destinoCorreo}}" class="form-control ui-autocomplete-input" placeholder="Municipio" name="valMunicipio" type="text" autocomplete="off" readonly>
                             </div>

@@ -290,6 +290,7 @@ Route::group([
          Route::get('/cortedecaja/getHistorial/', 'CorteDeCajaController@getHistorial')->name('cortedecaja.getHistorial');
          Route::get('/cortedecaja/historial/pdf/{id}/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
+         Route::get( '/edit/bodega/{id}','CajasController@editBodegaCaja');
 
          //Timbres
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');

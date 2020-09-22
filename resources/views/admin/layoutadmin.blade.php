@@ -160,6 +160,7 @@
       @include('admin.reportes.modal-reporte-recibos-xyz')
 
 
+      @include('admin.timbres.modal-reporte-por-rango') 
       @if(session()->has('flash'))
         <div class="alert alert-success" id="alert-success">{{ session('flash') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
