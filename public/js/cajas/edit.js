@@ -116,9 +116,10 @@ function updateModal(button) {
 		success: function(data) {
 			BorrarFormularioUpdate();
 			$('#editUpdateModal1').modal("hide");
-			cajas_table.ajax.reload();
+			//cajas_table.ajax.reload();
 			alertify.set('notifier','position', 'top-center');
 			alertify.success('Caja editada con Éxito!!');
+			window.location = "/cajas";
 		},
 	});
 }

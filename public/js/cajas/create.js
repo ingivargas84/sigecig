@@ -78,9 +78,10 @@ $.validator.addMethod("nombreunico", function(value, element){
 			success: function(data) {
 				$('.loader').fadeOut(225);
 				$('#ingresoModal').modal("hide");
-				cajas_table.ajax.reload();
+				//cajas_table.ajax.reload();
 				alertify.set('notifier','position', 'top-center');
 				alertify.success('Caja creada con Éxito!!');
+				window.location = "/cajas";
 			},
 			error: function(errors) {
 				var errors = JSON.parse(errors.responseText);

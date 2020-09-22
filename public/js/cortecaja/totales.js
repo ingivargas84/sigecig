@@ -51,7 +51,11 @@ var totales_table = $('#totales-table').DataTable({
                 "width" : "25%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    if(data == null){
+                        return "<div class='float-left' style='color:black; float:left;'>Q.0.00 "+
+                    "</div>";
+                    }
+                    return('Q.'+data.toFixed(2));},
           },
           {
                 "title": "Total Cheque",
@@ -59,7 +63,11 @@ var totales_table = $('#totales-table').DataTable({
                 "width" : "25%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    if(data == null){
+                        return "<div class='float-left' style='color:black; float:left;'>Q.0.00 "+
+                    "</div>";
+                    }
+                    return('Q.'+data.toFixed(2));},
           },
           {
                 "title": "Total Deposito",
@@ -67,37 +75,25 @@ var totales_table = $('#totales-table').DataTable({
                 "width" : "25%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    if(data == null){
+                        return "<div class='float-left' style='color:black; float:left;'>Q.0.00 "+
+                    "</div>";
+                    }
+                    return('Q.'+data.toFixed(2));},
         },
-
-
           {
                 "title": "Total Tarjeta",
                 "data": "montotarjeta",
                 "width" : "25%",
                 "responsivePriority": 1,
                 "render": function( data, type, full, meta ) {
-                    return (data);},
+                    if(data == null){
+                        return "<div class='float-left' style='color:black; float:left;'>Q.0.00 "+
+                    "</div>";
+                    }
+                    return('Q.'+data.toFixed(2));},
         },
-        {
-            "visible": false,
-            "title": "Acciones",
-            "orderable": false,
-            "width" : "25%",
-            "render": function(data, type, full, meta) {
-                var rol_user = $("input[name='rol_user']").val();
-                var urlActual = $("input[name='urlActual']").val();
-    
-                    return "<div id='" + full.id + "' class='text-center'>" +
-                    "<div class='float-center'>" +
-                    "<a href='/estadocuenta/detallado/"+full.id+"/' class='detalle' data-method='post'>" +
-                    "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
-                    "</a>" + "</div>";
-                    
-            },
-            "responsivePriority": 0,
-
-        }]
+        ]
   });
   
 $(document).on('click', 'a.corte-caja', function(e) {
@@ -106,6 +102,7 @@ $(document).on('click', 'a.corte-caja', function(e) {
     var button = $(e.currentTarget);
     var mt = document.getElementById('monto_total').value;
     
+    mt = parseFloat(mt).toFixed(2);
     var cj = document.getElementById('caja').value;
     var today = new Date().toLocaleDateString();    
     var $this = $(this);

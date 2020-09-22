@@ -58,7 +58,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
                 return (data);},
         },
         {
-            "title": "Colegiado",
+            "title": "DPI",
             "data": "codigo", 
             "width" : "5%",
             "responsivePriority": 1,

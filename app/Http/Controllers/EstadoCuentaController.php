@@ -116,7 +116,7 @@ class EstadoCuentaController extends Controller
 
     public function getDetalle($id){
 
-        $query = "SELECT U.id, U.estado_cuenta_maestro_id, U.cantidad, U.updated_at, S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id, S.id as id_tipo_pago, U.id_mes, U.año
+        $query = "SELECT U.id, S.categoria_id,U.estado_cuenta_maestro_id, U.cantidad, U.updated_at, S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id, S.id as id_tipo_pago, U.id_mes, U.año
         FROM sigecig_estado_de_cuenta_detalle U
         INNER JOIN sigecig_tipo_de_pago S ON U.tipo_pago_id=S.id
         WHERE U.estado_cuenta_maestro_id = $id
@@ -128,6 +128,19 @@ class EstadoCuentaController extends Controller
                 $mes = \App\SigecigMeses::where('id',$dato->id_mes)->first();
                 $dato->tipo_de_pago =  $dato->tipo_de_pago.' ('.$mes->mes.' de '.$dato->año.')';
             }
+            if ($dato->categoria_id == 1) {
+                $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id', $dato->recibo_id)->get()->first();
+                if(!empty($numeroTimbres)){
+                 $dato->tipo_de_pago = $dato->tipo_de_pago . ' No.';
+                   if ($dato->cantidad == 1) {
+                   $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbres->numeracion_inicial;
+                   } else {
+                   $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbres->numeracion_inicial . '-' . $numeroTimbres->numeracion_final;
+                   }
+             
+                }
+           
+                }
         }
 
         $api_Result['data'] = $result;

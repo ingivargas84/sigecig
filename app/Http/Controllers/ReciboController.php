@@ -377,6 +377,11 @@ class ReciboController extends Controller
             }
         }
 
+        if(empty($retorno1)){
+            $detalle1 = new \stdClass();
+            $detalle1->haydatos = "no";
+            $retorno1[] = $detalle1;
+        }
 
         return json_encode($retorno1);
       }
@@ -481,20 +486,9 @@ class ReciboController extends Controller
                                 'id_mes'            => $mes,
                                 'año'               => $anio,
                             ]);
+                            $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                            $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id, $mes, $anio);
 
-                            $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => 1,
-                                'tipo_pago_id'                  => $array[$i][0],
-                                'recibo_id'                     => $reciboMaestro->numero_recibo,
-                                'abono'                         => substr($array[$i][3],2),
-                                'cargo'                         => '0',
-                                'usuario_id'                    => '1',
-                                'id_mes'                        => $mes,
-                                'año'                           => $anio,
-                                'estado_id'                     => '1',
-                            ]);
                         }
                     } else {
                         $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
@@ -506,26 +500,13 @@ class ReciboController extends Controller
                                 'precio_unitario'   => substr($array[$i][3],2),
                                 'total'             => substr($array[$i][5],2),
                             ]);
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $array[$i][2],
-                                'tipo_pago_id'                  => $array[$i][0],
-                                'recibo_id'                     => $reciboMaestro->numero_recibo,
-                                'abono'                         => '0',
-                                'cargo'                         => substr($array[$i][5],2),
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $array[$i][2],
-                                'tipo_pago_id'                  => $array[$i][0],
-                                'recibo_id'                     => $reciboMaestro->numero_recibo,
-                                'abono'                         => substr($array[$i][5],2),
-                                'cargo'                         => '0',
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+                            //abono estado cuenta
+                            $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                            $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                            //cargo estado cuenta
+                            $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                            $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         }
                     }
                 }
@@ -850,6 +831,13 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01"),
                                 ]);
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+    
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -859,6 +847,12 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01"),
                                 ]);
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM1',
@@ -866,6 +860,12 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01_2"),
                                 ]);
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -875,6 +875,12 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01"),
                                 ]);
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM1',
@@ -882,6 +888,12 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01_2"),
                                 ]);
+                        //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM1',
@@ -889,30 +901,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 1,
                                     'total'             => 1 * $request->input("config.tmCantTc01_3"),
                                 ]);
+                        //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc01") + $request->input("config.tmCantTc01_2") + $request->input("config.tmCantTc01_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 30,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => '0',
-                                'cargo'                         => 1 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 30,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => '0',
-                                'cargo'                         => 1 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE01'){
                             if ($cantidadDatos == '1'){
@@ -982,6 +978,10 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01"),
                         ]);
+
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -994,6 +994,10 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01"),
                         ]);
+
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1004,6 +1008,10 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01_2"),
                         ]);
+
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1016,6 +1024,9 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01"),
                         ]);
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1026,6 +1037,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01_2"),
                         ]);
+
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1036,23 +1052,15 @@ class ReciboController extends Controller
                             'precio_unitario'   => 1,
                             'total'             => 1 * $request->input("config.tmCantTc01_3"),
                         ]);
+
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+                        
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC01' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM1' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE01'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 30,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 1 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1148,6 +1156,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1157,6 +1173,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM5',
@@ -1164,6 +1188,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1173,6 +1205,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM5',
@@ -1180,6 +1220,13 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05_2"),
                                 ]);
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM5',
@@ -1187,20 +1234,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 5,
                                     'total'             => 5 * $request->input("config.tmCantTc05_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc05") + $request->input("config.tmCantTc05_2") + $request->input("config.tmCantTc05_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 31,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 5 * $totalCantidad,
-                                'cargo'                         => 5 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+       
                         }
                         if ($array[$i][1] == 'TE05'){
                             if ($cantidadDatos == '1'){
@@ -1270,6 +1313,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05"),
                         ]);
+
+                        //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+                          
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1282,6 +1330,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1292,6 +1345,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05_2"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1304,6 +1362,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1314,6 +1377,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05_2"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1324,23 +1392,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 5,
                             'total'             => 5 * $request->input("config.tmCantTc05_3"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'',''); 
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC05' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM5' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE05'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 31,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 5 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1438,6 +1499,12 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10"),
                                 ]);
+                         //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1447,6 +1514,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM10',
@@ -1454,6 +1529,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1463,6 +1546,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM10',
@@ -1470,6 +1561,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM10',
@@ -1477,20 +1576,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 10,
                                     'total'             => 10 * $request->input("config.tmCantTc10_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+                          
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc10") + $request->input("config.tmCantTc10_2") + $request->input("config.tmCantTc10_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 32,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 10 * $totalCantidad,
-                                'cargo'                         => 10 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE10'){
                             if ($cantidadDatos == '1'){
@@ -1560,6 +1655,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10"),
                         ]);
+
+                        //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1572,6 +1672,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+                        
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1582,6 +1687,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1594,6 +1704,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1604,6 +1719,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1614,23 +1734,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 10,
                             'total'             => 10 * $request->input("config.tmCantTc10_3"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM10' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE10'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 32,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 10 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -1726,6 +1839,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1735,6 +1856,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM20',
@@ -1742,6 +1871,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -1751,6 +1888,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM20',
@@ -1758,6 +1903,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM20',
@@ -1765,20 +1918,15 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 20,
                                     'total'             => 20 * $request->input("config.tmCantTc20_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc20") + $request->input("config.tmCantTc20_2") + $request->input("config.tmCantTc20_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 34,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 20 * $totalCantidad,
-                                'cargo'                         => 20 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE20'){
                             if ($cantidadDatos == '1'){
@@ -1848,6 +1996,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20"),
                         ]);
+
+                        //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1860,6 +2013,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1870,6 +2028,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20_2"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1882,6 +2045,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -1892,6 +2060,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20_2"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -1902,23 +2075,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 20,
                             'total'             => 20 * $request->input("config.tmCantTc20_3"),
                         ]);
+
+                         //abono estado cuenta
+                         $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                         $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM20' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE20'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 34,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 20 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2014,6 +2180,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50"),
                                 ]);
+
+                            //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2023,6 +2197,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM50',
@@ -2030,6 +2212,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2039,6 +2229,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM50',
@@ -2046,6 +2244,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM50',
@@ -2053,20 +2259,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 50,
                                     'total'             => 50 * $request->input("config.tmCantTc50_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc50") + $request->input("config.tmCantTc50_2") + $request->input("config.tmCantTc50_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 36,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 50 * $totalCantidad,
-                                'cargo'                         => 50 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE50'){
                             if ($cantidadDatos == '1'){
@@ -2136,6 +2338,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50"),
                         ]);
+
+                        //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2148,6 +2355,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2158,6 +2370,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2170,6 +2387,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2180,6 +2402,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2190,23 +2417,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 50,
                             'total'             => 50 * $request->input("config.tmCantTc50_3"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM50' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE50'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 36,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 50 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2302,6 +2522,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2311,6 +2539,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM100',
@@ -2318,6 +2554,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2327,6 +2571,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM100',
@@ -2334,6 +2586,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM100',
@@ -2341,20 +2601,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 100,
                                     'total'             => 100 * $request->input("config.tmCantTc100_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc100") + $request->input("config.tmCantTc100_2") + $request->input("config.tmCantTc100_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 33,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 100 * $totalCantidad,
-                                'cargo'                         => 100 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+     
                         }
                         if ($array[$i][1] == 'TE100'){
                             if ($cantidadDatos == '1'){
@@ -2424,6 +2680,10 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100"),
                         ]);
+
+                            //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2436,6 +2696,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2446,6 +2711,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2458,6 +2728,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2468,6 +2743,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100_2"),
                         ]);
+
+                        //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2478,23 +2758,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 100,
                             'total'             => 100 * $request->input("config.tmCantTc100_3"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM100' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE100'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 33,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 100 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2590,6 +2863,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2599,6 +2880,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM200',
@@ -2606,6 +2895,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2615,6 +2912,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM200',
@@ -2622,6 +2927,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM200',
@@ -2629,20 +2942,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 200,
                                     'total'             => 200 * $request->input("config.tmCantTc200_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc200") + $request->input("config.tmCantTc200_2") + $request->input("config.tmCantTc200_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 35,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 200 * $totalCantidad,
-                                'cargo'                         => 200 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE200'){
                             if ($cantidadDatos == '1'){
@@ -2712,6 +3021,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2724,6 +3038,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2734,6 +3053,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2746,6 +3070,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -2756,6 +3085,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -2766,23 +3100,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 200,
                             'total'             => 200 * $request->input("config.tmCantTc200_3"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM200' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE200'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 35,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 200 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 if ($cantidadDatos == '1'){
@@ -2878,6 +3205,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '2'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2887,6 +3222,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM500',
@@ -2894,6 +3237,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
                             if ($cantidadDatos == '3'){
                                 $reciboDetalle = Recibo_Detalle::create([
@@ -2903,6 +3254,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM500',
@@ -2910,6 +3269,14 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500_2"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                                 $reciboDetalle = Recibo_Detalle::create([
                                     'numero_recibo'     => $lastValue,
                                     'codigo_compra'     => 'TIM500',
@@ -2917,20 +3284,16 @@ class ReciboController extends Controller
                                     'precio_unitario'   => 500,
                                     'total'             => 500 * $request->input("config.tmCantTc500_3"),
                                 ]);
+
+                                //cargo estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, 0, $reciboDetalle->total,Auth::user()->id,'','');
+                          //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                             }
-                            //agregamos el pago al estado de cuenta (abono)
-                            $totalCantidad = 0;
-                            $totalCantidad = $request->input("config.tmCantTc500") + $request->input("config.tmCantTc500_2") + $request->input("config.tmCantTc500_3");
-                            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                                'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                                'cantidad'                      => $totalCantidad,
-                                'tipo_pago_id'                  => 35,
-                                'recibo_id'                     => $lastValue,
-                                'abono'                         => 500 * $totalCantidad,
-                                'cargo'                         => 500 * $totalCantidad,
-                                'usuario_id'                    => '1',
-                                'estado_id'                     => '1',
-                            ]);
+
                         }
                         if ($array[$i][1] == 'TE500'){
                             if ($cantidadDatos == '1'){
@@ -3000,6 +3363,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500"),
                         ]);
+
+                            //abono estado cuenta
+                          $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                          $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -3012,6 +3380,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -3022,6 +3395,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -3034,6 +3412,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result = DB::select($query);
                         $id1 = $result[0]->id;
@@ -3044,6 +3427,11 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500_2"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query2 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result2 = DB::select($query2);
                         $id2 = $result2[0]->id;
@@ -3054,23 +3442,16 @@ class ReciboController extends Controller
                             'precio_unitario'   => 500,
                             'total'             => 500 * $request->input("config.tmCantTc500_3"),
                         ]);
+
+                        //abono estado cuenta
+                        $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra, 
+                        $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+
                         $query3 = "SELECT * FROM sigecig_recibo_detalle WHERE numero_recibo = $lastValue AND codigo_compra LIKE 'TC500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TIM500' OR numero_recibo = $lastValue AND codigo_compra LIKE 'TE500'";
                         $result3 = DB::select($query3);
                         $id3 = $result3[0]->id;
                     }
-                    //agregamos el pago al estado de cuenta (abono)
-                    if($emisionDeRecibo == 'colegiado'){
-                        $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $totalCantidad,
-                            'tipo_pago_id'                  => 35,
-                            'recibo_id'                     => $lastValue,
-                            'abono'                         => 500 * $totalCantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '1',
-                            'estado_id'                     => '1',
-                        ]);
-                    }
+
                 }
 
                 $cantidadDatos = $request->input("config.cantidadDatosTc500");
@@ -3451,6 +3832,25 @@ class ReciboController extends Controller
          $infoCorreoRecibo->attachData($pdf->output(), '' . 'Recibo_' . $reciboMaestro->numero_recibo . '_' . $identificacion . '.pdf', ['mime' => 'application / pdf ']);
          Mail::to($correo)->send($infoCorreoRecibo);
         ////
+    }
+
+    public function guardarEstadoCuenta($id_maestro, $cantidad, $tipo_pago_id, $recibo_id, $abono, $cargo,$usuario_id, $mes, $año){
+        $servicio = \App\TipoDePago::where('codigo',$tipo_pago_id)->first();
+        $cuentaDetalle = new \App\EstadoDeCuentaDetalle;
+        $cuentaDetalle->estado_cuenta_maestro_id = $id_maestro;
+        $cuentaDetalle->cantidad = $cantidad;
+        $cuentaDetalle->tipo_pago_id = $servicio->id;
+        $cuentaDetalle->recibo_id = $recibo_id;
+        $cuentaDetalle->abono = $abono;
+        $cuentaDetalle->cargo = $cargo;
+        $cuentaDetalle->usuario_id = $usuario_id;
+        if($servicio->id == 11){
+            $cuentaDetalle->id_mes = $mes;
+            $cuentaDetalle->año = $año;
+        }
+        $cuentaDetalle->estado_id = '1';
+        $cuentaDetalle->save();
+
     }
 }
 

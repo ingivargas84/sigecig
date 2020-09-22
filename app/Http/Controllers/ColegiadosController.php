@@ -114,12 +114,13 @@ class ColegiadosController extends Controller
       $ecivil = EstadoCivil::where('c_civil', '=', $id->estadocivil)->get()->first();
       $sx = Sexo::where('c_sexo', '=', $id->sexo)->get()->first();
       $municasa = Municipio::where('c_mpo', '=', $id->idMunicipioCasa)->get()->first();
+      $depcasa = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoCasa)->get()->first();
       $munitrab = Municipio::where('c_mpo', '=', $id->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $id->idDepartamentoTrabajo)->get()->first();
       $especialidadasp = EspecialidadAspirante::where('dpi', '=', $id->dpi)->get();
       $profasp = ProfesionAspirante::where('dpi', '=', $id->dpi)->get();
 
-        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
+        return view ('admin.colegiados.detalles', compact('query', 'uni', 'uniinc', 'muninac','depnac', 'paisnac', 'nacionalidad', 'ecivil', 'sx', 'municasa', 'depcasa','munitrab', 'deptrab', 'especialidadasp', 'profasp', 'id'));
     }
 
     public function detallesCo(CC00 $codigo)
