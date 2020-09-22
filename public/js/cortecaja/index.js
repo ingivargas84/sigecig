@@ -48,6 +48,15 @@ var cortedecaja_table = $('#cortedecaja-table').DataTable({
     "order": [0, 'desc'],
     "columns": [ 
         {
+            "visible": false,
+            "title": "ID",
+            "data": "id",
+            "width" : "2%",
+            "responsivePriority": 1,
+            "render": function( data, type, full, meta ) {
+                return (data);},
+        },
+        {
             "title": "No. Recibo",
             "data": "numero_recibo",
             "width" : "25%",
@@ -61,9 +70,7 @@ var cortedecaja_table = $('#cortedecaja-table').DataTable({
             "width" : "25%",
             "responsivePriority": 1,
             "render": function( data, type, full, meta ) {
-                return "<div class='float-left' style='color:black; float:left;'>Q. " + (data)+
-                "</div>";
-              },
+                return('Q.'+data.toFixed(2));},
         },
         {
             "title": "Serie",
@@ -83,7 +90,7 @@ var cortedecaja_table = $('#cortedecaja-table').DataTable({
 
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
-                "<a href='/estadocuenta/detallado/"+full.id+"/' class='detalle'>" +
+                "<a href='/creacionRecibo/pdf/"+full.numero_recibo+ "/' target='_blank' data-numero_recibo='"+full.numero_recibo+"' data-monto_total='"+full.monto_total+"'>" +
                 "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>";
                 

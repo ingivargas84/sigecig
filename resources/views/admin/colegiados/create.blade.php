@@ -69,7 +69,7 @@ $(document).ready(function(){
                               </div>
                               <div class="col-sm-2">
                                 <label for="fechaNacimiento" class="control-label">Fecha Nac.</label>
-                                <input id="fechaNacimiento" class="form-control" name="fechaNacimiento" type="date">                            
+                                <input id="fechaNacimiento" class="form-control" name="fechaNacimiento" type="date" max="9999-12-31">                            
                               </div>
                               <div class='col-sm-4'>
                                 <label for="valMunicipioNacimiento" class="control-label">Municipio Nac.</label>
@@ -179,7 +179,7 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="col-sm-2">
                               <label for="fechaGraduacion" class="control-label">Fecha Graduación</label>
-                              <input id="fechaGraduacion" class="form-control" name="fechaGraduacion" type="date">
+                              <input id="fechaGraduacion" class="form-control" name="fechaGraduacion" type="date" max="9999-12-31">
                             </div>
                             <div class="col-sm-5">
                               <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
