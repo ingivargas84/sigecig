@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-    $("#c_cliente").keypress(function(e) {
+    $("input[name='numeroColegiado']").keypress(function(e) {
       if(e.which == 13) {
         obtenerDatosColegiado();
       }
@@ -9,7 +9,7 @@ $(document).ready(function(){
 
 function obtenerDatosColegiado()
 {
-  var valor = $("#c_cliente").val();
+  var valor = $("input[name='numeroColegiado']").val();
 
   $.ajax({
     type: 'GET',
@@ -1366,7 +1366,7 @@ $(document).ready(function () {
                                 alertify.success("calculo de Interes");
 
                                 var invitacion = {
-                                    'colegiado': $("#c_cliente").val(),
+                                    'colegiado': $("input[name='numeroColegiado']").val(),
                                     'fecha_timbre': $("#f_ult_timbre").val(),
                                     'fecha_colegio': $("#fechaColegio").val(),
                                     'fecha_hasta_donde_paga': $("#fecha_pago").val(),
@@ -1457,7 +1457,7 @@ $(document).ready(function () {
                                 alertify.success("calculo de Interes");
 
                                 var invitacion = {
-                                    'colegiado': $("#c_cliente").val(),
+                                    'colegiado': $("input[name='numeroColegiado']").val(),
                                     'fecha_timbre': $("#f_ult_timbre").val(),
                                     'fecha_colegio': $("#f_ult_pago").val(),
                                     'fecha_hasta_donde_paga': $("#fecha_pago").val(),
