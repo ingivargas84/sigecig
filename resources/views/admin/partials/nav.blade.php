@@ -226,7 +226,8 @@
             </ul>
             <ul class="treeview-menu">
               <li class="">
-                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Rango por colegiado</a>
+                <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
+                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Colegiados por rango</a>
               </li>
             </ul>
         </li>
