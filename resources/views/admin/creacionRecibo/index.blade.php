@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <label for="c_cliente" class="control-label">Colegiado</label>
                             <div>
-                                <input type="number" id="c_cliente" name="c_cliente" class="form-control" min="1">
+                                <input type="number" id="c_cliente" name="numeroColegiado" class="form-control" min="1">
                             </div>
                         </div>
                     </div>
