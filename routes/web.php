@@ -295,8 +295,9 @@ Route::group([
          //Timbres
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
+         Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
          Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
-
+         Route::get('/timbres/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
 
 
     });

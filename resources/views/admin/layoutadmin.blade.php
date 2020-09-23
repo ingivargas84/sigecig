@@ -158,6 +158,7 @@
     <section class="content">
       @include('admin.timbres.modal-reporte-timbres')
       @include('admin.reportes.modal-reporte-recibos-xyz')
+      @include('admin.reportes.modal-reporte-envios')
 
 
       @include('admin.timbres.modal-reporte-por-rango') 
@@ -224,7 +225,9 @@
 <!-- SELECT2 -->
 <script src="{{asset('adminlte/plugins/select2/select2.full.min.js')}}"></script>
 <script src="{{ asset('js/timbres/modal-timbres.js') }}"></script>
+<script src="{{ asset('js/timbres/modal-rango.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-ventas-xyz.js') }}"></script>
+<script src="{{ asset('js/reportes/modal-reporte-envios.js') }}"></script>
 
 <script>
     alertify.defaults = {
