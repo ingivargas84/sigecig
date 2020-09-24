@@ -180,7 +180,7 @@ class TimbresController extends Controller
         $dato = Input::get("c_cliente");
         $dato1 = Input::get("c_cliente1");
 
-        $query = "SELECT C.c_cliente, C.n_cliente, C.telefono, C.e_mail, CP.n_profesion as carrera, M.n_mpo as munitrab, D.n_depto, MP.n_mpo as municasa, DP.n_depto as depcasa, C.fecha_col
+        $query = "SELECT CONVERT(INT, C.c_cliente) as cliente, C.n_cliente, C.telefono, C.e_mail, CP.n_profesion as carrera, M.n_mpo as munitrab, D.n_depto, MP.n_mpo as municasa, DP.n_depto as depcasa, C.fecha_col
         FROM CC00 C
         LEFT JOIN cc00prof CP ON CP.c_cliente = C.c_cliente
         LEFT JOIN mpo M ON M.c_mpo = C.c_mpotrab
@@ -188,7 +188,7 @@ class TimbresController extends Controller
         LEFT JOIN deptos1 D ON D.c_depto = C.c_deptotrab
         LEFT JOIN deptos1 DP ON DP.c_depto = C.c_deptocasa
         WHERE C.c_cliente BETWEEN $dato AND $dato1
-        ORDER BY C.c_cliente ASC"; 
+        ORDER BY cliente ASC"; 
         $datos =  DB::connection('sqlsrv')->select($query);
 
         return \PDF::loadView('admin.timbres.pdf-reporte-rango',compact('datos', 'user', 'dato', 'dato1'))
