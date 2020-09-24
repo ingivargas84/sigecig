@@ -223,11 +223,16 @@
               <li class="">
                 <a href="" id='modal-reporte-timbres' data-toggle="modal" data-target="#modalReporteTimbres"><i class="fa fa-book"></i>Venta de Timbres</a>
               </li>
+              <li class="">
+                <a href="" id='modal-reporte-envios' data-toggle="modal" data-target="#modalReporteEnvios"><i class="fa fa-book"></i>Reporte Envíos</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
+              </li>
             </ul>
             <ul class="treeview-menu">
               <li class="">
-                <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
-                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Colegiados por rango</a>
+                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Rango por colegiado</a>
               </li>
             </ul>
         </li>
