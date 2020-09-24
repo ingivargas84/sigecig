@@ -205,7 +205,7 @@
                                 <input type="text" class="form-control" value='{{\App\User::find($cambio->usuario)->name}}' readonly>
                             </div>
                         </div>
-                        @if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres');
+                        @if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres')
                         <div class="row">
                             <div class="col-sm-4">
                                 <label  style="padding: 10px;  ">Adjuntar Resolución</label>
@@ -273,13 +273,13 @@
                         @endforeach
                         
                             <br>
-                            
+                            <a href="" id="zoom-out">zoom</a>
                             <div class="col-sm-12 ">
                                 @if ($id->id_estado_solicitud>=2 && $id->pdf_solicitud_ap != null && $id->pdf_dpi_ap != null)
                                 <div class="col-sm-6">
                                     <h4  style="padding: 10px">Solicitud de anticipo firmada <a  href="" id="pdfSolicitud" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
                                     <div class="" id="solicitudpdf" style="display: none  ">
-                                        <embed class="" src="{{$id->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
+                                        <embed  class="" src="{{$id->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
                                    </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -321,4 +321,5 @@
 @push('scripts')
  <script src="{{asset('js/resolucion/index.js')}}"></script>
  <script src="{{asset('js/resolucion/bitacora.js')}}"></script>
+
 @endpush

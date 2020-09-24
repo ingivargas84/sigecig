@@ -982,17 +982,9 @@ class ReciboController extends Controller
                         'precio_unitario'   =>  $timbre->precioUnitario,
                         'total'             => $timbre->precioUnitario  *  $timbre->cantidad,
                         ]);
-
-                        $cuentaAbono = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $timbre->cantidad,
-                            'tipo_pago_id'                  => $timbre->tipo_de_pago_id,
-                            'recibo_id'                     => $reciboMaestroId,
-                            'abono'                         => $timbre->precioUnitario  *  $timbre->cantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '0',
-                            'estado_id'                     => '1',
-                        ]);
+                                //abono estado cuenta
+                                $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra,
+                                $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
 
                         $this->registrarVenta($timbre->codigo, $timbre->cantidad, $reciboDetalle->id, $bodega);
                     }
