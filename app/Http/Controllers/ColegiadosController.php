@@ -376,7 +376,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
           $especialidadColegiado = new CC00espec;
           $especialidadColegiado->c_cliente = Input::get('idusuario');
           $especialidadColegiado->c_especialidad = Input::get('idespecialidad');
-       
+          //dd($especialidadColegiado);
           $especialidadColegiado->save();  
           $query = "UPDATE cc00espec
           SET cc00espec.n_especialidad = especialidad.n_especialidad
@@ -396,7 +396,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
                 $profesionColegiado = new CC00prof;
                 $profesionColegiado->c_cliente = Input::get('idusuario');
                 $profesionColegiado->c_profesion = Input::get('idprofesion');
-             
+             //dd($profesionColegiado);
                 $profesionColegiado->save();  
                 $query = "UPDATE cc00prof 
                 SET cc00prof.n_profesion = profesion.titulo_masculino+' '+profesion.n_profesion
@@ -637,8 +637,8 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado = new \App\Cc00;
       $colegiado->c_cliente = Input::get('colegiado');
       $colegiado->n_cliente= $aspirante->nombre . ' ' . $aspirante->apellidos;
-      $colegiado->nombres= '' . $aspirante->nombre . '';
-      $colegiado->apellidos= '' . $aspirante->apellidos . '';
+      $colegiado->nombres= $aspirante->nombre;
+      $colegiado->apellidos= $aspirante->apellidos;
       $colegiado->telefono= $aspirante->telefono;
       $colegiado->e_mail= $aspirante->correo;
       $colegiado->fecha_col= Input::get('fechaColegiado');
@@ -669,7 +669,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->paga_auxilio= 1;
       $colegiado->jubilado= 0;
       $colegiado->fecha_grad= $aspirante->fechaGraduacion;
-      $colegiado->c_universidad= $aspirante->universidadGraduado;
+      $colegiado->c_universidad=$aspirante->universidadGraduado;
       $colegiado->c_universidad1= $aspirante->universidadIncorporado;
       $colegiado->cred_acum= $aspirante->creditos;
       $colegiado->titulo_tesis= $aspirante->tituloTesis;
@@ -741,7 +741,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
             return 'true';
         }
 }
-
+/* 
 public function profesionExist(){
 
   $dato = Input::get("dpi");
@@ -755,7 +755,7 @@ public function profesionExist(){
         {
             return 'true';
         }
-}
+} */
 
 
   public function getJsonAsp(Request $params)
