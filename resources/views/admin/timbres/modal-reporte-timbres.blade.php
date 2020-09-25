@@ -11,7 +11,7 @@
                 <form action="{{route('timbres.reporte')}}" method="GET" role="form" id="form-timbres" name="form-timbres" target="_blank">
                     <div class="form-group col-md-12">
                         <label for="caja"> Caja: </label>
-                        <select id="cajaActiva" name="cajaActiva" class="selectpicker form-control" data-live-search="true">
+                        <select id="cajaActivaTimbre" name="cajaActivaTimbre" class="selectpicker form-control" data-live-search="true">
                             <option selected>Elija una caja</option>
                         </select>
                     </div>

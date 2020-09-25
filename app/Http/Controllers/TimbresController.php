@@ -36,7 +36,7 @@ class TimbresController extends Controller
         $fechaFinal=Carbon::parse($request->fechaFinal)->endOfDay()->toDateString();
         $diaAnteriorInicial=Carbon::parse($request->fechaInicial)->startOfDay()->subSecond()->toDateString();
         $tipoPagos= TipoDePago::where('categoria_id',1)->get();
-        $caja = Cajas::where('id',$request->cajaActiva)->get()->first();
+        $caja = Cajas::where('id',$request->cajaActivaTimbre)->get()->first();
         // $bodega = Bodegas::where('i')
         $subsede = Subsedes::select('id','nombre_sede')->where('id',$caja->subsede)->get()->first();
         $cajero = User::select('name','id')->where('id',$caja->cajero)->get()->first();
@@ -155,7 +155,7 @@ class TimbresController extends Controller
         INNER JOIN sigecig_recibo_detalle reciboDetalle ON reciboDetalle.numero_recibo = reciboMaestro.numero_recibo
         INNER JOIN sigecig_tipo_de_pago tipoPago ON tipoPago.codigo = reciboDetalle.codigo_compra
         INNER JOIN sigecig_venta_de_timbres ventaDetalle ON ventaDetalle.recibo_detalle_id = reciboDetalle.id
-        WHERE caja.id = $request->cajaActiva AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE)
+        WHERE caja.id = $request->cajaActivaTimbre AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE)
         ORDER BY reciboDetalle.created_at ASC;";
         $datos = DB::select($query);
         $total=0;

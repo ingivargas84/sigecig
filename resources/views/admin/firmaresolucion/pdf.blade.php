@@ -10,8 +10,8 @@
 </head>
 <body>
         <div class="row" style="font-family: sans-serif; height: 100px; ">
-            <img style="float: left;" class="lg" src="images/logocig.png"  height="90"  alt="">
-            <div class="" style="float: left; font-size: 10px; margin-left: 15px">
+            <img style="float: left;" class="lg" src="images/timbres.png"  height="105"  alt="">
+            <div class="" style="float: left; font-size: 10px; margin-left: 45px">
                 <p><small>COLEGIO DE INGENIEROS DE GUATEMALA<br>
                         7a. Avenida 39-60, Zona 8 Guatemala, Guatemala <br>
                         PBX: 2218-2600 / www.cig.org.gt <br>
