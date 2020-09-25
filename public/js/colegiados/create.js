@@ -186,7 +186,8 @@ $.validator.addMethod("dpiunico", function(value, element){
                     required: true
                 },
             telefonoContactoEmergencia: {
-                    required: true
+					required: true,
+					ntelc : true
                     },
             telefono:{
               required: true,
@@ -197,15 +198,7 @@ $.validator.addMethod("dpiunico", function(value, element){
               },
             valUniversidadGraduado:{
               required: true
-              },
-            telefonotrabajo:{
-              required : true,
-              numero : true
-                },
-            telefonotrabajo:{
-              required: true,
-              ntelc1: true
-                }
+              }
             },
             messages: {
             nombres: {
@@ -224,9 +217,6 @@ $.validator.addMethod("dpiunico", function(value, element){
                     required: "Por favor, seleccione un sexo"
                     },
             telefono: {
-                    required: "Por favor, ingrese el teléfono"
-                },
-            telefonotrabajo: {
                     required: "Por favor, ingrese el teléfono"
                 },
             valMunicipioNacimiento: {
