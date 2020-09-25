@@ -23,14 +23,19 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <label for="telefono">Profesión:</label>
                         <input type="text" readonly class="form-control" placeholder="Profesion:" name="n_profesion"
                             value="">
                     </div>
                     <div class="col-sm-3">
+                        <label for="email">Correo electrónico:</label>
+                        <input type="text"  class="form-control" placeholder="Email:" name="emailColegiado"
+                            value="">
+                    </div>
+                    <div class="col-sm-3">
                         <label for="dpi">DPI/CUI:</label>
-                        <input type="text" readonly class="form-control" placeholder="Dpi:" name="registro" value="">
+                        <input type="text"  class="form-control" placeholder="Dpi:" name="registro" value="">
                     </div>
                 </div>
                 <br>

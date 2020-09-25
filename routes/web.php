@@ -164,8 +164,8 @@ Route::group([
         Route::post('/resolucion/rczdocumentosjunta','ResolucionPagoController@rczDocumentosJunta')->name('doc.rechazadoJunta');
 
         //Modulo para mostrar documentos de Auxilio Postumo
-        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp');
-        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp');
+        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp')->name('img.vie');
+        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp')->name('img.viedpi');
 
 
         // Modulo de Tipos de pago
