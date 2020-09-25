@@ -80,7 +80,7 @@
             </thead>
             @foreach($datos as $da)
             <tr >
-                <td style="background:eee;">{{$da->c_cliente}}</td>
+                <td style="background:eee;">{{$da->cliente}}</td>
                 <td style="background:eee;text-align:left;">{{$da->n_cliente}}</td>
                 <td style="background:eee;text-align:left;">{{$da->carrera}}</td>
                 <td style="background:eee;text-align:left;">{{$da->municasa}}</td>

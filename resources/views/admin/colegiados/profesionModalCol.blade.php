@@ -18,8 +18,8 @@
                             <input id="nombre" class="form-control" name="nombre" type="text" readonly>  
                           </div>
                           <div class="col-sm-5" >
-                            <label for="dpi">Colegiado:</label>
-                            <input id="c_cliente" class="form-control" name="c_cliente" type="text" readonly>  
+                            <label for="c_cliente">Colegiado:</label>
+                            <input id="colegiado" class="form-control" name="colegiado" type="text" readonly>  
                           </div>
                     </div>
                     <div class="row" >      

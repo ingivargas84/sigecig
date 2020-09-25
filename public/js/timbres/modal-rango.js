@@ -19,7 +19,8 @@ $( document ).ready(function() {
   
             },
             c_cliente1:{
-                required: true
+                required: true,
+                menorQue: true,
             },
         },
         messages: {
@@ -31,4 +32,18 @@ $( document ).ready(function() {
             },
         },
     });
+
+    $.validator.addMethod("menorQue", function(value, element){
+        if(
+            (parseInt(document.getElementById("c_cliente").value)<parseInt(document.getElementById("c_cliente1").value))
+        )
+            {
+                return true;
+            }
+            else
+            {
+            return false;
+            }
+        }, "Debe ingresar un colegiado mayor");
+
     });
