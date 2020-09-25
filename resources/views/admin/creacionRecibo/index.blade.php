@@ -617,35 +617,35 @@
                                 <label for="tipoDePagoE" class="control-label">TIPO DE PAGO</label>
                             </div>
                             <div class="col-md-10">
-                                <div class="col-md-4 form-group" id="datoTc01E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc01E" style="display: none;">
                                     <label for="tc01E" class="control-label">TE01</label>
                                     <input id="tc01E" disabled type="text" class="form-control" name="tc01E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc05E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc05E" style="display: none;">
                                     <label for="tc05E" class="control-label">TE05</label>
                                     <input id="tc05E" disabled type="text" class="form-control" name="tc05E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc10E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc10E" style="display: none;">
                                     <label for="tc10E" class="control-label">TE10</label>
                                     <input id="tc10E" disabled type="text" class="form-control" name="tc10E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc20E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc20E" style="display: none;">
                                     <label for="tc20E" class="control-label">TE20</label>
                                     <input id="tc20E" disabled type="text" class="form-control" name="tc20E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc50E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc50E" style="display: none;">
                                     <label for="tc50E" class="control-label">TE50</label>
                                     <input id="tc50E" disabled type="text" class="form-control" name="tc50E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc100E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc100E" style="display: none;">
                                     <label for="tc100E" class="control-label">TE100</label>
                                     <input id="tc100E" disabled type="text" class="form-control" name="tc100E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc200E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc200E" style="display: none;">
                                     <label for="tc200E" class="control-label">TE200</label>
                                     <input id="tc200E" disabled type="text" class="form-control" name="tc200E" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc500E" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc500E" style="display: none;">
                                     <label for="tc500E" class="control-label">TE500</label>
                                     <input id="tc500E" disabled type="text" class="form-control" name="tc500E" style="text-align:left;">
                                 </div>
@@ -845,10 +845,10 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;" id="montotimbreDiv" name="montotimbreDiv">
                             <label for="monto_timbreP" class="control-label">Pago timbre</label>
                             <div>
-                                <input type="text" id="monto_timbreP" name="monto_timbreP" readOnly class="form-control" style="display: none;">
+                                <input type="text" id="monto_timbreP" name="monto_timbreP" readOnly class="form-control">
                             </div>
                         </div>
                     </div>
@@ -960,35 +960,35 @@
                                 <label for="tipoDePagoP" class="control-label">TIPO DE PAGO</label>
                             </div>
                             <div class="col-md-10">
-                                <div class="col-md-4 form-group" id="datoTc01P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc01P" style="display: none;">
                                     <label for="tc01P" class="control-label">TC01 / TIM1</label>
                                     <input id="tc01P" disabled type="text" class="form-control" name="tc01P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc05P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc05P" style="display: none;">
                                     <label for="tc05P" class="control-label">TC05 / TIM5</label>
                                     <input id="tc05P" disabled type="text" class="form-control" name="tc05P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc10P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc10P" style="display: none;">
                                     <label for="tc10P" class="control-label">TC10 / TIM10</label>
                                     <input id="tc10P" disabled type="text" class="form-control" name="tc10P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc20P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc20P" style="display: none;">
                                     <label for="tc20P" class="control-label">TC20 / TIM20</label>
                                     <input id="tc20P" disabled type="text" class="form-control" name="tc20P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc50P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc50P" style="display: none;">
                                     <label for="tc50P" class="control-label">TC50 / TIM50</label>
                                     <input id="tc50P" disabled type="text" class="form-control" name="tc50P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc100P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc100P" style="display: none;">
                                     <label for="tc100P" class="control-label">TC100 / TIM100</label>
                                     <input id="tc100P" disabled type="text" class="form-control" name="tc100P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc200P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc200P" style="display: none;">
                                     <label for="tc200P" class="control-label">TC200 / TIM200</label>
                                     <input id="tc200P" disabled type="text" class="form-control" name="tc200P" style="text-align:left;">
                                 </div>
-                                <div class="col-md-4 form-group" id="datoTc500P" style="display: none;">
+                                <div class="col-md-6 form-group" id="datoTc500P" style="display: none;">
                                     <label for="tc500P" class="control-label">TC500 / TIM500</label>
                                     <input id="tc500P" disabled type="text" class="form-control" name="tc500P" style="text-align:left;">
                                 </div>
@@ -1189,6 +1189,7 @@
             document.getElementById('existencia').style.display = "none";$('#existencia').val('');
             document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
             document.getElementById('existenciaP').style.display = "none";$('#existenciaP').val('');
+            document.getElementById('montotimbreDiv').style.display = "none";;
             comprobarCheckEfectivo();
             comprobarCheckCheque();
             comprobarCheckTarjeta();

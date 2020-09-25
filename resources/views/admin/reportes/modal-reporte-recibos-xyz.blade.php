@@ -9,6 +9,12 @@
             </div>
             <div class="modal-body">
                 <form action="{{route('ventasxyz.reporte')}}" method="GET" role="form" id="form-vetas-xyz" name="form-ventas_xyz" target="_blank">
+                    <div class="form-group col-md-12">
+                        <label for="caja"> Caja: </label>
+                        <select id="cajaActivaxyz" name="cajaActivaxyz" class="selectpicker form-control" data-live-search="true">
+                            <option selected>Elija una caja</option>
+                        </select>
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="fecha-inicial"> Fecha Inicial:</label>
                         <input type="date" size="50" maxlength="50" class="form-control" name="fechaInicialVenta" id="fechaInicialVenta" >

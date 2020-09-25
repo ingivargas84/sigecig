@@ -60,6 +60,7 @@
   <!-- SELECT2 -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/select2/select2.min.css')}}">
   <link rel="stylesheet" href="{{asset('adminlte/css/alt/AdminLTE-select2.min.css')}}">
+  <link rel="stylesheet" href="{{asset('css/bootstrap-select/bootstrap-select1.13.css')}}">
 
 
 </head>
@@ -228,6 +229,7 @@
 <script src="{{ asset('js/timbres/modal-rango.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-ventas-xyz.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-reporte-envios.js') }}"></script>
+<script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
 
 <script>
     alertify.defaults = {

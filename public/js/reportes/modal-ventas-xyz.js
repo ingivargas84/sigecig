@@ -14,6 +14,10 @@ $( document ).ready(function() {
         ignore: [],
         onkeyup:false,
         rules: {
+            cajaActivaxyz:{
+                required: true,
+  
+            },
             fechaInicialVenta:{
                 required: true
                 
@@ -24,6 +28,9 @@ $( document ).ready(function() {
             },
         },
         messages: {
+            cajaActivaxyz: {
+                required: "Seleccione una caja",
+            },
             fechaInicialVenta: {
                 required: "Elija fecha inicial"
             },
@@ -36,6 +43,30 @@ $( document ).ready(function() {
         },
     
     });
+    });
+
+    $('#modal-reporte-ventas-xyz').click(function (e) { 
+        e.preventDefault();
+        $.ajax({
+            type: "get",
+            url: "/reportes/getCajas",
+            beforeSend:function(){
+            },
+            success: function (data) {
+                $("#cajaActivaxyz").empty();
+                $("#cajaActivaxyz").selectpicker('refresh').append('<option value="">Nothing selected</option>').selectpicker('refresh').trigger('change');
+
+                for (let i=0; i<data.length;i++)
+                {
+                    $("#cajaActivaxyz").selectpicker('refresh').append('<option value="'+data[i]["bodega"]+'">'+data[i]["name"]+'</option>').selectpicker('refresh').trigger('change');
+
+                }
+            },
+            error: function (jqXHR, estado, error){
+                console.log(estado)
+                console.log(error)
+            }
+        });
     });
 
 

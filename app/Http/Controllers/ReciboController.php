@@ -185,6 +185,7 @@ class ReciboController extends Controller
 
     public function consultaTimbres(Request $request)
     {
+        $tipoPago = TipoDePago::where('codigo', $request->indicador)->get()->first();
         // consulta para saber a que bodega pertenece el cajero o usuario loggeado
         $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $request->user";
             $result = DB::select($query);
@@ -195,76 +196,46 @@ class ReciboController extends Controller
         }else { $bodega = $result[0]->bodega; }
 
         // consulta para saber que codigo de timbre corresponde el tipo de pago
-        $consulta = TiposDeProductos::select('timbre_id')->where('tipo_de_pago_id', $request->codigo)->get()->first();
+        $consulta = TiposDeProductos::select('timbre_id')->where('tipo_de_pago_id', $tipoPago->id)->get()->first();
 
         // consulta para saber la cantidad total de timbres por codigo de timbre y bodega
         $query = "SELECT SUM(cantidad) as cantidadTotal FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega";
         $result = DB::select($query);
         $cantidadTotal = $result[0]->cantidadTotal;
 
-        if ($cantidadTotal >= $request->cantidad){ // si la existencia en bodega es mayor inicia la operacion para desplegar dato de timbre
+        if (intval($cantidadTotal) >= intval($request->cantidad)){ // si la existencia en bodega es mayor inicia la operacion para desplegar dato de timbre
 
             $consulta1 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
             $result = DB::select($consulta1);
+            $mensaje = "timbres Entregados: ";
 
             foreach($result as $res)
             {
+
                 $cant1 = $res->cantidad;
                 $total = $res->cantidad - $request->cantidad;
                 if ($total >= 0) {
-                    $numeroInicio1 = $res->numeracion_inicial;
-                    $numeroFinal1 = $res->numeracion_inicial + $request->cantidad - 1;
-                    return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "cantidadDatos" => "1", "cantidad" => $request->cantidad);
-                } elseif ($total < 0) {
-                    $numeroInicio1 = $res->numeracion_inicial;
-                    $numeroFinal1 = $res->numeracion_final;
-                    $cantidad = $total * -1;
+                    $numeroInicio = $res->numeracion_inicial;
+                    $numeroFinal = $res->numeracion_inicial + $request->cantidad - 1;
 
-                    $consulta2 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
-                        $dato = DB::select($consulta2);
+                    // if (intval($numeroInicio) == intval($numeroFinal)){
+                    //     $mensaje = "timbre Entregado: " . $numeroFinal;
+                    //     return $mensaje;
+                    // }
+                    $mensaje .= $numeroInicio . "-" . $numeroFinal;
+                    return json_encode($mensaje);
+                } else {
+                    $numeroInicio = $res->numeracion_inicial;
+                    $numeroFinal = $res->numeracion_final;
 
-                    for($i = 1; $i < sizeof($dato); $i++)
-                    {
-                        $total = $dato[$i]->cantidad - $cantidad;
-                        if ($total >= 0) {
-                            $numeroInicio2 = $dato[$i]->numeracion_inicial;
-                            $numeroFinal2 = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                            return array("numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "cantidad" => $cant1, "cantidad2" => $cantidad, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"cantidadDatos" => "2");
-                        } elseif ($total < 0) {
-                            $cant2 = $cantidad;
-                            $numeroInicio2 = $dato[$i]->numeracion_inicial;
-                            $numeroFinal2 = $dato[$i]->numeracion_final;
-                            $cantidad = $total * -1;
-                            $consulta3 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega AND cantidad != 0 ORDER BY id ASC";
-                                $dato = DB::select($consulta3);
-                            for($i = 2; $i < sizeof($dato); $i++)
-                            {
-                                $total = $dato[$i]->cantidad - $cantidad;
-                                if ($total >= 0) {
-                                    $numeroInicio3 = $dato[$i]->numeracion_inicial;
-                                    $numeroFinal3 = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                    return array("cantidad" => $cant1, "cantidad2" => $cant2, "cantidad3" => $cantidad, "numeroInicio1" => $numeroInicio1, "numeroFinal1" => $numeroFinal1, "numeroInicio2" => $numeroInicio2, "numeroFinal2" => $numeroFinal2,"numeroInicio3" => $numeroInicio3, "numeroFinal3" => $numeroFinal3, "cantidadDatos" => "3");
-                                } elseif ($total < 0) {
-                                    $cantidad = $total * -1;
-                                    $consulta4 = "SELECT * FROM sigecig_ingreso_producto WHERE timbre_id = $consulta->timbre_id AND bodega_id = $bodega ORDER BY id ASC";
-                                        $dato = DB::select($consulta4);
-                                    for($i = 3; $i < sizeof($dato); $i++)
-                                    {
-                                        $total = $dato[$i]->cantidad - $cantidad;
-                                        if ($total >= 0) {
-                                            $numeroFinal = $dato[$i]->numeracion_inicial + $cantidad - 1;
-                                            return array("numeroInicio" => $numeroInicio, "numeroFinal" => $numeroFinal);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    $mensaje .= $numeroInicio . "-" .$numeroFinal . ", ";
+
+                    $request->cantidad = $total * -1;
                 }
             }
         } else {
             $error = 'No hay existencia en su bodega para realizar esta venta';
-            return response()->json($error, 500);
+            return response()->json(['mensaje' => $error, 'timbre' => $request->indicador], 500);
         }
     }
 
@@ -982,17 +953,9 @@ class ReciboController extends Controller
                         'precio_unitario'   =>  $timbre->precioUnitario,
                         'total'             => $timbre->precioUnitario  *  $timbre->cantidad,
                         ]);
-
-                        $cuentaAbono = \App\EstadoDeCuentaDetalle::create([
-                            'estado_cuenta_maestro_id'      => $id_estado_cuenta->id,
-                            'cantidad'                      => $timbre->cantidad,
-                            'tipo_pago_id'                  => $timbre->tipo_de_pago_id,
-                            'recibo_id'                     => $reciboMaestroId,
-                            'abono'                         => $timbre->precioUnitario  *  $timbre->cantidad,
-                            'cargo'                         => '0',
-                            'usuario_id'                    => '0',
-                            'estado_id'                     => '1',
-                        ]);
+                                //abono estado cuenta
+                                $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra,
+                                $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
 
                         $this->registrarVenta($timbre->codigo, $timbre->cantidad, $reciboDetalle->id, $bodega);
                     }
