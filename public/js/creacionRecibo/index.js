@@ -1195,24 +1195,118 @@ function getTc500(){
 }
 
 
-function getTimbres(selected){
-    if(selected == "TC01" || selected == "TIM1" || selected == "TE01"){
-        getTc01();
-    }else if(selected == "TC05" || selected == "TIM5" || selected == "TE05"){
-        getTc05();
-    }else if(selected == "TC10" || selected == "TIM10" || selected == "TE10"){
-        getTc10();
-    }else if(selected == "TC20" || selected == "TIM20" || selected == "TE20"){
-        getTc20();
-    }else if(selected == "TC50" || selected == "TIM50" || selected == "TE50"){
-        getTc50();
-    }else if(selected == "TC100" || selected == "TIM100" || selected == "TE100"){
-        getTc100();
-    }else if(selected == "TC200" || selected == "TIM200" || selected == "TE200"){
-        getTc200();
-    }else if(selected == "TC500" || selected == "TIM500" || selected == "TE500"){
-        getTc500();
-    }
+function getTimbres(selected, cantidad){
+    // if(selected == "TC01" || selected == "TIM1" || selected == "TE01"){
+    //     getTc01();
+    // }else if(selected == "TC05" || selected == "TIM5" || selected == "TE05"){
+    //     getTc05();
+    // }else if(selected == "TC10" || selected == "TIM10" || selected == "TE10"){
+    //     getTc10();
+    // }else if(selected == "TC20" || selected == "TIM20" || selected == "TE20"){
+    //     getTc20();
+    // }else if(selected == "TC50" || selected == "TIM50" || selected == "TE50"){
+    //     getTc50();
+    // }else if(selected == "TC100" || selected == "TIM100" || selected == "TE100"){
+    //     getTc100();
+    // }else if(selected == "TC200" || selected == "TIM200" || selected == "TE200"){
+    //     getTc200();
+    // }else if(selected == "TC500" || selected == "TIM500" || selected == "TE500"){
+    //     getTc500();
+    // }
+    var indicador = selected;
+    var user = $('#rol_user').val();
+    $.ajax({
+        type: "POST",
+        url: "/consultaTimbres",
+        data: {indicador, user, cantidad},
+        dataType: 'json',
+        success: function(response){
+            if (indicador == 'TIM1' || indicador == 'TE01'){
+                document.getElementById('datoTc01').style.display = "";document.getElementById('datoTc01E').style.display = "";document.getElementById('datoTc01P').style.display = "";
+                $('#tc01').val(response);$('#tc01E').val(response);$('#tc01P').val(response);
+            }
+            if (indicador == 'TIM5' || indicador == 'TE05'){
+                document.getElementById('datoTc05').style.display = "";document.getElementById('datoTc05E').style.display = "";document.getElementById('datoTc05P').style.display = "";
+                $('#tc05').val(response);$('#tc05E').val(response);$('#tc05P').val(response);
+            }
+            if (indicador == 'TIM10' || indicador == 'TE10'){
+                document.getElementById('datoTc10').style.display = "";document.getElementById('datoTc10E').style.display = "";document.getElementById('datoTc10P').style.display = "";
+                $('#tc10').val(response);$('#tc10E').val(response);$('#tc10P').val(response);
+            }
+            if (indicador == 'TIM20' || indicador == 'TE20'){
+                document.getElementById('datoTc20').style.display = "";document.getElementById('datoTc20E').style.display = "";document.getElementById('datoTc20P').style.display = "";
+                $('#tc20').val(response);$('#tc20E').val(response);$('#tc20P').val(response);
+            }
+            if (indicador == 'TIM50' || indicador == 'TE50'){
+                document.getElementById('datoTc50').style.display = "";document.getElementById('datoTc50E').style.display = "";document.getElementById('datoTc50P').style.display = "";
+                $('#tc50').val(response);$('#tc50E').val(response);$('#tc50P').val(response);
+            }
+            if (indicador == 'TIM100' || indicador == 'TE100'){
+                document.getElementById('datoTc100').style.display = "";document.getElementById('datoTc100E').style.display = "";document.getElementById('datoTc100P').style.display = "";
+                $('#tc100').val(response);$('#tc100E').val(response);$('#tc100P').val(response);
+            }
+            if (indicador == 'TIM200' || indicador == 'TE200'){
+                document.getElementById('datoTc200').style.display = "";document.getElementById('datoTc200E').style.display = "";document.getElementById('datoTc200P').style.display = "";
+                $('#tc200').val(response);$('#tc200E').val(response);$('#tc200P').val(response);
+            }
+            if (indicador == 'TIM500' || indicador == 'TE500'){
+                document.getElementById('datoTc500').style.display = "";document.getElementById('datoTc500E').style.display = "";document.getElementById('datoTc500P').style.display = "";
+                $('#tc500').val(response);$('#tc500E').val(response);$('#tc500P').val(response);
+            }
+        },
+        error: function(response){
+            var mensaje = response.responseJSON["mensaje"];
+            var timbre = response.responseJSON["timbre"];
+            alertify.set('notifier','position', 'top-center');
+            alertify.warning(mensaje);
+
+            if ($("#tablaDetalle").find("tr").length > 1){var filas = $("#tablaDetalle").find("tr");}
+            if ($("#tablaDetalleE").find("tr").length > 1){var filas = $("#tablaDetalleE").find("tr");}
+            if ($("#tablaDetalleP").find("tr").length > 1){var filas = $("#tablaDetalleP").find("tr");}
+
+                    for(var i= 0; i < filas.length; i++){
+                        var celdas = $(filas[i]).find("td");
+                        if(($($(celdas[1])).text() == timbre)){
+                            $(celdas).closest('tr').remove();
+                        }
+                    }
+
+            getTotal(); getTotalE(); getTotalP();
+            if (timbre == 'TIM1' || timbre == 'TE01'){
+                document.getElementById('datoTc01').style.display = "none";document.getElementById('datoTc01E').style.display = "none";document.getElementById('datoTc01P').style.display = "none";
+                $('#tc01').val('');$('#tc01E').val('');$('#tc01P').val('');
+            }
+            if (timbre == 'TIM5' || timbre == 'TE05'){
+                document.getElementById('datoTc05').style.display = "none";document.getElementById('datoTc05E').style.display = "none";document.getElementById('datoTc05P').style.display = "none";
+                $('#tc05').val('');$('#tc05E').val('');$('#tc05P').val('');
+            }
+            if (timbre == 'TIM10' || timbre == 'TE10'){
+                document.getElementById('datoTc10').style.display = "none";document.getElementById('datoTc10E').style.display = "none";document.getElementById('datoTc10P').style.display = "none";
+                $('#tc10').val('');$('#tc10E').val('');$('#tc10P').val('');
+            }
+            if (timbre == 'TIM20' || timbre == 'TE20'){
+                document.getElementById('datoTc20').style.display = "none";document.getElementById('datoTc20E').style.display = "none";document.getElementById('datoTc20P').style.display = "none";
+                $('#tc20').val('');$('#tc20E').val('');$('#tc20P').val('');
+            }
+            if (timbre == 'TIM50' || timbre == 'TE50'){
+                document.getElementById('datoTc50').style.display = "none";document.getElementById('datoTc50E').style.display = "none";document.getElementById('datoTc50P').style.display = "none";
+                $('#tc50').val('');$('#tc50E').val('');$('#tc50P').val('');
+            }
+            if (timbre == 'TIM100' || timbre == 'TE100'){
+                document.getElementById('datoTc100').style.display = "none";document.getElementById('datoTc100E').style.display = "none";document.getElementById('datoTc100P').style.display = "none";
+                $('#tc100').val('');$('#tc100E').val('');$('#tc100P').val('');
+            }
+            if (timbre == 'TIM200' || timbre == 'TE200'){
+                document.getElementById('datoTc200').style.display = "none";document.getElementById('datoTc200E').style.display = "none";document.getElementById('datoTc200P').style.display = "none";
+                $('#tc200').val('');$('#tc200E').val('');$('#tc200P').val('');
+            }
+            if (timbre == 'TIM500' || timbre == 'TE500'){
+                document.getElementById('datoTc200').style.display = "none";document.getElementById('datoTc200E').style.display = "none";document.getElementById('datoTc200P').style.display = "none";
+                $('#tc500').val('');$('#tc500E').val('');$('#tc500P').val('');
+            }
+
+        }
+    });
 }
 
 // inicia datos colegiado
@@ -2001,6 +2095,7 @@ function agregarproductof() {
 
 function validateRow(){
     $('#tablaDetalle').each(function(index, tr) {
+        var cantTim = $('#cantidad').val();
         var combo = document.getElementById("codigo");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalle tr").length;
@@ -2011,7 +2106,7 @@ function validateRow(){
                 addnewrow();
             }else {
                 addnewrow();
-                getTimbres(selected);
+                getTimbres(selected, cantTim);
             }
         }else if (nFilas > 1){
             var filas = $("#tablaDetalle").find("tr");
@@ -2031,6 +2126,7 @@ function validateRow(){
                         var totalCant = 0;
                         var cantidadA = $($(celdas[2])).text();
                         var cantidadN = $('#cantidad').val();
+                        var totalCant = Number(cantidadA) + Number(cantidadN);
 
                         if(codigoAnt == $('#codigo').val()){
                             totalCant = Number(cantidadA) + Number(cantidadN);
@@ -2047,7 +2143,7 @@ function validateRow(){
                             }
 
                                 getTotal();
-                                getTimbres(selected);
+                                getTimbres(selected, totalCant);
                                 limpiarFilaDetalle();
                                 document.getElementById('existencia').style.display = "none";$('#existencia').val('');
                                 document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
@@ -2058,7 +2154,7 @@ function validateRow(){
                         }
                     }
                 addnewrow();
-                getTimbres(selected);
+                getTimbres(selected, cantTim);
                 }else{
                     var arrayColCatId = new Array();
                     $('#tablaDetalle tbody tr td:nth-child(7)').each(function () {
@@ -2075,7 +2171,7 @@ function validateRow(){
                             finish();
                         }else if(($('#codigo').val() != "")){
                             addnewrow();
-                            getTimbres(selected);
+                            getTimbres(selected, cantTim);
                             limpiarFilaDetalle();
                             finish();
                         }
@@ -2686,12 +2782,13 @@ $(document).ready(function(){
 
   function validateRowE(){
     $('#tablaDetalleE').each(function(index, tr) {
+        var cantTim = $('#cantidadE').val();
         var combo = document.getElementById("codigoE");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleE tr").length;
         if((nFilas == 1) && ($('#codigoE').val() != "")){
             addnewrowE();
-            getTimbres(selected);
+            getTimbres(selected, cantTim);
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleE").find("tr");
 
@@ -2710,6 +2807,7 @@ $(document).ready(function(){
                         var totalCant = 0;
                         var cantidadA = $($(celdas[2])).text();
                         var cantidadN = $('#cantidadE').val();
+                        totalCant = Number(cantidadA) + Number(cantidadN);
 
                         if(codigoAnt == $('#codigoE').val()){
                             totalCant = Number(cantidadA) + Number(cantidadN);
@@ -2719,7 +2817,7 @@ $(document).ready(function(){
                             celdas[5].innerHTML = 'Q.'+nuevoSubTotal.toFixed(2);
 
                             getTotalE();
-                            getTimbres(selected);
+                            getTimbres(selected, totalCant);
                             limpiarFilaDetalleE();
                             document.getElementById('existencia').style.display = "none";$('#existencia').val('');
                             document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
@@ -2728,7 +2826,7 @@ $(document).ready(function(){
                         }
                     }
                 addnewrowE();
-                getTimbres(selected);
+                getTimbres(selected, cantTim);
                 }else{
                     var arrayColCatId = new Array();
                     $('#tablaDetalleE tbody tr td:nth-child(7)').each(function () {
@@ -2745,7 +2843,7 @@ $(document).ready(function(){
                             finish();
                         }else if(($('#codigoE').val() != "")){
                             addnewrowE();
-                            getTimbres(selected);
+                            getTimbres(selected, cantTim);
                             limpiarFilaDetalleE();
                             finish();
                         }
@@ -3142,7 +3240,7 @@ function getAspirante() {
     limpiarFilaDetalleP();
     if ($('#aspirante').prop('checked') == true) {
         var valid = $('#dpi').val();
-        document.getElementById('monto_timbreP').style.display = "";$('#monto_timbreP').val('');
+        document.getElementById('montotimbreDiv').style.display = "";$('#monto_timbreP').val('');
         $.ajax({
             type: "GET",
             url: "/getAsporante/existenciaDpi/"+valid,
@@ -3163,7 +3261,7 @@ function getAspirante() {
         cambioSerieAspirante();
     } else {
         var esAspirante = 'no';
-        document.getElementById('monto_timbreP').style.display = "none";$('#monto_timbreP').val('');
+        document.getElementById('montotimbreDiv').style.display = "none";$('#monto_timbreP').val('');
         cambioSerie();
     }
 }
@@ -3359,6 +3457,7 @@ function agregarproductofP() {
 
   function validateRowP(){
     $('#tablaDetalleP').each(function(index, tr) {
+        var cantTim = $('#cantidadP').val();
         var combo = document.getElementById("codigoP");
         var selected = combo.options[combo.selectedIndex].text;
         var nFilas = $("#tablaDetalleP tr").length;
@@ -3369,7 +3468,7 @@ function agregarproductofP() {
                 addnewrowP();
             }else {
                 addnewrowP();
-                getTimbres(selected);
+                getTimbres(selected, cantTim);
             }
         }else if (nFilas > 1){
             var filas = $("#tablaDetalleP").find("tr");
@@ -3389,6 +3488,7 @@ function agregarproductofP() {
                         var totalCant = 0;
                         var cantidadA = $($(celdas[2])).text();
                         var cantidadN = $('#cantidadP').val();
+                        totalCant = Number(cantidadA) + Number(cantidadN);
 
                         if(codigoAnt == $('#codigoP').val()){
                             totalCant = Number(cantidadA) + Number(cantidadN);
@@ -3405,7 +3505,7 @@ function agregarproductofP() {
                             }
 
                             getTotalP();
-                            getTimbres(selected);
+                            getTimbres(selected, totalCant);
                             limpiarFilaDetalleP();
                             document.getElementById('existencia').style.display = "none";$('#existencia').val('');
                             document.getElementById('existenciaE').style.display = "none";$('#existenciaE').val('');
@@ -3414,7 +3514,7 @@ function agregarproductofP() {
                         }
                     }
                 addnewrowP();
-                getTimbres(selected);
+                getTimbres(selected, totalCant);
                 }else{
                     var arrayColCatId = new Array();
                     $('#tablaDetalleP tbody tr td:nth-child(7)').each(function () {
@@ -3431,7 +3531,7 @@ function agregarproductofP() {
                             finish();
                         }else if(($('#codigoP').val() != "")){
                             addnewrowP();
-                            getTimbres(selected);
+                            getTimbres(selected,cantTim);
                             limpiarFilaDetalleP();
                             finish();
                         }
