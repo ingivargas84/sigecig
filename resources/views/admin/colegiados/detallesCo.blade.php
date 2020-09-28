@@ -137,11 +137,19 @@
                           <div class="row">
                             <div class="col-sm-3">
                               <label for="direccionTrabajo" class="control-label">Dirección Trabajo</label>
+                              @if ($query->dir_trabajo==null)
+                              <input id="direccionTrabajo" value="No ingresada" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
+                              @else
                               <input id="direccionTrabajo" value="{{$query->dir_trabajo}}" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
+                              @endif
                             </div>
                             <div class="col-sm-3">
                               <label for="zonaTrabajo" class="control-label">Zona</label>
+                              @if ($query->zona_trabajo==null)
+                              <input id="zonaTrabajo" value="No ingresada" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @else
                               <input id="zonaTrabajo" value="{{$query->zona_trabajo}}" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @endif
                             </div>
                          
                             <div class="col-sm-3">

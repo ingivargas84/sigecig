@@ -58,7 +58,7 @@ $( document ).ready(function() {
 
                 for (let i=0; i<data.length;i++)
                 {
-                    $("#cajaActivaxyz").selectpicker('refresh').append('<option value="'+data[i]["bodega"]+'">'+data[i]["name"]+'</option>').selectpicker('refresh').trigger('change');
+                    $("#cajaActivaxyz").selectpicker('refresh').append('<option value="'+data[i]["c_bodega"]+'">'+data[i]["n_bodega"]+'</option>').selectpicker('refresh').trigger('change');
 
                 }
             },

@@ -36,7 +36,7 @@ class TimbresController extends Controller
         $fechaFinal=Carbon::parse($request->fechaFinal)->endOfDay()->toDateString();
         $diaAnteriorInicial=Carbon::parse($request->fechaInicial)->startOfDay()->subSecond()->toDateString();
         $tipoPagos= TipoDePago::where('categoria_id',1)->get();
-        $caja = Cajas::where('id',$request->cajaActiva)->get()->first();
+        $caja = Cajas::where('id',$request->cajaActivaTimbre)->get()->first();
         // $bodega = Bodegas::where('i')
         $subsede = Subsedes::select('id','nombre_sede')->where('id',$caja->subsede)->get()->first();
         $cajero = User::select('name','id')->where('id',$caja->cajero)->get()->first();
@@ -155,7 +155,7 @@ class TimbresController extends Controller
         INNER JOIN sigecig_recibo_detalle reciboDetalle ON reciboDetalle.numero_recibo = reciboMaestro.numero_recibo
         INNER JOIN sigecig_tipo_de_pago tipoPago ON tipoPago.codigo = reciboDetalle.codigo_compra
         INNER JOIN sigecig_venta_de_timbres ventaDetalle ON ventaDetalle.recibo_detalle_id = reciboDetalle.id
-        WHERE caja.id = $request->cajaActiva AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE)
+        WHERE caja.id = $request->cajaActivaTimbre AND DATE(reciboDetalle.created_at) BETWEEN CAST('$request->fechaInicial' AS DATE) AND CAST('$request->fechaFinal' AS DATE)
         ORDER BY reciboDetalle.created_at ASC;";
         $datos = DB::select($query);
         $total=0;
@@ -180,7 +180,7 @@ class TimbresController extends Controller
         $dato = Input::get("c_cliente");
         $dato1 = Input::get("c_cliente1");
 
-        $query = "SELECT C.c_cliente, C.n_cliente, C.telefono, C.e_mail, CP.n_profesion as carrera, M.n_mpo as munitrab, D.n_depto, MP.n_mpo as municasa, DP.n_depto as depcasa, C.fecha_col
+        $query = "SELECT CONVERT(INT, C.c_cliente) as cliente, C.n_cliente, C.telefono, C.e_mail, CP.n_profesion as carrera, M.n_mpo as munitrab, D.n_depto, MP.n_mpo as municasa, DP.n_depto as depcasa, C.fecha_col
         FROM CC00 C
         LEFT JOIN cc00prof CP ON CP.c_cliente = C.c_cliente
         LEFT JOIN mpo M ON M.c_mpo = C.c_mpotrab
@@ -188,7 +188,7 @@ class TimbresController extends Controller
         LEFT JOIN deptos1 D ON D.c_depto = C.c_deptotrab
         LEFT JOIN deptos1 DP ON DP.c_depto = C.c_deptocasa
         WHERE C.c_cliente BETWEEN $dato AND $dato1
-        ORDER BY C.c_cliente ASC"; 
+        ORDER BY cliente ASC"; 
         $datos =  DB::connection('sqlsrv')->select($query);
 
         return \PDF::loadView('admin.timbres.pdf-reporte-rango',compact('datos', 'user', 'dato', 'dato1'))

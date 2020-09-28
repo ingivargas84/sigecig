@@ -46,7 +46,7 @@ class ReportesController extends Controller
         $user = Auth::User();
         $fechaInicial=Carbon::parse($request->fechaInicialEnvio)->startOfDay()->toDateString();
         $fechaFinal=Carbon::parse($request->fechaFinalEnvio)->endOfDay()->toDateString();
-        $facturas=\App\SQLSRV_Fac01::select('fecha1','serie_f','total_fac','control')->whereBetween('fecha1', [$fechaInicial, $fechaFinal])->get();
+        // $facturas=\App\SQLSRV_Fac01::select('fecha1','serie_f','total_fac','control')->whereBetween('fecha1', [$fechaInicial, $fechaFinal])->get();
 
        $envios = \App\SQLSRV_Fac01::select('fac01.control', 'fac02.codigo','fac01.total_fac')
        ->join('fac02', 'fac01.control', '=', 'fac02.control')
@@ -81,7 +81,7 @@ class ReportesController extends Controller
 
     }
     public function getCajas(){
-        $cajas = \App\SQLSRV_Users::select('id','name','bodega')->where('bodega','!=',null)->get();
-        return Response::json($cajas);
+        $bodegas = \App\SQLSRV_Bodega::select('c_bodega','n_bodega')->where('estado','A')->get();
+        return Response::json($bodegas);
     }
 }

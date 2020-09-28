@@ -1,4 +1,4 @@
-/* var validator = $("#ProfesionColForm").validate({
+ /* var validator = $("#ProfesionColForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
@@ -28,8 +28,8 @@ $.validator.addMethod("profesionExist", function(value, element){
       }
   });
   return valid;
-  }, "Profesion ya ingresada");
- */
+  }, "Profesion ya ingresada"); */
+ 
 
   $('#ingresoModalColProf').on('shown.bs.modal', function(event){
     var button = $(event.relatedTarget);
@@ -37,7 +37,7 @@ $.validator.addMethod("profesionExist", function(value, element){
     var nombre = button.data('nombre');
       
     var modal = $(this);
-    modal.find(".modal-body input[name='c_cliente']").val(c_cliente);
+    modal.find(".modal-body input[name='colegiado']").val(c_cliente);
     modal.find(".modal-body input[name='nombre']").val(nombre);
    });
 
@@ -66,9 +66,9 @@ $("#ButtonAgregarProfesionCol").click(function(event) {
 
 function agregarProfesionColF() {
 	var invitacion = {
-		'idprofesion': $("#idprofesion").val(),
-    'idusuario': $("#c_cliente").val(),
- 
+		
+    'idusuario': $("input[name='colegiado']").val(),
+    'idprofesion': $("#idprofesion").val(),
 	};
   $("#mensajes").html("");
   $('.loader').fadeIn();
@@ -84,7 +84,7 @@ function agregarProfesionColF() {
 		data: invitacion,
 		success: function(data){
       if(data.retorno==0) {
-        $("#mensajes").html("Profesión guardada correctamente.");
+        $("#mensajes").html("Profesión guardada correctamenteeee.");
         $("#mensajes").css({'color':'green'});
         getDatosProfesionales("P");
       } else if(data.retorno==1) {
@@ -123,7 +123,7 @@ $("#ButtonAgregarEspecialidadCol").click(function(event) {
 function agregarEspecialidadColF() {
 	var invitacion = {
 		'idespecialidad': $("#idespecialidad").val(),
-    'idusuario': $("#c_cliente").val(),
+    'idusuario': $("input[name='colegiado']").val(),
 	};
   $("#mensajes").html("");
   $('.loader').fadeIn();
@@ -179,7 +179,7 @@ function getDatosProfesionales(tipo) {
     $(divACambiar).empty();
   
       var datos = {
-          'idusuario': $("#dpi").val(),
+          'idusuario': $("#c_cliente").val(),
       'tipo': tipo
       };
       $.ajax({

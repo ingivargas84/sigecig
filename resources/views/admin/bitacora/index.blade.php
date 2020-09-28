@@ -273,21 +273,30 @@
                         @endforeach
                         
                             <br>
-                            <a href="" id="zoom-out">zoom</a>
                             <div class="col-sm-12 ">
                                 @if ($id->id_estado_solicitud>=2 && $id->pdf_solicitud_ap != null && $id->pdf_dpi_ap != null)
                                 <div class="col-sm-6">
-                                    <h4  style="padding: 10px">Solicitud de anticipo firmada <a  href="" id="pdfSolicitud" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
+                                    <h4  style="padding: 10px">Solicitud de anticipo firmada <a  href="" id="pdfSolicitud" ><img  src="/images/iconover.png" id="" style="width: 30px; height: 30px; background: #67a8ff;border-radius: 1px;    float: right;"></a></h4>
                                     <div class="" id="solicitudpdf" style="display: none  ">
-                                        <embed  class="" src="{{$id->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
+                                        @if ($extSolicitud == 'pdf' || $extSolicitud == 'PDF')
+                                        <iframe id="iframeSolicitud" src="{{$id->pdf_solicitud_ap}}" frameborder="0"  width="100%" height="400px" ></iframe>
+                                        @else
+                                        <a target="_blank" href="{{route('img.vie', $id->id)}}" ><img src="{{$id->pdf_solicitud_ap}}" alt="" style="max-width: 100%"></a>                                
+                                        @endif
                                    </div>
                                 </div>
+                            
                                 <div class="col-sm-6">
-                                        <h4  style="padding: 10px">Copiade DPI ambos lados<a  href="" id="pdfDpi" ><img  src="/images/iconover.png" id="" style="width: 20px; height: 20px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
-                                        <div class="" id="dpipdf"  style="display: none">
-                                            <embed  src="{{$id->pdf_dpi_ap}}" type="application/pdf" width="100%" height="400px" />
-                                        </div>
+                                    <h4  style="padding: 10px">Copiade DPI ambos lados<a  href="" id="pdfDpi" ><img  src="/images/iconover.png" id="" style="width: 30px; height: 30px; background: #67a8ff;border-radius: 1px;float: right;"></a></h4>
+                                    <div class="" id="dpipdf"  style="display: none">
+                                        @if ($extDpi == 'pdf' || $extDpi == 'PDF')
+                                        <iframe name="iframeDpi" src="{{$id->pdf_dpi_ap}}" frameborder="0"  width="100%" height="400px"  style="max-width: 100%" ></iframe>
+                                        @else
+                                        <a target="_blank" href="{{route('img.viedpi', $id->id)}}" ><img src="{{$id->pdf_dpi_ap}}" alt="" style="max-width: 100%"></a>                                                                        
+                                        @endif
                                     </div>
+                                </div>
+  
                                 @endif
                                 @if ($id->id_estado_solicitud >=7 && $id->pdf_resolucion_ap != null)
                                 <div class="col-sm-6">
@@ -315,7 +324,9 @@
 @endsection
 
 @push('styles')
-
+<style>
+    
+</style>
 @endpush
 
 @push('scripts')

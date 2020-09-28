@@ -126,11 +126,17 @@ class ResolucionPagoController extends Controller
         $banco = PlataformaBanco::where("id", $id->id_banco)->get()->first();
         $usuario_cambio = BitacoraAp::where("no_solicitud", '=', $id->id)->orderBy('estado_solicitud', 'asc')->get();
         //  $rechazoap = AdmUsuario::where('Usuario', '=', $id->n_colegiado)->get()->first();
+        $path = $id->pdf_dpi_ap;
+        $extDpi = pathinfo($path, PATHINFO_EXTENSION);// PATHINFO_EXTENSION es una constantedd
+        $path = $id->pdf_solicitud_ap;
+        $extSolicitud = pathinfo($path, PATHINFO_EXTENSION);// PATHINFO_EXTENSION es una constantedd
+       
+
 
 
         $user = Auth::User();
         if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres' || $user->roles[0]->name=='Contabilidad' || $user->roles[0]->name=='JefeContabilidad') {
-            return view('admin.bitacora.index', compact('id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg', 'banco', 'tipocuenta', 'usuario_cambio'));
+            return view('admin.bitacora.index', compact('extDpi','extSolicitud','id', 'user', 'adm_usuario', 'adm_persona', 'profesion', 'fecha_Nac', 'tel', 'reg', 'banco', 'tipocuenta', 'usuario_cambio'));
         }else{
                 return redirect()->route('dashboard');        }
     }
@@ -170,7 +176,11 @@ class ResolucionPagoController extends Controller
         $tipocuenta = PlataformaTipoCuenta::where("id", $solicitud->id_tipo_cuenta)->get()->first();
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $solicitud->n_colegiado)->get()->first();
         $profesion = SQLSRV_Profesion::where("c_cliente", $solicitud->n_colegiado)->get()->first();
-        return view('admin.firmaresolucion.asap', compact('solicitud', 'banco', 'tipocuenta', 'colegiado', 'profesion'));
+        $path = $solicitud->pdf_dpi_ap;
+        $extDpi = pathinfo($path, PATHINFO_EXTENSION);// PATHINFO_EXTENSION es una constantedd
+        $path = $solicitud->pdf_solicitud_ap;
+        $extSolicitud = pathinfo($path, PATHINFO_EXTENSION);// PATHINFO_EXTENSION es una constantedd
+        return view('admin.firmaresolucion.asap', compact('solicitud', 'banco', 'tipocuenta', 'colegiado', 'profesion','extDpi','extSolicitud'));
     }
 
     /**
@@ -321,7 +331,7 @@ class ResolucionPagoController extends Controller
         $user = Auth::User();
 
         if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres') {
-            $path = 'images/timbre.png';
+            $path = 'images/timbres.png';
             $data = file_get_contents($path);
             $base64 = 'data:image/' . "png" . ';base64,' . base64_encode($data);
     
@@ -496,30 +506,36 @@ class ResolucionPagoController extends Controller
 
     }
 
-    public function verSolicitudAp($solicitud)
+    public function verSolicitudAp(PlataformaSolicitudAp $solicitud)
     {
-        $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
-        $path = $estado_solicitud->pdf_solicitud_ap;
-        $file = File::get($path);
-        $type = File::mimeType($path);
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
+        $doc = $solicitud->pdf_solicitud_ap;
+        return view ('admin.auxilioPostumo.iframimg',compact('doc'));
+    //     dd($solicitud);
+    //     $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
+    //     $path = $estado_solicitud->pdf_solicitud_ap;
+    //     $file = File::get($path);
+    //     $type = File::mimeType($path);
+    //     $response = Response::make($file, 200);
+    //     $response->header("Content-Type", $type);
 
-       $data = file_get_contents($path);
-       $base64 = 'data:doc/' . "pdf" . ';base64,' . base64_encode($data);
-       return $base64;
+    //    $data = file_get_contents($path);
+    //    $base64 = 'data:doc/' . "pdf" . ';base64,' . base64_encode($data);
+    //    return $base64;
 
-        return $base64;
+    //     return $base64;
 
     }
-    public function verDpiAp($solicitud)
+    public function verDpiAp(PlataformaSolicitudAp $solicitud)
     {
-        $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
-        $path = $estado_solicitud->pdf_dpi_ap;
-        $file = File::get($path);
-        $type = File::mimeType($path);
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return $response;
+        $doc = $solicitud->pdf_dpi_ap;
+        return view ('admin.auxilioPostumo.iframimg',compact('doc'));
+        // dd($solicitud);
+        // $estado_solicitud = PlataformaSolicitudAp::Where("id", $solicitud)->get()->first();
+        // $path = $estado_solicitud->pdf_dpi_ap;
+        // $file = File::get($path);
+        // $type = File::mimeType($path);
+        // $response = Response::make($file, 200);
+        // $response->header("Content-Type", $type);
+        // return $response;
     }
 }

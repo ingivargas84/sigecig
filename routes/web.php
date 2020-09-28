@@ -164,8 +164,8 @@ Route::group([
         Route::post('/resolucion/rczdocumentosjunta','ResolucionPagoController@rczDocumentosJunta')->name('doc.rechazadoJunta');
 
         //Modulo para mostrar documentos de Auxilio Postumo
-        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp');
-        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp');
+        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp')->name('img.vie');
+        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp')->name('img.viedpi');
 
 
         // Modulo de Tipos de pago
@@ -297,8 +297,7 @@ Route::group([
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
          Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
          Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
-         Route::get('/timbres/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
-         Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
+         Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
 
 
     });

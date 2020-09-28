@@ -138,15 +138,27 @@
                         <div class="row">
                             <div class="col-sm-4">
                               <label for="direccionTrabajo" class="control-label">Dirección Trabajo</label>
+                              @if ($query->direccionTrabajo==null)
+                              <input id="direccionTrabajo" value="No ingresada" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
+                              @else
                               <input id="direccionTrabajo" value="{{$query->direccionTrabajo}}" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
+                              @endif
                             </div>
                             <div class="col-sm-4">
                               <label for="zonaTrabajo" class="control-label">Zona</label>
+                              @if ($query->zonatrabajo==null)
+                              <input id="zonaTrabajo" value="No ingresada" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @else
                               <input id="zonaTrabajo" value="{{$query->zonatrabajo}}" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @endif
                             </div>
                             <div class="col-sm-4">
                               <label for="telTrabajo" class="control-label">Tel. Trabajo</label>
+                              @if ($query->telefonoTrabajo==null)
+                              <input id="telTrabajo" value="No ingresado" class="form-control" placeholder="Teléfono" name="telTrabajo" type="tel" readonly>                            
+                              @else
                               <input id="telTrabajo" value="{{$query->telefonoTrabajo}}" class="form-control" placeholder="Teléfono" name="telTrabajo" type="tel" readonly>                            
+                              @endif
                             </div>
                         </div>
                         <br>
