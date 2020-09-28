@@ -56,7 +56,7 @@ class AuxilioPostumoController extends Controller
     {
         $user = Auth::User();
 
-        $consulta = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac')
+        $consulta = SQLSRV_Colegiado::select('cc00.c_cliente', 'cc00.n_cliente', 'cc00.registro', 'cc00prof.n_profesion', 'cc00.telefono', 'cc00.fecha_nac','cc00.e_mail')
             ->join('cc00prof', 'cc00.c_cliente', '=', 'cc00prof.c_cliente')
             ->where('cc00.c_cliente', $no_colegiado)
             ->get();
@@ -73,7 +73,6 @@ class AuxilioPostumoController extends Controller
 
     public function GuardarSolicitudAp(Request $request)
     {
-
         $colegiado = SQLSRV_Colegiado::where("c_cliente", $request->no_colegiado)->get()->first();
         $admin_usuario = AdmUsuario::Where("Usuario", $colegiado->c_cliente)->get()->first();
             if (empty($admin_usuario)) {
@@ -128,6 +127,8 @@ class AuxilioPostumoController extends Controller
             $cuenta->save();
 
             $colegiado->telefono = $request->telefono;
+            $colegiado->e_mail = $request->correo;
+            $colegiado->registro = $request->registro;
             $colegiado->update();
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));

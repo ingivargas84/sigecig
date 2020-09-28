@@ -354,6 +354,18 @@ class ReciboController extends Controller
             $retorno1[] = $detalle1;
         }
 
+        $total=0;
+        foreach($retorno1 as $timbre){
+            $total += intval($timbre->cantidad) * intval(substr($timbre->codigo,2));
+        }
+
+        if  ($total != intval($request->subtotal)){
+            $detalle1 = new \stdClass();
+            $detalle1->haydatos = "no";
+            $retorno2[] = $detalle1;
+            return json_encode($retorno2);
+        }
+
         return json_encode($retorno1);
       }
 
@@ -954,8 +966,10 @@ class ReciboController extends Controller
                         'total'             => $timbre->precioUnitario  *  $timbre->cantidad,
                         ]);
                                 //abono estado cuenta
-                                $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra,
-                                $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+                                if ($emisionDeRecibo == 'colegiado'){
+                                    $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra,
+                                    $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id,'','');
+                                }
 
                         $this->registrarVenta($timbre->codigo, $timbre->cantidad, $reciboDetalle->id, $bodega);
                     }

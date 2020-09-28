@@ -14,7 +14,7 @@ $( document ).ready(function() {
         ignore: [],
         onkeyup:false,
         rules: {
-            cajaActiva:{
+            cajaActivaTimbre:{
                 required: true,
   
             },
@@ -28,7 +28,7 @@ $( document ).ready(function() {
             },
         },
         messages: {
-            cajaActiva: {
+            cajaActivaTimbre: {
                 required: "Seleccione una caja",
             },
             fechaInicial: {
@@ -53,12 +53,13 @@ $( document ).ready(function() {
             beforeSend:function(){
             },
             success: function (data) {
-                $("#cajaActiva").empty();
+                $("#cajaActivaTimbre").empty();
                 console.log(data);
-                $("#cajaActiva").append('<option value="">Nothing selected</option>').trigger('change');
+                $("#cajaActivaTimbre").selectpicker('refresh').append('<option value="">Nothing selected</option>').selectpicker('refresh').trigger('change');
+
                 for (let i=0; i<data.length;i++)
                 {
-                    $("#cajaActiva").append('<option value="'+data[i]["id"]+'">'+data[i]["nombre_caja"]+'</option>').trigger('change');
+                    $("#cajaActivaTimbre").selectpicker('refresh').append('<option value="'+data[i]["id"]+'">'+data[i]["nombre_caja"]+'</option>').selectpicker('refresh').trigger('change');
                 }
             },
             error: function (jqXHR, estado, error){

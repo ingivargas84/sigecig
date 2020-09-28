@@ -75,15 +75,22 @@
                             
                 
                                <div class="" id="solicitudpdf" style="display: ">
-                                     <embed class="" src="{{$solicitud->pdf_solicitud_ap}}" type="application/pdf" width="100%" height="400px" />
+                                @if ($extSolicitud == 'pdf' || $extSolicitud == 'PDF')
+                                <iframe id="iframeSolicitud" src="{{$solicitud->pdf_solicitud_ap}}" frameborder="0"  width="100%" height="400px" ></iframe>
+                                @else
+                                <a target="_blank" href="{{route('img.vie', $solicitud->id)}}" ><img src="{{$solicitud->pdf_solicitud_ap}}" alt="" style="max-width: 100%"></a>                                
+
+                                @endif
                                 </div>
                             </div>
-                            
                             <div class="col-sm-6">
                                     <h4  style="padding: 10px">Copia de DPI ambos lados</h4>
-        
                                 <div class="" id="dpipdf"  style="display: ">
-                                    <embed  src="{{$solicitud->pdf_dpi_ap}}" type="application/pdf" width="100%" height="400px" />
+                                    @if ($extDpi == 'pdf' || $extDpi == 'PDF')
+                                    <iframe name="iframeDpi" src="{{$solicitud->pdf_dpi_ap}}" frameborder="0"  width="100%" height="400px"  style="max-width: 100%" ></iframe>
+                                    @else
+                                    <a target="_blank" href="{{route('img.viedpi', $solicitud->id)}}" ><img src="{{$solicitud->pdf_dpi_ap}}" alt="" style="max-width: 100%"></a>                                
+                                    @endif
                                 </div>
                             </div><br><br>
                         </div>
