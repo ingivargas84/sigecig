@@ -243,11 +243,12 @@ Route::group([
         Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
         Route::get('/Aspirante/colDisponible/', 'ColegiadosController@colegiadoDisponible');
         Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
-        Route::get('/Aspirante/profExist/', 'ColegiadosController@profesionExist');
+        Route::get('/Aspirante/dpiDisponible2/', 'ColegiadosController@dpiDisponibleColegiado');
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
         Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
         Route::post('colegiado/setDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesColegiado']);
+        Route::get('/aspirante/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@edit'])->name('aspirante.edit');
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
