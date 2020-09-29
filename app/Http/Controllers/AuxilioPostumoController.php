@@ -179,8 +179,6 @@ class AuxilioPostumoController extends Controller
             'dpi' => 'required'
         ]);
 
- 
-
         $pdfSolicituddb = '/ap/solicitud/Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
         $pdfSolicitud = 'Solicitud'.$solicitudAP->no_solicitud.$solicitudAP->n_colegiado.'.'.request()->solicitud->getClientOriginalExtension();
         request()->solicitud->move(public_path().'\ap\solicitud', $pdfSolicitud);
@@ -200,6 +198,7 @@ class AuxilioPostumoController extends Controller
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
         $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electronico');
         Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+        $this->envioCorreoJuntaAp($colegiado,$fecha_actual, $solicitudAP);
 
         event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitudAP->id, Now(), $solicitudAP->id_estado_solicitud));
         return response()->json(['success' => 'You have successfully upload file.']);
@@ -208,18 +207,27 @@ class AuxilioPostumoController extends Controller
             return response()->json(['success' => 'You have successfully upload file. not email send']);
         }
 
+    }
+    public function envioCorreoJuntaAp($colegiado,$fecha_actual, $solicitudAP){
+        //envio de correo para confirmar recepcion de Documentos
+        $infoCorreoAp = new \App\Mail\CorreoJunta($colegiado,$fecha_actual, $solicitudAP);    
+        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo');
+        $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
+        Mail::to('cig.desarrollo2@gmail.com')->send($infoCorreoAp);
 
     }
+
     public function crearUsuario(){
         return view ('admin.auxilioPostumo.crea_usuario');
     }
+
 
     public function saveUsuario(){
 
 
 
-        $colegiados = DB::connection('sqlsrv')->select(" SELECT c_cliente, n_cliente, e_mail from  cc00 WHERE c_cliente IN (1016,1117,12,1374,17,22,2675,734,761,792,
-        138,140,155,160,184,224,225,237,254,270,
+        $colegiados = DB::connection('sqlsrv')->select(" SELECT c_cliente, n_cliente, e_mail from  cc00 WHERE c_cliente IN (
+        1016,1117,12,1374,17,22,2675,734,761,792,138,140,155,160,184,224,225,237,254,270,
         282,286,324,331,332,333,337,375,378,383,393,413,419,422,423,432,433,436,444,451,463,465,467,472,473,509,511,513,529,534,536,538,550,
         564,580,590,593,594,608,610,615,618,620,622,624,636,640,649,650,656,664,670,671,672,674,675,677,680,681,685,687,689,695,699,702,709,
         711,715,717,721,724,731,732,751,753,754,755,766,771,778,785,790,791,794,798,803,806,814,823,825,826,829,847,854,856,864,876,882,893,
@@ -286,4 +294,5 @@ class AuxilioPostumoController extends Controller
       
         return response()->json(['success' => 'You have successfully upload file.']);
     }
+
 }

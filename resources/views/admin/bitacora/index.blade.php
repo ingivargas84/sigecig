@@ -1,5 +1,9 @@
 @extends('admin.layoutadmin')
+@push('scripts')
+ <script src="{{asset('js/resolucion/index.js')}}"></script>
+ <script src="{{asset('js/resolucion/bitacora.js')}}"></script>
 
+@endpush
 @section('header')
 <section class="content-header">
     <h1><center>
@@ -329,8 +333,4 @@
 </style>
 @endpush
 
-@push('scripts')
- <script src="{{asset('js/resolucion/index.js')}}"></script>
- <script src="{{asset('js/resolucion/bitacora.js')}}"></script>
 
-@endpush

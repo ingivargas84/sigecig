@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AprobacionDocAp extends Mailable
+class AprobacionDocAp extends Mailable  
 {
     use Queueable, SerializesModels;
 
