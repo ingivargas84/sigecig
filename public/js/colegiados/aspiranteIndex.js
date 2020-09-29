@@ -119,6 +119,11 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
                 "</a>" + "</div>" +
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
+                "<a href='aspirante/edit/"+full.codigo+"'"+ "data-method='post' data.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-edit' title='Editar'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-3'>" +
                 "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                 "</a>" + "</div>" +

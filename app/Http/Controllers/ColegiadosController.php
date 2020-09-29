@@ -78,6 +78,25 @@ class ColegiadosController extends Controller
 
     }
 
+    public function edit(Aspirante $codigo)
+    {
+
+      $query = Aspirante::where('dpi', '=', $codigo->dpi)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $codigo->universidadGraduado)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $codigo->universidadIncorporado)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $codigo->idmunicipionacimiento)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $codigo->iddepartamentonacimiento)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $codigo->idPaisNacimiento)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $codigo->idnacionalidad)->get()->first();
+      $sx = Sexo::where('c_sexo', $codigo->sexo)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $codigo->idMunicipioCasa)->get()->first();
+      $depcasa = DepartamentoNac::where('c_depto', '=', $codigo->idDepartamentoCasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $codigo->idMunicipioTrabajo)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->idDepartamentoTrabajo)->get()->first();
+
+      return view ('admin.colegiados.editAspirante', compact('query', 'sx', 'muninac', 'depnac', 'paisnac', 'nacionalidad', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc'));
+    }
+
     protected function vistaAspirante($colegiado = null) {
         $query = "SELECT c_civil idcivil, n_civil valcivil FROM e_civil ORDER BY c_civil";
         $resultado = DB::connection('sqlsrv')->select($query);
@@ -741,22 +760,19 @@ Log::info("Morir2 ".print_r($aspirante, true));
             return 'true';
         }
 }
-/* 
-public function profesionExist(){
-
+public function dpiDisponibleColegiado(){ //Verifica si el dpi ya está registrado a un colegiado asociado
   $dato = Input::get("dpi");
-  $query = ProfesionAspirante::where("dpi",$dato)->get();
+  $query = CC00::where("registro",$dato)->get();
   $contador = count($query);
-        if ($contador == 0 )
-        {
-            return 'false';
-        }
-        else
-        {
-            return 'true';
-        }
-} */
-
+      if ($contador == 0 )
+      {
+          return 'false';
+      }
+      else
+      {
+          return 'true';
+      }
+}
 
   public function getJsonAsp(Request $params)
   {

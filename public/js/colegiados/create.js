@@ -127,6 +127,22 @@ $.validator.addMethod("dpiunico", function(value, element){
     return valid;
     }, "El CUI/DPI ya esta registrado en el sistema");
 
+	$.validator.addMethod("dpiunico2", function(value, element){
+		var valid = false;
+		var urlActual = $("input[name='urlActual']").val();
+		$.ajax({
+			type: "GET",
+			async: false,
+			url: "/Aspirante/dpiDisponible2/",
+			data:"dpi=" + value,
+			dataType: "json",
+			success: function (msg) {
+				valid=!msg;
+			}
+		});
+		return valid;
+		}, "El CUI/DPI ya esta registrado en el sistema");
+
         var validator = $("#colegiadosForm").validate({
             ignore: [],
             onkeyup:false,
@@ -144,7 +160,8 @@ $.validator.addMethod("dpiunico", function(value, element){
             dpi: {
               required : true,
               dpi : true,
-              dpiunico : true
+			  dpiunico : true,
+			  dpiunico2 : true
                 },
             valDepartamentoNacimiento: {
                     required: true
