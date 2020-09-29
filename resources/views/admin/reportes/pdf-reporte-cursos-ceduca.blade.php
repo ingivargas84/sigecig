@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=w, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte De Remesa</title>
+    <title>Reporte De Cursos CEDUCA</title>
     <style>
         p {
             font-family: "sans-serif";
@@ -41,7 +41,7 @@
             /* margin-top: 0rem; */
         }
         .texto1 {
-            font-size:25px;
+            font-size:20px;
             font-weight: bold;
             color:black;
             height: 10px;
@@ -141,9 +141,9 @@
                         PBX: 2218-2600 / www.cig.org.gt <br>
                         NIT: 299329-5</small></p>
             </div>
-            <div class="texto1" style="color: #03306d; background: white;height: 20px; width: 38%; margin-right: 3rem;">
+            <div class="texto1" style="color: #03306d; background: white;height: 20px;width: 38%; margin-right: 3rem;">
                 @if ($trayecto == 'UnCurso')
-                    <h3 style="margin-top: 4rem; "><b> CURSO: </b>{{$curso->descripcion}}</h3></div>
+                    <h3 style="margin-top: 2rem; "><b> CURSO: </b>{{$curso->descripcion}}</h3></div>
                 @else
                     <h3 style="margin-top: 4rem; font-size: 35px;"><b> CURSOS GENERALES</b></h3></div>
                 @endif
@@ -161,7 +161,7 @@
         <br>
     </div>
     <br>
-    <table style="margin-top: 4rem; ">
+    <table style="margin-top: 4rem;">
         <thead >
             <tr>
                 <th width="7%" style="background: #D2D2D2;text-align:center;">FECHA</th>

@@ -56,10 +56,12 @@ $('#editUpdateModal1').on('shown.bs.modal', function(event){
 
 
  function cambioSerie (id, cajero, bodega) {
+	$('.loader').fadeIn();
 	$.ajax({
 			type: 'GET',
 			url:  '/edit/bodega/' + id,
 			success: function(response){
+				$('.loader').fadeOut(225);
 				for (i = 0; i < response[0].length; i++){
 						if(response[0][i].id == bodega){
 							$(".modal-body select[name='bodega']").append( '<option selected="true" value="'+response[0][i].id+'">'+response[0][i].nombre_bodega+'</option>' );

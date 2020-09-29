@@ -31,6 +31,7 @@ use App\EstadoDeCuentaDetalle;
 use App\Recibo_Maestro;
 use App\Recibo_Detalle;
 use App\TipoDePago;
+use App\DestinoCorreo;
 
 class ColegiadosController extends Controller
 {
@@ -94,8 +95,25 @@ class ColegiadosController extends Controller
       $munitrab = Municipio::where('c_mpo', '=', $codigo->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->idDepartamentoTrabajo)->get()->first();
 
-      return view ('admin.colegiados.editAspirante', compact('query', 'sx', 'muninac', 'depnac', 'paisnac', 'nacionalidad', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc'));
+      $dest = DestinoCorreo::select('destino')->get();
+
+      return view ('admin.colegiados.editAspirante', compact('dest', 'codigo', 'query', 'sx', 'muninac', 'depnac', 'paisnac', 'nacionalidad', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc'));
     }
+
+    public function dpiDisponibleEdit(Request $request){
+     
+      $query = Aspirante::where("dpi",$request->dp)->where("id","!=",$request->id)->get();
+      $contador = count($query);
+
+      if ($contador == 0 )
+      {
+          return 'false';
+      }
+      else
+      {
+          return 'true';
+      }
+  }
 
     protected function vistaAspirante($colegiado = null) {
         $query = "SELECT c_civil idcivil, n_civil valcivil FROM e_civil ORDER BY c_civil";
@@ -271,7 +289,6 @@ class ColegiadosController extends Controller
     $user->dpi = Input::get('idusuario');
     $user->nombre = Input::get('nombres');
     $user->apellidos = Input::get('apellidos');
-
     $user->sexo = Input::get('sexo');
     $user->fechanacimiento = Input::get('fechaNacimiento');
     $user->idmunicipionacimiento = Input::get('idMunicipioNacimiento');
@@ -281,6 +298,7 @@ class ColegiadosController extends Controller
     $user->telefono = Input::get('telefono');
     $user->telefonotrabajo = Input::get('telTrabajo');
     $user->correo = Input::get('email');
+    $user->nit = Input::get('nit');
     $user->estadocivil = Input::get('estadoCivil');
     $user->direccioncasa = Input::get('direccion');
     $user->zona = Input::get('zona');
@@ -660,6 +678,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->apellidos= $aspirante->apellidos;
       $colegiado->telefono= $aspirante->telefono;
       $colegiado->e_mail= $aspirante->correo;
+      $colegiado->nit= $aspirante->nit;
       $colegiado->fecha_col= Input::get('fechaColegiado');
       $colegiado->f_ult_pago = date("Y-m-d", strtotime($colegiado->fecha_col . "+3 months"));
       $colegiado->f_ult_timbre = date("Y-m-d", strtotime($colegiado->fecha_col . "+3 months"));

@@ -38,7 +38,7 @@ $(document).ready(function(){
 @endpush 
 
 @section('content')
-<form method="POST" id="colegiadosForm" >
+<form method="POST" id="EditcolegiadosForm" >
   {{csrf_field()}}
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -46,11 +46,12 @@ $(document).ready(function(){
                         <legend>Información Personal</legend>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="dpi">DPI:</label>
+                              <label for="dpi">DPI</label>
                             <input id="dpi" autofocus="" value="{{$query->dpi}}" class="form-control" name="dpi" type="text">                            
-                            </div>
+                            <input type="hidden" name="num" value="{{$query->id}}">
+                          </div>
                             <div class="col-sm-4">
-                              <label for="nombre">Nombres:</label>
+                              <label for="nombre">Nombres</label>
                               <input id="nombres" class="form-control" value="{{$query->nombre}}" name="nombres" type="text">                            
                             </div>
                             <div class="col-sm-4">
@@ -61,7 +62,7 @@ $(document).ready(function(){
                         <br>
                         <div class="row">
                              <div class='col-sm-2'>
-                              <label for="sexo">Sexo:</label>
+                              <label for="sexo">Sexo</label>
                               <select class="form-control" id="sexo" name="sexo">
                                 <option value="{{$query->sexo}}">{{$sx->n_sexo}}</option>
                                 <option value="F">FEMENINO</option>
@@ -106,7 +107,11 @@ $(document).ready(function(){
                               <label for="email" class="control-label">Correo electrónico</label>
                               <input id="email" class="form-control" value="{{$query->correo}}" name="email" type="text">                            
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                              <label for="nit" class="control-label">NIT</label>
+                              <input id="nit" class="form-control" value="{{$query->nit}}" name="nit" type="text">                            
+                            </div>
+                            <div class="col-sm-2">
                               <label for="estadoCivil" class="control-label">Estado civil</label>
                               <select onchange="mostrarConyugue();" id="estadoCivil" class="form-control" name="estadoCivil">
                                 <option value="C">Casado(a)</option>
@@ -139,10 +144,10 @@ $(document).ready(function(){
                             </div>
                             <div class="col-sm-3">
                               <label for="destino" class="control-label">Destino correo</label>
-                              <select class="form-control" id="destino" name="destino">
-                                <option value="Casa">Casa</option>
-                                <option value="Oficina">Oficina</option>
-                                <option value="Otros">Otros</option>
+                              <select class="form-control" id="destino" name="destino" type="text">
+                                @foreach($dest as $de)
+                                <option value="{{$de->destino}}">{{$de->destino}}</option>
+                                @endforeach
                               </select>
                             </div>
                         </div>
@@ -151,7 +156,7 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="col-sm-4">
                               <label for="direccionTrabajo" class="control-label">Dirección Trabajo</label>
-                              <input id="direccionTrabajo" class="form-control" {{$query->direccionTrabajo}} name="direccionTrabajo" type="text">                            
+                              <input id="direccionTrabajo" class="form-control" value="{{$query->direccionTrabajo}}" name="direccionTrabajo" type="text">                            
                             </div>
                             <div class="col-sm-4">
                               <label for="zonaTrabajo" class="control-label">Zona</label>
@@ -180,7 +185,7 @@ $(document).ready(function(){
                         <div class="row">
                             <div class="col-sm-2">
                               <label for="fechaGraduacion" class="control-label">Fecha Graduación</label>
-                              <input id="fechaGraduacion" class="form-control" value="{{date('d-m-Y', strtotime($query->fechaGraduacion))}}" name="fechaGraduacion" type="date" max="9999-12-31">
+                              <input id="fechaGraduacion" class="form-control" value="{{$query->fechaGraduacion}}" name="fechaGraduacion" type="date" max="9999-12-31">
                             </div>
                             <div class="col-sm-5">
                               <label for="valUniversidadGraduado" class="control-label">Universidad Graduado</label>
@@ -232,7 +237,7 @@ $(document).ready(function(){
 
 @endsection
 @push('scripts')
-<script src="{{asset('js/colegiados/create.js')}}"></script>
+<script src="{{asset('js/colegiados/editAspirante.js')}}"></script>
 
 @endpush
 

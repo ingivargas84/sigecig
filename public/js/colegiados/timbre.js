@@ -50,6 +50,7 @@ function guardarMontoTimbreF()
     'telefono': $("#telefono").val(),
     'telTrabajo': $("#telTrabajo").val(),
     'email': $("#email").val(),
+    'nit': $("#nit").val(),
     'estadoCivil': $("#estadoCivil").val(),
     'direccion': $("#direccion").val(),
     'zona': $("#zona").val(),

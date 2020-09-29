@@ -19,5 +19,6 @@ class SQLSRV_Producto extends Model
         'tipoCliente',
         'variable',
         'categoria_id',
+        'estado_id',
     ];
 }

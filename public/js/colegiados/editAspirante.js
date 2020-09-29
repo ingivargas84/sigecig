@@ -141,9 +141,27 @@ $.validator.addMethod("dpiunico", function(value, element){
 			}
 		});
 		return valid;
-		}, "El CUI/DPI ya esta registrado en el sistema");
+        }, "El CUI/DPI ya esta registrado en el sistema");
+        
+    $.validator.addMethod("dpiEdit", function(value, element){
+        var valid = false;
+        var id = $("input[name='num']").val();
+        var dp = $("input[name='dpi']").val();
+        var urlActual = $("input[name='urlActual']").val();
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/Aspirante/dpiDisponibleEdit/",
+            data: {id, dp},
+            dataType: "json",
+            success: function (msg) {
+                valid=!msg;
+            }
+        });
+        return valid;
+        }, "El CUI/DPI ya esta registrado en el sistema");
 
-        var validator = $("#colegiadosForm").validate({
+        var validator = $("#EditcolegiadosForm").validate({
             ignore: [],
             onkeyup:false,
             rules: {
@@ -160,7 +178,7 @@ $.validator.addMethod("dpiunico", function(value, element){
             dpi: {
               required : true,
               dpi : true,
-			  dpiunico : true,
+              dpiEdit : true,
 			  dpiunico2 : true
                 },
             valDepartamentoNacimiento: {

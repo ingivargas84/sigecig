@@ -244,6 +244,8 @@ Route::group([
         Route::get('/Aspirante/colDisponible/', 'ColegiadosController@colegiadoDisponible');
         Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
         Route::get('/Aspirante/dpiDisponible2/', 'ColegiadosController@dpiDisponibleColegiado');
+        Route::get('/Aspirante/dpiDisponibleEdit/', 'ColegiadosController@dpiDisponibleEdit');
+
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
         Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
