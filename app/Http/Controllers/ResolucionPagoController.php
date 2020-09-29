@@ -545,7 +545,7 @@ class ResolucionPagoController extends Controller
         $infoCorreoAp = new \App\Mail\CorreoJunta($colegiado,$fecha_actual, $solicitudAP);    
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo');
         $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
-        Mail::to('cig.desarrollo2@gmail.com')->send($infoCorreoAp);
+        Mail::to('auxcontad@cig.org.gt')->send($infoCorreoAp);
 
     }
     public function imprimirResolucion($id){
