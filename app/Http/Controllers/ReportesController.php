@@ -91,27 +91,31 @@ class ReportesController extends Controller
             $curso = \App\SQLSRV_Producto::where('id',$request->cursos)->get()->first();
             $datosFac02 = \App\SQLSRV_Fac02::select('control', 'serie_f', 'num_fac', 'codigo', 'descripcion', 'precio_u', 'cantidad', 'id')->where('codigo',$curso->codigo)->get();
 
-            foreach ($datosFac02 as $key => $envio) {
-                $env = \App\SQLSRV_Fac01::select('fac01.control', 'fac02.codigo','inv02.n_bodega','vdor.n_vendedor','fac01.c_cliente','cc00.telefono'
-                ,'fac01.n_cliente','fac02.descripcion','fac01.serie_f','fac01.num_fac','fac01.efectivo','fac01.cheque','fac01.tarjeta','cc00.e_mail'
-                ,'fac02.importe','fac02.precio_u','fac02.cantidad','fac01.fecha1','fac01.total_fac')
-                ->join('fac02', 'fac01.control', '=', 'fac02.control')
-                ->join('inv02', 'fac01.c_bodega', '=', 'inv02.c_bodega')
-                ->join('vdor', 'fac01.c_vendedor', '=', 'vdor.c_vendedor')
-                ->join('cc00', 'fac01.c_cliente', '=', 'cc00.c_cliente')
-                ->where('fac01.control',$envio->control)
-                ->where('fac01.serie_f',$envio->serie_f)
-                ->orderBy('fac02.codigo','asc')
-                ->get();
-                $arrayDetalles[]=$env;
-           }
+            if (sizeof($datosFac02) > 0){
+                foreach ($datosFac02 as $key => $envio) {
+                    $env = \App\SQLSRV_Fac01::select('fac01.control', 'fac02.codigo','inv02.n_bodega','vdor.n_vendedor','fac01.c_cliente','cc00.telefono'
+                    ,'fac01.n_cliente','fac02.descripcion','fac01.serie_f','fac01.num_fac','fac01.efectivo','fac01.cheque','fac01.tarjeta','cc00.e_mail'
+                    ,'fac02.importe','fac02.precio_u','fac02.cantidad','fac01.fecha1','fac01.total_fac')
+                    ->join('fac02', 'fac01.control', '=', 'fac02.control')
+                    ->join('inv02', 'fac01.c_bodega', '=', 'inv02.c_bodega')
+                    ->join('vdor', 'fac01.c_vendedor', '=', 'vdor.c_vendedor')
+                    ->join('cc00', 'fac01.c_cliente', '=', 'cc00.c_cliente')
+                    ->where('fac01.control',$envio->control)
+                    ->where('fac01.serie_f',$envio->serie_f)
+                    ->orderBy('fac02.codigo','asc')
+                    ->get();
+                    $arrayDetalles[]=$env;
+                }
 
-            return \PDF::loadView('admin.reportes.pdf-reporte-cursos-ceduca',compact('user','newDate','curso','datosFac02','arrayDetalles', 'trayecto'))
-            ->setPaper('legal', 'landscape')
-            ->stream('Envíos.pdf');
+                return \PDF::loadView('admin.reportes.pdf-reporte-cursos-ceduca',compact('user','newDate','curso','datosFac02','arrayDetalles', 'trayecto'))
+                ->setPaper('legal', 'landscape')
+                ->stream('Envíos.pdf');
+            } else {
+                return 'Cadena Vacia - No hay colegiados inscritos en este curso';
+            }
         } else {
             $trayecto = 'todos';
-            $curso = \App\SQLSRV_Producto::where('categoria_id',2)->get();
+            $curso = \App\SQLSRV_Producto::where('categoria_id',2)->where('estado_id',0)->get();
             foreach ($curso as $cur){
                 $datosFac02 = \App\SQLSRV_Fac02::select('control', 'serie_f', 'num_fac', 'codigo', 'descripcion', 'precio_u', 'cantidad', 'id')->where('codigo',$cur->codigo)->get();
                 $detallesFac02[]=$datosFac02;
@@ -146,7 +150,7 @@ class ReportesController extends Controller
     }
 
     public function getCursos(){
-        $cursos = \App\SQLSRV_Producto::where('categoria_id',2)->get();
+        $cursos = \App\SQLSRV_Producto::where('categoria_id',2)->where('estado_id',0)->get();
         return Response::json($cursos);
     }
 }
