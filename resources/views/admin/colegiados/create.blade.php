@@ -46,11 +46,11 @@ $(document).ready(function(){
                         <legend>Información Personal</legend>
                         <div class="row">
                             <div class="col-sm-4">
-                              <label for="dpi">DPI:</label>
+                              <label for="dpi">DPI</label>
                               <input id="dpi" autofocus="" placeholder="Dpi" class="form-control" name="dpi" type="text">                            
                             </div>
                             <div class="col-sm-4">
-                              <label for="nombre">Nombres:</label>
+                              <label for="nombre">Nombres</label>
                               <input id="nombres" class="form-control" placeholder="Nombres" name="nombres" type="text">                            
                             </div>
                             <div class="col-sm-4">
@@ -61,7 +61,7 @@ $(document).ready(function(){
                         <br>
                         <div class="row">
                              <div class='col-sm-2'>
-                              <label for="sexo">Sexo:</label>
+                              <label for="sexo">Sexo</label>
                               <select class="form-control" id="sexo" name="sexo">
                                 <option value="F">FEMENINO</option>
                                 <option value="M">MASCULINO</option>
@@ -105,7 +105,11 @@ $(document).ready(function(){
                               <label for="email" class="control-label">Correo electrónico</label>
                               <input id="email" class="form-control" placeholder="Correo electrónico" name="email" type="text">                            
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                              <label for="nit" class="control-label">NIT</label>
+                              <input id="nit" class="form-control" placeholder="NIT" name="nit" type="text">                            
+                            </div>
+                            <div class="col-sm-2">
                               <label for="estadoCivil" class="control-label">Estado civil</label>
                               <select onchange="mostrarConyugue();" id="estadoCivil" class="form-control" name="estadoCivil">
                                 <option value="C">Casado(a)</option>
