@@ -312,20 +312,23 @@ Route::group([
         return view('welcome', compact('negocio'));
     });
 
-    Route::get('/pdf/{id}', function($id){
-        $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
-        $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
-        $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
-        $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
-        $bitacora = App\BitacoraAp::where('no_solicitud',$id->id)->where('estado_solicitud','7')->first();
-        setlocale(LC_TIME, "spanish");
-        $fecha = strftime("%d de %B del %Y", strtotime($bitacora->fecha));
+    Route::get('/pdf/{id}', 'ResolucionPagoController@imprimirResolucion');
 
 
-        // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','fecha'));
-        return $pdf->stream('Resolución.pdf');
-    });
+    // Route::get('/pdf/{id}', function($id){
+    //     $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
+    //     $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
+    //     $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
+    //     $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+    //     $bitacora = App\BitacoraAp::where('no_solicitud',$id->id)->where('estado_solicitud','7')->first();
+    //     setlocale(LC_TIME, "spanish");
+    //     $fecha = strftime("%d de %B del %Y", strtotime($bitacora->fecha));
+
+
+    //     // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
+    //     $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','fecha'));
+    //     return $pdf->stream('Resolución.pdf');
+    // });
 
     //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
     //Auth::routes();
