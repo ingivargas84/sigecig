@@ -51,6 +51,7 @@ $( document ).ready(function() {
             type: "get",
             url: "/timbres/getCajas",
             beforeSend:function(){
+                $('.loader').show();
             },
             success: function (data) {
                 $("#cajaActivaTimbre").empty();
@@ -66,6 +67,8 @@ $( document ).ready(function() {
                 console.log(estado)
                 console.log(error)
             }
+        }).always(function name(params) {
+            $('.loader').hide();
         });
     });
     
