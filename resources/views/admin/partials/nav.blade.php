@@ -227,6 +227,9 @@
                 <a href="" id='modal-reporte-envios' data-toggle="modal" data-target="#modalReporteEnvios"><i class="fa fa-book"></i>Reporte Envíos</a>
               </li>
               <li class="">
+                <a href="" id='modal-reporte-cursos-ceduca' data-toggle="modal" data-target="#modalReporteCursosCeduca"><i class="fa fa-book"></i>Reporte cursos CEDUCA</a>
+              </li>
+              <li class="">
                 <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
               </li>
             </ul>
@@ -236,7 +239,7 @@
               </li>
             </ul>
         </li>
-        @endrole  
+        @endrole
 </ul>
 
 
