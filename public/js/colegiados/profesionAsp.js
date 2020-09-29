@@ -1,36 +1,3 @@
-/* var validator = $("#ProfesionForm").validate({
-	ignore: [],
-	onkeyup:false,
-	rules: {
-		idprofesion:{
-      profesionExist: true
-        }
-  },
-	messages: {
-    idprofesion: {
-        required: "Profesion ya ingresadaa"
-    }
-  }
-});
-
-
-$.validator.addMethod("profesionExist", function(value, element){
-  var valid = false;
-  var urlActual = $("input[name='urlActual']").val();
-  $.ajax({
-      type: "GET",
-      async: false,
-      url: "/Aspirante/profExist/",
-      data:"profesion=" + value,
-      dataType: "json",
-      success: function (msg) {
-          valid=!msg;
-      }
-  });
-  return valid;
-  }, "Profesion ya ingresada");
-
- */
 $('#ingresoModal2').on('shown.bs.modal', function(event){
   var button = $(event.relatedTarget);
   var dpi = button.data('dpi');

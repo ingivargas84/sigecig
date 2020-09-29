@@ -97,7 +97,11 @@
                               <label for="email" class="control-label">Correo electrónico</label>
                               <input id="email" value="{{$query->correo}}" class="form-control" placeholder="Correo electrónico" name="email" type="text" readonly>                            
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
+                              <label for="nit" class="control-label">NIT</label>
+                              <input id="nit" value="{{$query->nit}}" class="form-control" placeholder="NIT" name="nit" type="text" readonly>                            
+                            </div>
+                            <div class="col-sm-2">
                               <label for="estadoCivil" class="control-label">Estado civil</label>
                               <input id="estadoCivil" value="{{$ecivil->n_civil}}" class="form-control" placeholder="Estado civil" name="estadoCivil" type="text" readonly>                                  
                             </div>
