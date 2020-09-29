@@ -59,7 +59,7 @@ class ReciboController extends Controller
         return view('admin.creacionRecibo.index', compact('pos', 'tipo', 'banco'));
     }
 
-    public function pdfRecibo(Recibo_Detalle $id)
+    public function pdfRecibo(Recibo_Maestro $id)
     {
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
         $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaRecibo/' . $id->numero_recibo); //link para colegiados version prueba
