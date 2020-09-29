@@ -16,6 +16,7 @@ class CreateSigecigSolicitudesApTable extends Migration
         Schema::create('sigecig_solicitudes_ap', function (Blueprint $table) {
             $table->Increments('id');
             $table->DateTime('fecha_solicitud');
+            $table->DateTime('fecha_ingreso_acta')->nullable();
             $table->Integer('n_colegiado');
             $table->Integer('id_estado_solicitud');
             $table->integer('id_banco');

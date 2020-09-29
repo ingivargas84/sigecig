@@ -209,6 +209,7 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::get('/estadocuenta/pdf/{id}/', 'ReciboController@estadoCuetapdfRecibo');
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
         Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
         Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');

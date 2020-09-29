@@ -157,7 +157,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
             if (full.abono != 0 ){
                 return "<div id='" + full.id + "' class='text-center'>" +
                 "<div class='float-center'>" +
-                "<a href='/creacionRecibo/pdf/"+full.numero_recibo+ "/'target='blanck'>" +
+                "<a href='/estadocuenta/pdf/"+full.recibo_id+ "/'target='blanck'>" +
                 "<i class='fa fa-print' title='Ver Detalles'></i>" +
                 "</a>" + "</div>"
             } else {
