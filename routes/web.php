@@ -297,7 +297,10 @@ Route::group([
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
          Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
+         Route::get('/cursos/ceduca/', 'ReportesController@reporteCursosCeduca')->name('cursos.ceduca');
          Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
+         Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
+         Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
          Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
 
 
@@ -314,8 +317,13 @@ Route::group([
         $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
         $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
         $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        $bitacora = App\BitacoraAp::where('no_solicitud',$id->id)->where('estado_solicitud','7')->first();
+        setlocale(LC_TIME, "spanish");
+        $fecha = strftime("%d de %B del %Y", strtotime($bitacora->fecha));
+
+
         // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
+        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','fecha'));
         return $pdf->stream('Resolución.pdf');
     });
 

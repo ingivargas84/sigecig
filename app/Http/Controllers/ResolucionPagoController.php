@@ -235,12 +235,14 @@ class ResolucionPagoController extends Controller
             $infoCorreoAp->subject('Solicitud de Auxilio Póstumo ' . $solicitudAP->no_solicitud);
             $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
             Mail::to($colegiado->e_mail)->send($infoCorreoAp);
+            $this->envioCorreoJuntaAp($colegiado,$fecha_actual, $solicitudAP);
+
 
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
             return Response::json(['success' => 'Éxito']);
         } catch (\Throwable $th) {
             event(new ActualizacionBitacoraAp(Auth::user()->id, $solicitud->id, Now(), $solicitud->id_estado_solicitud));
-            return Response::json(['success' => 'Éxito']);
+            return Response::json(['success' => 'Éxito-no se envío correo',]);
         }
 
     }
@@ -537,5 +539,13 @@ class ResolucionPagoController extends Controller
         // $response = Response::make($file, 200);
         // $response->header("Content-Type", $type);
         // return $response;
+    }
+    public function envioCorreoJuntaAp($colegiado,$fecha_actual, $solicitudAP){
+        //envio de correo para confirmar recepcion de Documentos
+        $infoCorreoAp = new \App\Mail\CorreoJunta($colegiado,$fecha_actual, $solicitudAP);    
+        $infoCorreoAp->subject('Solicitud de Auxilio Póstumo');
+        $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
+        Mail::to('cig.desarrollo2@gmail.com')->send($infoCorreoAp);
+
     }
 }

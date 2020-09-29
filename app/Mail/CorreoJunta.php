@@ -7,24 +7,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EnvioReciboElectronico extends Mailable 
+class CorreoJunta extends Mailable 
 {
     use Queueable, SerializesModels;
-
+    public $colegiado;
     public $fecha_actual;
-    public $reciboMaestro;
-    public $tipo;
+    public $solicitudAP;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($fecha_actual,$reciboMaestro, $tipo)
+    public function __construct($colegiado,$fecha_actual,$solicitudAP)
     {
+        $this->colegiado = $colegiado;
         $this->fecha_actual = $fecha_actual;
-        $this->reciboMaestro = $reciboMaestro;
-        $this->tipo =  $tipo;
+        $this->solicitudAP = $solicitudAP;
     }
 
     /**
@@ -34,6 +33,6 @@ class EnvioReciboElectronico extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.envioreciboelectronico');
+        return $this->view('mails.correo-junta');
     }
 }
