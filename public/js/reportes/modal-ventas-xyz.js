@@ -51,6 +51,7 @@ $( document ).ready(function() {
             type: "get",
             url: "/reportes/getCajas",
             beforeSend:function(){
+                $('.loader').show();
             },
             success: function (data) {
                 $("#cajaActivaxyz").empty();
@@ -65,7 +66,10 @@ $( document ).ready(function() {
             error: function (jqXHR, estado, error){
                 console.log(estado)
                 console.log(error)
-            }
+            },
+            
+        }).always(function name() {
+            $('.loader').hide();
         });
     });
 

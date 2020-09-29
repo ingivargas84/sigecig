@@ -34,8 +34,8 @@
     </div>
         <div class="texto1">
             <p> Estimado Ingeniero(a).
-            <p>  Con relación a la solicitud por el Seguro de Vida del colegiado, por instrucciones de la Junta de Administración del Auxilio Póstumo; a continuación se transcribe el punto {{$id->no_punto_acta}} de Acta {{$id->no_acta}}-2019/2021, de fecha diez de febrero del dos mil veinte:
-        </div>
+            <p>  Con relación a la solicitud por el Seguro de Vida del colegiado, por instrucciones de la Junta de Administración del Auxilio Póstumo; a continuación se transcribe el punto {{$id->no_punto_acta}} de Acta {{$id->no_acta}}-2019/2021, de fecha 
+                {{ $fecha}}:
         <div class="texto2">
             <p>“{{$id->no_punto_acta}}	Conocer el informe administrativo del {{$profesion->n_profesion}}, <b>{{$adm_persona->Nombre1}}</b>, colegiado NO. {{$id->n_colegiado}}; quien solicita anticipo del seguro de vida por un monto de Q.10,000.00; por lo que  la Junta de Administración ACUERDA:
 
@@ -58,7 +58,7 @@
 
         </table>
         <div class="datos">
-            <p> Atentamente,s
+            <p> Atentamente,
         </div>
             <br>
         <div class="datos1">

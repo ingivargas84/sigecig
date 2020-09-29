@@ -187,7 +187,7 @@
     <strong>Copyright &copy; 2020 <a href="#">Colegio de Ingenieros de Guatemala - CIG</a>.</strong> All rights reserved.
   </footer>
  <!-- /.control-sidebar -->
-
+ <div class="loader loader-bar is-active" style="display: none;"></div>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
