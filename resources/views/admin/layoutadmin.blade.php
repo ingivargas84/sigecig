@@ -158,11 +158,12 @@
     <!-- Main content -->
     <section class="content">
       @include('admin.timbres.modal-reporte-timbres')
+      @include('admin.reportes.modal-reporte-cursos-ceduca')
       @include('admin.reportes.modal-reporte-recibos-xyz')
       @include('admin.reportes.modal-reporte-envios')
 
 
-      @include('admin.timbres.modal-reporte-por-rango') 
+      @include('admin.timbres.modal-reporte-por-rango')
       @if(session()->has('flash'))
         <div class="alert alert-success" id="alert-success">{{ session('flash') }}
           <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -187,7 +188,7 @@
     <strong>Copyright &copy; 2020 <a href="#">Colegio de Ingenieros de Guatemala - CIG</a>.</strong> All rights reserved.
   </footer>
  <!-- /.control-sidebar -->
-
+ <div class="loader loader-bar is-active" style="display: none;"></div>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
@@ -229,6 +230,7 @@
 <script src="{{ asset('js/timbres/modal-rango.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-ventas-xyz.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-reporte-envios.js') }}"></script>
+<script src="{{ asset('js/reportes/modal-reporte-cursos-ceduca.js') }}"></script>
 <script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
 
 <script>
