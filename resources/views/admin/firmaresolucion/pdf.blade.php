@@ -41,7 +41,7 @@
 
             <p> Con base al informe administrativo y a la revisión de la documentación presentada, para la solicitud de subsidio del Auxilio Póstumo, proceder con los trámites correspondientes para el pago de anticipo del Seguro de Vida del Ingeniero de conformidad con el artículo 16 numeral 2) del Reglamento del Auxilio Póstumo.
         </div>
-        <br>
+        
         <table style="width:100%">
             <thead>
                 <tr>
@@ -60,7 +60,6 @@
         <div class="datos">
             <p> Atentamente,
         </div>
-            <br>
         <div class="datos1">
             <p>Ing. Mónica Pinto Martínez<br>
             <b>ADMINISTRADORA</b><br>
