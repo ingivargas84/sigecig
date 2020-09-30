@@ -81,6 +81,45 @@ class ReportesController extends Controller
 
     }
 
+    public function reporteColegiadosPorAnio(Request $request){
+        $user = Auth::User();
+        $newDate = now();
+        $anio = $request->anio;
+        $fechaInicial = '01/01/'.$request->anio;
+        $fechaFinal = '12/31/'.$request->anio;
+        $fechaInicial= \Carbon\Carbon::parse($fechaInicial)->format('Y-m-d H:i');
+        $fechaFinal= \Carbon\Carbon::parse($fechaFinal)->format('Y-m-d H:i');
+
+        $colegiados = \App\CC00::select('c_cliente','n_cliente','e_mail','f_creacion','f_ult_pago','f_ult_timbre','fecha_col')
+        ->whereBetween('fecha_col', [$fechaInicial, $fechaFinal])->orderBy('f_creacion','asc')->get();
+
+        if (sizeof($colegiados) > 0){
+            foreach ($colegiados as $key => $cole){
+                $query = "SELECT c.c_cliente colegiado, c.n_cliente nombre, CONVERT(VARCHAR(10),c.fecha_col,120) fechacolegiado,c.fax telefonotrabajo,
+                c.telefono,c.e_mail,CONVERT(VARCHAR(10),c.f_ult_pago,120) fechaultimopagocolegio, CONVERT(VARCHAR(10),c.f_ult_timbre,120) fechaultimopagotimbre,
+                CASE WHEN c.fallecido='S' THEN 'Fallecido' WHEN getdate() > c.topefechapagocuotas THEN 'Suspendido' WHEN (DATEDIFF(month, c.f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, c.f_ult_timbre, GETDATE()) <= 3) THEN 'Activo' ELSE 'Inactivo' END AS status,
+                c.monto_timbre montotimbre,convert(VARCHAR(max),c.titulo_tesis) titulotesis
+                FROM cc00 c
+                WHERE c_cliente = :colcol";
+                $parametros = array(':colcol' => $cole->c_cliente);
+                $users = DB::connection('sqlsrv')->select($query, $parametros);
+
+                $profesion = \App\CC00prof::select('c_cliente','n_profesion')->where('c_cliente', $cole->c_cliente)->get();
+
+                $prof[]=$profesion;
+                $arrayDetalles[]=$users;
+            }
+            // set_time_limit(3000);
+            return \PDF::loadView('admin.reportes.pdf-colegiados-por-anio',compact('arrayDetalles','anio','user','newDate', 'prof'))
+            ->setPaper('legal', 'landscape')
+            ->stream('Envíos.pdf');
+        } else {
+            return 'Cadena Vacia - No hay colegiados asociado es este año: '.$anio;
+        }
+
+
+    }
+
     public function reporteCursosCeduca(Request $request){
 
         $user = Auth::User();
