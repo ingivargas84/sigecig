@@ -298,6 +298,7 @@ class ResolucionPagoController extends Controller
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
             'id_estado_solicitud' => 7,
+            'fecha_ingreso_acta' => Now(),
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
@@ -553,13 +554,16 @@ class ResolucionPagoController extends Controller
         $profesion= SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
         $adm_usuario = AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
         $adm_persona = AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
-        $bitacora = BitacoraAp::where('no_solicitud',$id->id)->where('estado_solicitud','7')->first();
-        setlocale(LC_TIME, "spanish");
-        $fecha = strftime("%d de %B del %Y", strtotime($bitacora->fecha));
+        $fechaActa = Carbon::parse($id->fecha_ingreso_acta);
+        $mes=$fechaActa->format('m');
+        $año=$fechaActa->format('yy');
+        $dia=$fechaActa->format('d');
+        $mes = \App\SigecigMeses::where('id',$mes)->first();
+       
 
 
         // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        $pdf = \ PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','fecha'));
+        $pdf = \ PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','año','mes','dia'));
         return $pdf->stream('Resolución.pdf');
     }
 }
