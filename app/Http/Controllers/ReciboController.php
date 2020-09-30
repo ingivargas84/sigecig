@@ -59,10 +59,57 @@ class ReciboController extends Controller
         return view('admin.creacionRecibo.index', compact('pos', 'tipo', 'banco'));
     }
 
-    public function pdfRecibo(Recibo_Detalle $id)
+
+    public function pdfRecibo(Recibo_Maestro $id)
     {
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
-        $codigoQR = QrCode::format('png')->size(100)->generate('http://58995697bbcf.ngrok.io/constanciaRecibo/' . $id->numero_recibo); //link para colegiados version prueba
+        $codigoQR = QrCode::format('png')->size(100)->generate('http://5515924b49db.ngrok.io/constanciaRecibo/' . $id->numero_recibo); //link para colegiados version prueba
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
+        $letras = new NumeroALetras;
+        $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
+        $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
+        $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
+        FROM sigecig_recibo_detalle rd
+        INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
+        WHERE rd.numero_recibo = $id->numero_recibo";
+        $datos = DB::select($query1);
+
+        foreach ($datos as $key => $dato) {
+            if ($dato->categoria_id == 1) {
+                $dato->tipo_de_pago = $dato->tipo_de_pago.' No.';
+                $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id',$dato->id)->get();
+                $tamanioArrray =count($numeroTimbres) -1;
+                foreach ($numeroTimbres as $key => $numeroTimbre) {
+                    if ($dato->cantidad == 1) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial;
+                    }else{
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.' '.$numeroTimbre->numeracion_inicial.'-'.$numeroTimbre->numeracion_final;
+                    }
+                    if ($key < $tamanioArrray) {
+                        $dato->tipo_de_pago = $dato->tipo_de_pago.',';
+                    }
+                }
+            }
+        }
+
+        foreach ($datos as $key => $dato) {
+            if ($dato->codigo_compra == 'COL092') {
+                $meses = SigecigMeses::select('mes')->where('id',$dato->id_mes)->get();
+                foreach ($meses as $key => $meses) {
+                    $dato->tipo_de_pago = $dato->tipo_de_pago.' ('.$meses->mes.' '.$dato->año.')';
+                }
+            }
+        }
+
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
+        ->setPaper('legal', 'landscape')
+        ->stream('Recibo.pdf');
+    }
+
+    public function estadoCuetapdfRecibo(Recibo_Detalle $id)
+    {   $id = Recibo_Maestro::where('numero_recibo',$id->numero_recibo)->first();
+        // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $id->numero_recibo); //link para colegiados
+        $codigoQR = QrCode::format('png')->size(100)->generate('http://5515924b49db.ngrok.io/constanciaRecibo/' . $id->numero_recibo); //link para colegiados version prueba
         // $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaReciboGeneral/'.$id->numero_recibo); //link para Particulares y Empresa
         $letras = new NumeroALetras;
         $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
@@ -1311,7 +1358,7 @@ class ReciboController extends Controller
 
          }
 
-         $codigoQR = QrCode::format('png')->size(100)->generate('https://www2.cig.org.gt/constanciaRecibo/' . $recibo);
+         $codigoQR = QrCode::format('png')->size(100)->generate('http://5515924b49db.ngrok.io/constanciaRecibo/' . $recibo);
         //  $letras = NumeroALetras::convertir($reciboMaestro->monto_total, 'QUETZALES', 'CENTAVOS');
 
         $letra = new NumeroALetras;

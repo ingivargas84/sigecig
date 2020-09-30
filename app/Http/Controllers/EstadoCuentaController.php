@@ -116,9 +116,10 @@ class EstadoCuentaController extends Controller
 
     public function getDetalle($id){
 
-        $query = "SELECT U.id, S.categoria_id,U.estado_cuenta_maestro_id, U.cantidad, U.updated_at, S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id, S.id as id_tipo_pago, U.id_mes, U.año
+        $query = "SELECT  U.id, S.categoria_id,U.estado_cuenta_maestro_id, U.cantidad, U.updated_at, S.tipo_de_pago, FORMAT(U.abono, 2) as abono, FORMAT(U.cargo, 2 ) as cargo, FORMAT(S.precio_colegiado, 2) as precio_colegiado, U.recibo_id, S.id as id_tipo_pago, U.id_mes, U.año
         FROM sigecig_estado_de_cuenta_detalle U
         INNER JOIN sigecig_tipo_de_pago S ON U.tipo_pago_id=S.id
+        -- INNER JOIN sigecig_recibo_detalle RD ON RD.id=U.recibo_id
         WHERE U.estado_cuenta_maestro_id = $id
         ORDER BY U.id DESC";
 
