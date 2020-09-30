@@ -11,6 +11,7 @@ class PlataformaSolicitudAp extends Model
     protected $fillable = [
         'id',
         'fecha_solicitud',
+        'fecha_ingreso_acta',
         'n_colegiado',
         'id_estado_solicitud',
         'id_banco',

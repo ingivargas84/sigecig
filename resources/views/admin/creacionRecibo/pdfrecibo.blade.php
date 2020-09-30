@@ -166,6 +166,14 @@
                  <label for="" >NIT: {{$nit_->nit}}</label>
             </div>
         @endif
+        @if($id->tipo_de_cliente_id == 4)
+        <div class="">
+          <label for="" class=" ">COLEGIADO NO: {{$id->numero_de_identificacion}} </label>
+        </div>
+            <div class="">
+                 <label for="" >NIT: {{$nit_->nit}}</label>
+            </div>
+        @endif
         @if($id->tipo_de_cliente_id == 2)
             <div class="">
                 <label for="" class=" ">DPI: {{$id->numero_de_identificacion}} </label>
