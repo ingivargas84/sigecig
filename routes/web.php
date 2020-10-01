@@ -302,6 +302,7 @@ Route::group([
          Route::get('/estadocuenta/reportecolegiado/{codigo}', 'ReportesController@reporteColegiado');
          Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
          Route::get('/cursos/ceduca/', 'ReportesController@reporteCursosCeduca')->name('cursos.ceduca');
+         Route::get('/colegiados/anio/', 'ReportesController@reporteColegiadosPorAnio')->name('colegiados.anio');
          Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
          Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
          Route::get('/reportes/getCajas/', 'ReportesController@getCajas');

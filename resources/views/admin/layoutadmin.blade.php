@@ -159,6 +159,7 @@
     <section class="content">
       @include('admin.timbres.modal-reporte-timbres')
       @include('admin.reportes.modal-reporte-cursos-ceduca')
+      @include('admin.reportes.modal-colegiados-por-anio')
       @include('admin.reportes.modal-reporte-recibos-xyz')
       @include('admin.reportes.modal-reporte-envios')
 
@@ -231,6 +232,7 @@
 <script src="{{ asset('js/reportes/modal-ventas-xyz.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-reporte-envios.js') }}"></script>
 <script src="{{ asset('js/reportes/modal-reporte-cursos-ceduca.js') }}"></script>
+<script src="{{ asset('js/reportes/modal-reporte-colegiados-anio.js') }}"></script>
 <script src="{{ asset('js/bootstrap-select/bootstrap-select1.13.js') }}"></script>
 
 <script>
