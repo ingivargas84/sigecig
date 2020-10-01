@@ -81,6 +81,45 @@ class ReportesController extends Controller
 
     }
 
+    public function reporteColegiadosPorAnio(Request $request){
+        $user = Auth::User();
+        $newDate = now();
+        $anio = $request->anio;
+        $fechaInicial = '01/01/'.$request->anio;
+        $fechaFinal = '12/31/'.$request->anio;
+        $fechaInicial= \Carbon\Carbon::parse($fechaInicial)->format('Y-m-d H:i');
+        $fechaFinal= \Carbon\Carbon::parse($fechaFinal)->format('Y-m-d H:i');
+
+        $colegiados = \App\CC00::select('c_cliente','n_cliente','e_mail','f_creacion','f_ult_pago','f_ult_timbre','fecha_col')
+        ->whereBetween('fecha_col', [$fechaInicial, $fechaFinal])->orderBy('f_creacion','asc')->get();
+
+        if (sizeof($colegiados) > 0){
+            foreach ($colegiados as $key => $cole){
+                $query = "SELECT c.c_cliente colegiado, c.n_cliente nombre, CONVERT(VARCHAR(10),c.fecha_col,120) fechacolegiado,c.fax telefonotrabajo,
+                c.telefono,c.e_mail,CONVERT(VARCHAR(10),c.f_ult_pago,120) fechaultimopagocolegio, CONVERT(VARCHAR(10),c.f_ult_timbre,120) fechaultimopagotimbre,
+                CASE WHEN c.fallecido='S' THEN 'Fallecido' WHEN getdate() > c.topefechapagocuotas THEN 'Suspendido' WHEN (DATEDIFF(month, c.f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, c.f_ult_timbre, GETDATE()) <= 3) THEN 'Activo' ELSE 'Inactivo' END AS status,
+                c.monto_timbre montotimbre,convert(VARCHAR(max),c.titulo_tesis) titulotesis
+                FROM cc00 c
+                WHERE c_cliente = :colcol";
+                $parametros = array(':colcol' => $cole->c_cliente);
+                $users = DB::connection('sqlsrv')->select($query, $parametros);
+
+                $profesion = \App\CC00prof::select('c_cliente','n_profesion')->where('c_cliente', $cole->c_cliente)->get();
+
+                $prof[]=$profesion;
+                $arrayDetalles[]=$users;
+            }
+            // set_time_limit(3000);
+            return \PDF::loadView('admin.reportes.pdf-colegiados-por-anio',compact('arrayDetalles','anio','user','newDate', 'prof'))
+            ->setPaper('legal', 'landscape')
+            ->stream('Envíos.pdf');
+        } else {
+            return 'Cadena Vacia - No hay colegiados asociado es este año: '.$anio;
+        }
+
+
+    }
+
     public function reporteCursosCeduca(Request $request){
 
         $user = Auth::User();
@@ -153,4 +192,158 @@ class ReportesController extends Controller
         $cursos = \App\SQLSRV_Producto::where('categoria_id',2)->where('estado_id',0)->get();
         return Response::json($cursos);
     }
+    public function reporteColegiado($codigo){
+        $user = Auth::User();
+        $colegiado = \App\SQLSRV_Colegiado::select('n_cliente','c_cliente','e_mail','registro','telefono','f_ult_pago','f_ult_timbre','estado','monto_timbre')->where('c_cliente',$codigo)->first();
+        $fecha_actual=Carbon::Now()->endOfMonth();
+        $fecha_timbre = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth();
+        $diffTimbre = $fecha_timbre->diffInMonths($fecha_actual,false);
+        $fecha_colegio = Carbon::parse($colegiado->f_ult_pago)->startOfMonth();
+        $diffColegio = $fecha_colegio->diffInMonths($fecha_actual,false);
+        if($diffColegio > 3 || $diffTimbre > 3){
+            $colegiado->estado = "INACTIVO";
+        }else{
+            $colegiado->estado = "ACTIVO";
+        }
+        if($diffColegio != 0){
+            $totalColegiatura= 0;
+
+            $arrayColegiatura= array();
+            $mesesColegio = $diffColegio;
+            if($mesesColegio < 0){
+                $mesesColegio  = abs($mesesColegio);
+                $fechaActual = Carbon::Now()->startOfMonth();
+                for ($i=0; $i <= $mesesColegio ; $i++) { 
+                    $fechaActual->addMonth(1);
+                    $mes = $fechaActual->format('m');
+                    $año = $fechaActual->format('Y');
+                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
+                    $colegiatura = \App\TipoDePago::where('id','11')->first();
+                    $colegiatura->tipo_de_pago =  $colegiatura->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
+                    $arrayColegiatura[]=$colegiatura;
+                    $totalColegiatura += $colegiatura->precio_colegiado;
+                }
+            }else{
+                $fechaActual = $fecha_colegio;
+                for ($i=0; $i < $mesesColegio ; $i++) { 
+                    $fechaActual->addMonth(1);
+                    $mes = $fechaActual->format('m');
+                    $año = $fechaActual->format('Y');
+                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
+                    $colegiatura = \App\TipoDePago::where('id','11')->first();
+                    $colegiatura->tipo_de_pago =  $colegiatura->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
+                    $arrayColegiatura[]=$colegiatura;
+                    $totalColegiatura += $colegiatura->precio_colegiado;
+                } 
+            }
+
+            $cuotaColegiado = $mesesColegio * $colegiatura->precio_colegiado;
+        }
+        if($diffTimbre != 0){
+            $totalTimbre= 0;
+            $arrayTimbre= array();
+
+            $mesesTimbre = $diffTimbre;
+
+            if($mesesTimbre < 0){
+                $mesesTimbre  = abs($mesesTimbre);
+                $fechaActual = Carbon::Now()->startOfMonth();
+                for ($i=0; $i <= $mesesTimbre ; $i++) { 
+                    $fechaActual->addMonth(1);
+                    $mes = $fechaActual->format('m');
+                    $año = $fechaActual->format('Y');
+                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
+                    $timbre = \App\TipoDePago::where('id','62')->first();
+                    $timbre->precio_colegiado = $colegiado->monto_timbre;
+                    $timbre->tipo_de_pago =  $timbre->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
+                    $arrayTimbre[]=$timbre;
+                    $totalTimbre += $colegiado->monto_timbre;
+                }
+            }else{
+                $fechaActual = $fecha_timbre;
+                for ($i=0; $i < $mesesTimbre ; $i++) { 
+                    $fechaActual->addMonth(1);
+                    $mes = $fechaActual->format('m');
+                    $año = $fechaActual->format('Y');
+                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
+                    $timbre = \App\TipoDePago::where('id','62')->first();
+                    $timbre->precio_colegiado = $colegiado->monto_timbre;
+                    $timbre->tipo_de_pago =  $timbre->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
+                    $arrayTimbre[]=$timbre;
+                    $totalTimbre += $colegiado->monto_timbre;
+
+                } 
+            }
+  
+        }
+       
+        $maestros = \App\Recibo_Maestro::select('numero_recibo')->where('numero_de_identificacion',$codigo)->get();
+        $arrayDetallesSigecig = array();
+        foreach ($maestros as $key => $detalle) {
+            $facturaSigecig = \App\Recibo_Maestro::select('sigecig_recibo_maestro.numero_recibo', 'sigecig_recibo_maestro.serie_recibo_id', 'sigecig_recibo_maestro.monto_efecectivo', 'sigecig_recibo_maestro.monto_tarjeta'
+            , 'sigecig_recibo_maestro.monto_cheque', 'sigecig_recibo_maestro.monto_deposito', 'sigecig_recibo_maestro.monto_total', 'sigecig_recibo_detalle.cantidad', 'sigecig_recibo_detalle.precio_unitario'
+            , 'sigecig_tipo_de_pago.codigo', 'sigecig_tipo_de_pago.tipo_de_pago', 'sigecig_tipo_de_pago.categoria_id','sigecig_recibo_detalle.id_mes','sigecig_recibo_detalle.año','sigecig_recibo_detalle.id'
+            , 'sigecig_cajas.nombre_caja', 'sigecig_bodega.nombre_bodega', 'sigecig_subsedes.nombre_sede', 'sigecig_recibo_maestro.created_at', 'sigecig_users.name', 'sigecig_serie_recibo.serie_recibo'
+            ,'sigecig_recibo_detalle.total')
+            ->join('sigecig_recibo_detalle', 'sigecig_recibo_maestro.numero_recibo', '=', 'sigecig_recibo_detalle.numero_recibo')
+            ->join('sigecig_tipo_de_pago', 'sigecig_recibo_detalle.codigo_compra', '=', 'sigecig_tipo_de_pago.codigo')
+            ->join('sigecig_cajas', 'sigecig_recibo_maestro.usuario', '=', 'sigecig_cajas.cajero')
+            ->join('sigecig_bodega', 'sigecig_cajas.bodega', '=', 'sigecig_bodega.id')
+            ->join('sigecig_subsedes', 'sigecig_cajas.subsede', '=', 'sigecig_subsedes.id')
+            ->join('sigecig_users', 'sigecig_cajas.cajero', '=', 'sigecig_users.id')
+            ->join('sigecig_serie_recibo', 'sigecig_recibo_maestro.serie_recibo_id', '=', 'sigecig_serie_recibo.id')
+            ->where('sigecig_recibo_maestro.numero_recibo',$detalle->numero_recibo)
+            ->get();
+       
+            foreach ($facturaSigecig as $key => $dato) {
+                if($dato->codigo == 'COL092'){
+                    $mes = \App\SigecigMeses::where('id',$dato->id_mes)->first();
+                    $dato->tipo_de_pago =  $dato->tipo_de_pago.' ('.$mes->mes.' del '.$dato->año.')';
+                }
+                if($dato->categoria_id == 1){
+                    $numeroTimbres = \App\VentaDeTimbres::where('recibo_detalle_id', $dato->id)->get()->first();
+                    if(!empty($numeroTimbres)){
+                     $dato->tipo_de_pago = $dato->tipo_de_pago . ' No.';
+                       if ($dato->cantidad == 1) {
+                       $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbres->numeracion_inicial;
+                       } else {
+                       $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbres->numeracion_inicial . '-' . $numeroTimbres->numeracion_final;
+                       }
+                 
+                    }
+                }
+            }
+            $arrayDetallesSigecig[]=$facturaSigecig;
+        }
+       
+ 
+        
+
+
+        $facturas = \App\SQLSRV_Fac01::select('control')->where('c_cliente',$codigo)->where('anulado','N')->get();
+        $arrayDetalles = array();
+        $total = $facturas->sum('total_fac');
+        foreach ($facturas as $key => $factura) {
+            $detalle = \App\SQLSRV_Fac01::select('fac01.control', 'fac02.codigo','inv02.n_bodega','vdor.n_vendedor','fac01.c_cliente'
+            ,'fac01.n_cliente','fac02.descripcion','fac01.serie_f','fac01.num_fac','fac01.efectivo','fac01.cheque','fac01.tarjeta','fac02.importe'
+            ,'fac02.precio_u','fac02.cantidad','fac01.fecha1','fac01.total_fac')
+            ->join('fac02', 'fac01.control', '=', 'fac02.control')
+            ->join('inv02', 'fac01.c_bodega', '=', 'inv02.c_bodega')
+            ->join('vdor', 'fac01.c_vendedor', '=', 'vdor.c_vendedor')
+            ->where('fac01.control',$factura->control)
+            ->orderBy('fac01.control','asc')
+            ->get();
+            
+            $arrayDetalles[]=$detalle;
+        }
+       
+        return \PDF::loadView('admin.estadoCuenta.pdf-reporte-colegiado',compact('user','colegiado','diffTimbre','diffColegio','arrayDetalles','arrayDetallesSigecig','arrayTimbre','arrayColegiatura','totalTimbre','totalColegiatura'))
+        ->setPaper('legal', 'landscape')
+        ->stream($codigo.'.pdf');
+
+
+
+
+    }
+    
 }
