@@ -335,9 +335,6 @@ class ReportesController extends Controller
             ->get();
             
             $arrayDetalles[]=$detalle;
-            if($key > 2 ){
-            break;
-            }
         }
        
         return \PDF::loadView('admin.estadoCuenta.pdf-reporte-colegiado',compact('user','colegiado','diffTimbre','diffColegio','arrayDetalles','arrayDetallesSigecig','arrayTimbre','arrayColegiatura','totalTimbre','totalColegiatura'))
