@@ -11,7 +11,7 @@
                 <form action="{{route('colegiados.anio')}}" method="GET" role="form" id="form-colegiados-por-anio" name="form-timbres" target="_blank">
                     <div class="form-group col-md-12">
                         <label for="tipoDePago"> Escriba el Año: </label>
-                        <input type="number" class="form-control" id="anio" name="anio" min="1000">
+                        <input type="number" class="form-control" id="anio" name="anio">
                     </div>
                     <br>
                     <div class="form-group" style="text-align: center; font-weight: bold; margin-top: 10px">
