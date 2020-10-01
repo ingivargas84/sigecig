@@ -17,6 +17,7 @@ $(document).on('change', '#colegiado', function(event) {
                 $("input[name=registro]").val(response[0][0].registro);
                 $("input[name=telefono]").val(response[0][0].telefono); 
                 $("input[name=n_profesion]").val(response[0][0].n_profesion);
+                $("input[name=emailColegiado]").val(response[0][0].e_mail);
                 $('#miForumulario').show();
                 if (response[1]==0) {
                     $('#crearUsuario').show();
@@ -40,10 +41,12 @@ $('#enviar').click(function (e) {
         var tipo_cuenta = $("select[name=id_tipo_cuenta]").val();
         var no_cuenta = $("input[name=no_cuenta]").val();
         var telefono = $("input[name=telefono]").val();
+        var correo =  $("input[name=emailColegiado]").val();
+        var registro =  $("input[name=registro]").val();
         $.ajax({
             type: "POST",
             url: "/auxilioPostumo/save",
-            data: {no_colegiado:no_colegiado, banco:banco, tipo_cuenta:tipo_cuenta, no_cuenta:no_cuenta, telefono:telefono},
+            data: {no_colegiado:no_colegiado, banco:banco, tipo_cuenta:tipo_cuenta, no_cuenta:no_cuenta, telefono:telefono, correo:correo, registro:registro},
             beforeSend:function () {
                 $('.loader').show();
               },
@@ -76,6 +79,13 @@ $('#enviar').click(function (e) {
 
 $( document ).ready(function() {
 
+    jQuery.validator.addMethod("customemail", 
+    function(value, element) {
+        return /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);
+    }, 
+    "Formato de correo incorrecto"
+);
+
 
     var validator = $("#miForumulario").validate({
         ignore: [],
@@ -97,11 +107,21 @@ $( document ).ready(function() {
                 required: true,
                 number:true,
             },
+            registro:{
+                required: true,
+                number:true,
+                minlength: 13,
+                maxlength: 13
+            },
+            emailColegiado:{
+                required:true,
+                customemail:true,
+            }
         },
         messages: {
             telefono: {
-                required: "Ingrese no. Telefono",
-                number: "No. de Telefono invalido",
+                required: "Ingrese no. Teléfono",
+                number: "No. de Teléfono debe ser numérico, eliminar espacios o guiones",
                 minlength: "Formato XXXXXXXX 8 digitos",
                 maxlength: "Formato XXXXXXXX 8 digitos"
             },
@@ -115,14 +135,20 @@ $( document ).ready(function() {
                 required: "Ingrese No. de cuenta bancaria",
                 number: "No. Cuenta invalido"
             },
+            registro:{
+                required: "El DPI es requerido",
+                number: "No. de DPI debe ser numérico, eliminar espacios o guiones",
+                minlength: "Formato 13 dígitos sin guión",
+                maxlength: "Formato 13 dígitos sin guión"
+            },
+            emailColegiado:{
+                required: "El correo electrónico es requerido"
+            }
         },
     
     });
     
-    $("#enviar").click(function(event) {
 
-    });
-    
     
     });
     

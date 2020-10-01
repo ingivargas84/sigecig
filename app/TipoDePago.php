@@ -14,6 +14,7 @@ class TipoDePago extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable=[
+        'id',
         'codigo',
         'tipo_de_pago',
         'precio_colegiado',

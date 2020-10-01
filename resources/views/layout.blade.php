@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- <title>{{config('app.name')}}</title> -->
+  <link rel="shortcut icon" sizes="114x114" href="/images/logo.png">
   <title>SIGECIG</title>
 
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -12,7 +13,7 @@
   <script src="{{asset('js/app.js') }}"></script>
 
   <script src="{{asset('js/jquery.validate.js') }}"></script>
-   
+
     <link rel="stylesheet" href="{{asset('css/app.css') }}">
 
     <link rel="stylesheet" href="{{asset('css/style.css') }}">
@@ -25,7 +26,7 @@
 
     @stack('styles')
 </head>
- 
+
 <body>
 
 @yield('contenido')
@@ -59,7 +60,7 @@ alertify.defaults = {
 
     // notifier defaults
     notifier:{
-        // auto-dismiss wait time (in seconds)  
+        // auto-dismiss wait time (in seconds)
         delay:5,
         // default position
         position:'bottom-right',
@@ -67,14 +68,14 @@ alertify.defaults = {
         closeButton: false
     },
 
-    // language resources 
+    // language resources
     glossary:{
         // dialogs default title
         title:'Aviso!',
         // ok button text
         ok: 'OK',
         // cancel button text
-        cancel: 'Cancel'            
+        cancel: 'Cancel'
     },
 
     // theme settings
@@ -83,7 +84,7 @@ alertify.defaults = {
         input:'ajs-input',
         // class name attached to ok button
         ok:'ajs-ok',
-        // class name attached to cancel button 
+        // class name attached to cancel button
         cancel:'ajs-cancel'
     }
 };

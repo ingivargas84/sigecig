@@ -16,6 +16,7 @@ class CreateSigecigSolicitudesApTable extends Migration
         Schema::create('sigecig_solicitudes_ap', function (Blueprint $table) {
             $table->Increments('id');
             $table->DateTime('fecha_solicitud');
+            $table->DateTime('fecha_ingreso_acta')->nullable();
             $table->Integer('n_colegiado');
             $table->Integer('id_estado_solicitud');
             $table->integer('id_banco');
@@ -27,6 +28,7 @@ class CreateSigecigSolicitudesApTable extends Migration
             $table->DateTime('fecha_pago_ap')->nullable();
             $table->string('pdf_dpi_ap', 255)->nullable();
             $table->string('pdf_solicitud_ap', 100)->nullable();
+            $table->string('pdf_resolucion_ap', 100)->nullable();
             $table->string('solicitud_rechazo_ap', 500)->nullable();
             $table->string('solicitud_rechazo_junta', 500)->nullable();
             $table->Integer('id_creacion')->nullable();

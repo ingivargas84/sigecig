@@ -19,6 +19,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL02',
@@ -27,6 +28,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL03',
@@ -35,6 +38,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL04',
@@ -43,6 +48,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL05',
@@ -51,6 +58,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL06',
@@ -59,6 +67,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL07',
@@ -67,6 +77,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL08',
@@ -75,6 +87,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL09',
@@ -82,7 +95,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'75.75',
             'precio_particular'=>'0',
             'categoria_id'=>'3',
-            'estado'=>'0',
+            'estado'=>'1',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL091',
@@ -91,6 +105,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL092',
@@ -99,6 +114,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'115.75',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>true,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE01',
@@ -107,6 +124,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'1100',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE03',
@@ -115,6 +133,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'100',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE05',
@@ -123,6 +142,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'500',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE06',
@@ -131,6 +151,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'1000',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE08',
@@ -139,6 +160,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE10',
@@ -147,6 +169,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE13',
@@ -155,6 +178,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE14',
@@ -163,6 +187,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'750',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLEGIT',
@@ -171,6 +196,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'1',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLEGIT2',
@@ -179,6 +205,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'315',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM1',
@@ -187,6 +214,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM10',
@@ -195,6 +223,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM100',
@@ -203,6 +232,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM20',
@@ -211,6 +241,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM200',
@@ -219,22 +250,27 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM5',
-            'tipo_de_pago'=>'TIMBRE DE INGENIERIA 5 QUETZAL',
+            'tipo_de_pago'=>'TIMBRE DE INGENIERIA DE 5 QUETZAL',
             'precio_colegiado'=>'5',
             'precio_particular'=>'0',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM50',
-            'tipo_de_pago'=>'TIMBRE DEINGENIERIA DE 50 QUETZALES',
+            'tipo_de_pago'=>'TIMBRE DE INGENIERIA DE 50 QUETZALES',
             'precio_colegiado'=>'50',
             'precio_particular'=>'50',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM500',
@@ -243,6 +279,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'50',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC01',
@@ -251,6 +288,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'1',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC05',
@@ -259,6 +298,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'5',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC10',
@@ -267,6 +308,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'10',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC100',
@@ -275,6 +318,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'100',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC20',
@@ -283,6 +328,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'20',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC200',
@@ -291,6 +338,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'200',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC50',
@@ -299,6 +348,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'50',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TC500',
@@ -307,6 +358,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'500',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE01',
@@ -315,6 +368,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'1',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE05',
@@ -323,6 +377,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'5',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE10',
@@ -331,6 +386,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'10',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE20',
@@ -339,6 +395,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'20',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE50',
@@ -347,6 +404,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'50',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE100',
@@ -355,6 +413,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'100',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE200',
@@ -363,6 +422,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'200',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TE500',
@@ -371,6 +431,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'500',
             'categoria_id'=>'1',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'CARNET',
@@ -379,6 +440,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'INTT',
@@ -387,6 +449,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'6',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'MORT',
@@ -395,6 +459,8 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'7',
             'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'ALQ01',
@@ -403,6 +469,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'5500',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'ALQ02',
@@ -411,6 +478,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'3500',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE12',
@@ -419,6 +487,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'750',
             'categoria_id'=>'3',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'CONVCOL',
@@ -427,6 +496,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'DONA',
@@ -435,6 +505,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'RECH2',
@@ -443,6 +514,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'8',
             'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE02E',
@@ -451,6 +523,7 @@ class TipoDePagoSeeder extends Seeder
             'precio_particular'=>'0',
             'categoria_id'=>'4',
             'estado'=>'0',
+            'display_plataforma'=>true,
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'REACT-TIMBRE',
@@ -458,7 +531,9 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
             'categoria_id'=>'1',
-            'estado'=>'0'
+            'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'REACT-COLEGIADO',
@@ -466,7 +541,9 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
             'categoria_id'=>'3',
-            'estado'=>'0'
+            'estado'=>'0',
+            'display_plataforma'=>false,
+            'tipo'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'TIM-CUOTA',
@@ -474,8 +551,44 @@ class TipoDePagoSeeder extends Seeder
             'precio_colegiado'=>'0',
             'precio_particular'=>'0',
             'categoria_id'=>'1',
-            'estado'=>'0'
+            'estado'=>'0',
+            'display_plataforma'=>false,
         ]);
-
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'VAR1',
+            'tipo_de_pago'=>'Envío en capital y mpios de Guatemala(Guatex)24hrs',
+            'precio_colegiado'=>'20',
+            'precio_particular'=>'20',
+            'categoria_id'=>'0',
+            'estado'=>'0',
+            'display_plataforma'=>true,
+        ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'VAR2',
+            'tipo_de_pago'=>'Envío a deptos del país(Guatex) 5 días hábiles',
+            'precio_colegiado'=>'30',
+            'precio_particular'=>'30',
+            'categoria_id'=>'0',
+            'estado'=>'0',
+            'display_plataforma'=>true,
+        ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'SALDOINICIAL',
+            'tipo_de_pago'=>'saldo inicial',
+            'precio_colegiado'=>'0',
+            'precio_particular'=>'0',
+            'categoria_id'=>'9',
+            'estado'=>'2',
+            'display_plataforma'=>false,
+        ]);
+        DB::table('sigecig_tipo_de_pago')->insert([
+            'codigo'=>'timbre-mensual',
+            'tipo_de_pago'=>'pago de mensualidades de cuota de timbre',
+            'precio_colegiado'=>'0',
+            'precio_particular'=>'0',
+            'categoria_id'=>'1',
+            'estado'=>'0',
+            'display_plataforma'=>false,
+        ]);
     }
 }

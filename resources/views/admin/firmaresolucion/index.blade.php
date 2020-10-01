@@ -18,9 +18,14 @@
 @include('admin.firmaresolucion.aprobacion')
 
   <div class="box-header">
-      <a class="btn btn-confirm pull-right" target="_blank" href="auxiliopostumo/solicitudes_pendientes">
-        Solicitudes por aprobar <i class="fa fa-check"></i>  </a>
-      <a class="btn btn-confirm pull-right"  href="auxiliopostumo/crea_solicitud" style="margin-right: 5px;">Crear solicitud Auxilio Póstumo  <i class="fa fa-plus"></i>  </a>
+
+        @if ($user->roles[0]->name=='Administrador' || $user->roles[0]->name=='Super-Administrador' || $user->roles[0]->name=='Timbre' || $user->roles[0]->name=='JefeTimbres')
+        <a class="btn btn-confirm pull-right" target="_blank" href="auxiliopostumo/solicitudes_pendientes">
+          Solicitudes por aprobar <i class="fa fa-check"></i>  </a>
+        <a class="btn btn-confirm pull-right"  href="auxiliopostumo/crea_solicitud" style="margin-right: 5px;">Crear solicitud Auxilio Póstumo  <i class="fa fa-plus"></i>  </a>
+  
+        @endif
+
   </div>
   <!-- /.box-header -->
   <div class="box-body">

@@ -170,13 +170,8 @@ class SubsedesController extends Controller
     }
 
 
-    public function nombreDisponibleEdit(){
-
-        $dato = Input::get("nombre_sede");
-        $id = Input::get("num");
-
-        $query = Subsedes::where("nombre_sede",$dato)->where("estado", 1)->where("id","!=",$id)->get();
-
+    public function nombreDisponibleEdit(Request $request){
+        $query = Subsedes::where("nombre_sede",$request->name)->where("estado", 1)->where("id","!=",$request->id)->get();
         $contador = count($query);
         if ($contador == 0 )
         {
@@ -188,12 +183,8 @@ class SubsedesController extends Controller
         }
     }
 
-
-
-
     public function getJson(Request $params)
      {
-         //$api_Result['data'] = Subsedes::where('estado','=',1)->get();
          $api_Result['data'] = Subsedes::all();
          return Response::json( $api_Result );
      }

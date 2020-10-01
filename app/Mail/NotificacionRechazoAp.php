@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotificacionRechazoAp extends Mailable
+class NotificacionRechazoAp extends Mailable 
 {
     use Queueable, SerializesModels;
 

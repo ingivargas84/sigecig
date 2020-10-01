@@ -4,10 +4,10 @@
   <li class="header">Navegación
   </li>
   <!-- Optionally, you can add icons to the links -->
-  <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> <span>Inicio</span></a>
+  <li class="{{request()->is('admin')? 'active': ''}}" ><a href="{{route('dashboard')}}"><i class="fa fa-tachometer"></i> <span>Inicio</span></a>
   </li>
 
-  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Compras|JefeRRHH")
+  @role("Super-Administrador|Administrador|Gerencia|JuntaDirectiva|JefeContabilidad|Contabilidad|Compras|JefeRRHH")
   <li class="treeview {{request()->is('colaboradores*')? 'active': ''}}">
     <a href="#"><i class="fa fa-book"></i> <span>Catálogos Generales</span>
         <span class="pull-right-container">
@@ -40,9 +40,15 @@
       </li>
       @endrole
 
-      @role("Administrador")
+      @role("Administrador|Super-Administrador")
       <li class="{{request()->is('cajas')? 'active': ''}}"><a href="{{route('cajas.index')}}">
         <i class="fa fa-eye"></i>Cajas</a>
+      </li>
+      @endrole
+
+      @role("Administrador|JefeContabilidad|Contabilidad|Super-Administrador")
+      <li class="{{request()->is('bodegas')? 'active': ''}}"><a href="{{route('bodegas.index')}}">
+        <i class="fa fa-eye"></i>Bodegas</a>
       </li>
       @endrole
 
@@ -111,6 +117,12 @@
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
               <i class="fa fa-eye"></i>Listado de Solicitudes Firmadas</a>
             </li>
+            <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('remesa.index')}}">
+              <i class="fa fa-eye"></i>Ingreso de Timbres</a>
+            </li>
+            <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
+                <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
+            </li>
           </ul>
         @endrole
 
@@ -130,7 +142,7 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          
+
           @role("Super-Administrador|JefeTimbres|Timbre")
           <ul class="treeview-menu">
             <li class="{{request()->is('timbreingenieria')? 'active': ''}}"><a href="{{route('resolucion.index')}}">
@@ -139,14 +151,14 @@
           </ul>
           @endrole
 
-         
+
 
         </li>
         @endrole
 
-        @role('Super-Administrador|JefeInformatica|SoporteInformatica')
+        @role('Super-Administrador|JefeInformatica|SoporteInformatica|Administrador')
         <li class="treeview {{request()->is('users*')? 'active': ''}}">
-          <a href="#"><i class="fa fa-users"></i> <span>Gestion Usuarios</span>
+          <a href="#"><i class="fa fa-users"></i> <span>Gestión Usuarios</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -179,8 +191,59 @@
         </li>
         @endrole
 
+        <li class="{{request()->is('colegiados')? 'active': ''}}" ><a href="{{route('colegiados.index')}}">
+          <i class="fa fa-check"></i> <span>Colegiados</span></a>
+        </li>
 
+        @role('Super-Administrador|Administrador|NuevosColegiados')
+        <li class="{{request()->is('aspirantes')? 'active': ''}}" ><a href="{{route('aspirantes.index')}}">
+          <i class="fa fa-user"></i> <span>Aspirantes</span></a>
+        </li>
+        @endrole
 
+        <li class="{{request()->is('historial')? 'active': ''}}" ><a href="{{route('cortecaja.historial')}}">
+          <i class="fa fa-history"></i> <span>Historial</span></a>
+        </li>
+
+        @role('Super-Administrador|Administrador|Contabilidad')
+              <li class="{{request()->routeIs('estadocuenta.index')? 'active': ''}}"><a href="{{route('estadocuenta.index')}}">
+                <i class="fa fa-credit-card"></i>Estados de Cuenta</a>
+              </li>
+        @endrole
+
+        @role('Super-Administrador|Administrador|Contabilidad|JefeContabilidad')
+        <li class="treeview {{request()->is('reportes')? 'active': ''}}">
+            <a href="#"><i class="fa fa-list"></i> <span>Reportes</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+
+            <ul class="treeview-menu">
+              <li class="">
+                <a href="" id='modal-reporte-timbres' data-toggle="modal" data-target="#modalReporteTimbres"><i class="fa fa-book"></i>Venta de Timbres</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-envios' data-toggle="modal" data-target="#modalReporteEnvios"><i class="fa fa-book"></i>Reporte Envíos</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-cursos-ceduca' data-toggle="modal" data-target="#modalReporteCursosCeduca"><i class="fa fa-book"></i>Reporte cursos CEDUCA</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-colegiados-anio' data-toggle="modal" data-target="#modalReporteColegiadosPorAnio"><i class="fa fa-book"></i>Reporte Colegiados por Año</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>
+              </li>
+            </ul>
+            <ul class="treeview-menu">
+              <li class="">
+                <a href="" id='modal-reporte-por-rango' data-toggle="modal" data-target="#modalReportePorRango"><i class="fa fa-book"></i>Rango por colegiado</a>
+              </li>
+            </ul>
+        </li>
+        @endrole
 </ul>
+
 
 <!-- /.sidebar-menu -->

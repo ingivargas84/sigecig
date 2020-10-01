@@ -1,5 +1,37 @@
 
+$(document).ready(function(){
+    busquedaMunicipio();
+});
 
+$(document).ready(function(){
+    $("#departamentoDPI").change(function() {
+        busquedaMunicipio();
+    });
+});
+
+function busquedaMunicipio()
+{
+    var valor = $("#departamentoDPI").val();
+        if (valor != "") {
+            $.ajax({
+                type: 'GET',
+                url: '/iddepartamento/' + valor,
+                dataType: "json",
+                success: function(data){
+                    $("#municipioDPI").empty();
+                    $("#municipioDPI").selectpicker('refresh');
+
+                    for (const valor in data)
+                    {
+                        $("#municipioDPI").selectpicker('refresh').append('<option value="'+data[valor]["idmunicipio"]+'">'+data[valor]["nombre"]+'</option>').selectpicker('refresh').trigger('change');
+                    }
+                }
+            });
+        } else {
+            $("#municipioDPI").empty();
+            $("#municipioDPI").selectpicker("refresh");
+        }
+}
 
 $.validator.addMethod("ntelc", function (value, element ){
     var valor = value.length;
@@ -149,6 +181,12 @@ var validator = $("#ColaboradorForm").validate({
 		telefono:{
             required: true,
             ntelc : true
+        },
+		departamentoDPI:{
+            required: true
+        },
+		municipioDPI:{
+            required: true
         }
 	},
 	messages: {
@@ -169,6 +207,12 @@ var validator = $("#ColaboradorForm").validate({
 		},
 		telefono: {
 			required: "Por favor, ingrese el telefono"
+        },
+		departamentoDPI:{
+            required: "Por favor, ingrese el departamento"
+        },
+		municipioDPI:{
+            required: "Por favor, ingrese el municipio"
         }
 	}
 });

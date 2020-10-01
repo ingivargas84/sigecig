@@ -11,7 +11,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
 }, "Debe ingresar el número de teléfono con 8 dígitos");// validacion de telefono
 
 
-    function cuiIsValid(cui1){
+    function cuiIsValid(cui){
         var console = window.console;
         if (!cui) {
             console.log("CUI vacío");
@@ -106,7 +106,7 @@ $.validator.addMethod("ntelc1", function (value, element ){
         $.ajax({
             type: "GET",
             async: false,
-            url: "/colaborador/dpiDisponible/",
+            url: "/colaborador/dpiDisponibleEdit/",
             data:"dpi=" + value,
             dataType: "json",
             success: function (msg) {
@@ -116,11 +116,57 @@ $.validator.addMethod("ntelc1", function (value, element ){
         return valid;
         }, "El CUI/DPI ya esta registrado en el sistema");
 
+        $(document).ready(function(){
+            var valor = $("#id").val();
+            $.ajax({
+                type: 'GET',
+                url: '/iddepartamentoEdit/' + valor,
+                dataType: "json",
+                success: function(data){
+                    $('select[name=departamentoDPI]').val(data[0].iddepartamento);
+                    $("#departamentoDPI").selectpicker('refresh');
 
+                    municipio(data[1].idmunicipio);
+                }
+            });
+        });
 
-    var validator = $("#ColaboradorForm").validate({
+        $(document).ready(function(){
+            $("#departamentoDPI").change(function() {
+                municipio();
+            });
+        });
+
+        function municipio(municipio)
+        {
+            var valor = $("#departamentoDPI").val();
+            if (valor != "") {
+                $.ajax({
+                    type: 'GET',
+                    url: '/iddepartamento/' + valor,
+                    dataType: "json",
+                    success: function(data){
+                        $("#municipioDPI").empty();
+                        $("#municipioDPI").selectpicker('refresh');
+
+                        for (const valor in data)
+                        {
+                            $("#municipioDPI").selectpicker('refresh').append('<option value="'+data[valor]["idmunicipio"]+'">'+data[valor]["nombre"]+'</option>').selectpicker('refresh').trigger('change');
+                        }
+                        $('select[name=municipioDPI]').val(municipio);
+                        $("#municipioDPI").selectpicker('refresh');
+                    }
+                });
+            } else {
+                $("#municipioDPI").empty();
+                $("#municipioDPI").selectpicker("refresh");
+            }
+        }
+
+    var validator = $("#ColaboradorUpdateForm1").validate({
         ignore: [],
         onkeyup:false,
+
         rules: {
             nombre:{
                 required: true,
@@ -134,22 +180,29 @@ $.validator.addMethod("ntelc1", function (value, element ){
                 numero : true
             },
             dpi: {
-                    required : true,
-                    dpi : true,
-                    dpiunico : true
+                required : true,
+                dpi : true,
+                dpiunico : true
 
             },
             departamento: {
                 required: true
             },
-            subsedes: {
+            subsede: {
                 required: true
             },
             telefono:{
                 required: true,
-                ntelc : true
+                ntelc1: true
 
             },
+            departamentoDPI:{
+                required: true,
+
+            },
+            municipioDPI:{
+                required: true
+            }
         },
         messages: {
             nombre: {
@@ -164,19 +217,28 @@ $.validator.addMethod("ntelc1", function (value, element ){
             departamento: {
                 required: "Por favor, seleccione un departamento"
             },
-            subsedes: {
+            subsede: {
                 required: "Por favor, seleccione una subsede"
             },
             telefono: {
                 required: "Por favor, ingrese el telefono"
+            },
+            departamentoDPI:{
+                required: "Por favor, ingrese el departamento"
+            },
+            municipioDPI:{
+                required: "Por favor, ingrese el municipio"
             }
         }
     });
 
-$("#ButtonColaboradorUpdate").click(function(event) {
-	if ($('#ColaboradorUpdateForm').valid()) {
+$("#ButtonColaboradorUpdate1").click(function(event) {
+
+	if ($('#ColaboradorUpdateForm1').valid()) {
 		$('.loader').addClass("is-active");
 	} else {
 		validator.focusInvalid();
 	}
 });
+
+

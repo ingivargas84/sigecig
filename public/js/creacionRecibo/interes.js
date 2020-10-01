@@ -18,7 +18,7 @@ function obtenerDatosColegiado()
         if(response[0] != ""){
             var D = new Date(response[0].f_ult_timbre);
             var d = D.getDate();
-            var m = D.getMonth();
+            var m = D.getMonth()+1;
             var y = D.getFullYear();
             if(d<10){d='0'+d;}
             if(m<10){m='0'+m;}
@@ -27,12 +27,12 @@ function obtenerDatosColegiado()
 
             var D = new Date(response[0].f_ult_pago);
             var d = D.getDate();
-            var m = D.getMonth();
+            var m = D.getMonth()+1;
             var y = D.getFullYear();
             if(d<10){d='0'+d;}
             if(m<10){m='0'+m;}
             response[0].f_ult_pago = d + '/' + m + '/' + y;
-             document.getElementById('f_ult_pago').value=y+"-"+m+"-"+d;
+             document.getElementById('f_ult_pago').value=y+"/"+m+"/"+d;
 
 
             if (response[0].fallecido == 'N'){
@@ -46,7 +46,7 @@ function obtenerDatosColegiado()
             $("input[name='estado']").val(response[0].estado);
             $("input[name='f_ult_timbre']").val(response[0].f_ult_timbre);
             //$("input[name='f_ult_pago']").val(response[0].f_ult_pago);
-            $("input[name='monto_timbre']").val(monto_timbre.toFixed(2));
+            $("input[name='monto_timbre']").val('Q.'+monto_timbre.toFixed(2));
 
             var date = new Date();
             var ultdia = new Date(date.getFullYear(), date.getMonth() + 1, 0);

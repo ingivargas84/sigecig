@@ -12,6 +12,8 @@ class Colaborador extends Model
         'id',
         'nombre',
         'dpi',
+        'departamento_dpi_id',
+        'municipio_dpi_id',
         'puesto',
         'departamento',
         'subsede',

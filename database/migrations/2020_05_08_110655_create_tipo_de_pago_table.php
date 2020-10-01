@@ -21,6 +21,8 @@ class CreateTipoDePagoTable extends Migration
             $table->double('precio_particular',10,2)->nullable()->default(null);
             $table->string('categoria_id');
             $table->integer('estado'); //este estado es el que nos indica si se encuentra activado (0) o desaactivado (1).
+            $table->boolean('display_plataforma')->nullable()->default(null);
+            $table->integer('tipo')->nullable()->default(null); 
             $table->softDeletes();
             $table->timestamps();
         });

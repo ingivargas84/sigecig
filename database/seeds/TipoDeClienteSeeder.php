@@ -21,5 +21,8 @@ class TipoDeClienteSeeder extends Seeder
         DB::table('sigecig_tipo_de_cliente')->insert([
             'tipo_de_cliente'=>'Empresa'
         ]);
+        DB::table('sigecig_tipo_de_cliente')->insert([
+            'tipo_de_cliente'=>'Plataforma'
+        ]);
     }
 }

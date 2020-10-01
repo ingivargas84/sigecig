@@ -11,6 +11,7 @@ class PlataformaSolicitudAp extends Model
     protected $fillable = [
         'id',
         'fecha_solicitud',
+        'fecha_ingreso_acta',
         'n_colegiado',
         'id_estado_solicitud',
         'id_banco',
@@ -21,6 +22,7 @@ class PlataformaSolicitudAp extends Model
         'no_punto_acta',       
         'pdf_dpi_ap',
         'pdf_solicitud_ap',
+        'pdf_resolucion_ap',
         'fecha_pago_ap',
         'solicitud_rechazo_ap' ,
         'solicitud_rechazo_junta',

@@ -89,10 +89,12 @@ Route::group([
         Route::get('/colaborador/new', 'ColaboradorController@create')->name('colaborador.new');
         Route::post('/colaborador/save/', 'ColaboradorController@store')->name('colaborador.save');
         Route::get('/colaborador/dpiDisponible/', 'ColaboradorController@dpiDisponible');
-        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiEdit');
+        Route::get('/colaborador/dpiDisponibleEdit/', 'ColaboradorController@dpiDisponibleEdit');
         Route::get('/colaborador/edit/{colaborador}', 'ColaboradorController@edit')->name('colaborador.edit');
-        Route::post('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
+        Route::put('/colaborador/{colaborador}/update', 'ColaboradorController@update')->name('colaborador.update');
         Route::post('/colaborador/{colaborador}/destroy', 'ColaboradorController@destroy')->name('colaborador.destroy');
+        Route::get( '/iddepartamento/{value}', 'ColaboradorController@getMunicipio');
+        Route::get( '/iddepartamentoEdit/{value}', 'ColaboradorController@getDepartamentoEdit');
 
        // Módulo de Registro de Cajas
        Route::get('/cajas', 'CajasController@index')->name('cajas.index');
@@ -106,6 +108,7 @@ Route::group([
        Route::post('/cajas/{cajas}/destroy', 'CajasController@destroy')->name('cajas.destroy');
        Route::post('/cajas/{cajas}/activar', 'CajasController@activar')->name('cajas.activar');
        Route::get('/cajas/nombreDisponible/', 'CajasController@nombreDisponible');
+       Route::get('/cajas/nombreDisponibleEdit/', 'CajasController@nombreDisponibleEdit');
 
         // Modulo de Junta Directiva
         Route::get('/acta', 'ActaMaestroController@index')->name('acta.index');
@@ -124,7 +127,7 @@ Route::group([
         Route::post('/resolucion/asapsave/', 'ResolucionPagoController@storeasap')->name('asap.save');
         Route::get('auxiliopostumo/solicitudes_pendientes' , 'ResolucionPagoController@solicitudesPendientes');
         Route::get('pdf/{id}/',  'ResolucionPagoController@imprimir' )->name('pdf.imprimir');
-        Route::post('resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
+        Route::post('/resolucion/{solicitud}/cambio', 'ResolucionPagoController@cambiarestado');
         Route::post('resolucion/{tipo}/fecha' , 'ResolucionPagoController@fechaconfig' );
         Route::post('resolucion/{solicitud}/finalizaestado', 'ResolucionPagoController@finalizarestado');
 
@@ -133,10 +136,14 @@ Route::group([
         Route::get('/auxilioPostumo/{no_colegiado}/getDatosColegiado','AuxilioPostumoController@getDatosColegiado');
         Route::post('/auxilioPostumo/save','AuxilioPostumoController@GuardarSolicitudAp');
         Route::get('/auxilioPostumo/{id}/documentosap/','AuxilioPostumoController@DocumentosAp');
-        Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@GuardarDocumentosAp')->name('guardarDocumentosAp');
+        Route::post('/auxilioPostumo/documentos/{id}','AuxilioPostumoController@guardarDocumentosAp')->name('guardarDocumentosAp');
         Route::get('auxilioPostumo/{id}/print','AuxilioPostumoController@imprimirSolicitud');
         Route::get('/auxiliopostumo/crearusuario','AuxilioPostumoController@crearUsuario')->name('crearUsuario.index');
-        Route::post('/auxiliopostumo/save','AuxilioPostumoController@saveUsuario');
+        Route::get('/auxiliopostumo/save','HomeController@saveUsuario');
+        Route::get('/auxiliopostumo/adjuntar-resolucion/{id}','AuxilioPostumoController@adjuntarResolucion')->name('ap.adjuntar-resolucion');
+        Route::post('/auxilioPostumo/guardar-resolucion/{id}','AuxilioPostumoController@guardarResolucion')->name('ap.guardar-resolucion');
+
+
 
 
         //Módulo Reporte Finalizadas
@@ -157,8 +164,8 @@ Route::group([
         Route::post('/resolucion/rczdocumentosjunta','ResolucionPagoController@rczDocumentosJunta')->name('doc.rechazadoJunta');
 
         //Modulo para mostrar documentos de Auxilio Postumo
-        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp');
-        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp');
+        Route::get('/resolucion/solicitudap/{solicitud}','ResolucionPagoController@verSolicitudAp')->name('img.vie');
+        Route::get('/resolucion/dpiap/{solicitud}','ResolucionPagoController@verDpiAp')->name('img.viedpi');
 
 
         // Modulo de Tipos de pago
@@ -192,8 +199,9 @@ Route::group([
         Route::get( '/creacionRecibo' , 'ReciboController@index')->name('creacionRecibo.index');
         Route::get( '/colegiado/{colegiado}','ReciboController@getDatosColegiado');
         Route::get( '/empresa/{nit}','ReciboController@getDatosEmpresa');
-        Route::get( '/tipo/ajax/{tipo}', 'ReciboController@SerieDePagoA');
-        Route::get( '/tipo/ajax/B/{tipo}', 'ReciboController@SerieDePagoB');
+        Route::get( '/tipo/ajax/A', 'ReciboController@SerieDePagoA');
+        Route::get( '/tipo/ajax/B', 'ReciboController@SerieDePagoB');
+        Route::get( '/tipo/ajax/aspirante', 'ReciboController@SerieDePagoAspirante');
         Route::get( '/tipoPagoColegiadoA/{tipo}', 'ReciboController@getTipoDePagoA');
         Route::get( '/tipoPagoColegiadoB/{tipo}', 'ReciboController@getTipoDePagoB');
         Route::post('/creacionRecibo/save', 'ReciboController@store')->name('guardarReciboColegiado.save');
@@ -201,10 +209,106 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::get('/estadocuenta/pdf/{id}/', 'ReciboController@estadoCuetapdfRecibo');
+        Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
+        Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
+        Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');
+        Route::get('/getAsporante/existenciaDpi/{valid}', 'ReciboController@existenciaDpi');
 
         // Modulo de Calculo de Reactivacion
         Route::get( '/reactivacion', 'ReciboController@getDatosReactivacion')->name('reactivacion.interes');
-	    Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
+        Route::post('getMontoReactivacion', 'ReciboController@getMontoReactivacion');
+
+        // Modulo de Bodegas
+        Route::get( '/bodegas' , 'BodegasController@index')->name('bodegas.index');
+        Route::get('/bodegas/getJson/', 'BodegasController@getJson')->name('bodegas.getJson');
+        Route::get('/bodegas/new', 'BodegasController@create')->name('bodegas.new');
+        Route::post('/bodegas/save/', 'BodegasController@store')->name('bodegas.save');
+        Route::post('/bodegas/{bodegas}/update', 'BodegasController@update');
+        Route::post('/bodegas/{bodegas}/destroy' , 'BodegasController@destroy')->name('bodegas.destroy');
+        Route::get('/bodegas/nombreDisponible/', 'BodegasController@nombreDisponible');
+        Route::get('/bodegas/nombreDisponibleEdit/', 'BodegasController@nombreDisponibleEdit');
+
+        // Modulo de Colegiados
+        Route::get( '/colegiados' , 'ColegiadosController@index')->name('colegiados.index');
+        Route::get( '/aspirantes' , 'ColegiadosController@indexAsp')->name('aspirantes.index');
+        Route::get('/colegiados/getJson/', 'ColegiadosController@getJson')->name('colegiados.getJson');
+        Route::get('/aspirantes/getJsonAsp/', 'ColegiadosController@getJsonAsp')->name('aspirantes.getJson');
+        Route::get('/colegiados/new', 'ColegiadosController@create')->name('colegiados.new');
+        Route::post('Aspirante/getDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesAspirante']);
+        Route::post('Aspirante/setDatosProfesionalesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesAspirante']);
+        Route::post('Aspirante/setDatosEspecialidadesAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesAspirante']);
+        Route::post('Aspirante/guardarMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarMontoTimbreAspirante']);
+        Route::post('Aspirante/getMontoTimbreAspirante', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getMontoTimbreAspirante']);
+        Route::post('Aspirante/guardarFechaTopeMensualidades', ['middleware' => 'auth', 'uses' => 'ColegiadosController@guardarFechaTopeMensualidades']);
+        Route::post('Aspirante/asociarColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@asociarColegiado']);
+        Route::get('/Aspirante/colDisponible/', 'ColegiadosController@colegiadoDisponible');
+        Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
+        Route::get('/Aspirante/dpiDisponible2/', 'ColegiadosController@dpiDisponibleColegiado');
+        Route::get('/Aspirante/dpiDisponibleEdit/', 'ColegiadosController@dpiDisponibleEdit');
+
+        Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
+        Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
+        Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
+        Route::post('colegiado/setDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesColegiado']);
+        Route::get('/aspirante/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@edit'])->name('aspirante.edit');
+
+         //General
+         Route::get('General/listamunicipios','General@getListaMunicipios');
+        Route::get('General/listadepartamentos','General@getListaDepartamentos');
+        Route::get('General/listapaises','General@getListaPaises');
+        Route::get('General/listauniversidades','General@getListaUniversidades');
+        Route::post('General/departamentopais','General@getDepartamentoPais');
+        Route::post('General/pais','General@getPais');
+        Route::get('General/busquedaProfesionAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaProfesionAutocomplete']);
+        Route::get('General/busquedaEspecialidadAutocomplete',['middleware' => 'auth', 'uses' => 'General@busquedaEspecialidadAutocomplete']);
+
+        Route::post('Aspirante/setdatosaspirante', 'ColegiadosController@setDatosAspirante')->name('colegiados.save');
+        Route::post('Aspirante/getdatosaspirante', 'ColegiadosController@getDatosAspirante');
+        Route::get('Aspirante/new', ['middleware' => 'auth', 'uses' => 'ColegiadosController@vistaAspirante'])->name('aspirante.new');
+        Route::get( 'aspirante/detalles/{id}', 'ColegiadosController@detalles')->name('aspirante.detalles');
+        Route::get( 'colegiados/detalles/{codigo}', 'ColegiadosController@detallesCo')->name('colegiado.detalles');
+
+        // Modulo de Remesa
+        Route::get( '/remesa', 'IngresoBodegaController@index')->name('remesa.index');
+        Route::get( '/remesa/getJson/', 'IngresoBodegaController@getJson')->name('remesa.getJson');
+        Route::get( '/remesa/new', 'IngresoBodegaController@create')->name('remesa.new');
+        Route::post( '/remesa/save', 'IngresoBodegaController@store')->name('remesa.save');
+        Route::post('/getUltimoDato/{datos}', 'IngresoBodegaController@getUltimoDato');
+        Route::get( '/remesa/detalle/{id}' , 'IngresoBodegaController@show')->name('remesa.show');
+        Route::get('/remesa/pdf/{id}/', 'IngresoBodegaController@pdfRemesa')->name('remesa.pdfRemesa');
+
+        // Modulo de Traspaso de timbres
+        Route::get( '/traspaso', 'TraspasoController@index')->name('traspaso.index');
+        Route::get( '/traspaso/getJson/', 'TraspasoController@getJson')->name('traspaso.getJson');
+        Route::get( '/traspaso/new', 'TraspasoController@create')->name('traspaso.new');
+        Route::post( '/traspaso/save', 'TraspasoController@store')->name('traspaso.save');
+        Route::get( '/getBodega/{bodega}', 'TraspasoController@getBodega');
+        Route::get('/traspaso/pdf/{id}/', 'TraspasoController@pdfTraspaso')->name('traspaso.pdfTraspaso');
+
+         // Módulo Corte de Caja
+         Route::get('/cortedecaja', 'CorteDeCajaController@index')->name('cortecaja.index');
+         Route::get('/cortedecaja/historial', 'CorteDeCajaController@historial')->name('cortecaja.historial');
+         Route::get('/cortedecaja/getJson/', 'CorteDeCajaController@getJson')->name('cortedecaja.getJson');
+         Route::get('/cortedecaja/getDetalle/', 'CorteDeCajaController@getDetalle')->name('cortedecaja.getDetalle');
+         Route::get('/cortedecaja/getHistorial/', 'CorteDeCajaController@getHistorial')->name('cortedecaja.getHistorial');
+         Route::get('/cortedecaja/historial/pdf/{id}/', 'CorteDeCajaController@pdf')->name('cortedecaja.pdfbitacora');
+         Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
+         Route::get( '/edit/bodega/{id}','CajasController@editBodegaCaja');
+
+         //Timbres
+         Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
+         Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
+         Route::get('/estadocuenta/reportecolegiado/{codigo}', 'ReportesController@reporteColegiado');
+         Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
+         Route::get('/cursos/ceduca/', 'ReportesController@reporteCursosCeduca')->name('cursos.ceduca');
+         Route::get('/colegiados/anio/', 'ReportesController@reporteColegiadosPorAnio')->name('colegiados.anio');
+         Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
+         Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
+         Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
+         Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
+
+
     });
 
 
@@ -213,19 +317,7 @@ Route::group([
         return view('welcome', compact('negocio'));
     });
 
-    Route::get('/pdf/{id}', function($id){
-        $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
-        $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
-        $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
-        $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
-        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        return $pdf->stream('archivo.pdf');
-    });
-
-    //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
-    //Auth::routes();
-
-    //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);
+    Route::get('/pdf/{id}', 'ResolucionPagoController@imprimirResolucion');
 
     // Authentication Routes...
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -239,6 +331,17 @@ Route::group([
     //Registration Routes...
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
+
+    //Estado de cuenta colegiado
+    Route::get('/estadocuenta','EstadoCuentaController@index')->name('estadocuenta.index');
+    Route::get('/estadocuenta/getJson/', 'EstadoCuentaController@getJson')->name('estadocuenta.getJson');
+    Route::get('/estadocuenta/detallado/{id}','EstadoCuentaController@estadoCuentaDetallado')->name('estadocuenta.detallado');
+    Route::get('/estadocuenta/getDetalle/{id}','EstadoCuentaController@getDetalle')->name('estadocuenta.getdetalle');
+    Route::get('/estadocuenta/xyz/{id}','EstadoCuentaController@xyz')->name('estadocuenta.xyz');
+    Route::get('/estadocuenta/getxyz/{id}','EstadoCuentaController@getXyz')->name('estadocuenta.getxyz');
+
+
+
 
     // Password Reset Routes...
     /*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

@@ -3,12 +3,16 @@ var validator = $("#CajasForm").validate({
 	onkeyup:false,
 	rules: {
 		nombre_caja:{
-			required: true
+			required: true,
+			nombreunico: true
 		},
 		subsede: {
 			required : true
 		},
 		cajero: {
+			required : true
+		},
+		bodega: {
 			required : true
 		}
 	},
@@ -21,6 +25,9 @@ var validator = $("#CajasForm").validate({
 		},
 		cajero: {
 			required: "Por favor, ingrese el cajero"
+		},
+		bodega: {
+			required: "Por favor, ingrese la bodega"
 		}
 	}
 });
@@ -49,7 +56,7 @@ $.validator.addMethod("nombreunico", function(value, element){
         type: "GET",
         async: false,
         url: "/cajas/nombreDisponible/",
-        data:"nombre_sede=" + value,
+        data:"nombre_caja=" + value,
         dataType: "json",
         success: function (msg) {
             valid=!msg;
@@ -71,9 +78,10 @@ $.validator.addMethod("nombreunico", function(value, element){
 			success: function(data) {
 				$('.loader').fadeOut(225);
 				$('#ingresoModal').modal("hide");
-				cajas_table.ajax.reload();
+				//cajas_table.ajax.reload();
 				alertify.set('notifier','position', 'top-center');
 				alertify.success('Caja creada con Éxito!!');
+				window.location = "/cajas";
 			},
 			error: function(errors) {
 				var errors = JSON.parse(errors.responseText);
