@@ -324,6 +324,9 @@ var validator = $("#ActaForm").validate({
         },
         no_punto_acta: {
             required : true
+        },
+        fechaActa: {
+            required : true
         }
     },
     messages: {
@@ -332,6 +335,9 @@ var validator = $("#ActaForm").validate({
         },
         no_punto_acta: {
             required: "Por favor, ingrese el No. de Punto de Acta"
+        },
+        fechaActa: {
+            required: "Por favor, ingrese la fecha de Acta"
         }
     }
 });
