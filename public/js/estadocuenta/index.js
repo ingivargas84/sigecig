@@ -119,13 +119,17 @@ var resolucion_table = $('#resolucion-table').DataTable({
 
 
                 return "<div id='" + full.id + "' class='text-center'>" +
-                "<div class='float-left col-lg-6'>" +
+                "<div class='float-left col-lg-4    '>" +
                 "<a id='enviar' href='/estadocuenta/detallado/"+full.id+"/'  class='enviar' >" +
                 "<i class='fa fa-info-circle' title='Ver Detalles'></i>" +
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
                 "<a href='/estadocuenta/xyz/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
                 "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
+                "</a>" + "</div>" +
+                "<div class='float-right col-lg-4'>" +
+                "<a href='/estadocuenta/reportecolegiado/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
+                "<i class='fa fa-file-pdf-o' title='Saldo colegiado'></i>" + 
                 "</a>" + "</div>" 
 
 

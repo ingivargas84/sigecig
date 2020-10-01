@@ -556,7 +556,7 @@ class ResolucionPagoController extends Controller
         $adm_persona = AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
         $fechaActa = Carbon::parse($id->fecha_ingreso_acta);
         $mes=$fechaActa->format('m');
-        $año=$fechaActa->format('yy');
+        $año=$fechaActa->format('Y');
         $dia=$fechaActa->format('d');
         $mes = \App\SigecigMeses::where('id',$mes)->first();
        

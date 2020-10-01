@@ -34,7 +34,7 @@ class EstadoCuentaController extends Controller
     {
         $MesActual=Carbon::Now();
         $mes=$MesActual->format('m');
-        $anio=$MesActual->format('yy');
+        $anio=$MesActual->format('Y');
         $ageFrom=Carbon::Now()->startOfMonth();
         $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
 
@@ -87,7 +87,7 @@ class EstadoCuentaController extends Controller
     public function estadoCuentaDetallado($id){
         $MesActual=Carbon::Now();
         $mes=$MesActual->format('m');
-        $anio=$MesActual->format('yy');
+        $anio=$MesActual->format('Y');
         $ageFrom=Carbon::Now()->startOfMonth();
         $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
         $user = Auth::User();
