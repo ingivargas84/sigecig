@@ -296,7 +296,7 @@ Route::group([
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
          Route::get( '/edit/bodega/{id}','CajasController@editBodegaCaja');
 
-         //Timbres
+         //Timbres Y Reportes
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
          Route::get('/estadocuenta/reportecolegiado/{codigo}', 'ReportesController@reporteColegiado');
@@ -307,6 +307,14 @@ Route::group([
          Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
          Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
          Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
+
+         // Módulo de Anulacion
+         Route::get('/anulacion', 'AnulacionRecibosController@index')->name('anulacion.index');
+         Route::post('/anulacion/save', 'AnulacionRecibosController@saveSolicitudAnulacion')->name('solicitudAnulacion.save');
+         Route::get('/detalleRecibo', 'AnulacionRecibosController@detelleRecibo')->name('anulacion.solicitud');
+         Route::get('/tracking/anulacion', 'AnulacionRecibosController@tracking')->name('anulacion.tracking');
+         Route::get('/anulacion/getJson/', 'AnulacionRecibosController@getJson')->name('anulacion.getJson');
+         Route::get('/anulacion/solicitud/', 'AnulacionRecibosController@solicitudAnulacion');
 
 
     });

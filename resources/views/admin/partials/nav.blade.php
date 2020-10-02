@@ -123,6 +123,9 @@
             <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
                 <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
             </li>
+            <li class="{{request()->is('anulacion.index')? 'active': ''}}" ><a href="{{route('anulacion.index')}}">
+                <i class="fa fa-paper-plane"></i> <span>Anulación De Recibos</span></a>
+            </li>
           </ul>
         @endrole
 
