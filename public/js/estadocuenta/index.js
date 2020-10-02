@@ -128,7 +128,7 @@ var resolucion_table = $('#resolucion-table').DataTable({
                 "<i class='fa fa-indent' title='Cardex XYZ'></i>" + 
                 "</a>" + "</div>" +
                 "<div class='float-right col-lg-4'>" +
-                "<a href='/estadocuenta/reportecolegiado/"+full.cliente+"/' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
+                "<a href='/estadocuenta/reportecolegiado/"+full.cliente+"/' target='blanck' class='xyz' "+ "data-method='post' data-id='"+full.id+"' data-nombre1='"+full.Nombre1+"' data-no_solicitud='"+full.no_solicitud+"'>" +
                 "<i class='fa fa-file-pdf-o' title='Saldo colegiado'></i>" + 
                 "</a>" + "</div>" 
 
