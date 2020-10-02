@@ -28,11 +28,13 @@ class AnulacionRecibosController extends Controller
 
     public function getJson(Request $params)
     {
+        $idCajero = Auth::user()->id;
         $query = "SELECT a.recibo_id as recibo, rc.numero_de_identificacion as colegiado, rc.nombre, u.name as cajero, a.fecha_solicitud as fecha_respuesta, ea.estado_recibo as estado
         FROM sigecig_anulacion a
         INNER JOIN sigecig_recibo_maestro rc ON a.recibo_id = rc.id
         INNER JOIN sigecig_users u ON a.usuario_cajero_id = u.id
-        INNER JOIN sigecig_estados_anulacion_recibos ea ON a.estado_recibo_id = ea.id";
+        INNER JOIN sigecig_estados_anulacion_recibos ea ON a.estado_recibo_id = ea.id
+        WHERE usuario_cajero_id = $idCajero";
 
         $api_Result['data'] = DB::select($query);
         return Response::json( $api_Result );
