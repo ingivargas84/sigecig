@@ -482,6 +482,7 @@ class ReciboController extends Controller
             $reciboMaestro->monto_deposito = $request->input("config.montoDeposito");
             $reciboMaestro->usuario = Auth::user()->id;
             $reciboMaestro->monto_total = $totalAPagar;
+            $reciboMaestro->estado_recibo_id = 0;
             $reciboMaestro->save();
             $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
             if (empty($id_estado_cuenta)) {
@@ -656,6 +657,7 @@ class ReciboController extends Controller
             $reciboMaestroP->usuario = Auth::user()->id;
             $reciboMaestroP->monto_total = $totalAPagarP;
             $reciboMaestroP->e_mail = $request->input("config.emailp");
+            $reciboMaestroP->estado_recibo_id = 0;
             $reciboMaestroP->save();
 
             $array = $request->input("datos");
@@ -771,6 +773,7 @@ class ReciboController extends Controller
             $reciboMaestroE->monto_deposito = $request->input("config.montoDepositoE");
             $reciboMaestroE->usuario = Auth::user()->id;
             $reciboMaestroE->monto_total = $totalAPagarE;
+            $reciboMaestroE->estado_recibo_id = 0;
             $reciboMaestroE->save();
 
             $array = $request->input("datos");
@@ -994,8 +997,9 @@ class ReciboController extends Controller
 
         $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
             $result = DB::select($query);
-        $bodega = $result[0]->bodega;
-
+        if (!empty($result)) {
+            $bodega = $result[0]->bodega;
+        }
         $emisionDeRecibo    = $request->input("config.emisionDeRecibo");
 
         $array = $request->input("datos");
@@ -1168,7 +1172,7 @@ class ReciboController extends Controller
         $fecha_hasta_donde_paga = Input::get('fecha_hasta_donde_paga', date("Y-m-t"));
         $monto_timbre = Input::get('monto_timbre', 0);
         $monto_timbre = substr($monto_timbre, 2);
-
+        dd($fecha_timbre);
         if (!$fecha_timbre || !$fecha_hasta_donde_paga || !$monto_timbre) {
             return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
         }
