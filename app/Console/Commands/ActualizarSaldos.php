@@ -42,10 +42,10 @@ class ActualizarSaldos extends Command
     public function handle()
     {  
         $mesActual = Now()->format('m');
-        $anioActual = Now()->format('yy');
+        $anioActual = Now()->format('Y');
         $mesAnterior=Carbon::Now()->startOfMonth()->subMonth();
         $mes=$mesAnterior->format('m');
-        $anio=$mesAnterior->format('yy');
+        $anio=$mesAnterior->format('Y');
         $ageFrom=Carbon::Now()->startOfMonth()->subMonth();
         $ageTo=Carbon::Now()->startOfMonth()->subSecond();
       

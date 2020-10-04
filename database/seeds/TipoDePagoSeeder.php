@@ -20,6 +20,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL02',
@@ -29,6 +30,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -39,6 +41,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -49,6 +52,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -59,6 +63,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL06',
@@ -68,6 +73,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -78,6 +84,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -88,6 +95,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL09',
@@ -106,6 +114,7 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL092',
@@ -116,6 +125,8 @@ class TipoDePagoSeeder extends Seeder
             'estado'=>'0',
             'display_plataforma'=>true,
             'tipo'=>'1',
+            'tipo_colegiatura'=>'1',
+            
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE01',

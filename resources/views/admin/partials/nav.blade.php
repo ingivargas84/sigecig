@@ -123,6 +123,9 @@
             <li class="{{request()->is('traspaso.index')? 'active': ''}}" ><a href="{{route('traspaso.index')}}">
                 <i class="fa fa-paper-plane"></i> <span>Traspaso de Timbres</span></a>
             </li>
+            <li class="{{request()->is('anulacion.index')? 'active': ''}}" ><a href="{{route('anulacion.index')}}">
+                <i class="fa fa-paper-plane"></i> <span>Anulación De Recibos</span></a>
+            </li>
           </ul>
         @endrole
 
@@ -228,6 +231,9 @@
               </li>
               <li class="">
                 <a href="" id='modal-reporte-cursos-ceduca' data-toggle="modal" data-target="#modalReporteCursosCeduca"><i class="fa fa-book"></i>Reporte cursos CEDUCA</a>
+              </li>
+              <li class="">
+                <a href="" id='modal-reporte-colegiados-anio' data-toggle="modal" data-target="#modalReporteColegiadosPorAnio"><i class="fa fa-book"></i>Reporte Colegiados por Año</a>
               </li>
               <li class="">
                 <a href="" id='modal-reporte-ventas-xyz' data-toggle="modal" data-target="#modalReporteVentasXyz"><i class="fa fa-book"></i>Ventas XYZ</a>

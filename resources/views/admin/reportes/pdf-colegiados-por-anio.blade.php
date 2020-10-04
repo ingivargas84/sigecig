@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=w, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte De Cursos CEDUCA</title>
+    <title>Reporte De Colegiados por Año</title>
     <style>
         p {
             font-family: "sans-serif";
@@ -41,7 +41,7 @@
             /* margin-top: 0rem; */
         }
         .texto1 {
-            font-size:20px;
+            font-size:30px;
             font-weight: bold;
             color:black;
             height: 10px;
@@ -66,7 +66,7 @@
             font-family: "sans-serif";
             font-size:1rem;
             /* font-weight: bold; */
-            margin-left: 4rem;
+            margin-left: 8rem;
             float:left;
         }
         .colegiado2{
@@ -79,9 +79,9 @@
         .colegiado3{
             font-family: "sans-serif";
             font-size:1rem;
-            font-weight: bold;
-            margin-right: 5rem;
-            float:right;
+            /* font-weight: bold; */
+            margin-left: 13rem;
+            /* float:right; */
         }
         .img1{
             display: flex;
@@ -116,11 +116,12 @@
             margin-top: 3%;
         }
         table {
-            width: 90%;
-            margin: 20 auto;
+            width: 100%;
+            margin: 10 auto;
             font-family: "sans-serif";
             border-collapse: collapse;
             font-size: 12px;
+            word-wrap: break-word;
         }
         .odd th, .odd td {
             background: #eee;
@@ -142,11 +143,7 @@
                         NIT: 299329-5</small></p>
             </div>
             <div class="texto1" style="color: #03306d; background: white;height: 20px;width: 38%; margin-right: 3rem;">
-                @if ($trayecto == 'UnCurso')
-                    <h3 style="margin-top: 2rem; "><b> CURSO: </b>{{$curso->descripcion}}</h3></div>
-                @else
-                    <h3 style="margin-top: 4rem; font-size: 35px;"><b> CURSOS GENERALES</b></h3></div>
-                @endif
+                <h3 style="margin-top: 4rem; "><b> COLEGIADOS EN AÑO </b>{{$anio}}</h3></div>
             </div>
         </div>
     </div>
@@ -154,43 +151,46 @@
         <div class="" >
           <label class=""><b>FECHA DE CREACIÓN: </b>{{$newDate}} </label>
         </div>
-        <br>
+    </div>
+    <div class="row colegiado3">
         <div class="">
           <label class="" ><b>USUARIO: </b>{{$user->name}}</label>
         </div>
         <br>
     </div>
     <br>
-    <table style="margin-top: 4rem;">
+    <table style="margin-top: 2rem; margin-left: 1rem">
         <thead >
             <tr>
-                <th width="7%" style="background: #D2D2D2;text-align:center;">FECHA</th>
-                <th width="7%" style="background: #D2D2D2;text-align:center;">SERIE</th>
-                <th width="7%" style="background: #D2D2D2;text-align:center;">RECIBO </th>
                 <th width="7%" style="background: #D2D2D2;text-align:center;">COLEGIADO</th>
-                <th width="27%" style="background: #D2D2D2;text-align:center;">NOMBRE</th>
-                <th width="8%" style="background: #D2D2D2;text-align:center;">TELÉFONO</th>
+                <th width="25%" style="background: #D2D2D2;text-align:center;">NOMBRE</th>
+                <th width="7%" style="background: #D2D2D2;text-align:center;">FECHA </th>
+                <th width="15%" style="background: #D2D2D2;text-align:center;">PROFESION</th>
+                <th width="8%" style="background: #D2D2D2;text-align:center;">TELÉFONO 1</th>
+                <th width="8%" style="background: #D2D2D2;text-align:center;">TELÉFONO 2</th>
                 <th width="15%" style="background: #D2D2D2;text-align:center;">CORREO</th>
-                @if ($trayecto == 'todos')
-                <th width="20%" style="background: #D2D2D2;text-align:center;">CURSO</th>
-                @endif
-                <th width="14%" style="background: #D2D2D2;text-align:center;">MONTO</th>
+                <th width="6%" style="background: #D2D2D2;text-align:center;">ESTADO</th>
+                <th width="9%" style="background: #D2D2D2;text-align:center;">Fecha de último pago de colegiación </th>
             </tr>
         </thead>
         @foreach ($arrayDetalles as $key => $detalles)
             @foreach ($detalles as $detalle)
                 <tr>
-                    <td style="background:eee;text-align:center;padding: 7px;">{{\Carbon\Carbon::parse($detalle->fecha1)->format('d/m/Y')}}</td>
-                    <td style="background:eee;text-align:center;">{{$detalle->serie_f}}</td>
-                    <td style="background:eee;text-align:center;">{{$detalle->control}}</td>
-                    <td style="background:eee;text-align:center;">{{$detalle->c_cliente}}</td>
-                    <td style="background:eee;text-align:center;">{{$detalle->n_cliente}}</td>
+                    <td style="background:eee;text-align:center;">{{$detalle->colegiado}}</td>
+                    <td style="background:eee;text-align:center;">{{$detalle->nombre}}</td>
+                    <td style="background:eee;text-align:center;padding: 7px;">{{\Carbon\Carbon::parse($detalle->fechacolegiado)->format('d/m/Y')}}</td>
+                    @foreach ($prof as $ey => $det)
+                        @foreach ($det as $de)
+                            @if (intval($de->c_cliente) == intval($detalle->colegiado))
+                                <td style="background:eee;text-align:center;">{{$de->n_profesion}}</td>
+                            @endif
+                        @endforeach
+                    @endforeach
                     <td style="background:eee;text-align:center;">{{$detalle->telefono}}</td>
+                    <td style="background:eee;text-align:center;">{{$detalle->telefonotrabajo}}</td>
                     <td style="background:eee;text-align:center;">{{$detalle->e_mail}}</td>
-                    @if ($trayecto == 'todos')
-                    <td style="background:eee;text-align:center;">{{$detalle->descripcion}}</td>
-                    @endif
-                    <td style="background:eee;text-align:center;">Q.{{number_format($detalle->total_fac, 2)}}</td>
+                    <td style="background:eee;text-align:center;">{{$detalle->status}}</td>
+                    <td style="background:eee;text-align:center;">{{\Carbon\Carbon::parse($detalle->fechaultimopagocolegio)->format('d/m/Y')}}</td>
                 </tr>
             @endforeach
         @endforeach

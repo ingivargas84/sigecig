@@ -209,6 +209,7 @@ Route::group([
         Route::post('/creacionRecibo/save/empresa', 'ReciboController@store')->name('guardarReciboEmpresa.save');
         Route::post('Facturacion/getMontoInteresColegio', 'ReciboController@getInteresColegio');
         Route::get('/creacionRecibo/pdf/{id}/', 'ReciboController@pdfRecibo')->name('creacionRecibo.pdfrecibo');
+        Route::get('/estadocuenta/pdf/{id}/', 'ReciboController@estadoCuetapdfRecibo');
         Route::post('/consultaTimbres', 'ReciboController@consultaTimbres');
         Route::post('existenciaBodega', 'ReciboController@existenciaBodega');
         Route::post('getTimbresDePago', 'ReciboController@codigosTimbrePago');
@@ -300,15 +301,25 @@ Route::group([
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
          Route::get( '/edit/bodega/{id}','CajasController@editBodegaCaja');
 
-         //Timbres
+         //Timbres Y Reportes
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
+         Route::get('/estadocuenta/reportecolegiado/{codigo}', 'ReportesController@reporteColegiado');
          Route::get('/ventas/reporteEnvios/', 'ReportesController@reporteEnvios')->name('envios.reporte');
          Route::get('/cursos/ceduca/', 'ReportesController@reporteCursosCeduca')->name('cursos.ceduca');
+         Route::get('/colegiados/anio/', 'ReportesController@reporteColegiadosPorAnio')->name('colegiados.anio');
          Route::get('/timbres/getCajas/', 'TimbresController@getCajas');
          Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
          Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
          Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
+
+         // Módulo de Anulacion
+         Route::get('/anulacion', 'AnulacionRecibosController@index')->name('anulacion.index');
+         Route::post('/anulacion/save', 'AnulacionRecibosController@saveSolicitudAnulacion')->name('solicitudAnulacion.save');
+         Route::get('/detalleRecibo', 'AnulacionRecibosController@detelleRecibo')->name('anulacion.solicitud');
+         Route::get('/tracking/anulacion', 'AnulacionRecibosController@tracking')->name('anulacion.tracking');
+         Route::get('/anulacion/getJson/', 'AnulacionRecibosController@getJson')->name('anulacion.getJson');
+         Route::get('/anulacion/solicitud/', 'AnulacionRecibosController@solicitudAnulacion');
 
 
     });
@@ -319,25 +330,7 @@ Route::group([
         return view('welcome', compact('negocio'));
     });
 
-    Route::get('/pdf/{id}', function($id){
-        $id = App\PlataformaSolicitudAp::Where("id", $id)->get()->first();
-        $profesion= App\SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
-        $adm_usuario = App\AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
-        $adm_persona = App\AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
-        $bitacora = App\BitacoraAp::where('no_solicitud',$id->id)->where('estado_solicitud','7')->first();
-        setlocale(LC_TIME, "spanish");
-        $fecha = strftime("%d de %B del %Y", strtotime($bitacora->fecha));
-
-
-        // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
-        $pdf = PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','fecha'));
-        return $pdf->stream('Resolución.pdf');
-    });
-
-    //Route::name('imprimir')->get('/imprimir-pdf', 'ResolucionPagoController@imprimir');
-    //Auth::routes();
-
-    //Route::get('/home', 'HomeController@index')->name('home')->middleware(['estado']);
+    Route::get('/pdf/{id}', 'ResolucionPagoController@imprimirResolucion');
 
     // Authentication Routes...
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

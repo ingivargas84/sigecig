@@ -298,6 +298,7 @@ class ResolucionPagoController extends Controller
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
             'id_estado_solicitud' => 7,
+            'fecha_ingreso_acta' => $request->fechaActa,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);
@@ -545,7 +546,24 @@ class ResolucionPagoController extends Controller
         $infoCorreoAp = new \App\Mail\CorreoJunta($colegiado,$fecha_actual, $solicitudAP);    
         $infoCorreoAp->subject('Solicitud de Auxilio Póstumo');
         $infoCorreoAp->from('visa@cig.org.gt', 'Colegio de Ingenieros de Guatemala Portal Electrónico');
-        Mail::to('cig.desarrollo2@gmail.com')->send($infoCorreoAp);
+        Mail::to('auxcontad@cig.org.gt')->send($infoCorreoAp);
 
+    }
+    public function imprimirResolucion($id){
+        $id = PlataformaSolicitudAp::Where("id", $id)->get()->first();
+        $profesion= SQLSRV_Profesion::Where("c_cliente", $id->n_colegiado)->get()->first();
+        $adm_usuario = AdmUsuario::Where("Usuario", $id->n_colegiado)->get()->first();
+        $adm_persona = AdmPersona::Where("idPersona", $adm_usuario->idPersona)->get()->first();
+        $fechaActa = Carbon::parse($id->fecha_ingreso_acta);
+        $mes=$fechaActa->format('m');
+        $año=$fechaActa->format('Y');
+        $dia=$fechaActa->format('d');
+        $mes = \App\SigecigMeses::where('id',$mes)->first();
+       
+
+
+        // return view('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona'));
+        $pdf = \ PDF::loadView('admin.firmaresolucion.pdf',compact('id','profesion','adm_usuario','adm_persona','año','mes','dia'));
+        return $pdf->stream('Resolución.pdf');
     }
 }
