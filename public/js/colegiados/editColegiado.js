@@ -127,13 +127,13 @@ $.validator.addMethod("dpiunico", function(value, element){
     return valid;
     }, "El CUI/DPI ya esta registrado en el sistema");
 
-	$.validator.addMethod("dpiunico2", function(value, element){
+	/* $.validator.addMethod("dpiunico2", function(value, element){
 		var valid = false;
 		var urlActual = $("input[name='urlActual']").val();
 		$.ajax({
 			type: "GET",
 			async: false,
-			url: "/Aspirante/dpiDisponible2/",
+			url: "/Aspirante/dpiDisponible2/", //Verifica si hay un dpi en uso en CC00
 			data:"dpi=" + value,
 			dataType: "json",
 			success: function (msg) {
@@ -141,18 +141,18 @@ $.validator.addMethod("dpiunico", function(value, element){
 			}
 		});
 		return valid;
-        }, "El CUI/DPI ya esta registrado en el sistema");
+        }, "El CUI/DPI ya esta registrado en el sistema"); */
         
-    $.validator.addMethod("dpiEdit", function(value, element){
+    $.validator.addMethod("dpiEditColegiado", function(value, element){
         var valid = false;
         var id = $("input[name='num']").val();
-        var dp = $("input[name='dpi']").val();
+        var idusuario = $("input[name='dpi']").val();
         var urlActual = $("input[name='urlActual']").val();
         $.ajax({
             type: "GET",
             async: false,
-            url: "/Aspirante/dpiDisponibleEdit/",
-            data: {id, dp},
+            url: "/colegiados/dpiDisponibleEditColegiado/",
+            data: {id, idusuario},
             dataType: "json",
             success: function (msg) {
                 valid=!msg;
@@ -161,27 +161,26 @@ $.validator.addMethod("dpiunico", function(value, element){
         return valid;
         }, "El CUI/DPI ya esta registrado en el sistema");
 
-        var validator = $("#EditAspiranteForm").validate({
+        var validator = $("#EditColegiadoForm").validate({
             ignore: [],
             onkeyup:false,
             rules: {
                 nombres:{
               required: true,
-				},
-			dpi: {
-				required : true,
-				dpi : true,
-				dpiEdit : true,
-				dpiunico2 : true
-					},
-             apellidos:{
+                },
+            apellidos:{
               required: true,
                     },
             telefono: {
               required : true,
               numero : true
                 },
-            
+            dpi: {
+              required : true,
+              dpi : true,
+			  dpiunico : true,
+			  dpiEditColegiado : true
+                },
             valDepartamentoNacimiento: {
                     required: true
                 },
@@ -234,7 +233,7 @@ $.validator.addMethod("dpiunico", function(value, element){
               },
             valUniversidadGraduado:{
               required: true
-              } 
+              }
             },
             messages: {
             nombres: {
@@ -300,27 +299,27 @@ $.validator.addMethod("dpiunico", function(value, element){
             }
         });
 
+		$("#ButtonColegiadoUpdate").click(function(event) {
 
-		 $("#ButtonAspiranteUpdate").click(function(event) {
-
-			if ($('#EditAspiranteForm').valid()) {
+			if ($('#EditColegiadoForm').valid()) {
 				$('.loader').addClass("is-active");
 			} else {
 				validator.focusInvalid();
 			}
-		}); 
+		});
+  
+	/* 	
+ $("#ButtonColegiadoUpdate").click(function(event) {
+	if ($('#EditColegiadoForm').valid()) {
+        actualizarAspiranteF();
+	} else {
+		validator.focusInvalid();
+	}
+});  
  
-	/*	$("#ButtonAspiranteUpdate").click(function(event) {
-
-			if ($('#EditAspiranteForm').valid()) {
-				actualizarAspiranteF();
-			} else {
-				validator.focusInvalid();
-			}
-		}); 
-
 function actualizarAspiranteF() {
    
+
     $("#cleanButton").click();
     var carrera_afin = 0;
     
@@ -328,7 +327,7 @@ function actualizarAspiranteF() {
       carrera_afin = 1;
     }
       var datos = {
-      'dpi': $("#dpi").val(),
+      'idusuario': $("#dpi").val(),
       'nombres': $("#nombres").val(),
       'apellidos': $("#apellidos").val(),
       'sexo': $("#sexo").val(),
@@ -357,16 +356,16 @@ function actualizarAspiranteF() {
       'tituloTesis': $("#tituloTesis").val(),
       'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
       'nombreContactoEmergencia': $("#nombreContactoEmergencia").val(), 
-      'ca': carrera_afin 
+      'ca': carrera_afin
       };
-      $("#EditAspiranteForm").validate;
+      $("#EditColegiadoForm").validate;
       $('.loader').fadeIn();
 
       $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
           dataType:'JSON',
-          url: "/Aspirante/" + full.dpi + "/update",
+          url: "/colegiados/"+full.codigo+"/updateColegiado",
           data: datos,
           success: function(data){
                   var idusuario = $("#idusuario").val();
@@ -390,7 +389,7 @@ function actualizarAspiranteF() {
                 window.location = "/aspirantes";
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Aspirante creado con Éxito!!');
-                $("#mensajes").html("Datos actualizados correctamente.");
+                $("#mensajes").html("Datos guardados correctamente.");
           }
         },
           error: function(response) {
@@ -402,7 +401,7 @@ function actualizarAspiranteF() {
                 $("#mensajes").html("Error en el sistema.");
           }
       });
-  }*/
+  }  */
   
   
 $("#valUniversidadGraduado").autocomplete({
