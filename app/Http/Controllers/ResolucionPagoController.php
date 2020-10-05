@@ -298,7 +298,7 @@ class ResolucionPagoController extends Controller
             'no_acta' => $request->no_acta,
             'no_punto_acta' => $request->no_punto_acta,
             'id_estado_solicitud' => 7,
-            'fecha_ingreso_acta' => Now(),
+            'fecha_ingreso_acta' => $request->fechaActa,
         );
         $json = json_encode($nuevos_datos);
         $solicitud->update($nuevos_datos);

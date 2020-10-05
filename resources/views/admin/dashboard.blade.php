@@ -54,7 +54,7 @@
   </div>
 @endrole
 
-@if($rec == true) 
+@if($rec == true)
 <div class="col-lg-3 col-xs-6">
   <div class="small-box bg-red">
       <div class="inner">
@@ -71,4 +71,23 @@
     </div>
   </div>
   @endif
+
+@role("Super-Administrador|Administrador|Caja")
+<div class="col-lg-3 col-xs-6">
+  <div class="small-box bg-gray">
+      <div class="inner">
+        <h3>5</h3>
+
+        <p>Anulación de Recibos</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-ios-close"></i>
+      </div>
+      <a id='modal-anulacion-recibos' data-toggle="modal" data-target="#modalAnulacionRecibos" class="small-box-footer">
+        Más info <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+@endrole
+
 @stop

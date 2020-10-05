@@ -8,6 +8,9 @@ class EstadoCivil extends Model
 {
     protected $connection = 'sqlsrv';
     protected $table = 'e_civil';
-    protected $primaryKey = 'c_civil';
-    public $timestamps = false;
+
+    protected $fillable=[
+        'c_civil',
+        'n_civil'
+    ];
 }

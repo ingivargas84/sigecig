@@ -8,6 +8,8 @@ class Sexo extends Model
 {
     protected $connection = 'sqlsrv';
     protected $table = 'sexo';
-    protected $primaryKey = 'c_sexo';
-    public $timestamps = false;
+    protected $fillable=[
+        'c_sexo',
+        'n_sexo'
+    ];
 }

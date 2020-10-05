@@ -246,12 +246,17 @@ Route::group([
         Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
         Route::get('/Aspirante/dpiDisponible2/', 'ColegiadosController@dpiDisponibleColegiado');
         Route::get('/Aspirante/dpiDisponibleEdit/', 'ColegiadosController@dpiDisponibleEdit');
+        Route::get('/colegiados/dpiDisponibleEditColegiado/', 'ColegiadosController@dpiDisponibleEditColegiado');
+
+        Route::put('/Aspirante/{codigo}/update', 'ColegiadosController@update')->name('aspirante.update');
+        Route::post('/colegiados/{codigo}/updateColegiado', 'ColegiadosController@updateColegiado')->name('colegiado.update');
 
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
         Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
         Route::post('colegiado/setDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesColegiado']);
         Route::get('/aspirante/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@edit'])->name('aspirante.edit');
+        Route::get('/colegiados/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@editColegiado'])->name('colegiado.edit');
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -296,7 +301,7 @@ Route::group([
          Route::post('/cortedecaja/save/', 'CorteDeCajaController@setDetalleCorteCaja')->name('cortedecaja.save');
          Route::get( '/edit/bodega/{id}','CajasController@editBodegaCaja');
 
-         //Timbres
+         //Timbres Y Reportes
          Route::get('/timbres/reporte/', 'TimbresController@reporteTimbres')->name('timbres.reporte');
          Route::get('/ventas/reporte-xyz/', 'ReportesController@reporteVentasXyz')->name('ventasxyz.reporte');
          Route::get('/estadocuenta/reportecolegiado/{codigo}', 'ReportesController@reporteColegiado');
@@ -307,6 +312,14 @@ Route::group([
          Route::get('/cursos/getTiposDePago/', 'ReportesController@getCursos');
          Route::get('/reportes/getCajas/', 'ReportesController@getCajas');
          Route::get('/colegiados/reporte/rango', 'TimbresController@reporteRangoColegiado')->name('timbres.rango');
+
+         // Módulo de Anulacion
+         Route::get('/anulacion', 'AnulacionRecibosController@index')->name('anulacion.index');
+         Route::post('/anulacion/save', 'AnulacionRecibosController@saveSolicitudAnulacion')->name('solicitudAnulacion.save');
+         Route::get('/detalleRecibo', 'AnulacionRecibosController@detelleRecibo')->name('anulacion.solicitud');
+         Route::get('/tracking/anulacion', 'AnulacionRecibosController@tracking')->name('anulacion.tracking');
+         Route::get('/anulacion/getJson/', 'AnulacionRecibosController@getJson')->name('anulacion.getJson');
+         Route::get('/anulacion/solicitud/', 'AnulacionRecibosController@solicitudAnulacion');
 
 
     });

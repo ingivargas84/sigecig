@@ -95,6 +95,10 @@ var colegiados_table = $('#colegiados-table').DataTable({
                 "<a href='"+urlActual+"/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-info-circle' title='Detalles'></i>" +
                 "</a>" + "</div>" +
+                "<div class='float-right col-lg-3'>" +
+                "<a href='colegiados/edit/"+full.codigo+"'"+ "data-method='post' data.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-edit' title='Editar'></i>" +
+                "</a>" + "</div>" +
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
                 "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModalColProf' data-c_cliente='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +

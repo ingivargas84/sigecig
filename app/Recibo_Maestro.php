@@ -23,7 +23,8 @@ class Recibo_Maestro extends Model
         'usuario',
         'monto_total',
         'e_mail',
-        'id_corte_de_caja'
+        'id_corte_de_caja',
+        'estado_recibo_id'
     ];
     public function corte() {
         return $this->belongsTo('\App\CorteCaja', 'id');

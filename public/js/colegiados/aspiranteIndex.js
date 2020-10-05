@@ -76,7 +76,7 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
          {
             "title": "Estado",
             "data": "estado",
-            "width" : "20%",
+            "width" : "15%",
             "responsivePriority": 2,
             "render": function( data, type, full, meta ) {
                 return (data);},
@@ -85,22 +85,26 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
         "title": "Acciones",
         "data": "estado",
         "orderable": false,
-        "width" : "30%",
+        "width" : "15%",
         "render": function(data, type, full, meta) {
             var rol_user = $("input[name='rol_user']").val();
             var urlActual = $("input[name='urlActual']").val();
             if (parseInt(full.activo)== 1) {
                 return "<div id='" + full.codigo + "' class='text-center'>" +
-                "<div class='float-right col-lg-3'>" +
+                "<div class='float-right col-lg-2'>" +
                 "<a href='aspirante/detalles/"+full.codigo+"'"+ "data-method='post' dallfull.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-info-circle' title='Detalles'></i>" +
                 "</a>" + "</div>" +
                 "<div id='" + full.codigo + "' class='text-center'>" +
-                "<div class='float-right col-lg-3'>" +
+                "<div class='float-right col-lg-2'>" +
+                "<a href='aspirante/edit/"+full.codigo+"'"+ "data-method='post' data.codigo='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
+                "<i class='fa fa-edit' title='Editar'></i>" +
+                "</a>" + "</div>" +
+                "<div id='" + full.codigo + "' class='text-center'>" +
+                "<div class='float-right col-lg-2'>" +
                 "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                 "</a>" + "</div>" +
-
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
                 "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
@@ -127,7 +131,6 @@ var aspirantes_table = $('#aspirantes-table').DataTable({
                 "<a href='#' class='add-profesion' data-toggle='modal' data-target='#ingresoModal2' data-dpi='"+full.codigo+"' data-nombre='"+full.colegiado+"'>" +
                 "<i class='fa fa-plus-square' title='Agregar Profesion'></i>" +
                 "</a>" + "</div>" +
-
                 "<div id='" + full.codigo + "' class='text-center'>" +
                 "<div class='float-right col-lg-3'>" +
                 "<a href='#' class='add-timbre' data-toggle='modal' data-target='#ingresoModal3' data-dpi1='"+full.codigo+"' data-nombre1='"+full.colegiado+"'>" +
