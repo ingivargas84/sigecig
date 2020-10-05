@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=w, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte de envíos de timbre </title>
+    <title>Reporte estado de cuenta colegiado</title>
     <style>
         p {
             font-family: "sans-serif";
