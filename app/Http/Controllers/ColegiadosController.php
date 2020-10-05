@@ -81,7 +81,7 @@ class ColegiadosController extends Controller
 
     public function edit(Aspirante $codigo)
     {
-
+//dd($codigo);
       $query = Aspirante::where('dpi', '=', $codigo->dpi)->get()->first();
       $uni = Universidad::where('c_universidad', '=', $codigo->universidadGraduado)->get()->first();
       $uniinc = Universidad::where('c_universidad', '=', $codigo->universidadIncorporado)->get()->first();
@@ -94,11 +94,118 @@ class ColegiadosController extends Controller
       $depcasa = DepartamentoNac::where('c_depto', '=', $codigo->idDepartamentoCasa)->get()->first();
       $munitrab = Municipio::where('c_mpo', '=', $codigo->idMunicipioTrabajo)->get()->first();
       $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->idDepartamentoTrabajo)->get()->first();
+      $dest = DestinoCorreo::select('destino')->get();
+      $sx = Sexo::select('c_sexo', 'n_sexo')->get();
+      $ecivil = EstadoCivil::all();
 
+      return view ('admin.colegiados.editAspirante', compact('ecivil', 'dest', 'codigo', 'query', 'sx', 'muninac', 'depnac', 'paisnac', 'nacionalidad', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc'));
+    }
+
+    public function update(Aspirante $codigo, Request $request)
+    {
+      $aspiranteUpdate = Aspirante::where('dpi', $codigo->dpi)->get()->first();
+
+      $aspiranteUpdate->dpi = Input::get('dpi');
+      $aspiranteUpdate->nombre = Input::get('nombres');
+      $aspiranteUpdate->apellidos = Input::get('apellidos');
+      $aspiranteUpdate->sexo = Input::get('sexo');
+      $aspiranteUpdate->fechaNacimiento = Input::get('fechaNacimiento');
+      $aspiranteUpdate->idmunicipionacimiento = Input::get('idMunicipioNacimiento');
+      $aspiranteUpdate->iddepartamentonacimiento = Input::get('idDepartamentoNacimiento');
+      $aspiranteUpdate->idPaisNacimiento = Input::get('idPais');
+      $aspiranteUpdate->idnacionalidad = Input::get('idNacionalidad');
+      $aspiranteUpdate->telefono = Input::get('telefono');
+      $aspiranteUpdate->telefonoTrabajo = Input::get('telTrabajo');
+      $aspiranteUpdate->correo = Input::get('email');
+      $aspiranteUpdate->nit = Input::get('nit');
+      $aspiranteUpdate->estadocivil = Input::get('estadoCivil');
+      $aspiranteUpdate->direccionCasa = Input::get('direccion');
+      $aspiranteUpdate->zona = Input::get('zona');
+      $aspiranteUpdate->idMunicipioCasa = Input::get('idMunicipio');
+      $aspiranteUpdate->idDepartamentoCasa = Input::get('idDepartamento');
+      $aspiranteUpdate->direccionTrabajo = Input::get('direccionTrabajo');
+      $aspiranteUpdate->zonatrabajo = Input::get('zonaTrabajo');
+      $aspiranteUpdate->idDepartamentoTrabajo = Input::get('idDepartamentoTrabajo');
+      $aspiranteUpdate->idMunicipioTrabajo = Input::get('idMunicipioTrabajo');
+      $aspiranteUpdate->destinoCorreo = Input::get('destino');
+      $aspiranteUpdate->fechagraduacion = Input::get('fechaGraduacion');
+      $aspiranteUpdate->universidadGraduado = Input::get('idUniversidadGraduado');
+      $aspiranteUpdate->universidadIncorporado = Input::get('idUniversidadIncorporado');
+      $aspiranteUpdate->tituloTesis = Input::get('tituloTesis');
+      $aspiranteUpdate->telefonoContactoEmergencia = Input::get('telefonoContactoEmergencia');
+      $aspiranteUpdate->nombreContactoEmergencia = Input::get('nombreContactoEmergencia');
+      $aspiranteUpdate->carrera_afin = Input::get('ca'); 
+      
+      $aspiranteUpdate->save();  
+ 
+       return redirect()->route('aspirantes.index', $codigo)->with('flash','Aspirante actualizado');
+
+    }
+
+    public function updateColegiado(CC00 $codigo, Request $request)
+    {
+      $colegiadoUpdate = CC00::where('id', $codigo->id)->get()->first();
+//dd($colegiadoUpdate);
+      $colegiadoUpdate->registro = Input::get('dpi');
+      $colegiadoUpdate->nombres = Input::get('nombres');
+      $colegiadoUpdate->apellidos = Input::get('apellidos');
+      $colegiadoUpdate->n_cliente= $colegiadoUpdate->nombres . ' ' . $colegiadoUpdate->apellidos;
+      $colegiadoUpdate->sexo = Input::get('sexo');
+      $colegiadoUpdate->fecha_nac = Input::get('fechaNacimiento');
+      $colegiadoUpdate->c_mpo = Input::get('idMunicipioNacimiento');
+      $colegiadoUpdate->c_depto = Input::get('idDepartamentoNacimiento');
+      $colegiadoUpdate->c_pais = Input::get('idPais');
+      $colegiadoUpdate->nacionalidad = Input::get('idNacionalidad');
+      $colegiadoUpdate->telefono = Input::get('telefono');
+      $colegiadoUpdate->fax = Input::get('telTrabajo');
+      $colegiadoUpdate->e_mail = Input::get('email');
+      $colegiadoUpdate->nit = Input::get('nit');
+      $colegiadoUpdate->e_civil = Input::get('estadoCivil');
+      $colegiadoUpdate->direccion = Input::get('direccion');
+      $colegiadoUpdate->zona = Input::get('zona');
+      $colegiadoUpdate->c_mpocasa = Input::get('idMunicipio');
+      $colegiadoUpdate->c_deptocasa = Input::get('idDepartamento');
+      $colegiadoUpdate->dir_trabajo = Input::get('direccionTrabajo');
+      $colegiadoUpdate->zona_trabajo = Input::get('zonaTrabajo');
+      $colegiadoUpdate->c_deptotrab = Input::get('idDepartamentoTrabajo');
+      $colegiadoUpdate->c_mpotrab = Input::get('idMunicipioTrabajo');
+      $colegiadoUpdate->destino_correo = Input::get('destino');
+      $colegiadoUpdate->fecha_grad = Input::get('fechaGraduacion');
+      $colegiadoUpdate->c_universidad = Input::get('idUniversidadGraduado');
+      $colegiadoUpdate->c_universidad1 = Input::get('idUniversidadIncorporado');
+      $colegiadoUpdate->titulo_tesis = Input::get('tituloTesis');
+      $colegiadoUpdate->telefonoContactoEmergencia = Input::get('telefonoContactoEmergencia');
+      $colegiadoUpdate->nombreContactoEmergencia = Input::get('nombreContactoEmergencia');
+      $colegiadoUpdate->carrera_afin = Input::get('ca');  
+      
+      $colegiadoUpdate->save();  
+
+      return redirect()->route('colegiados.index', $codigo)->with('flash','Colegiado actualizado');
+
+    }
+
+    public function editColegiado(CC00 $codigo)
+    {
+      $query = CC00::where('c_cliente', '=', $codigo->c_cliente)->get()->first();
+      $paisnac = Pais::where('c_pais', '=', $codigo->c_pais)->get()->first();
+      $muninac = Municipio::where('c_mpo', '=', $codigo->c_mpo)->get()->first();
+      $depnac = DepartamentoNac::where('c_depto', '=', $codigo->c_depto)->get()->first();
+      $nacionalidad = Nacionalidad::where('c_nacionalidad', '=', $codigo->nacionalidad)->get()->first();
+      $ecivil = EstadoCivil::where('c_civil', '=', $codigo->e_civil)->get()->first();
+      $municasa = Municipio::where('c_mpo', '=', $codigo->c_mpocasa)->get()->first();
+      $depcasa = DepartamentoNac::where('c_depto', '=', $codigo->c_deptocasa)->get()->first();
+      $munitrab = Municipio::where('c_mpo', '=', $codigo->c_mpotrab)->get()->first();
+      $deptrab = DepartamentoNac::where('c_depto', '=', $codigo->c_deptotrab)->get()->first();
+      $uni = Universidad::where('c_universidad', '=', $codigo->c_universidad)->get()->first();
+      $uniinc = Universidad::where('c_universidad', '=', $codigo->c_universidad1)->get()->first();
+      $especialidadasp = CC00espec::where('c_cliente', '=', $codigo->c_cliente)->get();
+      $profasp = CC00prof::where('c_cliente', '=', $codigo->c_cliente)->get();
+      $sx = Sexo::select('c_sexo', 'n_sexo')->get();
+      $ecivil = EstadoCivil::all();
       $dest = DestinoCorreo::select('destino')->get();
 
-      return view ('admin.colegiados.editAspirante', compact('dest', 'codigo', 'query', 'sx', 'muninac', 'depnac', 'paisnac', 'nacionalidad', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc'));
-    }
+        return view ('admin.colegiados.editColegiado', compact('codigo', 'ecivil', 'dest', 'query', 'sx', 'paisnac', 'muninac', 'depnac', 'nacionalidad', 'ecivil', 'municasa', 'depcasa', 'munitrab', 'deptrab', 'uni', 'uniinc', 'profasp', 'especialidadasp'));
+}
 
     public function dpiDisponibleEdit(Request $request){
      
@@ -114,6 +221,21 @@ class ColegiadosController extends Controller
           return 'true';
       }
   }
+
+  public function dpiDisponibleEditColegiado(Request $request){
+     
+    $query2 = CC00::where("registro",$request->idusuario)->where("id","!=",$request->id)->get();
+    $contador = count($query2);
+    //dd($contador);
+    if ($contador == 0 )
+    {
+        return 'false';
+    }
+    else
+    {
+        return 'true';
+    }
+}
 
     protected function vistaAspirante($colegiado = null) {
         $query = "SELECT c_civil idcivil, n_civil valcivil FROM e_civil ORDER BY c_civil";
@@ -691,6 +813,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
       $colegiado->c_deptocasa= $aspirante->idDepartamentoCasa;
       $colegiado->c_mpotrab= $aspirante->idMunicipioTrabajo;
       $colegiado->c_deptotrab= $aspirante->idDepartamentoTrabajo;
+      $colegiado->fax= $aspirante->telefonoTrabajo;
       $colegiado->zona= $aspirante->zona;
       $colegiado->zona_trabajo= $aspirante->zonatrabajo;
       $colegiado->registro= $aspirante->dpi;
@@ -766,7 +889,7 @@ Log::info("Morir2 ".print_r($aspirante, true));
       }
   }
 
-  public function dpiDisponible(){
+  public function dpiDisponible(){ //Verifica si el dpi ya está registrado a un aspirante
     $dato = Input::get("dpi");
     $query = Aspirante::where("dpi",$dato)->get();
     $contador = count($query);
