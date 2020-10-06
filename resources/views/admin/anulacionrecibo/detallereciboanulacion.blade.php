@@ -16,6 +16,7 @@
     <form id="DetalleReciboAnulacionForm" method="POST" action="{{route('solicitudAnulacion.save')}}">
         {{csrf_field()}}
         <input type="text" name="numeroRecibo" style="display:none;" value="{{$id}}" class="form-control">
+        <input type="text" name="tipoDeCliente" style="display:none;" value="{{$datos[0]->tipo_de_cliente}}" class="form-control">
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">

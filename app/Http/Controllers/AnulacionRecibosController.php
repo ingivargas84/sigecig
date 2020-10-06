@@ -94,6 +94,14 @@ class AnulacionRecibosController extends Controller
         $guardar->estado_recibo_id = 1;
         $guardar->save();
 
+        $tipo = $request->tipoDeCliente;
+        $reciboMaestro = $guardar->recibo_id;
+        $fecha_actual = date_format(Now(), 'd-m-Y');
+        $infoCorreoRecibo = new \App\Mail\EnvioReciboElectronico($fecha_actual, $reciboMaestro, $tipo);
+        $infoCorreoRecibo->subject('Anulacion de Recibo Electrónico No.' . $reciboMaestro->numero_recibo);
+        $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
+        Mail::to('desarrollo1@cig.org.gt')->send($infoCorreoRecibo);
+
         return redirect()->route('dashboard')->withFlash('Solicitud de Anulación se creo exitosamente!');
     }
 }
