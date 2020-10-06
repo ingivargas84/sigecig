@@ -179,6 +179,9 @@
                 <label for="" class=" ">DPI: {{$id->numero_de_identificacion}} </label>
             </div>
          @endif
+            <div class="">
+                <label for="" class=" ">NIT: {{$dpi->nit}} </label>
+            </div>
         @if($id->tipo_de_cliente_id == 3)
             <div class="">
                 <label for="" class=" ">NIT: {{$id->numero_de_identificacion}} </label>
