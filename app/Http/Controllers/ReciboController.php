@@ -68,6 +68,7 @@ class ReciboController extends Controller
         $letras = new NumeroALetras;
         $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
+        $dpi = Aspirante::where("dpi", $id->numero_de_identificacion)->get()->first();
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
@@ -101,7 +102,7 @@ class ReciboController extends Controller
             }
         }
 
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR', 'dpi'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }

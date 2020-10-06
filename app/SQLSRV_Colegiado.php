@@ -255,7 +255,6 @@ class SQLSRV_Colegiado extends Model
         $montoInteresAtrasado += $this->calculoPotenciaColegio($diferencia, $porcentajeInteres, $montoPago['auxilio'], $dif2);
       }
     }
-    
     $query = "select importe from calculo_colegiado(" . $colegiado . ", '" . $fecha_hasta_donde_paga . "','02', '" . date('Y-m-d') . "') WHERE codigo='INT'";
     
     $users = DB::connection('sqlsrv')->select($query);
@@ -310,16 +309,8 @@ class SQLSRV_Colegiado extends Model
     $fecha3 = Carbon::parse('01-12-1990')->startOfMonth();
     $fecha2 = Carbon::parse('01-12-1989')->startOfMonth();
     $fecha1 = Carbon::parse('01-02-1983')->startOfMonth();
-    $cuota11=0;
-    $cuota10=0;
-    $cuota8=0;
-    $cuota7=0;
-    $cuota6=0;
-    $cuota5=0;
-    $cuota4=0;
-    $cuota3=0;
-    $cuota2=0;
-    $cuota1=0;
+    $cuota11=0;$cuota10=0;$cuota8=0;$cuota7=0;$cuota6=0;
+    $cuota5=0;$cuota4=0;$cuota3=0;$cuota2=0;$cuota1=0;
     $arrayDatos=array();
     
     
@@ -401,5 +392,39 @@ class SQLSRV_Colegiado extends Model
   
     return $arrayColegiatura;
   }
+
+    ///funciones para reactivacion
+    public function getMontoReactivacionMensual()
+    {
+      
+      $fecha_timbre = Carbon::Now()->startOfMonth()->subMonth(4)->format("t/m/Y");
+      $fecha_colegio = Carbon::Now()->startOfMonth()->subMonth(4)->format("Y/m/t");
+      $colegiado = $this->c_cliente;
+      $fecha_hasta_donde_paga = Carbon::Now()->endOfMonth()->format("Y-m-t");
+      $monto_timbre = $this->monto_timbre;
+      
+      if (!$fecha_timbre || !$fecha_hasta_donde_paga || !$monto_timbre) {
+        return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
+      }
+      $reactivacion = [];
+      $detalle = new \stdClass();
+      
+  
+      $reactivacionColegio = $this->getMontoReactivacionColegio($fecha_colegio, $fecha_hasta_donde_paga, $colegiado);
+      $reactivacionTimbre = $this->getMontoReactivacionTimbre($fecha_timbre, $fecha_hasta_donde_paga, $monto_timbre, 0);
+  
+      $detalle->capitalTimbre = $reactivacionTimbre['capital'];
+      $detalle->moraTimbre = $reactivacionTimbre['mora'];
+      $detalle->interesTimbre = $reactivacionTimbre['interes'];
+      $detalle->totalTimbre = $reactivacionTimbre['total'];
+      $detalle->cuotasTimbre = $reactivacionTimbre['cuotas_timbre'];
+      $detalle->cuotasColegio = $reactivacionColegio['cuotas'];
+      $detalle->interesColegio = $reactivacionColegio['montoInteres'];
+      $detalle->capitalColegio = $reactivacionColegio['capitalColegio'];
+      $detalle->totalColegio = $reactivacionColegio['totalColegio'];
+      $detalle->total = $reactivacionTimbre['total'] + $reactivacionColegio['totalColegio'];
+      $detalle;
+      return $detalle;
+    }
   
 }
