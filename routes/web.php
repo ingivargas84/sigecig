@@ -246,12 +246,17 @@ Route::group([
         Route::get('/Aspirante/dpiDisponible/', 'ColegiadosController@dpiDisponible');
         Route::get('/Aspirante/dpiDisponible2/', 'ColegiadosController@dpiDisponibleColegiado');
         Route::get('/Aspirante/dpiDisponibleEdit/', 'ColegiadosController@dpiDisponibleEdit');
+        Route::get('/colegiados/dpiDisponibleEditColegiado/', 'ColegiadosController@dpiDisponibleEditColegiado');
+
+        Route::put('/Aspirante/{codigo}/update', 'ColegiadosController@update')->name('aspirante.update');
+        Route::post('/colegiados/{codigo}/updateColegiado', 'ColegiadosController@updateColegiado')->name('colegiado.update');
 
         Route::post('colegiado/getDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosProfesionalesColegiado']);
         Route::post('colegiado/setDatosProfesionalesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosProfesionalesColegiado']);
         Route::post('colegiado/getDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@getDatosEspecialidadesColegiado']);
         Route::post('colegiado/setDatosEspecialidadesColegiado', ['middleware' => 'auth', 'uses' => 'ColegiadosController@setDatosEspecialidadesColegiado']);
         Route::get('/aspirante/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@edit'])->name('aspirante.edit');
+        Route::get('/colegiados/edit/{codigo}', ['middleware' => 'auth', 'uses' => 'ColegiadosController@editColegiado'])->name('colegiado.edit');
 
          //General
          Route::get('General/listamunicipios','General@getListaMunicipios');
@@ -357,3 +362,6 @@ Route::group([
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');*/
 
+
+
+    Route::get('/prueba','ReportesController@pruebas');

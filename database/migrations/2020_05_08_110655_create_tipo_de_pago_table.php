@@ -23,6 +23,7 @@ class CreateTipoDePagoTable extends Migration
             $table->integer('estado'); //este estado es el que nos indica si se encuentra activado (0) o desaactivado (1).
             $table->boolean('display_plataforma')->nullable()->default(null);
             $table->integer('tipo')->nullable()->default(null); 
+            $table->integer('tipo_colegiatura')->nullable()->default(null); 
             $table->softDeletes();
             $table->timestamps();
         });

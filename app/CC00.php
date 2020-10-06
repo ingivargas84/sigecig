@@ -14,11 +14,13 @@ class CC00 extends Model
       //
   
       protected $fillable = [
-       /*  'dpi',
-        'creditos',
-        'valMunicipioNacimiento',
-        'valDepartamentoNacimiento', */
+        
+        'id'
     ];
+
+    protected $casts = [
+      'registro' => 'integer'
+  ];
   
       public function universidadGraduado() {
         return $this->belongsTo('\App\Universidad', 'universidadGraduado');
