@@ -16,7 +16,10 @@ class EstadosAnulacionRecibosSeeder extends Seeder
             'estado_recibo'=>'En Revisión'
         ]);
         DB::table('sigecig_estados_anulacion_recibos')->insert([
-            'estado_recibo'=>'Inactivo'
+            'estado_recibo'=>'Anulado'
+        ]);
+        DB::table('sigecig_estados_anulacion_recibos')->insert([
+            'estado_recibo'=>'Rechazado'
         ]);
     }
 }

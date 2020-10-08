@@ -316,10 +316,14 @@ Route::group([
          // Módulo de Anulacion
          Route::get('/anulacion', 'AnulacionRecibosController@index')->name('anulacion.index');
          Route::post('/anulacion/save', 'AnulacionRecibosController@saveSolicitudAnulacion')->name('solicitudAnulacion.save');
-         Route::get('/detalleRecibo', 'AnulacionRecibosController@detelleRecibo')->name('anulacion.solicitud');
-         Route::get('/tracking/anulacion', 'AnulacionRecibosController@tracking')->name('anulacion.tracking');
+         Route::get('/detalleRecibo', 'AnulacionRecibosController@peticionSolicitudAnulacion')->name('anulacion.solicitud');
+         Route::get('/detalleRecibo/{id}', 'AnulacionRecibosController@detalleRecibo')->name('anulacion.detalle');
+         Route::get('/respuestaSolicitudAnulacion', 'AnulacionRecibosController@respuestaSolicitudAnulacion')->name('anulacion.respuesta');
+         Route::post('/anulacionRespuesta/save', 'AnulacionRecibosController@saveRespuestaAnulacion')->name('respuestaAnulacion.save');
+         Route::get('/tracking/anulacion/{id}', 'AnulacionRecibosController@tracking')->name('anulacion.tracking');
          Route::get('/anulacion/getJson/', 'AnulacionRecibosController@getJson')->name('anulacion.getJson');
          Route::get('/anulacion/solicitud/', 'AnulacionRecibosController@solicitudAnulacion');
+         Route::get('/anulacion/detalle/{id}', 'AnulacionRecibosController@detallesDeAnulacion');
 
 
     });
