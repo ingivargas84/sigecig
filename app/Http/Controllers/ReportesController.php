@@ -458,37 +458,30 @@ class ReportesController extends Controller
     public function pruebas(){
         $cuenta = \App\EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->get();
         $servicio = \App\TipoDePago::where('id','11')->get()->first();
-        $timbre = \App\TipoDePago::where('id','23')->get()->first();
+        $timbre = \App\TipoDePago::where('id','62')->get()->first();
+        $fecha_actual = Carbon::now()->endOfMonth();
+
 
         foreach ($cuenta as $key => $value) {
             $colegiado=\App\SQLSRV_Colegiado::where('c_cliente',$value->colegiado_id)->get()->first();
-            $calculoReactivacion = $colegiado->getMontoReactivacion();
-            dd($calculoReactivacion);
-            $timbres = $colegiado->codigosTimbrePago('1');
-            $cuentaD = \App\EstadoDeCuentaDetalle::create([
-                'estado_cuenta_maestro_id'      => $value->id,
-                'cantidad'                      => '1',
-                'tipo_pago_id'                  => $servicio->id,
-                'recibo_id'                     => '1',
-                'abono'                         => '0.00',
-                'cargo'                         => $servicio->precio_colegiado,
-                'usuario_id'                    => '1',
-                'estado_id'                     => '1',
-            ]);
-            foreach ($timbres as $key => $timbre) {
-                $timbreColegiado = \App\EstadoDeCuentaDetalle::create([
+            $timbre->precio_colegiado = $colegiado->monto_timbre;
+            $interesColegiado = $colegiado->getMontoReactivacionMensual(); 
+            $interesColegiado[] = $servicio;
+            $interesColegiado[] = $timbre;
+
+            foreach ($interesColegiado as $key => $pagos) {
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
                     'estado_cuenta_maestro_id'      => $value->id,
-                    'cantidad'                      => $timbre->cantidad,
-                    'tipo_pago_id'                  => $timbre->id,
+                    'cantidad'                      => '1',
+                    'tipo_pago_id'                  => $pagos->id,
                     'recibo_id'                     => '1',
                     'abono'                         => '0.00',
-                    'cargo'                         => $timbre->total,
+                    'cargo'                         => $pagos->precio_colegiado,
                     'usuario_id'                    => '1',
                     'estado_id'                     => '1',
                 ]);
             }
-
-         
+            
 
         }
     }
