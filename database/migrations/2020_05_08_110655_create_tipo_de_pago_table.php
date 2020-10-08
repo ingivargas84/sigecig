@@ -24,6 +24,9 @@ class CreateTipoDePagoTable extends Migration
             $table->boolean('display_plataforma')->nullable()->default(null);
             $table->integer('tipo')->nullable()->default(null); 
             $table->integer('tipo_colegiatura')->nullable()->default(null); 
+            $table->DateTime('fecha_desde')->nullable()->default(null);
+            $table->DateTime('fecha_hasta')->nullable()->default(null);
+            $table->double('monto_auxilio',10,2)->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
         });
