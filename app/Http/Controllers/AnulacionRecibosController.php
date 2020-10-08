@@ -92,6 +92,29 @@ class AnulacionRecibosController extends Controller
         }
     }
 
+    public function detallesDeAnulacion($id)
+    {
+        $idAnulacion = intval($id);
+        $solicitud = \App\Anulacion::where('id',$idAnulacion)->get()->first();
+
+        // datos del cajero que realiza la solicitud
+        $idCajero = $solicitud->usuario_cajero_id;
+        $consultaSede = "SELECT ss.nombre_sede, us.name FROM sigecig_cajas sc INNER JOIN sigecig_subsedes ss ON sc.subsede = ss.id INNER JOIN sigecig_users us ON sc.cajero = us.id WHERE sc.cajero = $idCajero";
+        $datosCajero = DB::select($consultaSede);
+
+        // datos del contador
+        if ($solicitud->fecha_aprueba_rechazo == null) {
+            $tieneRespuesta = 'no';
+        } else {
+            $tieneRespuesta = 'si';
+            $contador = \App\User::where('id',$solicitud->usuario_aprueba_rechaza)->get()->first();
+            $idContador = $contador->id;
+            $nombreContador = $contador->name;
+        }
+
+        return view('admin.anulacionrecibo.detalleanulacion', compact('solicitud','datosCajero','idAnulacion','nombreContador','tieneRespuesta'));
+    }
+
     public function peticionSolicitudAnulacion(Request $request)
     {
         $id = intval($request->recibo);
@@ -224,7 +247,6 @@ class AnulacionRecibosController extends Controller
 
     public function saveRespuestaAnulacion(Request $request)
     {
-        // $this->regresoRecibo($request);
 
         $id = $request->idAnulacion;
         $idRecibo = $request->numeroRecibo;
@@ -287,7 +309,7 @@ class AnulacionRecibosController extends Controller
                     $cantMensualidadColegiatura += $array[$i]->cantidad;
                     $this->regresoEstadoDeCuenta($array[$i], $request);
                 }
-                if ( substr($dato,0,2) == 'TC' || substr($dato,0,2) == 'TE' || substr($array[$i][1],0,3) == 'TIM'){
+                if ( substr($dato,0,2) == 'TC'){
                     $this->regresoTimbres($array[$i], $request);
                     $this->regresoEstadoDeCuenta($array[$i], $request);
                     $cantPrecioTimbre += $array[$i]->total;
@@ -320,7 +342,16 @@ class AnulacionRecibosController extends Controller
             }
 
         } else {
-
+            for ($i = 0; $i < sizeof($array); $i++) {
+                $dato=$array[$i]->codigo_compra;
+                if ($dato == 'COL092'){
+                    $cantMensualidadColegiatura += $array[$i]->cantidad;
+                }
+                if ( substr($dato,0,2) == 'TC' || substr($dato,0,2) == 'TE' || substr($dato,0,3) == 'TIM'){
+                    $this->regresoTimbres($array[$i], $request);
+                    $cantPrecioTimbre += $array[$i]->total;
+                }
+            }
         }
     }
 
@@ -339,6 +370,9 @@ class AnulacionRecibosController extends Controller
             $ingresoPro->numeracion_final   = $numeracion->numeracion_final;
             $ingresoPro->bodega_id          = $cajaBodega->bodega;
             $ingresoPro->save();
+
+            $numeracion->estado_id = 2;
+            $numeracion->update();
         }
     }
 

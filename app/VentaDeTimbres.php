@@ -11,6 +11,7 @@ class VentaDeTimbres extends Model
     protected $fillable = [
         'recibo_detalle_id',
         'numeracion_inicial',
-        'numeracion_final'
+        'numeracion_final',
+        'estado_id',
     ];
 }

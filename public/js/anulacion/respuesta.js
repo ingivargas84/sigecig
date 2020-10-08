@@ -2,27 +2,46 @@ var validator = $("#RespuestaAnulacionForm").validate({
 	ignore: [],
 	onkeyup:false,
 	rules: {
-		respuesta:{
+		cuadroRespuesta:{
             required: true,
 		},
-		tipoRespuesta:{
-            required: true,
-		},
+		// tipoRespuesta:{
+        //     required: true,
+		// },
 	},
 	messages: {
-		respuesta: {
+		cuadroRespuesta: {
 			required: "Por favor, ingrese la respuesta para la Anulación"
 		},
-		tipoRespuesta: {
-			required: "Por favor, ingrese la respuesta para la Anulación"
-		},
+		// tipoRespuesta: {
+		// 	required: "Por favor, ingrese la respuesta para la Anulación"
+		// },
 	}
 });
 
 $("#guardar").click(function(event) {
     var selected = $('#numeroRecibo').val();
 	if ($('#RespuestaAnulacionForm').valid()) {
-        alertify.confirm('Confirmación de Proceso de Anulación', 'Este proceso es irreversible, Esta seguro que desea realizarlo en el recibo: <strong>' + selected + "</strong>",
+        if (document.getElementById("tipoRespuestaA").checked && !document.getElementById("tipoRespuestaR").checked) {
+            $("#tipoRespuesta").val(2);
+            $("#respuesta").val($("#cuadroRespuesta").val());
+            guardar();
+        } else if (document.getElementById("tipoRespuestaR").checked && !document.getElementById("tipoRespuestaA").checked) {
+            $("#tipoRespuesta").val(3);
+            $("#respuesta").val($("#cuadroRespuesta").val());
+            guardar();
+        } else if((document.getElementById("tipoRespuestaA").checked && document.getElementById("tipoRespuestaR").checked) || (!document.getElementById("tipoRespuestaA").checked) || (!document.getElementById("tipoRespuestaR").checked)){
+            alertify.set('notifier','position', 'top-center');
+            alertify.error('debe de seleccionar una opción de respuesta...');
+        }
+	} else {
+		validator.focusInvalid();
+	}
+});
+
+function guardar(){
+    var selected = $('#numeroRecibo').val();
+    alertify.confirm('Confirmación de Proceso de Anulación', 'Este proceso es irreversible, Esta seguro que desea realizarlo en el recibo: <strong>' + selected + "</strong>",
         function(){
             var config = {};
                 $('input').each(function () {
@@ -35,12 +54,9 @@ $("#guardar").click(function(event) {
                 data: config,
                 success: function() {
                     $('.loader').fadeOut(1000);
-                    window.location.href = "{{URL::to('/admin')}}"
+                    window.location.href = "/admin"
                 },
             });
-         }, function(){});
-        // $('.loader').addClass("is-active");
-	} else {
-		validator.focusInvalid();
-	}
-});
+        }, function(){});
+    // $('.loader').addClass("is-active");
+}

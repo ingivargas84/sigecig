@@ -26,7 +26,7 @@ class EstadoCuentaController extends Controller
 
 
         /////
-       
+
 
         return view ('admin.estadoCuenta.cuentamaestro',compact('user'));
     }
@@ -39,7 +39,7 @@ class EstadoCuentaController extends Controller
         $ageTo=Carbon::Now()->startOfMonth()->addMonth()->subSecond();
 
         $cuenta = EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->pluck('colegiado_id')->toArray();
-        $List = implode(', ', $cuenta); 
+        $List = implode(', ', $cuenta);
         $query = "SELECT U.id, CONVERT(INT, U.c_cliente) as cliente, U.n_cliente, U.registro, U.telefono, U.estado, U.fecha_nac, U.f_ult_pago, U.f_ult_timbre
         FROM cc00 U
         WHERE  U.c_cliente IN ($List)
@@ -65,7 +65,7 @@ class EstadoCuentaController extends Controller
             }
             $value->id=$id->id;
             if(!empty($saldoActual)){
-                $total=$saldoActual->saldo+$cargo-$abono; 
+                $total=$saldoActual->saldo+$cargo-$abono;
                 $value->registro= number_format($total, 2);}
             else{
                 $total=$cargo-$abono;
@@ -79,8 +79,8 @@ class EstadoCuentaController extends Controller
                $array[]= $value;
             }
         }
-        
-  
+
+
         $api_Result['data'] = $array;
         return Response::json($api_Result);
     }
@@ -95,7 +95,7 @@ class EstadoCuentaController extends Controller
         $colegiado=\App\SQLSRV_Colegiado::select('n_cliente','c_cliente')->where('c_cliente',$no_colegiado->colegiado_id)->get()->first();
 
         $saldoActual =\App\SigecigSaldoColegiados::where('no_colegiado',$no_colegiado->colegiado_id)->where('mes_id',$mes)->where('año',$anio)->get()->last();
-        $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
+        $abono=\App\EstadoDeCuentaDetalle::where('estado_cuenta_maestro_id',$id)->where('estado_id',1)->whereBetween('updated_at', [$ageFrom, $ageTo])->sum('abono');
         if(empty($abono)){
             $abono=0;
         }
@@ -104,12 +104,12 @@ class EstadoCuentaController extends Controller
             $cargo=0;
         }
         if(!empty($saldoActual)){
-            $total=$saldoActual->saldo+$cargo-$abono; 
+            $total=$saldoActual->saldo+$cargo-$abono;
         }
         else{
             $total=$cargo-$abono;
         }
-        
+
         $total= number_format($total, 2);
         return view ('admin.estadoCuenta.cuentadetalle',compact('user','id','colegiado','total'));
     }
@@ -138,9 +138,9 @@ class EstadoCuentaController extends Controller
                    } else {
                    $dato->tipo_de_pago = $dato->tipo_de_pago . ' ' . $numeroTimbres->numeracion_inicial . '-' . $numeroTimbres->numeracion_final;
                    }
-             
+
                 }
-           
+
                 }
         }
 
@@ -152,7 +152,7 @@ class EstadoCuentaController extends Controller
         $user = Auth::User();
 
         ///
-   
+
         ///
         return view ('admin.estadoCuenta.cardexyz',compact('user','id','colegiado'));
     }
@@ -163,11 +163,11 @@ class EstadoCuentaController extends Controller
         WHERE U.c_cliente = '$id'
         ORDER BY U.num_fac DESC";
         $result = DB::connection('sqlsrv')->select($query);
-        
+
         $api_Result['data'] = $result;
-        
+
         return Response::json($api_Result);
     }
 
-    
+
 }

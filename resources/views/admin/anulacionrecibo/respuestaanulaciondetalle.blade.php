@@ -18,6 +18,7 @@
         <input type="text" name="numeroRecibo" id="numeroRecibo" style="display:none;" value="{{ $idMaestro }}" class="form-control">
         <input type="text" name="tipoDeCliente" id="tipoDeCliente" style="display:none;" value="{{ $datos[0]->tipo_de_cliente_id }}" class="form-control">
         <input type="text" name="idAnulacion" id="idAnulacion" style="display:none;" value="{{ $idAnulacion }}" class="form-control">
+        <input type="number" name="tipoRespuesta" id="tipoRespuesta" style="display:none;" class="form-control">
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-body">
@@ -131,7 +132,8 @@
                             <div class="col-md-12">
                                 <label for="respuesta">Respuesta de anulación:</label>
                                 @if ($tieneRespuesta == 'no')
-                                    <textarea class="form-control" id="respuesta" name="respuesta" rows="3"></textarea>
+                                    <textarea class="form-control" id="cuadroRespuesta" name="cuadroRespuesta" rows="3"></textarea>
+                                    <input type="text" name="respuesta" id="respuesta" style="display:none;" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -140,11 +142,11 @@
                         <div class="form-group">
                             <div class="col-md-12 text-center">
                                 <label class="radio-inline">
-                                    <input name="tipoRespuesta" type="checkbox" data-toggle="toggle" value="2">
+                                    <input name="tipoRespuestaA" id="tipoRespuestaA" type="checkbox" data-toggle="toggle" value="2">
                                     <b>Aprobar Anulación</b>
                                 </label>
                                 <label class="radio-inline">
-                                    <input name="tipoRespuesta" type="checkbox" data-toggle="toggle" value="3">
+                                    <input name="tipoRespuestaR" id="tipoRespuestaR" type="checkbox" data-toggle="toggle" value="3">
                                     <b>Rechazar Anulación</b>
                                 </label>
                             </div>

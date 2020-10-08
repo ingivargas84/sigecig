@@ -596,6 +596,7 @@ class ReciboController extends Controller
 
             if($totalPrecioTimbre != null){
                 $cantMensualidades = $totalPrecioTimbre / $montoTimbre;
+                $cantMensualidades = floor($cantMensualidades);
                 $fechaPagoTimbre = new Carbon($fechaPagoTimbre);
                 $nuevaFecha = $fechaPagoTimbre->startofMonth()->addMonths($cantMensualidades+1)->subSeconds(1)->toDateTimeString();
                 $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
@@ -964,6 +965,7 @@ class ReciboController extends Controller
                     $registroTimbres->recibo_detalle_id = $reciboDetalleId;
                     $registroTimbres->numeracion_inicial = $existencia->numeracion_inicial;
                     $registroTimbres->numeracion_final = $existencia->numeracion_inicial + $cantidad - 1;
+                    $registroTimbres->estado_id = 1;
                     $registroTimbres->save();
                     if ($cantidad == $existencia->cantidad) {
                         $existencia->numeracion_inicial = 0;
@@ -981,6 +983,7 @@ class ReciboController extends Controller
                     $registroTimbres->recibo_detalle_id = $reciboDetalleId;
                     $registroTimbres->numeracion_inicial = $existencia->numeracion_inicial;
                     $registroTimbres->numeracion_final = $existencia->numeracion_final;
+                    $registroTimbres->estado_id = 1;
                     $registroTimbres->save();
                     $cantidad -= $existencia->cantidad;
                     $existencia->numeracion_inicial = 0;
@@ -1178,7 +1181,7 @@ class ReciboController extends Controller
         $fecha_hasta_donde_paga = Input::get('fecha_hasta_donde_paga', date("Y-m-t"));
         $monto_timbre = Input::get('monto_timbre', 0);
         $monto_timbre = substr($monto_timbre, 2);
-        dd($fecha_timbre);
+
         if (!$fecha_timbre || !$fecha_hasta_donde_paga || !$monto_timbre) {
             return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
         }

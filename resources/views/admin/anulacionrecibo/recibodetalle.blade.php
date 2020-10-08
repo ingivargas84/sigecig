@@ -59,14 +59,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    @foreach ($detalles as $det)
+                                @foreach ($detalles as $det)
+                                    <tr>
                                         <td>{{$det->codigo_compra}}</td>
                                         <td>{{$det->tipo_de_pago}}</td>
                                         <td>{{$det->cantidad}}</td>
                                         <td>{{$det->total}}</td>
-                                    @endforeach
-                                </tr>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>

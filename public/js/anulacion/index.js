@@ -56,7 +56,7 @@ var anulacion_table = $('#anulacion-table').DataTable({
     },
 
     {
-        "title": "Colegiado",
+        "title": "Colegiado / No. Identificación",
         "data": "colegiado",
         "width" : "15%",
         "responsivePriority": 2,

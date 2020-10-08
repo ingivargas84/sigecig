@@ -441,14 +441,14 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(47); //el 47 es el codigo de interes del colegiado
+                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del colegiado
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.interesColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Colegiatura');
                                             $("#subtotal").val('Q.'+data.interesColegio.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(11); //el 11 es el codigo de cuotas a pagar del colegiado
+                                            $("#codigo").selectpicker('refresh').val(11).selectpicker('refresh').trigger('change'); //el 11 es el codigo de cuotas a pagar del colegiado
                                             $("#cantidad").val(data.cuotasColegio);
                                             $("#precioU").val('Q.115.75');
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
@@ -533,21 +533,21 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(47); //el 47 es el codigo de interes del timbre
+                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.interesTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Timbre');
                                             $("#subtotal").val('Q.'+data.interesTimbre.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(48); //el 48 es el codigo dla mora del timbre
+                                            $("#codigo").selectpicker('refresh').val(48).selectpicker('refresh').trigger('change'); //el 48 es el codigo dla mora del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.moraTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Mora de Timbre');
                                             $("#subtotal").val('Q.'+data.moraTimbre.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(58); //el 58 es el codigo de cuotas a pagar del timbre
+                                            $("#codigo").selectpicker('refresh').val(58).selectpicker('refresh').trigger('change'); //el 58 es el codigo de cuotas a pagar del timbre
                                             $("#cantidad").val(data.cuotasTimbre);
                                             $("#precioU").val($('#monto_timbre').val());
                                             $("#descTipoPago").val('pago de Capital de Timbre');

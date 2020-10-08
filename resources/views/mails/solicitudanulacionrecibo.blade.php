@@ -25,7 +25,7 @@
     @elseif($tipo=='respuesta')
     <h1>RESPUESTA DE ANULACIÓN DE RECIBO</h1>
     <br><br>
-    <h3>Tu solicitud de anulación del recibo <b>{{$reciboMaestro}}</b> fue: <b>{{$cajero}}</b></h3>
+    <h3>Su solicitud de anulación del recibo <b>{{$reciboMaestro}}</b> fue: <b>{{$cajero}}</b></h3>
     @endif
 
 <br><br>
