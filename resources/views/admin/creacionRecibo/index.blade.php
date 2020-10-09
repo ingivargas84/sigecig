@@ -137,11 +137,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-lg-3" id="divFechaReactivacion" style="display: block;">
+                    <div class="col-sm-2 col-lg-2" id="divFechaReactivacion" style="display: block;">
                         <div class="form-group">
                             <label for="fecha_pago" class="control-label">Fecha Reactivación</label>
                             <div>
                                 <input id="fecha_pago" disabled type="date" class="form-control" name="fecha_pago">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-lg-1" id="divFechaReactivacion">
+                        <div class="form-group" style="text-align:center">
+                            <label for="exoneracion" class="control-label">Exonerar</label>
+                            <div>
+                                <input id="exoneracion" type="checkbox" name="exoneracion">
                             </div>
                         </div>
                     </div>
