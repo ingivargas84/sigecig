@@ -526,6 +526,17 @@ class ReciboController extends Controller
                             $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id, $mes, $anio);
 
                         }
+                    } if ($array[$i][1] == 'COLE02E'){
+                        $cant = intval($array[$i][2]);
+                        for ($d = 0; $d < $cant; $d++) {
+                            $reciboDetalle = Recibo_Detalle::create([
+                                'numero_recibo'     => $reciboMaestro->numero_recibo,
+                                'codigo_compra'     => $array[$i][1],
+                                'cantidad'          => 1,
+                                'precio_unitario'   => substr($array[$i][3],2),
+                                'total'             => substr($array[$i][3],2),
+                            ]);
+                        }
                     } else {
                         $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
                         if($tipoPago->categoria_id != 1){

@@ -309,6 +309,16 @@ class AnulacionRecibosController extends Controller
                     $cantMensualidadColegiatura += $array[$i]->cantidad;
                     $this->regresoEstadoDeCuenta($array[$i], $request);
                 }
+                if ($dato == 'COLE02E'){
+                    $idDetalle = $array[$i]->id;
+                    $nuevoId = 2;
+
+                    $query = "UPDATE constancia_electronica SET estado_id = :nuevoId WHERE recibo_id = :recibo_id";
+                    $parametros = array(
+                        ':nuevoId' => $nuevoId, ':recibo_id' => $idDetalle
+                    );
+                    $result = DB::connection('sqlsrv')->update($query, $parametros);
+                }
                 if ( substr($dato,0,2) == 'TC'){
                     $this->regresoTimbres($array[$i], $request);
                     $this->regresoEstadoDeCuenta($array[$i], $request);

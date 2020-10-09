@@ -441,12 +441,14 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del colegiado
-                                            $("#cantidad").val(1);
-                                            $("#precioU").val('Q.'+data.interesColegio.toFixed(2));
-                                            $("#descTipoPago").val('pago de Interés de Colegiatura');
-                                            $("#subtotal").val('Q.'+data.interesColegio.toFixed(2));
-                                            addnewrow();
+                                            if (data.interesColegio > 0) {
+                                                $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del colegiado
+                                                $("#cantidad").val(1);
+                                                $("#precioU").val('Q.'+data.interesColegio.toFixed(2));
+                                                $("#descTipoPago").val('pago de Interés de Colegiatura');
+                                                $("#subtotal").val('Q.'+data.interesColegio.toFixed(2));
+                                                addnewrow();
+                                            }
 
                                             $("#codigo").selectpicker('refresh').val(11).selectpicker('refresh').trigger('change'); //el 11 es el codigo de cuotas a pagar del colegiado
                                             $("#cantidad").val(data.cuotasColegio);
@@ -515,13 +517,19 @@ $(document).ready(function () {
                             }else if($('#estado').val() == 'Inactivo'){
                                 alertify.success("calculo de Interes");
 
+                                if (document.getElementById("exoneracion").checked){
+                                    var exoneracion = 1;
+                                } else {
+                                    var exoneracion = 0;
+                                }
+
                                 var invitacion = {
                                     'colegiado': $("input[name='numeroColegiado']").val(),
                                     'fecha_timbre': $("#f_ult_timbre").val(),
                                     'fecha_colegio': $("#f_ult_pago").val(),
                                     'fecha_hasta_donde_paga': $("#fecha_pago").val(),
                                     'monto_timbre': $("#monto_timbre").val(),
-                                    //'exonerar_intereses_timbre': exonerarInteresesTimbre
+                                    'exonerar_intereses_timbre': exoneracion
                                 };
                                 $.ajax({
                                     type: "POST",
@@ -533,19 +541,23 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del timbre
-                                            $("#cantidad").val(1);
-                                            $("#precioU").val('Q.'+data.interesTimbre.toFixed(2));
-                                            $("#descTipoPago").val('pago de Interés de Timbre');
-                                            $("#subtotal").val('Q.'+data.interesTimbre.toFixed(2));
-                                            addnewrow();
+                                            if (data.interesTimbre > 0) {
+                                                $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del timbre
+                                                $("#cantidad").val(1);
+                                                $("#precioU").val('Q.'+data.interesTimbre.toFixed(2));
+                                                $("#descTipoPago").val('pago de Interés de Timbre');
+                                                $("#subtotal").val('Q.'+data.interesTimbre.toFixed(2));
+                                                addnewrow();
+                                            }
 
-                                            $("#codigo").selectpicker('refresh').val(48).selectpicker('refresh').trigger('change'); //el 48 es el codigo dla mora del timbre
-                                            $("#cantidad").val(1);
-                                            $("#precioU").val('Q.'+data.moraTimbre.toFixed(2));
-                                            $("#descTipoPago").val('pago de Mora de Timbre');
-                                            $("#subtotal").val('Q.'+data.moraTimbre.toFixed(2));
-                                            addnewrow();
+                                            if (data.moraTimbre > 0) {
+                                                $("#codigo").selectpicker('refresh').val(48).selectpicker('refresh').trigger('change'); //el 48 es el codigo dla mora del timbre
+                                                $("#cantidad").val(1);
+                                                $("#precioU").val('Q.'+data.moraTimbre.toFixed(2));
+                                                $("#descTipoPago").val('pago de Mora de Timbre');
+                                                $("#subtotal").val('Q.'+data.moraTimbre.toFixed(2));
+                                                addnewrow();
+                                            }
 
                                             $("#codigo").selectpicker('refresh').val(58).selectpicker('refresh').trigger('change'); //el 58 es el codigo de cuotas a pagar del timbre
                                             $("#cantidad").val(data.cuotasTimbre);
