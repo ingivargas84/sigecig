@@ -45,6 +45,7 @@ function obtenerDatosColegiado()
             $("input[name='fechaTimbre']").val(response[0].f_ult_timbre);
             $("input[name='f_ult_pago']").val(nuevaC);
             $("input[name='fechaColegio']").val(response[0].f_ult_pago);
+            $("input[name='emailC']").val(response[0].e_mail);
             $("input[name='monto_timbre']").val('Q.'+monto_timbre.toFixed(2));
 
             if ($('#estado').val()== 'Inactivo' || $('#estado').val()== 'Fallecido'){
@@ -102,6 +103,7 @@ function limpiarPantallaColegiado()
     $('input[name="montoCheque"]').val('');
     $('input[name="tarjeta"]').val('');
     $('input[name="montoTarjeta"]').val('');
+    $('input[name="emailC"]').val('');
     $("tbody").children().remove();
     $('input[name="tipoDePago"]').prop('checked', false);
     document.getElementById('existencia').style.display = "none";$('#existencia').val('');
@@ -133,6 +135,7 @@ function obtenerDatosEmpresa()
     success: function(response){
         if(response != ""){
             $("input[name='empresa']").val(response.empresa);
+            $("input[name='emailP']").val(response.e_mail);
         }else {
             alertify.warning('NIT no existe');
             $('input[type="text"]').val('');
@@ -167,7 +170,8 @@ function todoNuevo() {
 
 
 function getTimbres(selected, cantidad){
-    var indicador = selected;
+    var indicador = selected.split(" ", 1);
+    indicador = indicador[0];
     var user = $('#rol_user').val();
     if (indicador.substring(0,2) == 'TC' || indicador.substring(0,2) == 'TE' || indicador.substring(0,3) == 'TIM'){
         $.ajax({
@@ -256,7 +260,7 @@ function getTimbres(selected, cantidad){
                     $('#tc200').val('');$('#tc200E').val('');$('#tc200P').val('');
                 }
                 if (timbre == 'TIM500' || timbre == 'TE500'){
-                    document.getElementById('datoTc200').style.display = "none";document.getElementById('datoTc200E').style.display = "none";document.getElementById('datoTc200P').style.display = "none";
+                    document.getElementById('datoTc500').style.display = "none";document.getElementById('datoTc500E').style.display = "none";document.getElementById('datoTc500P').style.display = "none";
                     $('#tc500').val('');$('#tc500E').val('');$('#tc500P').val('');
                 }
 
@@ -299,23 +303,26 @@ function cambioSerie () {
                         if ($('input[name=tipoCliente]:checked').val() == 'c') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigo").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigo').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                                $('#codigo').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigoE").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                                $('#codigoE').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }else if ($('input[name=tipoCliente]:checked').val() == 'p') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigoP").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                                $('#codigoP').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }
                     }
@@ -330,9 +337,10 @@ function cambioSerie () {
                     success:function(data) {
                         $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                         $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                        $("#codigoP").selectpicker('refresh');
                         for (i = 0; i < data.length; i++)
                         {
-                            $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                            $('#codigoP').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                         }
                     }
                 });
@@ -349,26 +357,26 @@ function cambioSerie () {
                         if ($('input[name=tipoCliente]:checked').val() == 'c') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigo').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigo").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigo').append($('<option>', {
-                                    value: data[i]["id"],
-                                    text: data[i]["codigo"]
-                                }));
+                                $('#codigo').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }else if ($('input[name=tipoCliente]:checked').val() == 'e') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigoE').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigoE").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigoE').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                                $('#codigoE').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }else if ($('input[name=tipoCliente]:checked').val() == 'p') {
                             $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                             $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                            $("#codigoP").selectpicker('refresh');
                             for (i = 0; i < data.length; i++)
                             {
-                                $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                                $('#codigoP').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                             }
                         }
                     }
@@ -383,9 +391,10 @@ function cambioSerie () {
                     success:function(data) {
                         $("select[name='codigo']").empty();$("select[name='codigoE']").empty();$("select[name='codigoP']").empty();
                         $('#codigoP').append( '<option value="">-- Escoja --</option>' );
+                        $("#codigoP").selectpicker('refresh');
                         for (i = 0; i < data.length; i++)
                         {
-                            $('#codigoP').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+'</option>' );
+                            $('#codigoP').selectpicker('refresh').append( '<option value="'+data[i]["id"]+'">'+data[i]["codigo"]+' - '+data[i]["tipo_de_pago"]+'</option>' ).selectpicker('refresh').trigger('change');
                         }
                     }
                 });
@@ -432,14 +441,14 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(47); //el 47 es el codigo de interes del colegiado
+                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del colegiado
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.interesColegio.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Colegiatura');
                                             $("#subtotal").val('Q.'+data.interesColegio.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(11); //el 11 es el codigo de cuotas a pagar del colegiado
+                                            $("#codigo").selectpicker('refresh').val(11).selectpicker('refresh').trigger('change'); //el 11 es el codigo de cuotas a pagar del colegiado
                                             $("#cantidad").val(data.cuotasColegio);
                                             $("#precioU").val('Q.115.75');
                                             $("#descTipoPago").val('pago de Capital de Colegiatura');
@@ -524,21 +533,21 @@ $(document).ready(function () {
                                             $("#mensajes").html("Ningún dato encontrado.");
                                             $("#mensajes").css({'color':'red'});
                                         } else {
-                                            $("#codigo").val(47); //el 47 es el codigo de interes del timbre
+                                            $("#codigo").selectpicker('refresh').val(47).selectpicker('refresh').trigger('change'); //el 47 es el codigo de interes del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.interesTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Interés de Timbre');
                                             $("#subtotal").val('Q.'+data.interesTimbre.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(48); //el 48 es el codigo dla mora del timbre
+                                            $("#codigo").selectpicker('refresh').val(48).selectpicker('refresh').trigger('change'); //el 48 es el codigo dla mora del timbre
                                             $("#cantidad").val(1);
                                             $("#precioU").val('Q.'+data.moraTimbre.toFixed(2));
                                             $("#descTipoPago").val('pago de Mora de Timbre');
                                             $("#subtotal").val('Q.'+data.moraTimbre.toFixed(2));
                                             addnewrow();
 
-                                            $("#codigo").val(58); //el 58 es el codigo de cuotas a pagar del timbre
+                                            $("#codigo").selectpicker('refresh').val(58).selectpicker('refresh').trigger('change'); //el 58 es el codigo de cuotas a pagar del timbre
                                             $("#cantidad").val(data.cuotasTimbre);
                                             $("#precioU").val($('#monto_timbre').val());
                                             $("#descTipoPago").val('pago de Capital de Timbre');
@@ -621,7 +630,8 @@ function consultaTimbre(){
         var codigo = $('#codigo').val();
         if (codigo == null){codigo = $('#codigoE').val();}
         if (codigo == null){codigo = $('#codigoP').val();}
-        var nombre = selected;
+        var nombre = selected.split(" ", 1);
+        nombre = nombre[0];
         $.ajax({
             type: "POST",
             dataType: 'JSON',
@@ -1168,7 +1178,7 @@ function validateRow(){
 	resultado += '</td>';
 
     resultado += '<td class="nombreCodigo" id="nombreCodigo">';
-	resultado += $('#codigo option:selected').text();
+	resultado += $('#codigo option:selected').text().split(" ", 1);
 	resultado += '</td>';
 
 	resultado += '<td class="cantidad" id="cantidad">';
@@ -1215,7 +1225,7 @@ function getTotal() {
 }
 
   function limpiarFilaDetalle() {
-    $("select[name='codigo']").val('');
+    $("select[name='codigo']").selectpicker('refresh').val('').selectpicker('refresh').trigger('change');
     $("input[name='cantidad']").val(1);
     $("input[name='precioU']").val('').prop('disabled', true);;
     $("input[name='descTipoPago']").val('');
@@ -1840,7 +1850,7 @@ $(document).ready(function(){
     resultado += '</td>';
 
     resultado += '<td class="nombreCodigoE" id="nombreCodigoE">';
-	resultado += $('#codigoE option:selected').text();
+	resultado += $('#codigoE option:selected').text().split(" ", 1);
 	resultado += '</td>';
 
 	resultado += '<td class="cantidadE" id="cantidadE">';
@@ -1887,7 +1897,7 @@ function getTotalE() {
 }
 
   function limpiarFilaDetalleE() {
-    $("select[name='codigoE']").val('');
+    $("select[name='codigoE']").selectpicker('refresh').val('').selectpicker('refresh').trigger('change');
     $("input[name='cantidadE']").val(1);
     $("input[name='precioUE']").val('').prop('disabled', true);
     $("input[name='descTipoPagoE']").val('');
@@ -2538,7 +2548,7 @@ function agregarproductofP() {
     resultado += '</td>';
 
     resultado += '<td class="nombreCodigoP" id="nombreCodigoP">';
-	resultado += $('#codigoP option:selected').text();
+	resultado += $('#codigoP option:selected').text().split(" ", 1);
 	resultado += '</td>';
 
 	resultado += '<td class="cantidadP" id="cantidadP">';
@@ -2584,16 +2594,16 @@ function getTotalP() {
     $("#totalP").val('Q.'+total.toFixed(2));
 }
 
-  function limpiarFilaDetalleP() {
-    $("select[name='codigoP']").val('');
-    $("input[name='cantidadP']").val(1);
-    $("input[name='precioUP']").val('').prop('disabled', true);;
-    $("input[name='descTipoPagoP']").val('');
-    $("input[name='subtotalP']").val('');
-    $("#codigoP").focus();
-  }
+function limpiarFilaDetalleP() {
+$("select[name='codigoP']").selectpicker('refresh').val('').selectpicker('refresh').trigger('change');
+$("input[name='cantidadP']").val(1);
+$("input[name='precioUP']").val('').prop('disabled', true);;
+$("input[name='descTipoPagoP']").val('');
+$("input[name='subtotalP']").val('');
+$("#codigoP").focus();
+}
 
-  function eliminardetalleP(e) {
+function eliminardetalleP(e) {
 	if (confirm("Confirma que desea eliminar este producto") == false) {
 		return;
     }

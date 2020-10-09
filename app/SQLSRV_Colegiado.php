@@ -192,7 +192,6 @@ class SQLSRV_Colegiado extends Model
       }
       $monto_extra = $fecha_fin_meses - $fecha_actual_meses;
     }
-    
     $capital = round($monto_timbre * ($anio_fin * 12 + $mes_fin - ($anio_origen * 12 + $mes_origen)));
     $mora = round($monto_timbre * 0.18 / 12 * $diferencia * ($diferencia - 1) / 2);
     $intereses = round($monto_timbre * 0.128 / 12 * $diferencia * ($diferencia - 1) / 2);
@@ -256,7 +255,6 @@ class SQLSRV_Colegiado extends Model
       }
     }
     $query = "select importe from calculo_colegiado(" . $colegiado . ", '" . $fecha_hasta_donde_paga . "','02', '" . date('Y-m-d') . "') WHERE codigo='INT'";
-    
     $users = DB::connection('sqlsrv')->select($query);
     $colegiadoR = null;
     foreach ($users as $colegiado1) {
@@ -396,35 +394,77 @@ class SQLSRV_Colegiado extends Model
     ///funciones para reactivacion
     public function getMontoReactivacionMensual()
     {
-      
-      $fecha_timbre = Carbon::Now()->startOfMonth()->subMonth(4)->format("t/m/Y");
-      $fecha_colegio = Carbon::Now()->startOfMonth()->subMonth(4)->format("Y/m/t");
-      $colegiado = $this->c_cliente;
-      $fecha_hasta_donde_paga = Carbon::Now()->endOfMonth()->format("Y-m-t");
-      $monto_timbre = $this->monto_timbre;
-      
-      if (!$fecha_timbre || !$fecha_hasta_donde_paga || !$monto_timbre) {
-        return json_encode(array("capital" => 0, "mora" => 0, "interes" => 0, "total" => 0));
+      $interesColegio = 0;
+      $interesTimbre = 0;
+      $moraTimbre = 0;
+      $fecha_actual = Carbon::now()->endOfMonth();
+      $diffTimbre = Carbon::parse($this->f_ult_timbre)->endOfMonth()->diffInMonths($fecha_actual, false);
+      $cuotas = TipoDePago::where('tipo_colegiatura',1)->orderBy('id','desc')->get();
+
+      $diffColegio = Carbon::parse($this->f_ult_pago)->endOfMonth()->diffInMonths($fecha_actual,false);
+
+      if ($diffColegio > 3) {
+        if($this->paga_axulio = 1){
+          $control = $diffColegio;
+    
+          $interesMensual = 8.5/1000;
+          foreach ($cuotas as $key => $cuota) {
+             $diffCuota = Carbon::parse($cuota->fecha_desde)->endOfMonth()->subMonth()->diffInMonths($fecha_actual,false);
+             if($control  > $diffCuota){
+                  //  $calculo = ($cuota->monto_auxilio * (pow(1+$interesMensual, $diffCuota-3)))-$cuota->monto_auxilio;dd($calculo);
+                  //  $interesColegio = $interesColegio + $calculo;
+                   $control -= $diffCuota;
+             }else{
+              $calculo = ($cuota->monto_auxilio * (pow(1+$interesMensual, $diffColegio-3)))-$cuota->monto_auxilio;
+              $interesColegio = $interesColegio + $calculo;
+             break;
+             }
+          }
+        }
       }
-      $reactivacion = [];
-      $detalle = new \stdClass();
-      
+      $array = array();
+
+
+      $mesAnterior = $diffTimbre-1;
+      if($mesAnterior <= 3){
+        $interesAnterior = 0;
+        $moraAnterior = 0;
+      }else{
+        $interesAnterior = round($this->monto_timbre*0.128/12*$mesAnterior*($mesAnterior-1)/2) ;
+        $moraAnterior = round($this->monto_timbre*0.18/12*$mesAnterior*($mesAnterior-1)/2) ;
+      }
+      if($diffTimbre > 3){
+        $interesTimbre = round($this->monto_timbre*0.128/12*$diffTimbre*($diffTimbre-1)/2) ;
+        $moraTimbre = round($this->monto_timbre*0.18/12*$diffTimbre*($diffTimbre-1)/2) ;
+        $interesTimbre = $interesTimbre - $interesAnterior;
+        $moraTimbre = $moraTimbre - $moraAnterior;
+      }
+      if ($interesTimbre > 0) {
+         $interesT = \App\TipoDePago::where('id',47)->first();
+         $interesT->precio_colegiado = $interesTimbre;
+         $interesT->tipo_de_pago = 'INTERES POR CUOTA TIMBRE ATRASADA';
+         $array[] = $interesT; 
+      }
+      if ($moraTimbre > 0) {
+         $interesT = \App\TipoDePago::where('id',48)->first();
+         $interesT->precio_colegiado = $moraTimbre;
+         $interesT->tipo_de_pago = 'MORA POR CUOTA TIMBRE ATRASADA';
+         $array[] = $interesT; 
+      }
+      if ($interesColegio > 0) {
+         $interesT = \App\TipoDePago::where('id',47)->first();
+         $interesT->precio_colegiado = $interesColegio;
+         $interesT->tipo_de_pago = 'INTERES POR CUOTA DE COLEGIATURA ATRASADA';
+         $array[] = $interesT; 
+      }
+
   
-      $reactivacionColegio = $this->getMontoReactivacionColegio($fecha_colegio, $fecha_hasta_donde_paga, $colegiado);
-      $reactivacionTimbre = $this->getMontoReactivacionTimbre($fecha_timbre, $fecha_hasta_donde_paga, $monto_timbre, 0);
-  
-      $detalle->capitalTimbre = $reactivacionTimbre['capital'];
-      $detalle->moraTimbre = $reactivacionTimbre['mora'];
-      $detalle->interesTimbre = $reactivacionTimbre['interes'];
-      $detalle->totalTimbre = $reactivacionTimbre['total'];
-      $detalle->cuotasTimbre = $reactivacionTimbre['cuotas_timbre'];
-      $detalle->cuotasColegio = $reactivacionColegio['cuotas'];
-      $detalle->interesColegio = $reactivacionColegio['montoInteres'];
-      $detalle->capitalColegio = $reactivacionColegio['capitalColegio'];
-      $detalle->totalColegio = $reactivacionColegio['totalColegio'];
-      $detalle->total = $reactivacionTimbre['total'] + $reactivacionColegio['totalColegio'];
-      $detalle;
-      return $detalle;
+
+
+      // $array = ['interesTimbre'=>$interesTimbre,'interesColegiado'=>$interesColegio,'moraTimbre'=>$moraTimbre];
+
+ 
+      return $array;
     }
   
 }

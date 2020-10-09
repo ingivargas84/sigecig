@@ -6,14 +6,14 @@
           Detalle de Recibo: {{$id}}
         </h1>
         <ol class="breadcrumb">
-          <li><a href="{{route('dashboard')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
+          <li><a href="{{route('anulacion.index')}}"><i class="fa fa-tachometer-alt"></i> Inicio</a></li>
           <li class="active">Detalle de Recibo</li>
         </ol>
     </section>
 @stop
 
 @section('content')
-    <form id="DetalleReciboAnulacionForm" method="POST" action="{{route('solicitudAnulacion.save')}}">
+    <form id="ReciboDetalleForm">
         {{csrf_field()}}
         <input type="text" name="numeroRecibo" style="display:none;" value="{{$id}}" class="form-control">
         <input type="text" name="tipoDeCliente" style="display:none;" value="{{$datos[0]->tipo_de_cliente_id}}" class="form-control">
@@ -76,32 +76,9 @@
                             </tfoot>
                         </table>
                     </div>
-                    <br>
-                    <br>
-                    <div>
-                        <label for="solicitud">Ingrese el motivo por el que solicita la anulación:</label>
-                        <textarea class="form-control" id="solicitud" name="solicitud" rows="3"></textarea>
-                    </div>
-                    <br><br>
-                    <div class="col-md-12">
-                        <div class="col-md-5">
-                            <label for="fechaHoy">Cajero que solicita anulación</label>
-                            <input type="text" class="form-control" id="nombreCajero" name="nombreCajero" readOnly value="{{ Auth::user()->name }}">
-                            <input type="text" class="form-control" id="idCajero" name="idCajero" readOnly value="{{ Auth::user()->id }}" style="display:none;">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="fechaHoy">Sede:</label>
-                            <input type="text" class="form-control" id="nombreSede" name="nombreSede" readOnly value="{{ $sede[0]->nombre_sede }}">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="fechaHoy">Fecha de Solicitud</label>
-                            <input type="text" class="form-control" id="fechaHoy" name="fechaHoy" readOnly value="{{ \Carbon\Carbon::now()->format('d/m/Y')}}">
-                        </div>
-                    </div>
                     <br><br><br><br><br><br>
                     <div class="text-right m-t-15">
-                        <a class='btn btn-danger form-button' href="{{ route('dashboard') }}">Regresar</a>
-                        <button class="btn btn-primary " id="guardar" style="padding: 6px 46px">Guardar</button>
+                        <a class='btn btn-danger form-button' href="{{ route('anulacion.index') }}">Regresar</a>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSigecigVentaDeTimbresTable extends Migration
+class CreateSigecigEstadoReciboTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateSigecigVentaDeTimbresTable extends Migration
      */
     public function up()
     {
-        Schema::create('sigecig_venta_de_timbres', function (Blueprint $table) {
+        Schema::create('sigecig_estado_recibo', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('recibo_detalle_id');
-            $table->bigInteger('numeracion_inicial');
-            $table->bigInteger('numeracion_final');
-            $table->integer('estado_id')->nullable();
+            $table->string('estado_recibo');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateSigecigVentaDeTimbresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sigecig_venta_de_timbres');
+        Schema::dropIfExists('sigecig_estado_recibo');
     }
 }
