@@ -140,12 +140,6 @@ class AuxilioPostumoController extends Controller
             }else{
                 return response()->json(array(['mensaje' => 'Existe una solicitud en proceso']));
             }
-
-
-
-
-
-
     }
 
     public function DocumentosAp($id)
