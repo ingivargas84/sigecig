@@ -59,14 +59,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    @foreach ($detalles as $det)
+                                @foreach ($detalles as $det)
+                                    <tr>
                                         <td>{{$det->codigo_compra}}</td>
                                         <td>{{$det->tipo_de_pago}}</td>
                                         <td>{{$det->cantidad}}</td>
                                         <td>{{$det->total}}</td>
-                                    @endforeach
-                                </tr>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -78,7 +78,7 @@
                     </div>
                     <br><br><br><br><br><br>
                     <div class="text-right m-t-15">
-                        <a class='btn btn-danger form-button' href="{{ route('anulacion.index') }}">Regresar</a>
+                        <a class='btn btn-danger form-button'style="padding: 6px 46px"  href="{{ route('anulacion.index') }}">Regresar</a>
                     </div>
                 </div>
             </div>
