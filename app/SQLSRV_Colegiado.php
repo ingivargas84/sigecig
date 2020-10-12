@@ -310,44 +310,177 @@ class SQLSRV_Colegiado extends Model
     $cuota11=0;$cuota10=0;$cuota8=0;$cuota7=0;$cuota6=0;
     $cuota5=0;$cuota4=0;$cuota3=0;$cuota2=0;$cuota1=0;
     $arrayDatos=array();
+    $arrayColegiaturaDetalle= array();
+    $arrayColegiaturaTimbreDetalle= array();
     
     
     for ($i=0; $i <$cuotas ; $i++) { 
       
 
       if($fechaActual<=$fecha11  && $fechaActual > $fecha10 ){
+        $tipoCuota = \App\TipoDePago::where('id',11)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota11+=1;
       }
       if($fechaActual<=$fecha10 && $fechaActual > $fecha8 ){
+        $tipoCuota = \App\TipoDePago::where('id',10)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota10+=1;
       }
       if($fechaActual<=$fecha8 && $fechaActual > $fecha7 ){
+        $tipoCuota = \App\TipoDePago::where('id',8)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota8+=1;
       }
       if($fechaActual<=$fecha7 && $fechaActual > $fecha6 ){
+        $tipoCuota = \App\TipoDePago::where('id',7)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota7+=1;
       }
       if($fechaActual<=$fecha6 && $fechaActual > $fecha5 ){
+        $tipoCuota = \App\TipoDePago::where('id',6)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota6+=1;
       }
       if($fechaActual<=$fecha5 && $fechaActual > $fecha4 ){
+        $tipoCuota = \App\TipoDePago::where('id',5)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota5+=1;
       }
       if($fechaActual<=$fecha4 && $fechaActual > $fecha3 ){
+        $tipoCuota = \App\TipoDePago::where('id',4)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota4+=1;
       }
       if($fechaActual<=$fecha3 && $fechaActual > $fecha2 ){
+        $tipoCuota = \App\TipoDePago::where('id',3)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota3+=1;
       }
       if($fechaActual<=$fecha2 && $fechaActual > $fecha1 ){
+        $tipoCuota = \App\TipoDePago::where('id',2)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota2+=1;
       }
       if($fechaActual<=$fecha1){
+        $tipoCuota = \App\TipoDePago::where('id',1)->first();
+        $detalle = new \stdClass();
+        $mesInicial = $fechaActual->format('m');
+        $añoInicial = $fechaActual->format('Y');
+        $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+        $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+        $detalle->fechaPago = $fechaPago;
+        $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+        $detalle->precio = $tipoCuota->precio_colegiado;
+        $detalle->codigo = $tipoCuota->codigo;
+        $detalle->cantidad = 1;
+        $detalle->total = $detalle->cantidad * $detalle->precio;
+        $arrayColegiaturaDetalle[]=$detalle;
         $cuota1+=1;
       }
       $fechaActual->subMonth(1);
     }
     $arrayColegiatura= array();
+
     $arrayDatos[]=['cuotas'=>$cuota1,'id'=>1];
     $arrayDatos[]=['cuotas'=>$cuota2,'id'=>2];
     $arrayDatos[]=['cuotas'=>$cuota3,'id'=>3];
@@ -386,9 +519,7 @@ class SQLSRV_Colegiado extends Model
       }
 
     }
-
-  
-    return $arrayColegiatura;
+    return array('arrayColegiatura'=>$arrayColegiatura,'arrayColegiaturaDetalle'=>$arrayColegiaturaDetalle);
   }
 
     ///funciones para reactivacion
