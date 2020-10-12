@@ -183,7 +183,7 @@ class AnulacionRecibosController extends Controller
         $infoCorreoRecibo = new \App\Mail\SolicitudAnulacionRecibo($fecha_actual, $reciboMaestro, $tipo, $cajero, $link);
         $infoCorreoRecibo->subject('Anulacion de Recibo Electrónico No.' . $reciboMaestro);
         $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        Mail::to('desarrollo1@cig.org.gt')->send($infoCorreoRecibo);
+        Mail::to('cig.projectmanager@gmail.com')->send($infoCorreoRecibo);
 
         return redirect()->route('dashboard')->withFlash('Solicitud de Anulación se creo exitosamente!');
     }
@@ -282,7 +282,7 @@ class AnulacionRecibosController extends Controller
         $infoCorreoRecibo = new \App\Mail\SolicitudAnulacionRecibo($fecha_actual, $reciboMaestro, $tipo, $cajero, $link);
         $infoCorreoRecibo->subject('Respuesta de Anulación de Recibo Electrónico No.' . $reciboMaestro);
         $infoCorreoRecibo->from('cigenlinea@cig.org.gt', 'CIG');
-        Mail::to('desarrollo1@cig.org.gt')->send($infoCorreoRecibo);
+        Mail::to('cig.projectmanager@gmail.com')->send($infoCorreoRecibo);
 
         return redirect()->route('dashboard')->withFlash('Solicitud de Anulación se creo exitosamente!');
     }

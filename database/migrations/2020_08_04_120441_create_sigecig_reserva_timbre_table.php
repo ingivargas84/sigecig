@@ -16,6 +16,8 @@ class CreateSigecigReservaTimbreTable extends Migration
         Schema::create('sigecig_reserva_timbre', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('id_ingreso_producto');
+                $table->integer('id_tipo_pago')->nullable();
+                $table->integer('id_categoria_pago')->nullable();
                 $table->integer('no_colegiado');
                 $table->integer('cantidad');
                 $table->integer('estado');
