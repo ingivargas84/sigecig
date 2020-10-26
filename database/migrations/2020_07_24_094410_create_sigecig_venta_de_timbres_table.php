@@ -18,6 +18,7 @@ class CreateSigecigVentaDeTimbresTable extends Migration
             $table->bigInteger('recibo_detalle_id');
             $table->bigInteger('numeracion_inicial');
             $table->bigInteger('numeracion_final');
+            $table->integer('estado_id')->nullable();
             $table->timestamps();
         });
     }

@@ -143,7 +143,7 @@
                               <input id="direccionTrabajo" value="{{$query->dir_trabajo}}" class="form-control" placeholder="Dirección" name="direccionTrabajo" type="text" readonly>                            
                               @endif
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-1">
                               <label for="zonaTrabajo" class="control-label">Zona</label>
                               @if ($query->zona_trabajo==null)
                               <input id="zonaTrabajo" value="No ingresada" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
@@ -151,7 +151,14 @@
                               <input id="zonaTrabajo" value="{{$query->zona_trabajo}}" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
                               @endif
                             </div>
-                         
+                            <div class="col-sm-2">
+                              <label for="zonaTrabajo" class="control-label">Tel. Trabajo</label>
+                              @if ($query->fax==null)
+                              <input id="zonaTrabajo" value="No ingresado" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @else
+                              <input id="zonaTrabajo" value="{{$query->fax}}" class="form-control" placeholder="Zona" name="zonaTrabajo" type="tel" readonly>                            
+                              @endif
+                            </div>
                             <div class="col-sm-3">
                               <label for="valMunicipioTrabajo" class="control-label">Municipio Trabajo</label>
                               @if ($query->c_mpotrab==null)

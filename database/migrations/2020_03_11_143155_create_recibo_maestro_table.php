@@ -29,6 +29,7 @@ class CreateReciboMaestroTable extends Migration
             $table->double('monto_total',10,2);
             $table->string('e_mail')->nullable();
             $table->integer('id_corte_de_caja')->nullable();
+            $table->integer('estado_recibo_id')->nullable();
 
             $table->timestamps();
         });

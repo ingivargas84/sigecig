@@ -117,7 +117,7 @@ $.validator.addMethod("dpiunico", function(value, element){
     $.ajax({
         type: "GET",
         async: false,
-        url: "/Aspirante/dpiDisponible/",
+        url: "/Aspirante/dpiDisponible/", //Verifica si el dpi ya está registrado a un aspirante
         data:"dpi=" + value,
         dataType: "json",
         success: function (msg) {
@@ -161,26 +161,27 @@ $.validator.addMethod("dpiunico", function(value, element){
         return valid;
         }, "El CUI/DPI ya esta registrado en el sistema");
 
-        var validator = $("#EditcolegiadosForm").validate({
+        var validator = $("#EditAspiranteForm").validate({
             ignore: [],
             onkeyup:false,
             rules: {
                 nombres:{
               required: true,
-                },
-            apellidos:{
+				},
+			dpi: {
+				required : true,
+				dpi : true,
+				dpiEdit : true,
+				dpiunico2 : true
+					},
+             apellidos:{
               required: true,
                     },
             telefono: {
               required : true,
               numero : true
                 },
-            dpi: {
-              required : true,
-              dpi : true,
-              dpiEdit : true,
-			  dpiunico2 : true
-                },
+            
             valDepartamentoNacimiento: {
                     required: true
                 },
@@ -233,7 +234,7 @@ $.validator.addMethod("dpiunico", function(value, element){
               },
             valUniversidadGraduado:{
               required: true
-              }
+              } 
             },
             messages: {
             nombres: {
@@ -299,17 +300,27 @@ $.validator.addMethod("dpiunico", function(value, element){
             }
         });
 
-$("#ButtonGuardarAspirante").click(function(event) {
-	if ($('#colegiadosForm').valid()) {
-        guardarAspiranteF();
-	} else {
-		validator.focusInvalid();
-	}
-}); 
 
-function guardarAspiranteF() {
+		 $("#ButtonAspiranteUpdate").click(function(event) {
+
+			if ($('#EditAspiranteForm').valid()) {
+				$('.loader').addClass("is-active");
+			} else {
+				validator.focusInvalid();
+			}
+		}); 
+ 
+	/*	$("#ButtonAspiranteUpdate").click(function(event) {
+
+			if ($('#EditAspiranteForm').valid()) {
+				actualizarAspiranteF();
+			} else {
+				validator.focusInvalid();
+			}
+		}); 
+
+function actualizarAspiranteF() {
    
-
     $("#cleanButton").click();
     var carrera_afin = 0;
     
@@ -317,7 +328,7 @@ function guardarAspiranteF() {
       carrera_afin = 1;
     }
       var datos = {
-      'idusuario': $("#dpi").val(),
+      'dpi': $("#dpi").val(),
       'nombres': $("#nombres").val(),
       'apellidos': $("#apellidos").val(),
       'sexo': $("#sexo").val(),
@@ -346,16 +357,16 @@ function guardarAspiranteF() {
       'tituloTesis': $("#tituloTesis").val(),
       'telefonoContactoEmergencia': $("#telefonoContactoEmergencia").val(),
       'nombreContactoEmergencia': $("#nombreContactoEmergencia").val(), 
-      'ca': carrera_afin
+      'ca': carrera_afin 
       };
-      $("#colegiadosForm").validate;
+      $("#EditAspiranteForm").validate;
       $('.loader').fadeIn();
 
       $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': $('#tokenUser').val()},
           dataType:'JSON',
-          url: "/Aspirante/setdatosaspirante",
+          url: "/Aspirante/" + full.dpi + "/update",
           data: datos,
           success: function(data){
                   var idusuario = $("#idusuario").val();
@@ -379,7 +390,7 @@ function guardarAspiranteF() {
                 window.location = "/aspirantes";
                 alertify.set('notifier','position', 'top-center');
                 alertify.success('Aspirante creado con Éxito!!');
-                $("#mensajes").html("Datos guardados correctamente.");
+                $("#mensajes").html("Datos actualizados correctamente.");
           }
         },
           error: function(response) {
@@ -391,7 +402,7 @@ function guardarAspiranteF() {
                 $("#mensajes").html("Error en el sistema.");
           }
       });
-  }
+  }*/
   
   
 $("#valUniversidadGraduado").autocomplete({

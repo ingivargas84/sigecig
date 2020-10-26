@@ -20,6 +20,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'1900-01-01 00:00:00',
+            'fecha_hasta'=>'1983-02-28 00:00:00',
+            'monto_auxilio'=>'0',
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL02',
@@ -29,6 +34,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'1983-03-01 00:00:00',
+            'fecha_hasta'=>'1989-12-31 00:00:00',
+            'monto_auxilio'=>'6',
+
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -39,6 +49,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'1990-01-01 00:00:00',
+            'fecha_hasta'=>'1990-12-31 00:00:00',
+            'monto_auxilio'=>'12.75',
+
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -49,6 +64,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'1991-01-01 00:00:00',
+            'fecha_hasta'=>'1991-09-30 00:00:00',
+            'monto_auxilio'=>'12.75',
+
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -59,6 +79,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'1991-10-01 00:00:00',
+            'fecha_hasta'=>'2001-09-30 00:00:00',
+            'monto_auxilio'=>'12.75',
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL06',
@@ -68,6 +93,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'2001-10-01 00:00:00',
+            'fecha_hasta'=>'2001-12-31 00:00:00',
+            'monto_auxilio'=>'22.75',
+
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -78,6 +108,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'2002-01-01 00:00:00',
+            'fecha_hasta'=>'2010-10-31 00:00:00',
+            'monto_auxilio'=>'22.75',
+
 
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
@@ -88,6 +123,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'2010-11-01 00:00:00',
+            'fecha_hasta'=>'2011-08-31 00:00:00',
+            'monto_auxilio'=>'22.75',
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL09',
@@ -97,6 +137,10 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'1',
             'display_plataforma'=>false,
+            'fecha_desde'=>'1900-01-01 00:00:00',
+            'fecha_hasta'=>'1900-12-31 00:00:00',
+            'monto_auxilio'=>'0',
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL091',
@@ -106,6 +150,11 @@ class TipoDePagoSeeder extends Seeder
             'categoria_id'=>'3',
             'estado'=>'0',
             'display_plataforma'=>false,
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'2011-09-01 00:00:00',
+            'fecha_hasta'=>'2013-01-31 00:00:00',
+            'monto_auxilio'=>'22.75',
+
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COL092',
@@ -116,6 +165,12 @@ class TipoDePagoSeeder extends Seeder
             'estado'=>'0',
             'display_plataforma'=>true,
             'tipo'=>'1',
+            'tipo_colegiatura'=>'1',
+            'fecha_desde'=>'2013-02-01 00:00:00',
+            'fecha_hasta'=>'2040-12-31 00:00:00',
+            'monto_auxilio'=>'40.75',
+
+            
         ]);
         DB::table('sigecig_tipo_de_pago')->insert([
             'codigo'=>'COLE01',

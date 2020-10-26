@@ -105,37 +105,41 @@ class AuxilioPostumoController extends Controller
                 $adm_colegiado->save();
 
             }
-
-            $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
-            $cuenta = new PlataformaSolicitudAp;
-
-            $cuenta->fecha_solicitud = Now();
-            $cuenta->n_colegiado = $request->no_colegiado;
-            $cuenta->id_estado_solicitud = '1';
-            $cuenta->id_banco = $request->banco;
-            $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
-            $cuenta->no_cuenta = $request->no_cuenta;
-            $cuenta->id_creacion = 1;
-            $cuenta->junta='2019-2021';
-
-            if ($solicitud == 0) {
-                $cuenta->no_solicitud = 15;
-            } else {
-                $cuenta->no_solicitud = $solicitud + 1;
+            $solicitudes = \App\PlataformaSolicitudAp::where('n_colegiado',$colegiado->c_cliente)->get()->last();
+            if (empty($solicitudes)  || $solicitudes->id_estado_solicitud == 11 || $solicitudes->id_estado_solicitud == 6 ) {
+                $solicitud = \App\PlataformaSolicitudAp::pluck('no_solicitud')->last();
+                $cuenta = new PlataformaSolicitudAp;
+    
+                $cuenta->fecha_solicitud = Now();
+                $cuenta->n_colegiado = $request->no_colegiado;
+                $cuenta->id_estado_solicitud = '1';
+                $cuenta->id_banco = $request->banco;
+                $cuenta->id_tipo_cuenta = $request->tipo_cuenta;
+                $cuenta->no_cuenta = $request->no_cuenta;
+                $cuenta->id_creacion = 1;
+                $cuenta->junta='2019-2021';
+    
+                if ($solicitud == 0) {
+                    $cuenta->no_solicitud = 15;
+                } else {
+                    $cuenta->no_solicitud = $solicitud + 1;
+                }
+    
+                $cuenta->save();
+    
+                $colegiado->telefono = $request->telefono;
+                $colegiado->e_mail = $request->correo;
+                $colegiado->registro = $request->registro;
+                $colegiado->update();
+    
+                event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
+    
+                return response()->json(array(['mensaje' => 'Resgistrado Correctamente','cuenta'=>$cuenta]));
+            }else if($solicitudes->id_estado_solicitud == 1){
+                return response()->json(array(['mensaje' => 'Existe una solicitud creada']));
+            }else{
+                return response()->json(array(['mensaje' => 'Existe una solicitud en proceso']));
             }
-
-            $cuenta->save();
-
-            $colegiado->telefono = $request->telefono;
-            $colegiado->e_mail = $request->correo;
-            $colegiado->registro = $request->registro;
-            $colegiado->update();
-
-            event(new ActualizacionBitacoraAp(Auth::user()->id, $cuenta->id, Now(), $cuenta->id_estado_solicitud));
-
-            return response()->json(array(['mensaje' => 'Resgistrado Correctamente','cuenta'=>$cuenta]));
-
-
     }
 
     public function DocumentosAp($id)

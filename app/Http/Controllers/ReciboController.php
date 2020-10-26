@@ -68,6 +68,7 @@ class ReciboController extends Controller
         $letras = new NumeroALetras;
         $letras->toMoney($id->monto_total, 2, 'QUETZALES', 'CENTAVOS');
         $nit_ = SQLSRV_Colegiado::where("c_cliente", $id->numero_de_identificacion)->get()->first();
+        $dpi = Aspirante::where("dpi", $id->numero_de_identificacion)->get()->first();
         $query1= "SELECT rd.id, rd.codigo_compra, tp.tipo_de_pago, rd.cantidad, rd.total, tp.categoria_id, rd.id_mes, rd.año
         FROM sigecig_recibo_detalle rd
         INNER JOIN sigecig_tipo_de_pago tp ON rd.codigo_compra = tp.codigo
@@ -101,7 +102,7 @@ class ReciboController extends Controller
             }
         }
 
-       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR'))
+       return \PDF::loadView('admin.creacionRecibo.pdfrecibo', compact('id', 'nit_', 'letras', 'datos', 'codigoQR', 'dpi'))
         ->setPaper('legal', 'landscape')
         ->stream('Recibo.pdf');
     }
@@ -190,20 +191,23 @@ class ReciboController extends Controller
                             ->where('id', '!=', '30')->where('id', '!=', '31')
                             ->where('id', '!=', '32')->where('id', '!=', '33')->where('id', '!=', '34')
                             ->where('id', '!=', '35')->where('id', '!=', '36')->where('id', '!=', '37')
-                            ->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
+                            ->where('id', '!=', '56')->where('id', '!=', '62')->where('id', '!=', '58')
+                            // ->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
+                            ->get(); //el estado "0" son los tipo de pago activos
             return json_encode($tipo);
         }
         if ($cliente == 'p'){
-            $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->where('id', '!=', '22')->where('id', '!=', '23')
-                            ->where('id', '!=', '24')->where('id', '!=', '25')->where('id', '!=', '26')
-                            ->where('id', '!=', '27')->where('id', '!=', '28')->where('id', '!=', '29')
-                            ->where('id', '!=', '30')->where('id', '!=', '31')
-                            ->where('id', '!=', '32')->where('id', '!=', '33')->where('id', '!=', '34')
-                            ->where('id', '!=', '35')->where('id', '!=', '36')->where('id', '!=', '37')
-                            ->where('id', '!=', '38')->where('id', '!=', '39')
-                            ->where('id', '!=', '40')->where('id', '!=', '41')->where('id', '!=', '42')
-                            ->where('id', '!=', '43')->where('id', '!=', '44')->where('id', '!=', '45')
-                            ->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
+            // $tipo = TipoDePago::where('estado', '=', 0)->where('categoria_id', '=', 1)->where('id', '!=', '22')->where('id', '!=', '23')
+            //                 ->where('id', '!=', '24')->where('id', '!=', '25')->where('id', '!=', '26')
+            //                 ->where('id', '!=', '27')->where('id', '!=', '28')->where('id', '!=', '29')
+            //                 ->where('id', '!=', '30')->where('id', '!=', '31')
+            //                 ->where('id', '!=', '32')->where('id', '!=', '33')->where('id', '!=', '34')
+            //                 ->where('id', '!=', '35')->where('id', '!=', '36')->where('id', '!=', '37')
+            //                 ->where('id', '!=', '38')->where('id', '!=', '39')
+            //                 ->where('id', '!=', '40')->where('id', '!=', '41')->where('id', '!=', '42')
+            //                 ->where('id', '!=', '43')->where('id', '!=', '44')->where('id', '!=', '45')
+            //                 ->orWhere('categoria_id', '=', 6)->orWhere('categoria_id', '=', 7)->get(); //el estado "0" son los tipo de pago activos
+            $tipo = 0;
             return json_encode($tipo);
         }
     }
@@ -454,6 +458,7 @@ class ReciboController extends Controller
             $pos_id             = $request->input("pos");
             $pagoDeposito       = $request->input("config.pagoDeposito");
             $mesesASumar        = $request->input("nuevaFechaColegio");
+            $emailColegiado     = $request->input("config.emailC");
             $totalPrecioTimbre  = $request->totalPrecioTimbre;
             $banco_id           = $request->banco;
             $banco_id_deposito  = $request->bancoDeposito;
@@ -482,6 +487,7 @@ class ReciboController extends Controller
             $reciboMaestro->monto_deposito = $request->input("config.montoDeposito");
             $reciboMaestro->usuario = Auth::user()->id;
             $reciboMaestro->monto_total = $totalAPagar;
+            $reciboMaestro->estado_recibo_id = 1;
             $reciboMaestro->save();
             $id_estado_cuenta= \App\EstadoDeCuentaMaestro::where('colegiado_id',$colegiado)->get()->first();
             if (empty($id_estado_cuenta)) {
@@ -519,6 +525,17 @@ class ReciboController extends Controller
                             $this->guardarEstadoCuenta($id_estado_cuenta->id, $reciboDetalle->cantidad, $reciboDetalle->codigo_compra,
                             $reciboDetalle->id, $reciboDetalle->total, 0,Auth::user()->id, $mes, $anio);
 
+                        }
+                    } if ($array[$i][1] == 'COLE02E'){
+                        $cant = intval($array[$i][2]);
+                        for ($d = 0; $d < $cant; $d++) {
+                            $reciboDetalle = Recibo_Detalle::create([
+                                'numero_recibo'     => $reciboMaestro->numero_recibo,
+                                'codigo_compra'     => $array[$i][1],
+                                'cantidad'          => 1,
+                                'precio_unitario'   => substr($array[$i][3],2),
+                                'total'             => substr($array[$i][3],2),
+                            ]);
                         }
                     } else {
                         $tipoPago= \App\TipoDePago::where('id',$array[$i][0])->get()->first();
@@ -590,6 +607,7 @@ class ReciboController extends Controller
 
             if($totalPrecioTimbre != null){
                 $cantMensualidades = $totalPrecioTimbre / $montoTimbre;
+                $cantMensualidades = floor($cantMensualidades);
                 $fechaPagoTimbre = new Carbon($fechaPagoTimbre);
                 $nuevaFecha = $fechaPagoTimbre->startofMonth()->addMonths($cantMensualidades+1)->subSeconds(1)->toDateTimeString();
                 $nuevaFecha = date('Y-m-d h:i:s', strtotime($nuevaFecha));
@@ -603,7 +621,7 @@ class ReciboController extends Controller
             $almacenDatosTimbre = $this->AlmacenDatosTimbre($request, $reciboMaestro->numero_recibo);
             // try {
                 $datos_colegiado = SQLSRV_Colegiado::select('e_mail', 'n_cliente')->where('c_cliente', $colegiado)->get();
-                $this->envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$datos_colegiado[0]->e_mail);
+                $this->envioReciboElectronico($colegiado,$tipoDeCliente,$reciboMaestro->numero_recibo,$emailColegiado);
                 return response()->json(['success' => 'Todo Correcto']);
             // } catch (\Throwable $th) {
             //     return response()->json(['success' => 'Exito-No se envio correo']);
@@ -656,6 +674,7 @@ class ReciboController extends Controller
             $reciboMaestroP->usuario = Auth::user()->id;
             $reciboMaestroP->monto_total = $totalAPagarP;
             $reciboMaestroP->e_mail = $request->input("config.emailp");
+            $reciboMaestroP->estado_recibo_id = 1;
             $reciboMaestroP->save();
 
             $array = $request->input("datos");
@@ -746,6 +765,7 @@ class ReciboController extends Controller
             $montoTarjetaE       = $request->input("config.montoTarjetaE");
             $pos_idE             = $request->input("pos");
             $pagoDepositoE       = $request->input("config.pagoDepositoE");
+            $emailEmpresa        = $request->input("config.emailE");
             $banco_id            = $request->banco;
             $banco_id_depositoE  = $request->bancoDepositoE;
 
@@ -771,6 +791,7 @@ class ReciboController extends Controller
             $reciboMaestroE->monto_deposito = $request->input("config.montoDepositoE");
             $reciboMaestroE->usuario = Auth::user()->id;
             $reciboMaestroE->monto_total = $totalAPagarE;
+            $reciboMaestroE->estado_recibo_id = 1;
             $reciboMaestroE->save();
 
             $array = $request->input("datos");
@@ -828,7 +849,7 @@ class ReciboController extends Controller
 
                try {
                 $empresa1 = SQLSRV_Empresa::select('e_mail', 'EMPRESA','NIT')->where('CODIGO', $nit)->get();
-                $this-> envioReciboElectronico($nit,$tipoDeCliente,$reciboMaestroE->numero_recibo,$empresa1[0]->e_mail);
+                $this-> envioReciboElectronico($nit,$tipoDeCliente,$reciboMaestroE->numero_recibo,$emailEmpresa);
 
                 return response()->json(['success' => 'Exito-Correo Enviado']);
                 } catch (\Throwable $th) {
@@ -955,6 +976,7 @@ class ReciboController extends Controller
                     $registroTimbres->recibo_detalle_id = $reciboDetalleId;
                     $registroTimbres->numeracion_inicial = $existencia->numeracion_inicial;
                     $registroTimbres->numeracion_final = $existencia->numeracion_inicial + $cantidad - 1;
+                    $registroTimbres->estado_id = 1;
                     $registroTimbres->save();
                     if ($cantidad == $existencia->cantidad) {
                         $existencia->numeracion_inicial = 0;
@@ -972,6 +994,7 @@ class ReciboController extends Controller
                     $registroTimbres->recibo_detalle_id = $reciboDetalleId;
                     $registroTimbres->numeracion_inicial = $existencia->numeracion_inicial;
                     $registroTimbres->numeracion_final = $existencia->numeracion_final;
+                    $registroTimbres->estado_id = 1;
                     $registroTimbres->save();
                     $cantidad -= $existencia->cantidad;
                     $existencia->numeracion_inicial = 0;
@@ -994,8 +1017,9 @@ class ReciboController extends Controller
 
         $query = "SELECT bodega FROM sigecig_cajas WHERE cajero = $user";
             $result = DB::select($query);
-        $bodega = $result[0]->bodega;
-
+        if (!empty($result)) {
+            $bodega = $result[0]->bodega;
+        }
         $emisionDeRecibo    = $request->input("config.emisionDeRecibo");
 
         $array = $request->input("datos");
@@ -1078,7 +1102,7 @@ class ReciboController extends Controller
 
     public function getDatosColegiado($colegiado)
     {
-        $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+        $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido, e_mail FROM cc00
                   WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) <= 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) <= 3";
         $result = DB::connection('sqlsrv')->select($query);
 
@@ -1087,17 +1111,17 @@ class ReciboController extends Controller
 
             return $result;
         } else {
-            $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+            $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido, e_mail FROM cc00
                       WHERE c_cliente = $colegiado AND DATEDIFF(month, f_ult_pago, GETDATE()) > 3 and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
             $resultado = DB::connection('sqlsrv')->select($query);
 
             if (empty($resultado)) {
-                $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido, e_mail FROM cc00
                           WHERE c_cliente = $colegiado and DATEDIFF(month, f_ult_timbre, GETDATE()) > 3";
                 $resultado1 = DB::connection('sqlsrv')->select($query);
 
                 if (empty($resultado1)) {
-                    $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido FROM cc00
+                    $query = "SELECT n_cliente, estado, f_ult_timbre, f_ult_pago, monto_timbre, fallecido, e_mail FROM cc00
                               WHERE c_cliente = $colegiado and DATEDIFF(month, f_ult_pago, GETDATE()) > 3";
                     $resultado2 = DB::connection('sqlsrv')->select($query);
                     $resultado2[0]->estado = 'Inactivo';
@@ -1116,7 +1140,7 @@ class ReciboController extends Controller
 
     public function getDatosEmpresa($nit)
     {
-        $consulta = SQLSRV_Empresa::select('empresa')
+        $consulta = SQLSRV_Empresa::select('empresa','e_mail')
             ->where('nit', $nit)->get()->first();
 
         return $consulta;

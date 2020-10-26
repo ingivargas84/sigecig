@@ -15,6 +15,7 @@ class ReportesController extends Controller
         $user = Auth::User();
         $fechaInicial=Carbon::parse($request->fechaInicialVenta)->startOfDay()->toDateString();
         $fechaFinal=Carbon::parse($request->fechaFinalVenta)->endOfDay()->toDateString();
+        
 
         $facturas=\App\SQLSRV_Fac01::select('num_fac','serie_f','total_fac','control','c_bodega')->whereBetween('fecha1', [$fechaInicial, $fechaFinal])->where('anulado','N')->where('c_bodega',$request->cajaActivaxyz)->get();
         $total = $facturas->sum('total_fac');
@@ -193,86 +194,335 @@ class ReportesController extends Controller
         return Response::json($cursos);
     }
     public function reporteColegiado($codigo){
+        $arrayColegiaturaDetalle = array();
+        $arrayTimbreDetalle= array();
+
+        $reactTimbre=0;
+        $reactColegiatura=0;
+        $totalTimbre=0;
+        $totalColegiatura = 0;
+        $totalTimbreSinMora=0;
+        $totalColegiaturaSinMora = 0;
+        $cuotasColegio= 0;
+        $cuotasTimbre = 0;
         $user = Auth::User();
-        $colegiado = \App\SQLSRV_Colegiado::select('n_cliente','c_cliente','e_mail','registro','telefono','f_ult_pago','f_ult_timbre','estado','monto_timbre')->where('c_cliente',$codigo)->first();
+        $colegiado = \App\SQLSRV_Colegiado::where('c_cliente',$codigo)->first();
         $fecha_actual=Carbon::Now()->endOfMonth();
-        $fecha_timbre = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth();
+        $fecha_timbre = Carbon::parse($colegiado->f_ult_timbre)->endOfMonth();
         $diffTimbre = $fecha_timbre->diffInMonths($fecha_actual,false);
-        $fecha_colegio = Carbon::parse($colegiado->f_ult_pago)->startOfMonth();
+        $fecha_colegio = Carbon::parse($colegiado->f_ult_pago)->endOfMonth();
         $diffColegio = $fecha_colegio->diffInMonths($fecha_actual,false);
+        $colegiatura = \App\TipoDePago::where('id','11')->first();
         if($diffColegio > 3 || $diffTimbre > 3){
             $colegiado->estado = "INACTIVO";
+            $calculoReactivacion = $colegiado->getMontoReactivacion();
+            if($diffTimbre > 3){
+                $reactTimbre = 1;
+                $arrayTimbre= array();
+                $tipoCuota = \App\TipoDePago::where('id','62')->first();
+                $fechaTimbre='';
+                $detalle = new \stdClass();
+                $fechaInicial = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth()->addMonth();
+                $fechaFinal = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth()->addMonth($diffTimbre);
+                $mesInicial = $fechaInicial->format('m');
+                $añoInicial = $fechaInicial->format('Y');
+                $mesFinal = $fechaFinal->format('m');
+                $añoFinal = $fechaFinal->format('Y');
+                $fechaTimbre = ' ('.$mesInicial.' del '.$añoInicial.')'.' al'.' ('.$mesFinal.' del '.$añoFinal.')';
+                $detalle->fechaTimbre = $fechaTimbre;
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $colegiado->monto_timbre;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = $calculoReactivacion->cuotasTimbre;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayTimbre[] = $detalle; 
+
+                $fechaFinalTimbre = Carbon::parse(Now())->startOfMonth();
+                for ($i=0; $i < $calculoReactivacion->cuotasTimbre ; $i++) { 
+                    $detalle = new \stdClass();
+                    $mesFinal = $fechaFinalTimbre->format('m');
+                    $añoFinal = $fechaFinalTimbre->format('Y');
+                    $mes =\App\SigecigMeses::where('id',$mesFinal)->first();
+                    $fechaTimbre = ' ('.$mes->mes.' del '.$añoFinal.')';
+                    $detalle->fechaTimbre = $fechaTimbre;
+                    $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                    $detalle->precio = $colegiado->monto_timbre;
+                    $detalle->codigo = $tipoCuota->codigo;
+                    $detalle->cantidad = 1;
+                    $detalle->total = $detalle->cantidad * $detalle->precio;
+                    $arrayTimbreDetalle[] = $detalle; 
+                    $fechaFinalTimbre->subMonth();
+                }
+
+                $detalle = new \stdClass();
+                $tipoCuota = \App\TipoDePago::where('codigo','MORT')->first();
+                $detalle->fechaTimbre = '';
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $calculoReactivacion->moraTimbre;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = 1;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayTimbre[] = $detalle; 
+                $detalle = new \stdClass();
+                $tipoCuota = \App\TipoDePago::where('codigo','INTT')->first();
+                $detalle->fechaTimbre = '';
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $calculoReactivacion->interesTimbre;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = 1;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayTimbre[] = $detalle;
+                $totalTimbre = $calculoReactivacion->totalTimbre;
+                $totalTimbreSinMora=$calculoReactivacion->capitalTimbre;
+                $cuotasTimbre = $calculoReactivacion->cuotasTimbre;
+
+
+            }
+            if($diffColegio > 3){
+                $calculoReactDetalles =  $colegiado->calcularTipoCuota($calculoReactivacion->capitalColegio,$calculoReactivacion->cuotasColegio);
+                $arrayColegiatura = $calculoReactDetalles['arrayColegiatura']; 
+                $arrayColegiaturaDetalle = $calculoReactDetalles['arrayColegiaturaDetalle']; 
+                $totalColegiatura = $calculoReactivacion->totalColegio;
+                $detalle = new \stdClass();
+                $tipoCuota = \App\TipoDePago::where('codigo','INTT')->first();
+                $detalle->fechaPago = '';
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $calculoReactivacion->interesColegio;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = 1;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayColegiatura[] = $detalle;
+
+                $totalColegiaturaSinMora = $calculoReactivacion->capitalColegio;
+                $cuotasColegio= $calculoReactivacion->cuotasColegio;
+
+            }
+            
         }else{
             $colegiado->estado = "ACTIVO";
         }
         if($diffColegio != 0){
-            $totalColegiatura= 0;
-
-            $arrayColegiatura= array();
             $mesesColegio = $diffColegio;
             if($mesesColegio < 0){
+                $arrayColegiatura= array();
+                $tipoCuota = \App\TipoDePago::where('categoria_id',3)->where('tipo_colegiatura',1)->where('estado',0)->orderBy('id', 'desc')->get()->first();
+                $fechaPago='';
                 $mesesColegio  = abs($mesesColegio);
-                $fechaActual = Carbon::Now()->startOfMonth();
-                for ($i=0; $i <= $mesesColegio ; $i++) { 
-                    $fechaActual->addMonth(1);
-                    $mes = $fechaActual->format('m');
-                    $año = $fechaActual->format('Y');
-                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
-                    $colegiatura = \App\TipoDePago::where('id','11')->first();
-                    $colegiatura->tipo_de_pago =  $colegiatura->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
-                    $arrayColegiatura[]=$colegiatura;
-                    $totalColegiatura += $colegiatura->precio_colegiado;
+                $detalle = new \stdClass();
+                $fechaInicial = Carbon::Now()->startOfMonth()->addMonth(1);
+                $fechaFinal = Carbon::Now()->startOfMonth()->addMonth($mesesColegio);
+                $mesInicial = $fechaInicial->format('m');
+                $añoInicial = $fechaInicial->format('Y');
+                $mesFinal = $fechaFinal->format('m');
+                $añoFinal = $fechaFinal->format('Y');
+                if($mesesColegio == 1){
+                    $fechaPago = ' ('.$mesInicial.' del '.$añoInicial.')';
+                }else{
+                    $fechaPago = ' ('.$mesInicial.' del '.$añoInicial.')'.' al'.' ('.$mesFinal.' del '.$añoFinal.')';
                 }
-            }else{
-                $fechaActual = $fecha_colegio;
-                for ($i=0; $i < $mesesColegio ; $i++) { 
-                    $fechaActual->addMonth(1);
-                    $mes = $fechaActual->format('m');
-                    $año = $fechaActual->format('Y');
-                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
-                    $colegiatura = \App\TipoDePago::where('id','11')->first();
-                    $colegiatura->tipo_de_pago =  $colegiatura->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
-                    $arrayColegiatura[]=$colegiatura;
-                    $totalColegiatura += $colegiatura->precio_colegiado;
-                } 
+                $detalle->fechaPago = $fechaPago;
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $tipoCuota->precio_colegiado;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = $mesesColegio;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayColegiatura[]=$detalle;
+                $totalColegiatura = $detalle->total;
+
+                $fechaInicial = Carbon::Now()->startOfMonth()->addMonth(1);
+
+                for ($i=0; $i <$mesesColegio ; $i++) { 
+                    $detalle = new \stdClass();
+                    $mesInicial = $fechaInicial->format('m');
+                    $añoInicial = $fechaInicial->format('Y');
+                    $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+                    $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+                    $detalle->fechaPago = $fechaPago;
+                    $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                    $detalle->precio = $tipoCuota->precio_colegiado;
+                    $detalle->codigo = $tipoCuota->codigo;
+                    $detalle->cantidad = 1;
+                    $detalle->total = $detalle->cantidad * $detalle->precio;
+                    $arrayColegiaturaDetalle[]=$detalle;
+                    $fechaInicial->addMonth();
+                }
+                $cuotasColegio= $mesesColegio;
+                $totalColegiaturaSinMora = $mesesColegio * $tipoCuota->precio_colegiado ;
+                
+
+
+
+            }
+            else if($mesesColegio < 4){
+                $totalSumaColegiatura =0;
+                $arrayColegiatura= array();
+                $tipoCuota = \App\TipoDePago::where('categoria_id',3)->where('tipo_colegiatura',1)->where('estado',0)->orderBy('id', 'desc')->get()->first();
+                $fechaPago='';
+                $detalle = new \stdClass();
+                $fechaInicial = Carbon::parse($colegiado->f_ult_pago)->startOfMonth()->addMonth(1);
+                $fechaFinal = Carbon::parse($colegiado->f_ult_pago)->startOfMonth()->addMonth($mesesColegio);
+                $mesInicial = $fechaInicial->format('m');
+                $añoInicial = $fechaInicial->format('Y');
+                $mesFinal = $fechaFinal->format('m');
+                $añoFinal = $fechaFinal->format('Y');
+                if($mesesColegio == 1){
+                    $fechaPago = ' ('.$mesInicial.' del '.$añoInicial.')';
+                }else{
+                    $fechaPago = ' ('.$mesInicial.' del '.$añoInicial.')'.' al'.' ('.$mesFinal.' del '.$añoFinal.')';
+                }
+                $detalle->fechaPago = $fechaPago;
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $tipoCuota->precio_colegiado;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = $mesesColegio;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayColegiatura[]=$detalle;
+                $totalColegiatura = $detalle->total;
+                $tipocuotas = \App\TipoDePago::where('tipo_colegiatura',1)->orderBy('id','desc')->get();
+                $fechaFinal = Carbon::parse($colegiado->f_ult_pago)->startOfMonth()->addMonth($mesesColegio);
+                $diffFecha = Carbon::parse($tipoCuota->fecha_desde)->subMonth()->diffInMonths($fecha_actual,false);
+                foreach ($tipocuotas as $key => $tipoCuota) {
+                    if($mesesColegio <= $diffFecha){
+                        for ($i=0; $i <$mesesColegio ; $i++) {
+                            $detalle = new \stdClass();
+                            $mesFinal = $fechaFinal->format('m');
+                            $añoFinal = $fechaFinal->format('Y');
+                            $mes =\App\SigecigMeses::where('id',$mesFinal)->first();
+                            $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+                            $detalle->fechaPago = $fechaPago;
+                            $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                            $detalle->precio = $tipoCuota->precio_colegiado;
+                            $detalle->codigo = $tipoCuota->codigo;
+                            $detalle->cantidad = 1;
+                            $detalle->total = $detalle->cantidad * $detalle->precio;
+                            $arrayColegiaturaDetalle[]=$detalle;
+                            $fechaFinal->subMonth();
+                            $totalSumaColegiatura+=$tipoCuota->precio_colegiado;
+                        }
+                        break;
+                    }else{
+                        for ($i=0; $i <$diffFecha ; $i++) { 
+                            $detalle = new \stdClass();
+                            $mesFinal = $fechaFinal->format('m');
+                            $añoFinal = $fechaFinal->format('Y');
+                            $mes =\App\SigecigMeses::where('id',$mesFinal)->first();
+                            $fechaPago = ' ('.$mes->mes.' del '.$añoInicial.')';
+                            $detalle->fechaPago = $fechaPago;
+                            $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                            $detalle->precio = $tipoCuota->precio_colegiado;
+                            $detalle->codigo = $tipoCuota->codigo;
+                            $detalle->cantidad = 1;
+                            $detalle->total = $detalle->cantidad * $detalle->precio;
+                            $arrayColegiaturaDetalle[]=$detalle;
+                            $fechaFinal->subMonth();
+                            $totalSumaColegiatura+=$tipoCuota->precio_colegiado;
+                        }
+                        $mesesColegio-=$diffFecha;
+                    }
+                }
+                $cuotasColegio= $mesesColegio;
+                $totalColegiaturaSinMora = $totalSumaColegiatura;
+
             }
 
-            $cuotaColegiado = $mesesColegio * $colegiatura->precio_colegiado;
         }
         if($diffTimbre != 0){
-            $totalTimbre= 0;
-            $arrayTimbre= array();
 
             $mesesTimbre = $diffTimbre;
 
             if($mesesTimbre < 0){
+                $arrayTimbre= array();
+                $tipoCuota = \App\TipoDePago::where('id','62')->first();
+                $fechaTimbre='';
                 $mesesTimbre  = abs($mesesTimbre);
-                $fechaActual = Carbon::Now()->startOfMonth();
-                for ($i=0; $i <= $mesesTimbre ; $i++) { 
-                    $fechaActual->addMonth(1);
-                    $mes = $fechaActual->format('m');
-                    $año = $fechaActual->format('Y');
-                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
-                    $timbre = \App\TipoDePago::where('id','62')->first();
-                    $timbre->precio_colegiado = $colegiado->monto_timbre;
-                    $timbre->tipo_de_pago =  $timbre->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
-                    $arrayTimbre[]=$timbre;
-                    $totalTimbre += $colegiado->monto_timbre;
+                $detalle = new \stdClass();
+                $fechaInicial = Carbon::Now()->startOfMonth()->addMonth();
+                $fechaFinal = Carbon::Now()->startOfMonth()->addMonth($mesesTimbre);
+                $mesInicial = $fechaInicial->format('m');
+                $añoInicial = $fechaInicial->format('Y');
+                $mesFinal = $fechaFinal->format('m');
+                $añoFinal = $fechaFinal->format('Y');
+                if($mesesTimbre == 1){
+                    $fechaTimbre = ' ('.$mesInicial.' del '.$añoInicial.')';
+                }else{
+                    $fechaTimbre = ' ('.$mesInicial.' del '.$añoInicial.')'.' al'.' ('.$mesFinal.' del '.$añoFinal.')';
                 }
-            }else{
-                $fechaActual = $fecha_timbre;
-                for ($i=0; $i < $mesesTimbre ; $i++) { 
-                    $fechaActual->addMonth(1);
-                    $mes = $fechaActual->format('m');
-                    $año = $fechaActual->format('Y');
-                    $mesPago = \App\SigecigMeses::where('id',$mes)->first();
-                    $timbre = \App\TipoDePago::where('id','62')->first();
-                    $timbre->precio_colegiado = $colegiado->monto_timbre;
-                    $timbre->tipo_de_pago =  $timbre->tipo_de_pago.' ('.$mesPago->mes.' del '.$año.')';
-                    $arrayTimbre[]=$timbre;
-                    $totalTimbre += $colegiado->monto_timbre;
+                $detalle->fechaTimbre = $fechaTimbre;
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $colegiado->monto_timbre;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = $mesesTimbre;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayTimbre[]=$detalle;
+                $totalTimbre = $detalle->total;
+                $fechaInicial = Carbon::Now()->startOfMonth()->addMonth();
 
-                } 
+
+                for ($i=0; $i <$mesesTimbre ; $i++) { 
+                    $detalle = new \stdClass();
+                    $mesInicial = $fechaInicial->format('m');
+                    $añoInicial = $fechaInicial->format('Y');
+                    $mes =\App\SigecigMeses::where('id',$mesInicial)->first();
+                    $fechaTimbre = ' ('.$mes->mes.' del '.$añoInicial.')';
+                    $detalle->fechaTimbre = $fechaTimbre;
+                    $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                    $detalle->precio = $colegiado->monto_timbre;
+                    $detalle->codigo = $tipoCuota->codigo;
+                    $detalle->cantidad = 1;
+                    $detalle->total = $detalle->cantidad * $detalle->precio;
+                    $arrayTimbreDetalle[]=$detalle;
+                    $fechaInicial->addMonth();
+                }
+                $totalTimbreSinMora=$mesesTimbre * $colegiado->monto_timbre;
+                $cuotasTimbre = $mesesTimbre;
+
+            }
+            
+            else if($mesesTimbre < 4 ){
+                $arrayTimbre= array();
+                $tipoCuota = \App\TipoDePago::where('id','62')->first();
+                $fechaTimbre='';
+                $mesesTimbre  = abs($mesesTimbre);
+                $detalle = new \stdClass();
+                $fechaInicial = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth()->addMonth();
+                $fechaFinal = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth()->addMonth($mesesTimbre);
+                $mesInicial = $fechaInicial->format('m');
+                $añoInicial = $fechaInicial->format('Y');
+                $mesFinal = $fechaFinal->format('m');
+                $añoFinal = $fechaFinal->format('Y');
+                if($mesesTimbre == 1){
+                    $fechaTimbre = ' ('.$mesInicial.' del '.$añoInicial.')';
+                }else{
+                    $fechaTimbre = ' ('.$mesInicial.' del '.$añoInicial.')'.' al'.' ('.$mesFinal.' del '.$añoFinal.')';
+                }
+                $detalle->fechaTimbre = $fechaTimbre;
+                $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                $detalle->precio = $colegiado->monto_timbre;
+                $detalle->codigo = $tipoCuota->codigo;
+                $detalle->cantidad = $mesesTimbre;
+                $detalle->total = $detalle->cantidad * $detalle->precio;
+                $arrayTimbre[] = $detalle; 
+                $totalTimbre = $detalle->total;
+                $fechaFinal = Carbon::parse($colegiado->f_ult_timbre)->startOfMonth()->addMonth($mesesTimbre);
+
+                for ($i=0; $i <$mesesTimbre ; $i++) { 
+                    $detalle = new \stdClass();
+                    $mesFinal = $fechaFinal->format('m');
+                    $añoFinal = $fechaFinal->format('Y');
+                    $mes =\App\SigecigMeses::where('id',$mesFinal)->first();
+                    $fechaTimbre = ' ('.$mes->mes.' del '.$añoFinal.')';
+                    $detalle->fechaTimbre = $fechaTimbre;
+                    $detalle->tipoPago = $tipoCuota->tipo_de_pago;
+                    $detalle->precio = $colegiado->monto_timbre;
+                    $detalle->codigo = $tipoCuota->codigo;
+                    $detalle->cantidad = 1;
+                    $detalle->total = $detalle->cantidad * $detalle->precio;
+                    $arrayTimbreDetalle[] = $detalle; 
+                    $fechaFinal->subMonth();
+                }
+                $totalTimbreSinMora=$mesesTimbre * $colegiado->monto_timbre;
+                $cuotasTimbre = $mesesTimbre;
+
             }
   
         }
@@ -336,8 +586,9 @@ class ReportesController extends Controller
             
             $arrayDetalles[]=$detalle;
         }
-       
-        return \PDF::loadView('admin.estadoCuenta.pdf-reporte-colegiado',compact('user','colegiado','diffTimbre','diffColegio','arrayDetalles','arrayDetallesSigecig','arrayTimbre','arrayColegiatura','totalTimbre','totalColegiatura'))
+    
+
+        return \PDF::loadView('admin.estadoCuenta.pdf-reporte-colegiado',compact('totalColegiaturaSinMora','totalTimbreSinMora','cuotasTimbre','cuotasColegio','user','colegiado','diffTimbre','diffColegio','arrayDetalles','arrayDetallesSigecig','arrayTimbre','arrayColegiatura','reactColegiatura','totalTimbre','totalColegiatura','arrayColegiaturaDetalle','arrayTimbreDetalle'))
         ->setPaper('legal', 'landscape')
         ->stream($codigo.'.pdf');
 
@@ -345,5 +596,38 @@ class ReportesController extends Controller
 
 
     }
+    public function pruebas(){
+        $cuenta = \App\EstadoDeCuentaMaestro::orderBy("colegiado_id", "asc")->get();
+        $servicio = \App\TipoDePago::where('id','11')->get()->first();
+        $timbre = \App\TipoDePago::where('id','62')->get()->first();
+        $fecha_actual = Carbon::now()->endOfMonth();
+
+
+        foreach ($cuenta as $key => $value) {
+            $colegiado=\App\SQLSRV_Colegiado::where('c_cliente',$value->colegiado_id)->get()->first();
+            $timbre->precio_colegiado = $colegiado->monto_timbre;
+            $interesColegiado = $colegiado->getMontoReactivacionMensual(); 
+            $interesColegiado[] = $servicio;
+            $interesColegiado[] = $timbre;
+
+            foreach ($interesColegiado as $key => $pagos) {
+                $cuentaD = \App\EstadoDeCuentaDetalle::create([
+                    'estado_cuenta_maestro_id'      => $value->id,
+                    'cantidad'                      => '1',
+                    'tipo_pago_id'                  => $pagos->id,
+                    'recibo_id'                     => '1',
+                    'abono'                         => '0.00',
+                    'cargo'                         => $pagos->precio_colegiado,
+                    'usuario_id'                    => '1',
+                    'estado_id'                     => '1',
+                ]);
+            }
+            
+
+        }
+    }
+
+
+  
     
 }

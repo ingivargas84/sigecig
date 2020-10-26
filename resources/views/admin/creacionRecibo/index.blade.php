@@ -54,11 +54,11 @@
                     <div class="col-md-8">
                         <label for="serieRecibo" class="control-label">Serie de Recibo</label>
                         <div>
-                            <label class="radio-inline">
+                            <label class="radio-inline" id="controlSerieA">
                                 <input name="serieRecibo" type="radio" id="serieReciboA" value="a">
                                 A
                             </label>
-                            <label class="radio-inline">
+                            <label class="radio-inline" id="controlSerieB">
                                 <input name="serieRecibo" checked="checked" type="radio" id="serieReciboB" value="b">
                                 B
                             </label>
@@ -129,19 +129,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-9 col-lg-9" id="divComplemento" style="display: block;">
+                    <div class="col-sm-9 col-lg-9" id="divEmailC" style="display: block;">
                         <div class="form-group">
-                            <label for="complemento" class="control-label">Complemento</label>
+                            <label for="emailC" class="control-label">Email</label>
                             <div>
-                                <input id="complemento" type="text" class="form-control" name="complemento">
+                                <input id="emailC" type="text" class="form-control" name="emailC">
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-lg-3" id="divFechaReactivacion" style="display: block;">
+                    <div class="col-sm-2 col-lg-2" id="divFechaReactivacion" style="display: block;">
                         <div class="form-group">
                             <label for="fecha_pago" class="control-label">Fecha Reactivación</label>
                             <div>
                                 <input id="fecha_pago" disabled type="date" class="form-control" name="fecha_pago">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-lg-1" id="divFechaReactivacion">
+                        <div class="form-group" style="text-align:center">
+                            <label for="exoneracion" class="control-label">Exonerar</label>
+                            <div>
+                                <input id="exoneracion" type="checkbox" name="exoneracion">
                             </div>
                         </div>
                     </div>
@@ -150,10 +158,10 @@
                     <div class="col-sm-2 col-lg-2" id="divCdigo" style="display: block;">
                         <div class="form-group">
                             <label for="codigo" class="control-label">Código</label>
-                            <select name="codigo" id="codigo" class="form-control" id="codigo">
+                            <select name="codigo" id="codigo" class="selectpicker form-control" data-live-search="true" id="codigo">
                                 <option value="">-- Escoja --</option>
                                 @foreach ($tipo as $ti)
-                                        <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
+                                        <option value="{{ $ti->id }}">{{ $ti->codigo }} - <small>{{ $ti->tipo_de_pago }}</small></option>
                                 @endforeach
                             </select>
                         </div>
@@ -509,15 +517,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="emailE" class="control-label">Empresa</label>
+                            <div>
+                                <input type="text" id="emailE" name="emailE" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2 col-lg-2" id="divColegioE" style="display: block;">
                         <div class="form-group">
                             <label for="codigoE" class="control-label">Código</label>
-                            <select name="codigoE" class="form-control" id="codigoE">
+                            <select name="codigoE" class="selectpicker form-control" data-live-search="true" id="codigoE">
                                 <option value="">-- Escoja --</option>
                                 @foreach ($tipo as $ti)
-                                        <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
+                                        <option value="{{ $ti->id }}">{{ $ti->codigo }} - <small>{{ $ti->tipo_de_pago }}</small></option>
                                 @endforeach
                             </select>
                         </div>
@@ -857,10 +873,10 @@
                     <div class="col-sm-2 col-lg 2" id="divColegioP" style="display: block;">
                         <div class="form-group">
                             <label for="codigoP" class="control-label">Código</label>
-                            <select name="codigoP" class="form-control" id="codigoP">
+                            <select name="codigoP" class="selectpicker form-control" data-live-search="true" id="codigoP">
                                 <option value="">-- Escoja --</option>
                                 @foreach ($tipo as $ti)
-                                        <option value="{{ $ti->id }}">{{ $ti->codigo }}</option>
+                                        <option value="{{ $ti->id }}">{{ $ti->codigo }} - <small>{{ $ti->tipo_de_pago }}</small></option>
                                 @endforeach
                             </select>
                         </div>
@@ -1169,6 +1185,7 @@
 
 @push('scripts')
 <script src="{{asset('js/creacionRecibo/index.js')}}"></script>
+<script src="{{asset('js/auxilio-postumo/bootstrap-select1.13.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('.loader').fadeOut(225);
@@ -1205,9 +1222,15 @@
             cambioSerie();
             if ($('input[name=tipoCliente]:checked').val() == "p"){ document.getElementById('divAspirante').style.display = "";
             } else { document.getElementById('divAspirante').style.display = "none"; }
+            if ($('input[name=tipoCliente]:checked').val() != "e"){ document.getElementById('controlSerieA').style.display = "";
+            } else { document.getElementById('controlSerieA').style.display = "none"; }
             $("#aspirante").prop('checked', false);
         });
     });
 </script>
 
+@endpush
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/auxilio-postumo/bootstrap-select1.13.css') }}">
 @endpush

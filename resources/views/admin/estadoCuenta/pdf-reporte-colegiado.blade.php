@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=w, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reporte de envíos de timbre </title>
+    <title>Reporte estado de cuenta colegiado</title>
     <style>
         p {
             font-family: "sans-serif";
@@ -90,60 +90,92 @@
             </tr>
         </thead>
      </table>
-     <h3>SALDOS</h3>
     
          @if ($diffTimbre != 0)
             @if ($diffTimbre  < 0)
-            <h4>CUOTAS DE TIMBRE A FAVOR</h4>
+            <h4>CUOTAS DE TIMBRE A FAVOR RESUMEN</h4>
             @endif
             @if ($diffTimbre  > 0)
-            <h4>CUOTAS DE TIMBRE PENDIENTES</h4>
+            <h4>CUOTAS DE TIMBRE PENDIENTES RESUMEN</h4>
             @endif
             <table>
             <thead >
                 <tr>
-                    <th width=""   style="background: #D2D2D2;text-align:left;">Codigo:</th>
-                    <th width="45%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
-                    <th width=""  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
-                    <th width="%"  style="background: #D2D2D2;text-align:left;">Precio:</th>
-                    <th width=""  style="background: #D2D2D2;text-align:left;">Total:</th>
+                    <th width="12%"   style="background: #D2D2D2;text-align:left;">Codigo:</th>
+                    <th width="41%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
+                    <th width="20%"  style="background: #D2D2D2;text-align:left;">Periodo:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Precio:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Total:</th>
                 </tr>
             </thead>
 
                 @foreach($arrayTimbre as $timbre)
                 <tr>
                     <td  style="background: #edecec;text-align:left;">{{$timbre->codigo}}</td>
-                    <td   style="background: #edecec;text-align:left;">{{$timbre->tipo_de_pago}}</td>
-                    <td   style="background: #edecec;text-align:center;">{{1}}</td>
-                    <td   style="background: #edecec;text-align:center;">Q. {{number_format($timbre->precio_colegiado,2,".","")}}</td>
-                    <td   style="background: #edecec;text-align:center;">Q. {{number_format($timbre->precio_colegiado,2,".","")}}</td>
+                    <td   style="background: #edecec;text-align:left;">{{$timbre->tipoPago}}</td>
+                    <td   style="background: #edecec;text-align:left;">{{$timbre->fechaTimbre}}</td>
+                    <td   style="background: #edecec;text-align:center;">{{$timbre->cantidad}}</td>
+                    <td   style="background: #edecec;text-align:right;">Q. {{number_format($timbre->precio,2,".","")}}</td>
+                    <td   style="background: #edecec;text-align:right;">Q. {{number_format($timbre->total,2,".","")}}</td>
     
                 </tr>
                 @endforeach
                     <tr>
-                       <th width=""  colspan="4"  style="background: #D2D2D2;text-align:left;">Total:</th>
-                       <th width=""  style="background: #D2D2D2;text-align:center;">Q. {{number_format($totalTimbre,2,".","")}}</th>
-           
-                   </tr>
-                   
-                
-        </table>
+                        <th width=""  colspan="5"  style="background: #D2D2D2;text-align:left;">Total:</th>
+                        <th width=""  style="background: #D2D2D2;text-align:right;">Q. {{number_format($totalTimbre,2,".","")}}</th>
+                    </tr>
+        </table><br>
+        <h3>DETALLE DE ESTADOS DE CUENTA TIMBRES</h3>
+        <table>
+            <thead >
+                <tr>
+                    <th width="12%"   style="background: #D2D2D2;text-align:left;">Codigo:</th>
+                    <th width="41%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
+                    <th width="20%"  style="background: #D2D2D2;text-align:left;">Periodo:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Precio:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Total:</th>
+    
+                </tr>
+               </thead>
+   
+                @foreach($arrayTimbreDetalle as $colegiatura)
+                <tr>
+                   <td  style="background: #edecec;text-align:left;">{{$colegiatura->codigo}}</td>
+                   <td   style="background: #edecec;text-align:left;">{{$colegiatura->tipoPago}}</td>
+                   <td   style="background: #edecec;text-align:left;">{{$colegiatura->fechaTimbre}}</td>
+                   <td   style="background: #edecec;text-align:center;">{{$colegiatura->cantidad}}</td>
+                   <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->precio,2,".","")}}</td>
+                   <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->total,2,".","")}}</td>
+               </tr>
+                @endforeach
+                <tr>
+                   <th width=""  colspan="3"  style="background: #D2D2D2;text-align:left;">Total:</th>
+                   <th width=""  style="background: #D2D2D2;text-align:center;">{{$cuotasTimbre}}</th>
+                   <th width=""  style="background: #D2D2D2;text-align:right;"></th>
+                   <th width=""  style="background: #D2D2D2;text-align:right;">Q. {{number_format($totalTimbreSinMora,2,".","")}}</th>
+            
+               </tr>
+           </table>
+
          @endif
          @if ($diffColegio != 0)
          @if ($diffColegio  < 0)
-         <h4>CUOTAS DE COLEGIATURA A FAVOR</h4>
+         <h4>CUOTAS DE COLEGIATURA A FAVOR RESUMEN</h4>
          @endif
          @if ($diffColegio  > 0)
-         <h4>CUOTAS DE COLEGIATURA PENDIENTES</h4>
+         <h4>CUOTAS DE COLEGIATURA PENDIENTES RESUMEN</h4>
          @endif
          <table>
          <thead >
              <tr>
-                 <th width=""   style="background: #D2D2D2;text-align:left;">Codigo:</th>
-                 <th width="45%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
-                 <th width=""  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
-                 <th width=""  style="background: #D2D2D2;text-align:left;">Precio:</th>
-                 <th width=""  style="background: #D2D2D2;text-align:left;">Total:</th>
+                 <th width="12%"   style="background: #D2D2D2;text-align:left;">Codigo:</th>
+                 <th width="41%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
+                 <th width="20%"  style="background: #D2D2D2;text-align:left;">Periodo:</th>
+                 <th width="9%"  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
+                 <th width="9%"  style="background: #D2D2D2;text-align:left;">Precio:</th>
+                 <th width="9%"  style="background: #D2D2D2;text-align:left;">Total:</th>
  
              </tr>
             </thead>
@@ -151,19 +183,57 @@
              @foreach($arrayColegiatura as $colegiatura)
              <tr>
                 <td  style="background: #edecec;text-align:left;">{{$colegiatura->codigo}}</td>
-                <td   style="background: #edecec;text-align:left;">{{$colegiatura->tipo_de_pago}}</td>
-                <td   style="background: #edecec;text-align:center;">{{1}}</td>
-                <td   style="background: #edecec;text-align:center;">Q. {{number_format($colegiatura->precio_colegiado,2,".","")}}</td>
-                <td   style="background: #edecec;text-align:center;">Q. {{number_format($colegiatura->precio_colegiado,2,".","")}}</td>
+                <td   style="background: #edecec;text-align:left;">{{$colegiatura->tipoPago}}</td>
+                <td   style="background: #edecec;text-align:left;">{{$colegiatura->fechaPago}}</td>
+                <td   style="background: #edecec;text-align:center;">{{$colegiatura->cantidad}}</td>
+                <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->precio,2,".","")}}</td>
+                <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->total,2,".","")}}</td>
             </tr>
              @endforeach
              <tr>
-                <th width=""  colspan="4"  style="background: #D2D2D2;text-align:left;">Total:</th>
-                <th width=""  style="background: #D2D2D2;text-align:center;">Q. {{number_format($totalColegiatura,2,".","")}}</th>
-    
+                <th width=""  colspan="5"  style="background: #D2D2D2;text-align:left;">Total:</th>
+                <th width=""  style="background: #D2D2D2;text-align:right;">Q. {{number_format($totalColegiatura,2,".","")}}</th>
+         
             </tr>
-        </table>
+        </table><br>
+        <h3>DETALLE DE ESTADOS DE CUENTA COLEGIATURA</h3>
+        <table>
+            <thead >
+                <tr>
+                    <th width="12%"   style="background: #D2D2D2;text-align:left;">Codigo:</th>
+                    <th width="41%"  style="background: #D2D2D2;text-align:left;">Descripción:</th>
+                    <th width="20%"  style="background: #D2D2D2;text-align:left;">Periodo:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Cantidad:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Precio:</th>
+                    <th width="9%"  style="background: #D2D2D2;text-align:left;">Total:</th>
+    
+                </tr>
+               </thead>
+   
+                @foreach($arrayColegiaturaDetalle as $colegiatura)
+                <tr>
+                   <td  style="background: #edecec;text-align:left;">{{$colegiatura->codigo}}</td>
+                   <td   style="background: #edecec;text-align:left;">{{$colegiatura->tipoPago}}</td>
+                   <td   style="background: #edecec;text-align:left;">{{$colegiatura->fechaPago}}</td>
+                   <td   style="background: #edecec;text-align:center;">{{$colegiatura->cantidad}}</td>
+                   <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->precio,2,".","")}}</td>
+                   <td   style="background: #edecec;text-align:right;">Q. {{number_format($colegiatura->total,2,".","")}}</td>
+               </tr>
+                @endforeach
+                <tr>
+                   <th width=""  colspan="3"  style="background: #D2D2D2;text-align:left;">Total:</th>
+                   <th width=""  style="background: #D2D2D2;text-align:center;">{{$cuotasColegio}}</th>
+                   <th width=""  style="background: #D2D2D2;text-align:right;"></th>
+                   <th width=""  style="background: #D2D2D2;text-align:right;">Q. {{number_format($totalColegiaturaSinMora,2,".","")}}</th>
+            
+               </tr>
+           </table>
+
         @endif
+
+    
+
+
 
   
     <h3>DETALLE DE VENTAS</h3>
@@ -171,69 +241,44 @@
     @foreach ($arrayDetallesSigecig as $key => $detalles)
         @foreach ($detalles as $detalle)
         @if ($loop->first)
-         <table>
-            <thead >
-        
-                <tr>
-                    <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Bodega:</th>
-                    <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Vendedor:</th>
-                    <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Sede:</th>
-                    <th width="" colspan="1" style="background: #D2D2D2;text-align:left;">Fecha:</th>
 
-                </tr>
-                <tr>
-                    <th colspan="2" style="background: #edecec;text-align:center;">{{$detalle->nombre_bodega}}</th>
-                    <th colspan="2"  style="background: #edecec;text-align:center;">{{$detalle->name}}</th>
-                    <th colspan="2"  style="background: #edecec;text-align:center;">{{$detalle->nombre_sede}}</th>
-                    <th colspan="1" style="background: #edecec;text-align:center;">{{ \Carbon\Carbon::parse($detalle->created_at)->format('d/m/Y H:i:s')}}</th>
-
-                </tr>
-            </thead>
-            <thead >
-        
-                <tr>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Serie:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">No. Factura:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Efectivo:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Tarjeta:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Cheque:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Depósito:</th>
-                    <th width="" style="background: #D2D2D2;text-align:left;">Total Facturado:</th>
-                </tr>
-                <tr>
-                    <th  style="background: #edecec;text-align:center;">{{$detalle->serie_recibo}}</th>
-                    <th  style="background: #edecec;text-align:center;">{{$detalle->numero_recibo}}</th>
-                    <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->monto_efecectivo,2,".","")}}</th>
-                    <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->monto_tarjeta,2,".","")}}</th>
-                    <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->monto_cheque,2,".","")}}</th>
-                    <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->monto_deposito,2,".","")}}</th>
-                    <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->monto_total,2,".","")}}</th>
-
-                </tr>
-            </thead>
-         </table><br>
          <table>
             <thead >
                 <tr>
-                    <th width="15%" style="background: #D2D2D2;text-align:center;">Codigo</th>
-                    <th width="50%" style="background: #D2D2D2;text-align:center;">Tipo de Pago</th>
-                    <th width="15%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
-                    <th width="10%" style="background: #D2D2D2;text-align:center;">Precio Unitario</th>
-                    <th width="10%" style="background: #D2D2D2;text-align:center;">Total</th>
+                    <th width="4%" style="background: #D2D2D2;text-align:center;">Serie</th>
+                    <th width="8%" style="background: #D2D2D2;text-align:center;">No. Recibo</th>
+                    <th width="13%" style="background: #D2D2D2;text-align:center;">Fecha</th>
+                    <th width="10%" style="background: #D2D2D2;text-align:center;">Codigo</th>
+                    <th width="45%" style="background: #D2D2D2;text-align:center;">Tipo de Pago</th>
+                    <th width="7%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
+                    <th width="7%" style="background: #D2D2D2;text-align:center;">Precio</th>
+                    <th width="8%" style="background: #D2D2D2;text-align:center;">Total</th>
                 </tr>
             </thead>
          </table>
         @endif
         <table >
             <tr >
-                <td width="15%" style="background:edecec;text-align:left;">{{$detalle->codigo}}</td>
-                <td width="50%" style="background:edecec;text-align:left;">{{$detalle->tipo_de_pago}}</td>
-                <td width="15%" style="background:edecec;text-align:right;">{{$detalle->cantidad}}</td>
-                <td  width="10%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->precio_unitario,2,".","")}}</td>
-                <td width="10%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->total,2,".","")}}</td>
+                <td width="4%" style="background:edecec;text-align:left;">{{$detalle->serie_recibo}}</td>
+                <td width="8%" style="background:edecec;text-align:left;">{{$detalle->numero_recibo}}</td>
+                <td width="13%" style="background:edecec;text-align:left;">{{ \Carbon\Carbon::parse($detalle->created_at)->format('d/m/Y H:i:s')}}</td>
+                <td width="10%" style="background:edecec;text-align:left;">{{$detalle->codigo}}</td>
+                <td width="45%" style="background:edecec;text-align:left;">{{$detalle->tipo_de_pago}}</td>
+                <td width="7%" style="background:edecec;text-align:right;">{{$detalle->cantidad}}</td>
+                <td  width="7%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->precio_unitario,2,".","")}}</td>
+                <td width="8%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->total,2,".","")}}</td>
             </tr>
         </table>
         @endforeach
+        <table>
+            <thead >
+                <tr>
+                    <th width="92%" style="background: #D2D2D2;text-align:left;">Total</th>
+                    <th  width="8%" style="background: #D2D2D2;text-align:right;">Q. {{number_format($detalle->monto_total,2,".","")}}</th>
+              
+                </tr>
+            </thead>
+         </table>
         <br><br>
 
     @endforeach
@@ -242,65 +287,45 @@
             @foreach ($arrayDetalles as $key => $detalles)
                 @foreach ($detalles as $detalle)
                 @if ($loop->first)
-                 <table>
-                    <thead >
-                
-                        <tr>
-                            <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Bodega:</th>
-                            <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Vendedor:</th>
-                            <th width="" colspan="2" style="background: #D2D2D2;text-align:left;">Fecha:</th>
-
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="background: #edecec;text-align:center;">{{$detalle->n_bodega}}</th>
-                            <th colspan="2"  style="background: #edecec;text-align:center;">{{$detalle->n_vendedor}}</th>
-                            <th colspan="2" style="background: #edecec;text-align:center;">{{ \Carbon\Carbon::parse($detalle->fecha1)->format('d/m/Y H:i:s')}}</th>
-
-                        </tr>
-                    </thead>
-                    <thead >
-                
-                        <tr>
-                            <th width="" style="background: #D2D2D2;text-align:left;">Serie:</th>
-                            <th width="" style="background: #D2D2D2;text-align:left;">No. Factura:</th>
-                            <th width="" style="background: #D2D2D2;text-align:left;">Efectivo:</th>
-                            <th width="" style="background: #D2D2D2;text-align:left;">Tarjeta:</th>
-                            <th width="" style="background: #D2D2D2;text-align:left;">Cheque:</th>
-                            <th width="" style="background: #D2D2D2;text-align:left;">Total Facturado:</th>
-                        </tr>
-                        <tr>
-                            <th  style="background: #edecec;text-align:center;">{{$detalle->serie_f}}</th>
-                            <th  style="background: #edecec;text-align:center;">{{$detalle->num_fac}}</th>
-                            <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->efectivo,2,".","")}}</th>
-                            <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->tarjeta,2,".","")}}</th>
-                            <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->cheque,2,".","")}}</th>
-                            <th  style="background: #edecec;text-align:center;">Q. {{number_format($detalle->total_fac,2,".","")}}</th>
-
-                        </tr>
-                    </thead>
-                 </table><br>
+ 
                  <table>
                     <thead >
                         <tr>
-                            <th width="15%" style="background: #D2D2D2;text-align:center;">Codigo</th>
-                            <th width="50%" style="background: #D2D2D2;text-align:center;">Tipo de Pago</th>
-                            <th width="15%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
-                            <th width="10%" style="background: #D2D2D2;text-align:center;">Precio Unitario</th>
-                            <th width="10%" style="background: #D2D2D2;text-align:center;">Total</th>
+                            <th width="4%" style="background: #D2D2D2;text-align:center;">Serie</th>
+                            <th width="8%" style="background: #D2D2D2;text-align:center;">No. Factura</th>
+                            <th width="13%" style="background: #D2D2D2;text-align:center;">Fecha</th>
+                            <th width="10%" style="background: #D2D2D2;text-align:center;">Codigo</th>
+                            <th width="45%" style="background: #D2D2D2;text-align:center;">Tipo de Pago</th>
+                            <th width="7%" style="background: #D2D2D2;text-align:center;">Cantidad</th>
+                            <th width="7%" style="background: #D2D2D2;text-align:center;">Precio</th>
+                            <th width="8%" style="background: #D2D2D2;text-align:center;">Total</th>
                         </tr>
                     </thead>
                  </table>
                 @endif
                 <table >
                     <tr >
-                        <td width="15%" style="background:edecec;text-align:left;">{{$detalle->codigo}}</td>
-                        <td width="50%" style="background:edecec;text-align:left;">{{$detalle->descripcion}}</td>
-                        <td width="15%" style="background:edecec;text-align:right;">{{$detalle->cantidad}}</td>
-                        <td  width="10%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->precio_u,2,".","")}}</td>
-                        <td width="10%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->importe,2,".","")}}</td>
+                        <td width="4%" style="background:edecec;text-align:left;">{{$detalle->serie_f}}</td>
+                        <td width="8%" style="background:edecec;text-align:left;">{{$detalle->num_fac}}</td>
+                        <td width="13%" style="background:edecec;text-align:right;">{{ \Carbon\Carbon::parse($detalle->fecha1)->format('d/m/Y H:i:s')}}</td>
+                        <td width="10%" style="background:edecec;text-align:left;">{{$detalle->codigo}}</td>
+                        <td width="45%" style="background:edecec;text-align:left;">{{$detalle->descripcion}}</td>
+                        <td width="7%" style="background:edecec;text-align:right;">{{number_format($detalle->cantidad,2,".","")}}</td>
+                        <td  width="7%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->precio_u,2,".","")}}</td>
+                        <td width="8%" style="background:edecec;text-align:right;">Q. {{number_format($detalle->importe,2,".","")}}</td>
                     </tr>
                 </table>
                 @endforeach
+                <table>
+                    <thead >
+                        <tr>
+                            <th width="92%" style="background: #D2D2D2;text-align:left;">Total</th>
+                            <th  width="8%" style="background: #D2D2D2;text-align:right;">Q. {{number_format($detalle->total_fac,2,".","")}}</th>
+                      
+                        </tr>
+                    </thead>
+                 </table>
+                
                 <br><br>
 
             @endforeach

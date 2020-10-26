@@ -25,6 +25,10 @@
             <label for="no_punto_acta" class="col-form-label">Punto de Acta:</label>
             <input type="number" class="form-control" placeholder="No. Punto de Acta:" name="no_punto_acta">
           </div>
+          <div class="form-group col-sm-12" >
+            <label for="no_punto_acta" class="col-form-label">Fecha de Acta:</label>
+            <input type="date" size="50" maxlength="50" class="form-control" name="fechaActa" id="fechaActa" >
+          </div>
         </div>
         <br>
         <input type="hidden" name="_token" id="equipoToken" value="{{ csrf_token() }}">
