@@ -239,7 +239,7 @@ class ReciboController extends Controller
 
         if (empty($result)){
             $error = 'Usuario no cuenta con bodega asignada';
-            return response()->json($error, 500);
+            return response()->json(['mensaje' => $error, 'timbre' => $request->indicador], 500);
         }else { $bodega = $result[0]->bodega; }
 
         // consulta para saber que codigo de timbre corresponde el tipo de pago
